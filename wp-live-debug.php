@@ -42,7 +42,7 @@ function wp_live_debug_page() {
 	<h1>WP Live Debug</h1>
 	<textarea id="wp-live-debug-area" style="width:calc( 100% - 40px );height:calc( 100vh - 300px );"></textarea>
 	<p class="wp-live-debug-buttons">
-		<input type="submit" id="wp-live-debug-start-stop" class="button button-primary" value="Pause Refresh" />
+		<input type="submit" id="wp-live-debug-start-stop" class="button button-primary" value="Pause Live Debug" />
 		<input type="submit" id="wp-live-debug-clear-log" class="button button-primary" value="Clear Log" />
 		<input type="hidden" id="wp-live-debug-scroll" value="yes" />
 	</p>
@@ -51,41 +51,63 @@ function wp_live_debug_page() {
 
 			var doScroll = $('#wp-live-debug-scroll');
 			var debugArea = $('#wp-live-debug-area');
-			var debugStartStop = $('#wp-live-debug-start-stop');
-			var data = {
+			var debugLiveButton = $('#wp-live-debug-start-stop');
+			var debugClearButton = $('#wp-live-debug-clear-log');
+			var refreshData = {
 				'action': 'wp_debug_live_read_log'
 			};
+			var clearData = {
+				'action': 'wp_debug_live_clear_log'
+			};
 
-			$.post(ajaxurl,data,function(response) {
+			// scroll the textarea to bottom
+			function scrollDebugAreaToBottom() {
+				debugArea.scrollTop(debugArea[0].scrollHeight);
+			}
+
+			// make the initial ajax call
+			$.post(ajaxurl,refreshData,function(response) {
 				debugArea.html(response.replace('n',''));
 				scrollDebugAreaToBottom();
 			});
 
-			debugStartStop.on('click', function(){
-				if ( doScroll.val() === 'yes' ) {
-					doScroll.val('no');
-				} else {
-					doScroll.val('yes');
-				}
-			});
-
+			// make the ajax calls every 3 seconds if enabled
 			setInterval(function(){
 				if ( doScroll.val() === 'yes' ) {
-					$.post(ajaxurl,data,function(response) {
+					$.post(ajaxurl,refreshData,function(response) {
 						debugArea.html(response.replace('n',''));
 						scrollDebugAreaToBottom();
 					});
 				}
 			}, 3000);
 
-			function scrollDebugAreaToBottom() {
-				debugArea.scrollTop(debugArea[0].scrollHeight);
-			}
+			// handle the pause button clicks
+			debugLiveButton.on('click', function(){
+				if ( doScroll.val() === 'yes' ) {
+					doScroll.val('no');
+					debugLiveButton.val('Start Live Debug');
+				} else {
+					doScroll.val('yes');
+					debugLiveButton.val('Pause Live Debug');
+				}
+			});
+
+			// handle the clear button clicks
+			debugClearButton.on('click', function(){
+				$.post(ajaxurl,clearData,function(response) {
+					debugArea.html(response.replace('n',''));
+					scrollDebugAreaToBottom();
+				});
+			});
 
 		})(jQuery)
 	</script>
 <?
 }// end wp_live_debug_page
+
+/*
+ * Read debug.log contents and return them to the ajax call
+*/
 
 function wp_debug_live_read_log() {
 	$debug_contents = file_get_contents( dirname( __FILE__ ) . '/../../debug.log' );
@@ -93,3 +115,14 @@ function wp_debug_live_read_log() {
 	wp_die(); // this is required to terminate immediately and return a proper response
 }
 add_action( 'wp_ajax_wp_debug_live_read_log', 'wp_debug_live_read_log' );
+
+/*
+ * Clear debug.log contents
+*/
+
+function wp_debug_live_clear_log() {
+	file_put_contents( dirname( __FILE__ ) . '/../../debug.log', '' );
+	echo 'debug.log cleared!';
+	wp_die(); // this is required to terminate immediately and return a proper response
+}
+add_action( 'wp_ajax_wp_debug_live_clear_log', 'wp_debug_live_clear_log' );
