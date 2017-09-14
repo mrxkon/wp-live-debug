@@ -54,10 +54,10 @@ function wp_live_debug_page() {
 			var debugLiveButton = $('#wp-live-debug-start-stop');
 			var debugClearButton = $('#wp-live-debug-clear-log');
 			var refreshData = {
-				'action': 'wp_debug_live_read_log'
+				'action': 'wp_live_debug_read_log'
 			};
 			var clearData = {
-				'action': 'wp_debug_live_clear_log'
+				'action': 'wp_live_debug_clear_log'
 			};
 
 			// scroll the textarea to bottom
@@ -109,20 +109,20 @@ function wp_live_debug_page() {
  * Read debug.log contents and return them to the ajax call
 */
 
-function wp_debug_live_read_log() {
+function wp_live_debug_read_log() {
 	$debug_contents = file_get_contents( dirname( __FILE__ ) . '/../../debug.log' );
 	echo $debug_contents;
 	wp_die(); // this is required to terminate immediately and return a proper response
 }
-add_action( 'wp_ajax_wp_debug_live_read_log', 'wp_debug_live_read_log' );
+add_action( 'wp_ajax_wp_live_debug_read_log', 'wp_live_debug_read_log' );
 
 /*
  * Clear debug.log contents
 */
 
-function wp_debug_live_clear_log() {
+function wp_live_debug_clear_log() {
 	file_put_contents( dirname( __FILE__ ) . '/../../debug.log', '' );
 	echo 'debug.log cleared!';
 	wp_die(); // this is required to terminate immediately and return a proper response
 }
-add_action( 'wp_ajax_wp_debug_live_clear_log', 'wp_debug_live_clear_log' );
+add_action( 'wp_ajax_wp_live_debug_clear_log', 'wp_live_debug_clear_log' );
