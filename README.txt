@@ -1,4 +1,4 @@
-=== WP Live Debug ===
+﻿=== WP Live Debug ===
 Contributors: xkon
 Donate link: https://www.paypal.me/xkon
 Tags: debug
@@ -37,6 +37,8 @@ The view is refreshed every 3 seconds.
 1. WP Live Debug
 
 == Upgrade Notice ==
+
+* Initial Release
 
 == Changelog ==
 
