@@ -9,7 +9,7 @@ Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Enables debugging and adds a screen into the Admin to view the debug.log.
+Enables debugging and adds a screen into the WordPress Admin to view the debug.log.
 
 == Description ==
 
