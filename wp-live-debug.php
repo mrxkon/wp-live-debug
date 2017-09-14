@@ -34,7 +34,7 @@ function wp_live_debug_page() {
 	// Start the debug process
 	ini_set( 'error_reporting', E_ALL );
 	ini_set( 'log_errors', 1 );
-	ini_set( 'display_errors', 1 );
+	ini_set( 'display_errors', 0 );
 	ini_set( 'error_log', WP_CONTENT_DIR . '/debug.log' );
 
 	// Start the page output
@@ -52,12 +52,15 @@ function wp_live_debug_page() {
 			var doScroll = $('#wp-live-debug-scroll');
 			var debugArea = $('#wp-live-debug-area');
 			var debugStartStop = $('#wp-live-debug-start-stop');
+			var data = {
+				'action': 'wp_debug_live_read_log'
+			};
 
-			$.get('<?php echo get_template_directory_uri () . '/../../debug.log'; ?>', function(data) {
-				// Process debug.log line by line
-				debugArea.html(data.replace('n',''));
+			$.post(ajaxurl,data,function(response) {
+				debugArea.html(response.replace('n',''));
 				scrollDebugAreaToBottom();
 			});
+
 			debugStartStop.on('click', function(){
 				if ( doScroll.val() === 'yes' ) {
 					doScroll.val('no');
@@ -68,9 +71,8 @@ function wp_live_debug_page() {
 
 			setInterval(function(){
 				if ( doScroll.val() === 'yes' ) {
-					$.get('<?php echo get_template_directory_uri () . '/../../debug.log'; ?>', function(data) {
-						// Process debug.log line by line
-						debugArea.html(data.replace('n',''));
+					$.post(ajaxurl,data,function(response) {
+						debugArea.html(response.replace('n',''));
 						scrollDebugAreaToBottom();
 					});
 				}
@@ -82,5 +84,12 @@ function wp_live_debug_page() {
 
 		})(jQuery)
 	</script>
-	<?php
+<?
 }// end wp_live_debug_page
+
+function wp_debug_live_read_log() {
+	$debug_contents = file_get_contents( dirname( __FILE__ ) . '/../../debug.log' );
+	echo $debug_contents;
+	wp_die(); // this is required to terminate immediately and return a proper response
+}
+add_action( 'wp_ajax_wp_debug_live_read_log', 'wp_debug_live_read_log' );
