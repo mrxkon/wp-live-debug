@@ -102,7 +102,7 @@ function wp_live_debug_page() {
 
 		})(jQuery)
 	</script>
-<?
+<?php
 }// end wp_live_debug_page
 
 /*
