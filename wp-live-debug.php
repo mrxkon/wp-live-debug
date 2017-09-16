@@ -16,6 +16,23 @@
  *
 */
 
+/*
+ * Enable Error Reporting
+*/
+
+function wp_live_debug_enable_error_report() {
+	ini_set( 'error_reporting', E_ALL );
+	ini_set( 'log_errors', 1 );
+	ini_set( 'display_errors', 0 );
+	ini_set( 'error_log', WP_CONTENT_DIR . '/debug.log' );
+}// end wp_live_debug_enable_error_report
+
+add_action( 'plugins_loaded', 'wp_live_debug_enable_error_report' );
+
+/*
+ * Create Admin menu
+*/
+
 function wp_live_debug_admin_menu() {
 	add_menu_page(
 		'WP Live Debug',
@@ -26,8 +43,13 @@ function wp_live_debug_admin_menu() {
 		'dashicons-media-code',
 		'80'
 	);
-}// end bloginfotest_admin_menu
+}// end wp_live_debug_admin_menu
+
 add_action( 'admin_menu', 'wp_live_debug_admin_menu' );
+
+/*
+ * Create Admin Page
+*/
 
 function wp_live_debug_page() {
 
@@ -102,7 +124,7 @@ function wp_live_debug_page() {
 
 		})(jQuery)
 	</script>
-<?php
+	<?php
 }// end wp_live_debug_page
 
 /*
@@ -113,7 +135,8 @@ function wp_live_debug_read_log() {
 	$debug_contents = file_get_contents( dirname( __FILE__ ) . '/../../debug.log' );
 	echo $debug_contents;
 	wp_die(); // this is required to terminate immediately and return a proper response
-}
+}// end wp_live_debug_read_log
+
 add_action( 'wp_ajax_wp_live_debug_read_log', 'wp_live_debug_read_log' );
 
 /*
@@ -124,5 +147,6 @@ function wp_live_debug_clear_log() {
 	file_put_contents( dirname( __FILE__ ) . '/../../debug.log', '' );
 	echo 'debug.log cleared!';
 	wp_die(); // this is required to terminate immediately and return a proper response
-}
+}// end wp_live_debug_clear_log
+
 add_action( 'wp_ajax_wp_live_debug_clear_log', 'wp_live_debug_clear_log' );
