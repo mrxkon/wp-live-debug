@@ -1,12 +1,12 @@
 <?php
 /*
  * @package WP Live Debug
- * @version 1.0.0
+ * @version 4.9.2
  *
  * Plugin Name:       WP Live Debug
- * Plugin URI:        https://xkon.gr/wp-live-debug/
+ * Plugin URI:        https://wordpress.org/plugins/wp-live-debug/
  * Description:       Enables debugging and adds a screen into the WordPress Admin to view the debug.log.
- * Version:           1.0.0
+ * Version:           4.9.2
  * Author:            Xenos (xkon) Konstantinos
  * Author URI:        https://xkon.gr/
  * License:           GPL-2.0+
@@ -132,6 +132,12 @@ function wp_live_debug_page() {
 */
 
 function wp_live_debug_read_log() {
+	if ( ! file_exists( dirname( __FILE__ ) . '/../../debug.log' ) ) {
+		$fo = fopen( dirname( __FILE__ ) . '/../../debug.log', 'w' ) or die( 'Cannot create debug.log!' );
+		fwrite( $fo, '' );
+		fclose( $fo );
+	}
+
 	$debug_contents = file_get_contents( dirname( __FILE__ ) . '/../../debug.log' );
 	echo $debug_contents;
 	wp_die(); // this is required to terminate immediately and return a proper response

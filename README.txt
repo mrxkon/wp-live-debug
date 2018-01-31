@@ -3,8 +3,8 @@ Contributors: xkon
 Donate link: https://www.paypal.me/xkon
 Tags: debug
 Requires at least: 4.7
-Tested up to: 4.8.1
-Stable tag: 1.0.0
+Tested up to: 4.9.2
+Stable tag: 4.9.2
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -36,11 +36,30 @@ The view is refreshed every 3 seconds.
 
 1. WP Live Debug
 
-== Upgrade Notice ==
+== Changelog ==
+
+= 4.9.2 =
+
+* Checks if file exists first to avoid errors.
+* Bumping version to follow WordPress releases.
+
+= 1.0.1 =
+
+* Fixed `No such file or directory` warning
+
+= 1.0.0 =
 
 * Initial Release
 
-== Changelog ==
+== Upgrade Notice ==
+
+= 4.9.2 =
+
+Minor fixes. Bumping version to follow WordPress releases.
+
+= 1.0.1 =
+
+* Fixed `No such file or directory` warning
 
 = 1.0.0 =
 
