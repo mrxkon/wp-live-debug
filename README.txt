@@ -59,8 +59,8 @@ Minor fixes. Bumping version to follow WordPress releases.
 
 = 1.0.1 =
 
-* Fixed `No such file or directory` warning
+Fixed `No such file or directory` warning
 
 = 1.0.0 =
 
-* Initial Release
+Initial Release
