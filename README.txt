@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/xkon
 Tags: debug
 Requires at least: 4.7
 Tested up to: 4.9.2
-Stable tag: 4.9.2
+Stable tag: 4.9.2.1
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -38,6 +38,10 @@ The view is refreshed every 3 seconds.
 
 == Changelog ==
 
+= 4.9.2.1 = 
+
+* Fixed faulty Plugin URI.
+
 = 4.9.2 =
 
 * Checks if file exists first to avoid errors.
@@ -52,6 +56,10 @@ The view is refreshed every 3 seconds.
 * Initial Release
 
 == Upgrade Notice ==
+
+= 4.9.2.1 = 
+
+Fixed faulty Plugin URI.
 
 = 4.9.2 =
 

@@ -1,12 +1,12 @@
 <?php
 /*
  * @package WP Live Debug
- * @version 4.9.2
+ * @version 4.9.2.1
  *
  * Plugin Name:       WP Live Debug
- * Plugin URI:        https://wordpress.org/plugins/wp-live-debug/
+ * Plugin URI:        https://xkon.gr/wp-live-debug/
  * Description:       Enables debugging and adds a screen into the WordPress Admin to view the debug.log.
- * Version:           4.9.2
+ * Version:           4.9.2.1
  * Author:            Xenos (xkon) Konstantinos
  * Author URI:        https://xkon.gr/
  * License:           GPL-2.0+
