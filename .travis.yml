@@ -22,13 +22,8 @@ before_script:
     - if [[ "$SNIFF" == "1" ]]; then git clone -b master --depth 1 https://github.com/wimg/PHPCompatibility.git $SNIFFS_DIR/PHPCompatibility; fi
     #- if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/phpcs --config-set installed_paths $SNIFFS_DIR; fi
     - if [[ "$SNIFF" == "1" ]]; then phpenv rehash; fi
-    - if [[ "$SNIFF" == "1" ]]; then npm install -g jscs; fi
-    - if [[ "$SNIFF" == "1" ]]; then npm install -g jshint; fi
-    - if [[ "$SNIFF" == "1" ]]; then wget https://develop.svn.wordpress.org/trunk/.jshintrc; fi
 script:
     - find -L . -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
-    - if [[ "$SNIFF" == "1" ]]; then jshint .; fi
-    - if [[ "$SNIFF" == "1" ]]; then jscs .; fi
     - if [[ "$SNIFF" == "1" ]]; phpcs --config-set installed_paths $SNIFFS_DIR; fi
     - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/scripts/phpcs -p -s -v -n . --standard=./codesniffer.ruleset.xml --extensions=php; fi
 notifications:
