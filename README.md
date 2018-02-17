@@ -1,6 +1,8 @@
 ### WP Live Debug
 
-[![Build Status](https://travis-ci.org/mrxkon/wp-live-debug.svg?branch=master)](https://travis-ci.org/mrxkon/wp-live-debug) ( __PHP__ : 7.2 / 7.1 / 7.0 / 5.6 / 5.5 / 5.4 / 5.3 -- __PHPCS__: [WordPress Coding Standards](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) )
+[![Build Status](https://travis-ci.org/mrxkon/wp-live-debug.svg?branch=master)](https://travis-ci.org/mrxkon/wp-live-debug) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
+
+`PHP: 7.2 / 7.1 / 7.0 / 5.6 / 5.5 / 5.4 / 5.3 -- PHPCS: WordPress Coding Standards`
 
 Requires at least: WordPress 4.7
 
