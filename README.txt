@@ -1,10 +1,10 @@
 ﻿=== WP Live Debug ===
 Contributors: xkon
-Donate link: https://www.paypal.me/xkon
+Donate link: https://xkon.gr/#buymeacoffee
 Tags: debug
 Requires at least: 4.7
-Tested up to: 4.9.2
-Stable tag: 4.9.2.1
+Tested up to: 4.9.4
+Stable tag: 4.9.4
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -38,7 +38,11 @@ The view is refreshed every 3 seconds.
 
 == Changelog ==
 
-= 4.9.2.1 = 
+= 4.9.4 =
+Code refactoring.
+Minor fixes.
+
+= 4.9.2.1 =
 
 * Fixed faulty Plugin URI.
 
@@ -57,7 +61,10 @@ The view is refreshed every 3 seconds.
 
 == Upgrade Notice ==
 
-= 4.9.2.1 = 
+= 4.9.4 =
+Code refactoring. Minor fixes.
+
+= 4.9.2.1 =
 
 Fixed faulty Plugin URI.
 
