@@ -20,7 +20,7 @@ Enables debugging and adds a screen into the WordPress Admin to view the debug.l
 
 [![Buy me a coffee!](https://img.shields.io/badge/Buy%20me-a%20coffee!-1abc9c.svg)](https://xkon.gr/#buymeacoffee)
 
-[![Checkout my website](https://img.shields.io/badge/Personal-Website-F37F40.svg)](https://xkon.gr)
+[![My Website](https://img.shields.io/badge/My-Website-F37F40.svg)](https://xkon.gr)
 [![WordPress Profile](https://img.shields.io/badge/WordPress-Profile-blue.svg)](https://profiles.wordpress.org/xkon)
 
 ### Description
@@ -51,8 +51,8 @@ The view is refreshed every 3 seconds.
 ### Changelog
 
 ##### 4.9.4
-Code refactoring.
-Minor fixes.
+* Code refactoring.
+* Minor fixes.
 
 ##### 4.9.2.1
 
