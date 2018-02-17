@@ -14,12 +14,13 @@ matrix:
       dist: precise
       env: SNIFF=1
 before_script:
+    - pear install pear/PHP_CodeSniffer
     - export PHPCS_DIR=/tmp/phpcs
     - export SNIFFS_DIR=/tmp/sniffs
     - if [[ "$SNIFF" == "1" ]]; then git clone -b master --depth 1 https://github.com/squizlabs/PHP_CodeSniffer.git $PHPCS_DIR; fi
     - if [[ "$SNIFF" == "1" ]]; then git clone -b master --depth 1 https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $SNIFFS_DIR; fi
     - if [[ "$SNIFF" == "1" ]]; then git clone -b master --depth 1 https://github.com/wimg/PHPCompatibility.git $SNIFFS_DIR/PHPCompatibility; fi
-    - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/phpcs --config-set installed_paths $SNIFFS_DIR; fi
+    #- if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/phpcs --config-set installed_paths $SNIFFS_DIR; fi
     - if [[ "$SNIFF" == "1" ]]; then phpenv rehash; fi
     - if [[ "$SNIFF" == "1" ]]; then npm install -g jscs; fi
     - if [[ "$SNIFF" == "1" ]]; then npm install -g jshint; fi
@@ -28,6 +29,7 @@ script:
     - find -L . -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     - if [[ "$SNIFF" == "1" ]]; then jshint .; fi
     - if [[ "$SNIFF" == "1" ]]; then jscs .; fi
+    - if [[ "$SNIFF" == "1" ]]; phpcs --config-set installed_paths $SNIFFS_DIR; fi
     - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/scripts/phpcs -p -s -v -n . --standard=./codesniffer.ruleset.xml --extensions=php; fi
 notifications:
     email: false
