@@ -13,17 +13,12 @@ matrix:
       env: PHPC_WPC=1
     - php: '5.4'
       env: PHPC_WPC=1
-    - php: 5.2
-      dist: precise
-      env: PHPC_WPC=1
     - php: 5.3
       dist: precise
       env: PHPC_WPC=1
 before_script:
     - pear install pear/PHP_CodeSniffer
-    #- export PHPCS_DIR=/tmp/phpcs
     - export SNIFFS_DIR=/tmp/sniffs
-    #- if [[ "$PHPC_WPC" == "1" ]]; then git clone -b master --depth 1 https://github.com/squizlabs/PHP_CodeSniffer.git $PHPCS_DIR; fi
     - |
       if [[ "$PHPC_WPC" == "1" ]]; then
         git clone -b master --depth 1 https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $SNIFFS_DIR
