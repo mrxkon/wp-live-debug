@@ -24,9 +24,9 @@ before_script:
     - if [[ "$SNIFF" == "1" ]]; then phpenv rehash; fi
 script:
     - find -L . -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
-    - if [[ "$SNIFF" == "1" ]]; then phpcs --config-set installed_paths $SNIFFS_DIR; fi
     - if [[ "$SNIFF" == "1" ]]; then phpcs --config-set installed_paths $SNIFFS_DIR/PHPCompatibility; fi
     - if [[ "$SNIFF" == "1" ]]; then phpcs -p -s -v -n . --standard=PHPCompatibility --extensions=php; fi
+    - if [[ "$SNIFF" == "1" ]]; then phpcs --config-set installed_paths $SNIFFS_DIR; fi
     - if [[ "$SNIFF" == "1" ]]; then phpcs -p -s -v -n . --standard=WordPress-Core --extensions=php; fi
 notifications:
     email: false
