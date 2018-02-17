@@ -18,7 +18,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Enables debugging and adds a screen into the WordPress Admin to view the debug.log.
 
-[Buy me a coffee!](https://xkon.gr/#buymeacoffee)
+[![Buy me a coffee!](https://img.shields.io/badge/Buy%20me-a%20coffee!-1abc9c.svg)](https://xkon.gr/#buymeacoffee)
+
+[![Checkout my website](https://img.shields.io/badge/Personal-Website-F37F40.svg)](https://xkon.gr)
+[![WordPress Profile](https://img.shields.io/badge/WordPress-Profile-blue.svg)](https://profiles.wordpress.org/xkon)
 
 ### Description
 
