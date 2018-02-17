@@ -1,32 +1,46 @@
 language: php
 matrix:
   include:
-    - php: '5.4'
-      env: SNIFF=1
-    - php: '5.6'
-      env: SNIFF=1
+    - php: '7.2'
+      env: PHPC_WPC=1
+    - php: '7.1'
+      env: PHPC_WPC=1
     - php: '7.0'
-      env: SNIFF=1
+      env: PHPC_WPC=1
+    - php: '5.6'
+      env: PHPC_WPC=1
+    - php: '5.5'
+      env: PHPC_WPC=1
+    - php: '5.4'
+      env: PHPC_WPC=1
     - php: 5.2
       dist: precise
-      env: SNIFF=1
+      env: PHPC_WPC=1
     - php: 5.3
       dist: precise
-      env: SNIFF=1
+      env: PHPC_WPC=1
+    - php: nightly
+    allow_failures:
+    - php: nightly
 before_script:
     - pear install pear/PHP_CodeSniffer
     - export PHPCS_DIR=/tmp/phpcs
     - export SNIFFS_DIR=/tmp/sniffs
-    - if [[ "$SNIFF" == "1" ]]; then git clone -b master --depth 1 https://github.com/squizlabs/PHP_CodeSniffer.git $PHPCS_DIR; fi
-    - if [[ "$SNIFF" == "1" ]]; then git clone -b master --depth 1 https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $SNIFFS_DIR; fi
-    - if [[ "$SNIFF" == "1" ]]; then git clone -b master --depth 1 https://github.com/wimg/PHPCompatibility.git $SNIFFS_DIR/PHPCompatibility; fi
-    #- if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/phpcs --config-set installed_paths $SNIFFS_DIR; fi
-    - if [[ "$SNIFF" == "1" ]]; then phpenv rehash; fi
+    #- if [[ "$PHPC_WPC" == "1" ]]; then git clone -b master --depth 1 https://github.com/squizlabs/PHP_CodeSniffer.git $PHPCS_DIR; fi
+    - |
+      if [[ "$PHPC_WPC" == "1" ]]; then
+        git clone -b master --depth 1 https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $SNIFFS_DIR
+        git clone -b master --depth 1 https://github.com/wimg/PHPCompatibility.git $SNIFFS_DIR/PHPCompatibility
+        phpenv rehash
+      fi
 script:
     - find -L . -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
-    - if [[ "$SNIFF" == "1" ]]; then phpcs --config-set installed_paths $SNIFFS_DIR/PHPCompatibility; fi
-    - if [[ "$SNIFF" == "1" ]]; then phpcs -p -s -v -n . --standard=PHPCompatibility --extensions=php; fi
-    - if [[ "$SNIFF" == "1" ]]; then phpcs --config-set installed_paths $SNIFFS_DIR; fi
-    - if [[ "$SNIFF" == "1" ]]; then phpcs -p -s -v -n . --standard=WordPress-Core --extensions=php; fi
+    - |
+      if [[ "$PHPC_WPC" == "1" ]]; then
+        phpcs --config-set installed_paths $SNIFFS_DIR/PHPCompatibility
+        phpcs -p -s -v -n . --standard=PHPCompatibility --extensions=php
+        phpcs --config-set installed_paths $SNIFFS_DIR
+        phpcs -p -s -v -n . --standard=WordPress-Core --extensions=php
+      fi
 notifications:
     email: false
