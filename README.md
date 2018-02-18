@@ -1,4 +1,4 @@
-### WP Live Debug [![WordPress Profile](https://img.shields.io/badge/View%20on-WordPress.org-blue.svg)](https://profiles.wordpress.org/xkon) [![Build Status](https://travis-ci.org/mrxkon/wp-live-debug.svg?branch=master)](https://travis-ci.org/mrxkon/wp-live-debug) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-F37F40.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
+### WP Live Debug [![View on WordPress.org](https://img.shields.io/badge/View%20on-WordPress.org-blue.svg)](https://wordpress.org/plugins/wp-live-debug/) [![Build Status](https://travis-ci.org/mrxkon/wp-live-debug.svg?branch=master)](https://travis-ci.org/mrxkon/wp-live-debug) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-F37F40.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
 
 `PHP: 7.2 / 7.1 / 7.0 / 5.6 / 5.5 / 5.4 / 5.3 -- PHPCS: WordPress Coding Standards`
 
