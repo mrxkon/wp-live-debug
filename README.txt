@@ -4,7 +4,7 @@ Donate link: https://xkon.gr/#buymeacoffee
 Tags: debug
 Requires at least: 4.7
 Tested up to: 4.9.4
-Stable tag: 4.9.4
+Stable tag: 4.9.4.1
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,9 +13,7 @@ Enables debugging and adds a screen into the WordPress Admin to view the debug.l
 
 == Description ==
 
-Simply enable the plugin and go to the WP Live Debug tab to see your debug.log.
-
-The view is refreshed every 3 seconds.
+Simply enable the plugin and go to the WP Live Debug tab to see your debug.log. The view is refreshed every 3 seconds.
 
 == Installation ==
 
@@ -37,6 +35,9 @@ The view is refreshed every 3 seconds.
 1. WP Live Debug
 
 == Changelog ==
+
+= 4.9.4.1 =
+Fixed removing 'n' from the debug view.
 
 = 4.9.4 =
 Code refactoring.
@@ -60,6 +61,9 @@ Minor fixes.
 * Initial Release
 
 == Upgrade Notice ==
+
+= 4.9.4.1 =
+Fixed removing 'n' from the debug view.
 
 = 4.9.4 =
 Code refactoring. Minor fixes.

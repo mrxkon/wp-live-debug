@@ -1,33 +1,20 @@
-### WP Live Debug
-
-[![Build Status](https://travis-ci.org/mrxkon/wp-live-debug.svg?branch=master)](https://travis-ci.org/mrxkon/wp-live-debug) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
+### WP Live Debug [![WordPress Profile](https://img.shields.io/badge/View%20on-WordPress.org-blue.svg)](https://profiles.wordpress.org/xkon) [![Build Status](https://travis-ci.org/mrxkon/wp-live-debug.svg?branch=master)](https://travis-ci.org/mrxkon/wp-live-debug) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-F37F40.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
 
 `PHP: 7.2 / 7.1 / 7.0 / 5.6 / 5.5 / 5.4 / 5.3 -- PHPCS: WordPress Coding Standards`
 
 Requires at least: WordPress 4.7
 
-Tested up to: 4.9.4
+Tested up to: WordPress 4.9.4
 
-Stable tag: 4.9.4
+Stable tag: 4.9.4.1
 
 Requires PHP: 5.3
 
-License: GPLv2 or later
-
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-Enables debugging and adds a screen into the WordPress Admin to view the debug.log.
-
-[![Buy me a coffee!](https://img.shields.io/badge/Buy%20me-a%20coffee!-1abc9c.svg)](https://xkon.gr/#buymeacoffee)
-
-[![My Website](https://img.shields.io/badge/My-Website-F37F40.svg)](https://xkon.gr)
-[![WordPress Profile](https://img.shields.io/badge/WordPress-Profile-blue.svg)](https://profiles.wordpress.org/xkon)
+[![Buy me a coffee!](https://img.shields.io/badge/Buy%20me-a%20coffee!-1abc9c.svg)](https://xkon.gr/#buymeacoffee) [![My Website](https://img.shields.io/badge/My-Website-F37F40.svg)](https://xkon.gr)  [![WordPress Profile](https://img.shields.io/badge/WordPress-Profile-blue.svg)](https://profiles.wordpress.org/xkon)
 
 ### Description
 
-Simply enable the plugin and go to the WP Live Debug tab to see your debug.log.
-
-The view is refreshed every 3 seconds.
+Enables debugging and adds a screen into the WordPress Admin to view the debug.log. Simply enable the plugin and go to the WP Live Debug tab to see your debug.log. The view is refreshed every 3 seconds.
 
 ### Installation
 
@@ -49,6 +36,9 @@ The view is refreshed every 3 seconds.
 ![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot-1.png)
 
 ### Changelog
+
+##### 4.9.4.1
+Fixed removing 'n' from the debug view.
 
 ##### 4.9.4
 * Code refactoring.

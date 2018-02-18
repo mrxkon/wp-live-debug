@@ -1,11 +1,11 @@
 <?php
 /**
  * @package WP Live Debug
- * @version 4.9.4
+ * @version 4.9.4.1
  *
  * Plugin Name:       WP Live Debug
  * Description:       Enables debugging and adds a screen into the WordPress Admin to view the debug.log.
- * Version:           4.9.4
+ * Version:           4.9.4.1
  * Author:            Xenos (xkon) Konstantinos
  * Author URI:        https://xkon.gr
  * License:           GPL-2.0+
@@ -134,7 +134,7 @@ class WP_Live_Debug {
 				// Make the initial ajax call.
 				$.post( ajaxurl, refreshData, function( response ) {
 
-					debugArea.html(response.replace('n',''));
+					debugArea.html( response );
 					scrollDebugAreaToBottom();
 
 				} );
@@ -146,7 +146,7 @@ class WP_Live_Debug {
 
 						$.post( ajaxurl, refreshData, function( response ) {
 
-							debugArea.html( response.replace( 'n', '' ) );
+							debugArea.html( response );
 							scrollDebugAreaToBottom();
 
 						} );
@@ -177,7 +177,7 @@ class WP_Live_Debug {
 
 					$.post( ajaxurl, clearData, function( response ) {
 
-						debugArea.html( response.replace( 'n','' ) );
+						debugArea.html( response );
 						scrollDebugAreaToBottom();
 
 					} );
