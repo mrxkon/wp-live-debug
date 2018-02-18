@@ -2,11 +2,11 @@
 
 `PHP: 7.2 / 7.1 / 7.0 / 5.6 / 5.5 / 5.4 / 5.3 -- PHPCS: WordPress Coding Standards`
 
-Requires at least: WordPress 4.7
+Requires at least: WordPress 4.8
 
 Tested up to: WordPress 4.9.4
 
-Stable tag: 4.9.4.1
+Stable tag: 4.9.4.2
 
 Requires PHP: 5.3
 
@@ -37,8 +37,12 @@ Enables debugging and adds a screen into the WordPress Admin to view the debug.l
 
 ### Changelog
 
+##### 4.9.4.2
+* Update required PHP to 5.3.
+* Update required WordPress version to 4.8.
+
 ##### 4.9.4.1
-Fixed removing 'n' from the debug view.
+* Fixed removing 'n' from the debug view.
 
 ##### 4.9.4
 * Code refactoring.
