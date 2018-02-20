@@ -25,7 +25,7 @@ class WP_Live_Debug {
 	/**
 	 * WP_Live_Debug constructor.
 	 *
-	 * @uses WPLiveDebug::init()
+	 * @uses WP_Live_Debug::init()
 	 *
 	 * @return void
 	 */
