@@ -1,27 +1,25 @@
 (function( $ ) {
-	var doScroll                  = $( '#wp-live-debug-scroll' ),
-		responseHolder            = $( '#wp-debug-response-holder' ),
-		debugLiveButton           = $( '#wp-live-debug-start-stop #ss-button' ),
-		debugArea                 = $( '#wp-live-debug-area' ),
-		refreshData               = { 'action': 'wp-live-debug-read-log' },
-		debugClearButton          = $( '#wp-live-debug-clear-wp-debug' ),
-		clearData                 = { 'action': 'wp-live-debug-clear-debug-log' },
-		restoreBackupForm         = $( '#wp-live-debug-restore-wp-debug-backup' ),
-		restoreBackupData         = { 'action': 'wp-live-debug-restore-backup' },
-		createBackupForm          = $( '#wp-live-debug-create-wp-debug-backup' ),
-		createBackupData          = { 'action': 'wp-live-debug-create-backup' },
-		enableWPDebugForm         = $( '#wp-live-debug-enable' ),
-		enableWPDebugData         = { 'action': 'wp-live-debug-enable' },
-		disableWPDebugForm        = $( '#wp-live-debug-disable' ),
-		disableWPDebugData        = { 'action': 'wp-live-debug-disable' },
-		enableScriptDebugForm     = $( '#wp-live-debug-enable-script-debug' ),
-		enableScriptDebugData     = { 'action': 'wp-live-debug-enable-script-debug' },
-		disableScriptDebugForm    = $( '#wp-live-debug-disable-script-debug' ),
-		disableScriptDebugData    = { 'action': 'wp-live-debug-disable-script-debug' },
-		enableSavequeriesForm     = $( '#wp-live-debug-enable-savequeries' ),
-		enableSavequeriesData     = { 'action': 'wp-live-debug-enable-savequeries' },
-		disableSavequeriesForm    = $( '#wp-live-debug-disable-savequeries' ),
-		disableSavequeriesData    = { 'action': 'wp-live-debug-disable-savequeries' };
+	// TODO: Backup Button, Clear Button, Auto Scroll Toggles.
+	var doScroll               = $( '#wp-live-debug-scroll' ),
+		responseHolder         = $( '#wp-debug-response-holder' ),
+		debugLiveButton        = $( '#wp-live-debug-start-stop #ss-button' ),
+		debugArea              = $( '#wp-live-debug-area' ),
+		refreshData            = { 'action': 'wp-live-debug-read-log' },
+		debugClearButton       = $( '#wp-live-debug-clear-wp-debug' ),
+		clearData              = { 'action': 'wp-live-debug-clear-debug-log' },
+		restoreBackupForm      = $( '#wp-live-debug-restore-wp-debug-backup' ),
+		restoreBackupData      = { 'action': 'wp-live-debug-restore-backup' },
+		createBackupForm       = $( '#wp-live-debug-create-wp-debug-backup' ),
+		createBackupData       = { 'action': 'wp-live-debug-create-backup' },
+		wpDebugToggle          = $( '#toggle-wp-debug' ),
+		enableWPDebugData      = { 'action': 'wp-live-debug-enable' },
+		disableWPDebugData     = { 'action': 'wp-live-debug-disable' },
+		scriptDebugToggle      = $( '#toggle-script-debug' ),
+		enableScriptDebugData  = { 'action': 'wp-live-debug-enable-script-debug' },
+		disableScriptDebugData = { 'action': 'wp-live-debug-disable-script-debug' },
+		savequeriesToggle      = $( '#toggle-savequeries' ),
+		enableSavequeriesData  = { 'action': 'wp-live-debug-enable-savequeries' },
+		disableSavequeriesData = { 'action': 'wp-live-debug-disable-savequeries' };
 
 	// Scroll the textarea to bottom.
 	function scrollDebugAreaToBottom() {
@@ -80,70 +78,58 @@
 			}
 		});
 	});
-	// Enable WP DEDUG
-	enableWPDebugForm.submit( function( e ) {
+	// Enable / Disable WP DEDUG
+	wpDebugToggle.on( 'change', function( e ) {
 		e.preventDefault();
-		$.post( ajaxurl, enableWPDebugData, function( response ) {
-			if ( response.success ) {
-				window.location.href = window.location.href;
-			} else if ( 'error' === response.data.status ) {
-				responseHolder.html( response.data.message );
-			}
-		});
+		var checked = $(this).is( ':checked');
+		if ( checked ) {
+			$.post( ajaxurl, enableWPDebugData, function( response ) {
+				if (response.error ) {
+					responseHolder.html( response.data.message );
+				}
+			});
+		} else if ( ! checked ) {
+			$.post( ajaxurl, disableWPDebugData, function( response ) {
+				if (response.error ) {
+					responseHolder.html( response.data.message );
+				}
+			});
+		}
 	});
-	// Disable WP DEBUG
-	disableWPDebugForm.submit( function( e ) {
+	// Enable / Disable SCRIPT DEDUG
+	scriptDebugToggle.on( 'change', function( e ) {
 		e.preventDefault();
-		$.post( ajaxurl, disableWPDebugData, function( response ) {
-			if (response.success ) {
-				window.location.href = window.location.href;
-			} else if ( 'error' === response.data.status ) {
-				responseHolder.html( response.data.message );
-			}
-		});
+		var checked = $(this).is( ':checked');
+		if ( checked ) {
+			$.post( ajaxurl, enableScriptDebugData, function( response ) {
+				if ( response.error ) {
+					responseHolder.html( response.data.message );
+				}
+			});
+		} else if ( ! checked ) {
+			$.post( ajaxurl, disableScriptDebugData, function( response ) {
+				if ( response.error ) {
+					responseHolder.html( response.data.message );
+				}
+			});
+		}
 	});
-	// Enable SCRIPT DEDUG
-	enableScriptDebugForm.submit( function( e ) {
+	// Enable / Disable SAVEQUERIES
+	savequeriesToggle.on( 'change', function( e ) {
 		e.preventDefault();
-		$.post( ajaxurl, enableScriptDebugData, function( response ) {
-			if ( response.success ) {
-				window.location.href = window.location.href;
-			} else if ( 'error' === response.data.status ) {
-				responseHolder.html( response.data.message );
-			}
-		});
-	});
-	// Disable SCRIPT DEBUG
-	disableScriptDebugForm.submit( function( e ) {
-		e.preventDefault();
-		$.post( ajaxurl, disableScriptDebugData, function( response ) {
-			if (response.success ) {
-				window.location.href = window.location.href;
-			} else if ( 'error' === response.data.status ) {
-				responseHolder.html( response.data.message );
-			}
-		});
-	});
-	// Enable SAVEQUERIES
-	enableSavequeriesForm.submit( function( e ) {
-		e.preventDefault();
-		$.post( ajaxurl, enableSavequeriesData, function( response ) {
-			if ( response.success ) {
-				window.location.href = window.location.href;
-			} else if ( 'error' === response.data.status ) {
-				responseHolder.html( response.data.message );
-			}
-		});
-	});
-	// Disable SAVEQUERIES
-	disableSavequeriesForm.submit( function( e ) {
-		e.preventDefault();
-		$.post( ajaxurl, disableSavequeriesData, function( response ) {
-			if (response.success ) {
-				window.location.href = window.location.href;
-			} else if ( 'error' === response.data.status ) {
-				responseHolder.html( response.data.message );
-			}
-		});
+		var checked = $(this).is( ':checked');
+		if ( checked ) {
+			$.post( ajaxurl, enableSavequeriesData, function( response ) {
+				if ( response.error ) {
+					responseHolder.html( response.data.message );
+				}
+			});
+		} else if ( ! checked ) {
+			$.post( ajaxurl, disableSavequeriesData, function( response ) {
+				if ( response.error ) {
+					responseHolder.html( response.data.message );
+				}
+			});
+		}
 	});
 } )( jQuery )
