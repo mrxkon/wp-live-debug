@@ -1,6 +1,3 @@
-<?php // scripts ?>
-<script type="text/javascript">
-
 (function( $ ) {
 	var doScroll                  = $( '#wp-live-debug-scroll' ),
 		responseHolder            = $( '#wp-debug-response-holder' ),
@@ -48,10 +45,10 @@
 	debugLiveButton.on( 'click', function() {
 		if ( doScroll.val() === 'yes' ) {
 			doScroll.val( 'no' );
-			debugLiveButton.val( '<?php esc_html_e( 'Start auto refresh', 'wp-live-debug' ); ?>' );
+			debugLiveButton.val( 'Start auto refresh' );
 		} else {
 			doScroll.val( 'yes' );
-			debugLiveButton.val( '<?php esc_html_e( 'Stop auto refresh', 'wp-live-debug' ); ?>' );
+			debugLiveButton.val( 'Stop auto refresh' );
 		}
 	} );
 	// Handle the clear button clicks.
@@ -150,5 +147,3 @@
 		});
 	});
 } )( jQuery )
-
-</script>
