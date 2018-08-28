@@ -1,13 +1,6 @@
-.wp-live-debug-buttons form {
-	display: inline-block !important;
-	margin-left: 5px !important;
-}
-.wp-live-debug-buttons .button {
-	font-weight: 500;
-}
-.wp-live-debug-buttons .button.disable {
-	color: red;
-}
-.wp-live-debug-buttons .button.enable {
-	color: green;
+body.toplevel_page_wp-live-debug textarea#wp-live-debug-area {
+	font-family: Consolas,Monaco,monospace;
+	font-size: 12px;
+	width: 100%;
+	min-height:500px;
 }
