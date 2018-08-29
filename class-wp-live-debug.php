@@ -1,7 +1,5 @@
 <?php
 /**
- * @package WP Live Debug
- * @version 4.9.8
  *
  * Plugin Name:       WP Live Debug
  * Description:       Enables debugging and adds a screen into the WordPress Admin to view the debug.log.
@@ -14,6 +12,39 @@
  * Domain Path:       /languages
  *
  */
+
+/*
+Copyright Konstantinos Xenos ( https://xkon.gr )
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
+the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+/*
+Credits & Licences:
+This is a personal project that I use for debugging, but some parts of the code are written by other awesome developers.
+
+So props also go to:
+Calum Brash, Aaron Edwards, Philipp Stracker, Victor Ivanov, Vladislav Bailovic, Jeffri H, Marko Miljus
+WPMU DEV Shared UI - Licence GPLv2 - ( https://premium.wpmudev.org ) - ( https://github.com/wpmudev/shared-ui )
+
+The WordPress.org community
+Health Check - Licence GPLv2 - ( https://wordpress.org/plugins/health-check/ ) - ( https://github.com/wordpress/health-check )
+*/
+
+/**************************************************/
+/****************** Plugin Start ******************/
+/**************************************************/
 
 // Check that the file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
