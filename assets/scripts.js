@@ -1,16 +1,14 @@
 (function( $ ) {
-	// TODO: Backup Button, Clear Button, Auto Scroll Toggles.
-	var doScroll               = $( '#wp-live-debug-scroll' ),
-		responseHolder         = $( '#wp-debug-response-holder' ),
-		debugLiveButton        = $( '#wp-live-debug-start-stop #ss-button' ),
+	var responseHolder         = $( '#wp-debug-response-holder' ),
+		refreshToggle          = $( '#toggle-auto-refresh' ),
 		debugArea              = $( '#wp-live-debug-area' ),
 		refreshData            = { 'action': 'wp-live-debug-read-log' },
-		debugClearButton       = $( '#wp-live-debug-clear-wp-debug' ),
+		clearButton            = $( '#wp-live-debug-clear' ),
 		clearData              = { 'action': 'wp-live-debug-clear-debug-log' },
-		restoreBackupForm      = $( '#wp-live-debug-restore-wp-debug-backup' ),
-		restoreBackupData      = { 'action': 'wp-live-debug-restore-backup' },
-		createBackupForm       = $( '#wp-live-debug-create-wp-debug-backup' ),
+		backupButton           = $( '#wp-live-debug-backup' ),
 		createBackupData       = { 'action': 'wp-live-debug-create-backup' },
+		restoreButton          = $( '#wp-live-debug-restore' ),
+		restoreBackupData      = { 'action': 'wp-live-debug-restore-backup' },
 		wpDebugToggle          = $( '#toggle-wp-debug' ),
 		enableWPDebugData      = { 'action': 'wp-live-debug-enable' },
 		disableWPDebugData     = { 'action': 'wp-live-debug-disable' },
@@ -25,55 +23,47 @@
 	function scrollDebugAreaToBottom() {
 		debugArea.scrollTop( debugArea[0].scrollHeight );
 	}
-	// Make the initial ajax call.
+	// Make the initial debug.log read.
 	$.post( ajaxurl, refreshData, function( response ) {
 		debugArea.html( response );
 		scrollDebugAreaToBottom();
 	} );
-	// Make the ajax calls every 3 seconds if enabled.
+	// Enable / Disable Auto Scroll
 	setInterval( function() {
-		if ( doScroll.val() === 'yes' ) {
+		var checked = refreshToggle.is( ':checked');
+		if ( checked ) {
 			$.post( ajaxurl, refreshData, function( response ) {
 				debugArea.html( response );
 				scrollDebugAreaToBottom();
 			} );
 		}
 	}, 2000 );
-	// Handle the pause button clicks.
-	debugLiveButton.on( 'click', function() {
-		if ( doScroll.val() === 'yes' ) {
-			doScroll.val( 'no' );
-			debugLiveButton.val( 'Start auto refresh' );
-		} else {
-			doScroll.val( 'yes' );
-			debugLiveButton.val( 'Stop auto refresh' );
-		}
-	} );
 	// Handle the clear button clicks.
-	debugClearButton.on( 'submit', function() {
+	clearButton.on( 'click', function( e ) {
+		e.preventDefault();
 		$.post( ajaxurl, clearData, function( response ) {
 			debugArea.html( response );
 			scrollDebugAreaToBottom();
 		} );
 	} );
 	// Create wp-config backup
-	createBackupForm.submit( function( e ) {
+	backupButton.on( 'click', function( e ) {
 		e.preventDefault();
 		$.post( ajaxurl, createBackupData, function( response ) {
 			if ( response.success ) {
 				window.location.href = window.location.href;
-			} else if ( 'error' === response.data.status ) {
+			} else if ( response.error ) {
 				responseHolder.html( response.data.message );
 			}
 		});
 	});
 	// Restore wp-config backup
-	restoreBackupForm.submit( function( e ) {
+	restoreButton.on( 'click', function( e ) {
 		e.preventDefault();
 		$.post( ajaxurl, restoreBackupData, function( response ) {
 			if ( response.success ) {
 				window.location.href = window.location.href;
-			} else if ( 'error' === response.data.status ) {
+			} else if ( response.error ) {
 				responseHolder.html( response.data.message );
 			}
 		});

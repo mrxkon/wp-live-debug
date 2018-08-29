@@ -68,52 +68,40 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 						<div class="sui-row">
 							<div class="sui-col-md-4 sui-col-lg-2">
 								<?php if ( ! WP_Live_Debug_Live_Debug::check_wp_config_backup() ) { ?>
-									<form action="#" id="wp-live-debug-create-wp-debug-backup" method="POST">
-										<input type="submit" class="sui-button sui-button-primary" value="<?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?>">
-									</form>
+									<input id="wp-live-debug-backup" type="button" class="sui-button sui-button-green" value="<?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?>">
 								<?php } else { ?>
-									<form action="#" id="wp-live-debug-restore-wp-debug-backup" method="POST">
-										<input type="submit" class="sui-button sui-button-green" value="<?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?>">
-									</form>
+									<input id="wp-live-debug-restore" type="button" class="sui-button sui-button-primary" value="<?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?>">
 								<?php } ?>
 							</div>
 							<div class="sui-col-md-4 sui-col-lg-2">
-								<form action="#" id="wp-live-debug-clear-wp-debug" method="POST">
-									<input type="submit" class="sui-button sui-button" value="<?php esc_html_e( 'Clear debug.log', 'wp-live-debug' ); ?>">
-								</form>
+									<input id="wp-live-debug-clear" type="button" class="sui-button sui-button" value="<?php esc_html_e( 'Clear debug.log', 'wp-live-debug' ); ?>">
 							</div>
 							<div class="sui-col-md-4 sui-col-lg-2">
-								<form action="#" id="wp-live-debug-wp-debug" method="POST">
-									<span class="sui-tooltip sui-tooltip-top sui-tooltip-constrained" data-tooltip="The WP_DEBUG constant that can be used to trigger the 'debug' mode throughout WordPress. This will enable WP_DEBUG, WP_DEBUG_LOG and disable WP_DEBUG_DISPLAY and display_errors.">
-										<label class="sui-toggle">
-											<input type="checkbox" id="toggle-wp-debug" <?php echo ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'checked' : ''; ?> >
-											<span class="sui-toggle-slider"></span>
-										</label>
-										<label for="toggle-wp-debug">WP Debug</label>
-									</span>
-								</form>
+								<span class="sui-tooltip sui-tooltip-top sui-tooltip-constrained" data-tooltip="The WP_DEBUG constant that can be used to trigger the 'debug' mode throughout WordPress. This will enable WP_DEBUG, WP_DEBUG_LOG and disable WP_DEBUG_DISPLAY and display_errors.">
+									<label class="sui-toggle">
+										<input type="checkbox" id="toggle-wp-debug" <?php echo ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'checked' : ''; ?> >
+										<span class="sui-toggle-slider"></span>
+									</label>
+									<label for="toggle-wp-debug">WP Debug</label>
+								</span>
 							</div>
 							<div class="sui-col-md-4 sui-col-lg-2">
-								<form action="#" id="wp-live-debug-script-debug" method="POST">
-									<span class="sui-tooltip sui-tooltip-top sui-tooltip-constrained" data-tooltip="The SCRIPT_DEBUG constant will force WordPress to use the 'dev' versions of some core CSS and JavaScript files rather than the minified versions that are normally loaded.">
-										<label class="sui-toggle">
-											<input type="checkbox" id="toggle-script-debug" <?php echo ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'checked' : ''; ?> >
-											<span class="sui-toggle-slider"></span>
-										</label>
-										<label for="toggle-script-debug">Script Debug</label>
-									</span>
-								</form>
+								<span class="sui-tooltip sui-tooltip-top sui-tooltip-constrained" data-tooltip="The SCRIPT_DEBUG constant will force WordPress to use the 'dev' versions of some core CSS and JavaScript files rather than the minified versions that are normally loaded.">
+									<label class="sui-toggle">
+										<input type="checkbox" id="toggle-script-debug" <?php echo ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'checked' : ''; ?> >
+										<span class="sui-toggle-slider"></span>
+									</label>
+									<label for="toggle-script-debug">Script Debug</label>
+								</span>
 							</div>
 							<div class="sui-col-md-4 sui-col-lg-2">
-								<form action="#" id="wp-live-debug-savequeries" method="POST">
-									<span class=" sui-tooltip sui-tooltip-top sui-tooltip-constrained" data-tooltip="The SAVEQUERIES constant causes each query to be saved in the databse along with how long that query took to execute and what function called it. The array is stored in the global $wpdb->queries.">
-										<label class="sui-toggle">
-											<input type="checkbox" id="toggle-savequeries" <?php echo ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) ? 'checked' : ''; ?> >
-											<span class="sui-toggle-slider"></span>
-										</label>
-										<label for="toggle-savequeries">Save Queries</label>
-									</span>
-								</form>
+								<span class=" sui-tooltip sui-tooltip-top sui-tooltip-constrained" data-tooltip="The SAVEQUERIES constant causes each query to be saved in the databse along with how long that query took to execute and what function called it. The array is stored in the global $wpdb->queries.">
+									<label class="sui-toggle">
+										<input type="checkbox" id="toggle-savequeries" <?php echo ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) ? 'checked' : ''; ?> >
+										<span class="sui-toggle-slider"></span>
+									</label>
+									<label for="toggle-savequeries">Save Queries</label>
+								</span>
 							</div>
 							<div class="sui-col-md-4 sui-col-lg-2">
 								<label class="sui-toggle">
