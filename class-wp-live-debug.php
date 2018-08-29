@@ -78,7 +78,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 				__( 'WP Live Debug', 'wp-live-debug' ),
 				'manage_options',
 				'wp-live-debug',
-				array( 'WP_Live_Debug_Live_Debug', 'create_debug_page' ),
+				array( 'WP_Live_Debug_Live_Debug', 'create_page' ),
 				'dashicons-media-code'
 			);
 			add_submenu_page(
@@ -87,7 +87,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 				__( 'PHP', 'wp-live-debug' ),
 				'manage_options',
 				'wp-live-debug-php-info',
-				array( 'WP_Live_Debug_PHPINFO', 'create_phpinfo_page' )
+				array( 'WP_Live_Debug_PHP_Info', 'create_page' )
 			);
 			add_submenu_page(
 				'wp-live-debug',
@@ -95,7 +95,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 				__( 'WordPress', 'wp-live-debug' ),
 				'manage_options',
 				'wp-live-debug-wp-info',
-				array( 'WP_Live_Debug_WP_Info', 'create_wpinfo_page' )
+				array( 'WP_Live_Debug_WP_Info', 'create_page' )
 			);
 			add_submenu_page(
 				'wp-live-debug',
@@ -103,7 +103,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 				__( 'Server', 'wp-live-debug' ),
 				'manage_options',
 				'wp-live-debug-server-info',
-				array( 'WP_Live_Debug_Server_Info', 'create_serverinfo_page' )
+				array( 'WP_Live_Debug_Server_Info', 'create_page' )
 			);
 		}
 
@@ -112,19 +112,9 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 */
 		public static function load_scripts_styles( $hook ) {
 			if ( 'toplevel_page_wp-live-debug' === $hook ||
-				'wp-live-debug_page_wp-live-debug-php-info' === $hook ) {
-				wp_enqueue_style(
-					'wp-live-debug',
-					plugin_dir_url( __FILE__ ) . 'assets/styles.css',
-					WP_LIVE_DEBUG_VERSION
-				);
-				wp_enqueue_script(
-					'wp-live-debug',
-					plugin_dir_url( __FILE__ ) . 'assets/scripts.js',
-					array( 'jquery' ),
-					WP_LIVE_DEBUG_VERSION,
-					true
-				);
+				'wp-live-debug_page_wp-live-debug-php-info' === $hook ||
+				'wp-live-debug_page_wp-live-debug-wp-info' === $hook ||
+				'wp-live-debug_page_wp-live-debug-server-info' === $hook ) {
 				wp_enqueue_style(
 					'wphb-wpmudev-sui',
 					plugin_dir_url( __FILE__ ) . 'assets/sui/css/shared-ui.min.css',
@@ -140,6 +130,21 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 				add_filter( 'admin_body_class', array( 'WP_Live_Debug', 'admin_body_classes' ) );
 			}
+
+			if ( 'toplevel_page_wp-live-debug' === $hook ) {
+				wp_enqueue_style(
+					'wp-live-debug',
+					plugin_dir_url( __FILE__ ) . 'assets/styles.css',
+					WP_LIVE_DEBUG_VERSION
+				);
+				wp_enqueue_script(
+					'wp-live-debug',
+					plugin_dir_url( __FILE__ ) . 'assets/scripts.js',
+					array( 'jquery' ),
+					WP_LIVE_DEBUG_VERSION,
+					true
+				);
+			}
 		}
 
 		/**
@@ -153,7 +158,8 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	}
 	// Include extra classes
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-live-debug.php';
-	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-phpinfo.php';
+	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-php-info.php';
+	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-server-info.php';
 	// Initialize WP Live Debug.
 	new WP_Live_Debug();
 }

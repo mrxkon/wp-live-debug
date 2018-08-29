@@ -6,15 +6,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * WP_Live_Debug_PHPINFO Class.
+ * WP_Live_Debug_PHP_Info Class.
  */
-if ( ! class_exists( 'WP_Live_Debug_PHPINFO' ) ) {
-	class WP_Live_Debug_PHPINFO {
+if ( ! class_exists( 'WP_Live_Debug_PHP_Info' ) ) {
+	class WP_Live_Debug_PHP_Info {
 
 		/**
-		 * WP_Live_Debug_PHPINFO constructor.
+		 * WP_Live_Debug_PHP_Info constructor.
 		 *
-		 * @uses WP_Live_Debug_PHPINFO::init()
+		 * @uses WP_Live_Debug_PHP_Info::init()
 		 *
 		 * @return void
 		 */
@@ -33,25 +33,25 @@ if ( ! class_exists( 'WP_Live_Debug_PHPINFO' ) ) {
 			// silence
 		}
 
-		public static function create_phpinfo_page() {
+		public static function create_page() {
 			?>
 			<div class="sui-wrap">
 				<div class="sui-header">
-					<h1 class="sui-header-title">WP Live Debug</h1>
+					<h1 class="sui-header-title">WP Live Debug - PHP</h1>
 				</div>
 				<div class="sui-box">
 					<div class="sui-box-body">
-						<?php WP_Live_Debug_PHPINFO::show_php_info(); ?>
+						<?php WP_Live_Debug_PHP_Info::get_info(); ?>
 					</div>
 				</div>
 			<?php
 		}
 
-		public static function show_php_info() {
+		public static function get_info() {
 			if ( ! function_exists( 'phpinfo' ) ) {
 			?>
 				<div class="sui-notice sui-notice-error">
-					<p><?php _e( 'The <code>phpinfo();</code> function is disabled. Please contact your hosting provider if you need more information about your PHP setup.', 'wp-live-debug' ); ?></p>
+					<p><?php _e( '<code>phpinfo();</code> is disabled. Please contact your hosting provider if you need more information about your PHP setup.', 'wp-live-debug' ); ?></p>
 				</div>
 			<?php
 			} else {
@@ -75,6 +75,4 @@ if ( ! class_exists( 'WP_Live_Debug_PHPINFO' ) ) {
 			}
 		}
 	}
-
-	new WP_Live_Debug_PHPINFO();
 }

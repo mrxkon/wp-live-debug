@@ -49,7 +49,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 *
 		 * @return void
 		 */
-		public static function create_debug_page() {
+		public static function create_page() {
 			?>
 			<div class="sui-wrap">
 				<div class="sui-header">
@@ -249,7 +249,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			$response = array(
-				'message' => esc_html__( 'WP_DEBUG was enabled.', 'health-check' ),
+				'message' => esc_html__( 'WP_DEBUG was enabled.', 'wp-live-debug' ),
 			);
 
 			WP_Live_Debug_Live_Debug::enable_wp_debug_log();
@@ -289,7 +289,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			fclose( $write_wpconfig );
 
 			$response = array(
-				'message' => esc_html__( 'WP_DEBUG was disabled.', 'health-check' ),
+				'message' => esc_html__( 'WP_DEBUG was disabled.', 'wp-live-debug' ),
 			);
 
 			WP_Live_Debug_Live_Debug::disable_wp_debug_log();
@@ -586,7 +586,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			$response = array(
-				'message' => esc_html__( 'SCRIPT_DEBUG was enabled.', 'health-check' ),
+				'message' => esc_html__( 'SCRIPT_DEBUG was enabled.', 'wp-live-debug' ),
 			);
 
 			wp_send_json_success( $response );
@@ -649,7 +649,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			$response = array(
-				'message' => esc_html__( 'SCRIPT_DEBUG was disabled.', 'health-check' ),
+				'message' => esc_html__( 'SCRIPT_DEBUG was disabled.', 'wp-live-debug' ),
 			);
 
 			wp_send_json_success( $response );
@@ -713,7 +713,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			$response = array(
-				'message' => esc_html__( 'SAVEQUERIES was enabled.', 'health-check' ),
+				'message' => esc_html__( 'SAVEQUERIES was enabled.', 'wp-live-debug' ),
 			);
 
 			wp_send_json_success( $response );
@@ -776,7 +776,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			$response = array(
-				'message' => esc_html__( 'SAVEQUERIES was disabled.', 'health-check' ),
+				'message' => esc_html__( 'SAVEQUERIES was disabled.', 'wp-live-debug' ),
 			);
 
 			wp_send_json_success( $response );
