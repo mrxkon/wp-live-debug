@@ -209,11 +209,11 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 							</li>
 						</ul>
 						<div class="sui-sidenav-hide-lg">
-							<select class="sui-mobile-nav" style="display: none;">
-								<option value="#livedebug" <?php echo ( empty( $subpage ) ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Live Debug', 'wp-live-debug' ); ?></option>
-								<option value="#WordPress" <?php echo ( ! empty( $subpage ) && 'WordPress' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'WordPress', 'wp-live-debug' ); ?></option>
-								<option value="#Server" <?php echo ( ! empty( $subpage ) && 'Server' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></option>
-								<option value="#PHP" <?php echo ( ! empty( $subpage ) && 'PHP' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'PHP', 'wp-live-debug' ); ?></option>
+							<select class="sui-mobile-nav" style="display: none;" onchange="location = this.value;">
+								<option value="?page=wp-live-debug" <?php echo ( empty( $subpage ) ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Live Debug', 'wp-live-debug' ); ?></option>
+								<option value="?page=wp-live-debug&subpage=WordPress" <?php echo ( ! empty( $subpage ) && 'WordPress' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'WordPress', 'wp-live-debug' ); ?></option>
+								<option value="?page=wp-live-debug&subpage=Server" <?php echo ( ! empty( $subpage ) && 'Server' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></option>
+								<option value="?page=wp-live-debug&subpage=PHP" <?php echo ( ! empty( $subpage ) && 'PHP' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'PHP', 'wp-live-debug' ); ?></option>
 							</select>
 						</div>
 					</div>

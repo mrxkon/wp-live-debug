@@ -4,3 +4,19 @@ body.toplevel_page_wp-live-debug textarea#wp-live-debug-area {
 	width: 100%;
 	min-height:500px;
 }
+body.toplevel_page_wp-live-debug .center table {
+	max-width: 100% !important;
+	width: 100% !important;
+}
+
+body.toplevel_page_wp-live-debug .center table tr {
+	width: 100% !important;
+}
+body.toplevel_page_wp-live-debug .center table .e {
+	width: auto !important;
+}
+body.toplevel_page_wp-live-debug .center table .v {
+	word-wrap: break-word !important;
+	word-break: break-word !important;
+	overflow-x: unset !important;
+}
