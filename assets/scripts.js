@@ -1,5 +1,6 @@
 (function( $ ) {
-	var responseHolder         = $( '#wp-debug-response-holder' ),
+	var safetyPopup            = $( '#safety-popup' ),
+		responseHolder         = $( '#wp-debug-response-holder' ),
 		refreshToggle          = $( '#toggle-auto-refresh' ),
 		debugArea              = $( '#wp-live-debug-area' ),
 		refreshData            = { 'action': 'wp-live-debug-read-log' },
@@ -123,5 +124,13 @@
 				});
 			}
 		});
+	}
+	// Safety Popup
+	if ( safetyPopup.length ) {
+		const el = document.getElementById( 'safety-popup' );
+		const dialog = new A11yDialog( el );
+		setTimeout( function() {
+			dialog.show();
+		}, 300 );
 	}
 } )( jQuery )

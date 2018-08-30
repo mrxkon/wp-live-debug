@@ -112,30 +112,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 				array( 'WP_Live_Debug', 'create_page' ),
 				'dashicons-media-code'
 			);
-			add_submenu_page(
-				'wp-live-debug',
-				__( 'PHP', 'wp-live-debug' ),
-				__( 'PHP', 'wp-live-debug' ),
-				'manage_options',
-				'wp-live-debug-php-info',
-				array( 'WP_Live_Debug_PHP_Info', 'create_page' )
-			);
-			// add_submenu_page(
-			// 	'wp-live-debug',
-			// 	__( 'WordPress', 'wp-live-debug' ),
-			// 	__( 'WordPress', 'wp-live-debug' ),
-			// 	'manage_options',
-			// 	'wp-live-debug-wp-info',
-			// 	array( 'WP_Live_Debug_WP_Info', 'create_page' )
-			// );
-			add_submenu_page(
-				'wp-live-debug',
-				__( 'Server', 'wp-live-debug' ),
-				__( 'Server', 'wp-live-debug' ),
-				'manage_options',
-				'wp-live-debug-server-info',
-				array( 'WP_Live_Debug_Server_Info', 'create_page' )
-			);
 		}
 
 		/**
@@ -143,18 +119,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 */
 		public static function load_scripts_styles( $hook ) {
 			if ( 'toplevel_page_wp-live-debug' === $hook ) {
-				wp_enqueue_style(
-					'wp-live-debug',
-					plugin_dir_url( __FILE__ ) . 'assets/styles.css',
-					WP_LIVE_DEBUG_VERSION
-				);
-				wp_enqueue_script(
-					'wp-live-debug',
-					plugin_dir_url( __FILE__ ) . 'assets/scripts.js',
-					array( 'jquery' ),
-					WP_LIVE_DEBUG_VERSION,
-					true
-				);
 				wp_enqueue_style(
 					'wphb-wpmudev-sui',
 					plugin_dir_url( __FILE__ ) . 'assets/sui/css/shared-ui.min.css',
@@ -165,6 +129,19 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 					plugin_dir_url( __FILE__ ) . 'assets/sui/js/shared-ui.min.js',
 					array( 'jquery' ),
 					'2.2.10',
+					true
+				);
+				wp_enqueue_style(
+					'wp-live-debug',
+					plugin_dir_url( __FILE__ ) . 'assets/styles.css',
+					array( 'wphb-wpmudev-sui' ),
+					WP_LIVE_DEBUG_VERSION
+				);
+				wp_enqueue_script(
+					'wp-live-debug',
+					plugin_dir_url( __FILE__ ) . 'assets/scripts.js',
+					array( 'wphb-wpmudev-sui' ),
+					WP_LIVE_DEBUG_VERSION,
 					true
 				);
 
@@ -184,6 +161,8 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * Create Page
 		 */
 		public static function create_page() {
+			$first_time_running = get_option( 'wp_live_debug_first' );
+
 			if ( ! empty( $_GET['subpage'] ) ) {
 				$subpage = esc_attr( $_GET['subpage'] );
 			}
@@ -237,6 +216,35 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 					}
 					?>
 				</div>
+				<?php if ( empty( $first_time_running ) ) : ?>
+				<div class="sui-dialog sui-dialog-sm" aria-hidden="true" tabindex="-1" id="safety-popup">
+					<div class="sui-dialog-overlay" data-a11y-dialog-hide></div>
+					<div class="sui-dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
+						<div class="sui-box" role="document">
+							<div class="sui-box-header">
+								<h3 class="sui-box-title">Safety First!</h3>
+							</div>
+							<div class="sui-box-body">
+								<p>
+								<?php
+									_e( 'WP LIVE DEBUG enables debugging and checks files & runs various tests to gather information about your installation.', 'wp-live-debug' );
+								?>
+								</p>
+								<p>
+								<?php
+									_e( 'Make sure to have a <strong>full backup</strong> first before proceeding with any of the tools.', 'wp-live-debug' );
+								?>
+								</p>
+							</div>
+							<div class="sui-box-footer">
+								<div class="sui-flex-child-right">
+									<button class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<?php endif; ?>
 			</div>
 			<?php
 		}

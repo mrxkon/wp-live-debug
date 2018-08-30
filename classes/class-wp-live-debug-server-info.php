@@ -35,7 +35,7 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 
 		public static function create_page() {
 			?>
-				<div class="sui-box">
+<div class="sui-box">
 					<div class="sui-box-header">
 						<h2 class="sui-box-title">Server</h2>
 					</div>
@@ -66,7 +66,7 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 					<div class="sui-box-body">
 						<table class="sui-table striped">
 							<tbody>
-								<?php WP_Live_Debug_Server_Info::table_info( WP_Live_Debug_Server_Info::get_php_info() ); ?>
+								<?php WP_Live_Debug::table_info( WP_Live_Debug_Server_Info::get_php_info() ); ?>
 							</tbody>
 						</table>
 					</div>
