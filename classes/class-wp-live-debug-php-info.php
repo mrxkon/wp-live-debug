@@ -37,10 +37,6 @@ if ( ! class_exists( 'WP_Live_Debug_PHP_Info' ) ) {
 			?>
 			<div class="sui-box">
 				<div class="sui-box-body">
-					<div class="sui-accordion">
-						<div class="sui-accordion-item">
-						</div>
-					</div>
 					<?php WP_Live_Debug_PHP_Info::get_info(); ?>
 				</div>
 			</div>

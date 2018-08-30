@@ -244,6 +244,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	}
 	// Include extra classes
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-live-debug.php';
+	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-wordpress-info.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-php-info.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-server-info.php';
 	// Initialize WP Live Debug.
