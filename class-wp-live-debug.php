@@ -241,6 +241,40 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 			<?php
 		}
 
+		public static function table_info( $list ) {
+			foreach ( $list as $key => $value ) {
+				printf(
+					'<tr><td>%s</td><td>%s</td></tr>',
+					esc_html( $key ),
+					$value
+				);
+			}
+		}
+
+		public static function format_num( $val ) {
+			if ( is_numeric( $val ) and ( $val >= ( 1024 * 1024 ) ) ) {
+				$val = size_format( $val );
+			}
+
+			return $val;
+		}
+
+		public static function format_constant( $constant ) {
+			if ( ! defined( $constant ) ) {
+				return '<em>undefined</em>';
+			}
+
+			$val = constant( $constant );
+
+			if ( ! is_bool( $val ) ) {
+				return $val;
+			} elseif ( ! $val ) {
+				return 'FALSE';
+			} else {
+				return 'TRUE';
+			}
+		}
+
 	}
 	// Include extra classes
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-live-debug.php';

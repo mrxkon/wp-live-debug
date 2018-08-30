@@ -42,7 +42,7 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 					<div class="sui-box-body">
 						<table class="sui-table striped">
 							<tbody>
-								<?php WP_Live_Debug_Server_Info::table_info( WP_Live_Debug_Server_Info::get_server_info() ); ?>
+								<?php WP_Live_Debug::table_info( WP_Live_Debug_Server_Info::get_server_info() ); ?>
 							</tbody>
 						</table>
 					</div>
@@ -54,7 +54,7 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 					<div class="sui-box-body">
 						<table class="sui-table striped">
 							<tbody>
-								<?php WP_Live_Debug_Server_Info::table_info( WP_Live_Debug_Server_Info::get_mysql_info() ); ?>
+								<?php WP_Live_Debug::table_info( WP_Live_Debug_Server_Info::get_mysql_info() ); ?>
 							</tbody>
 						</table>
 					</div>
@@ -161,7 +161,7 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			}
 
 			foreach ( $variables as $item ) {
-				$mysql[ $item->Variable_name ] = WP_Live_Debug_Server_Info::format_num( $item->Value ); // phpcs:ignore
+				$mysql[ $item->Variable_name ] = WP_Live_Debug::format_num( $item->Value ); // phpcs:ignore
 			}
 
 			return $mysql;
@@ -248,24 +248,6 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			}
 
 			return $errors;
-		}
-
-		public static function table_info( $list ) {
-			foreach ( $list as $key => $value ) {
-				printf(
-					'<tr><td>%s</td><td>%s</td></tr>',
-					esc_html( $key ),
-					$value
-				);
-			}
-		}
-
-		public static function format_num( $val ) {
-			if ( is_numeric( $val ) and ( $val >= ( 1024 * 1024 ) ) ) {
-				$val = size_format( $val );
-			}
-
-			return $val;
 		}
 	}
 }
