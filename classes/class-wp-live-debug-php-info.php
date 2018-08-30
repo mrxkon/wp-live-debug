@@ -35,15 +35,15 @@ if ( ! class_exists( 'WP_Live_Debug_PHP_Info' ) ) {
 
 		public static function create_page() {
 			?>
-			<div class="sui-wrap">
-				<div class="sui-header">
-					<h1 class="sui-header-title">WP Live Debug - PHP</h1>
-				</div>
-				<div class="sui-box">
-					<div class="sui-box-body">
-						<?php WP_Live_Debug_PHP_Info::get_info(); ?>
+			<div class="sui-box">
+				<div class="sui-box-body">
+					<div class="sui-accordion">
+						<div class="sui-accordion-item">
+						</div>
 					</div>
+					<?php WP_Live_Debug_PHP_Info::get_info(); ?>
 				</div>
+			</div>
 			<?php
 		}
 

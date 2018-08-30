@@ -51,10 +51,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 */
 		public static function create_page() {
 			?>
-			<div class="sui-wrap">
-				<div class="sui-header">
-					<h1 class="sui-header-title">WP Live Debug</h1>
-				</div>
 				<div class="sui-box">
 					<div class="sui-box-body">
 						<textarea id="wp-live-debug-area" class="sui-form-control"></textarea>
@@ -118,7 +114,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 						</p>
 					</div>
 				</div>
-			</div>
 			<?php
 		}
 

@@ -109,7 +109,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 				__( 'WP Live Debug', 'wp-live-debug' ),
 				'manage_options',
 				'wp-live-debug',
-				array( 'WP_Live_Debug_Live_Debug', 'create_page' ),
+				array( 'WP_Live_Debug', 'create_page' ),
 				'dashicons-media-code'
 			);
 			add_submenu_page(
@@ -120,14 +120,14 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 				'wp-live-debug-php-info',
 				array( 'WP_Live_Debug_PHP_Info', 'create_page' )
 			);
-			add_submenu_page(
-				'wp-live-debug',
-				__( 'WordPress', 'wp-live-debug' ),
-				__( 'WordPress', 'wp-live-debug' ),
-				'manage_options',
-				'wp-live-debug-wp-info',
-				array( 'WP_Live_Debug_WP_Info', 'create_page' )
-			);
+			// add_submenu_page(
+			// 	'wp-live-debug',
+			// 	__( 'WordPress', 'wp-live-debug' ),
+			// 	__( 'WordPress', 'wp-live-debug' ),
+			// 	'manage_options',
+			// 	'wp-live-debug-wp-info',
+			// 	array( 'WP_Live_Debug_WP_Info', 'create_page' )
+			// );
 			add_submenu_page(
 				'wp-live-debug',
 				__( 'Server', 'wp-live-debug' ),
@@ -142,10 +142,19 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * Load scripts and styles
 		 */
 		public static function load_scripts_styles( $hook ) {
-			if ( 'toplevel_page_wp-live-debug' === $hook ||
-				'wp-live-debug_page_wp-live-debug-php-info' === $hook ||
-				'wp-live-debug_page_wp-live-debug-wp-info' === $hook ||
-				'wp-live-debug_page_wp-live-debug-server-info' === $hook ) {
+			if ( 'toplevel_page_wp-live-debug' === $hook ) {
+				wp_enqueue_style(
+					'wp-live-debug',
+					plugin_dir_url( __FILE__ ) . 'assets/styles.css',
+					WP_LIVE_DEBUG_VERSION
+				);
+				wp_enqueue_script(
+					'wp-live-debug',
+					plugin_dir_url( __FILE__ ) . 'assets/scripts.js',
+					array( 'jquery' ),
+					WP_LIVE_DEBUG_VERSION,
+					true
+				);
 				wp_enqueue_style(
 					'wphb-wpmudev-sui',
 					plugin_dir_url( __FILE__ ) . 'assets/sui/css/shared-ui.min.css',
@@ -161,21 +170,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 				add_filter( 'admin_body_class', array( 'WP_Live_Debug', 'admin_body_classes' ) );
 			}
-
-			if ( 'toplevel_page_wp-live-debug' === $hook ) {
-				wp_enqueue_style(
-					'wp-live-debug',
-					plugin_dir_url( __FILE__ ) . 'assets/styles.css',
-					WP_LIVE_DEBUG_VERSION
-				);
-				wp_enqueue_script(
-					'wp-live-debug',
-					plugin_dir_url( __FILE__ ) . 'assets/scripts.js',
-					array( 'jquery' ),
-					WP_LIVE_DEBUG_VERSION,
-					true
-				);
-			}
 		}
 
 		/**
@@ -184,6 +178,67 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		public static function admin_body_classes( $classes ) {
 			$classes .= 'sui-2-2-10';
 			return $classes;
+		}
+
+		/**
+		 * Create Page
+		 */
+		public static function create_page() {
+			if ( ! empty( $_GET['subpage'] ) ) {
+				$subpage = esc_attr( $_GET['subpage'] );
+			}
+			?>
+			<div class="sui-wrap">
+				<div class="sui-header">
+					<h1 class="sui-header-title">WP Live Debug</h1>
+				</div>
+				<div class="sui-row-with-sidenav">
+					<div class="sui-sidenav">
+						<ul class="sui-vertical-tabs sui-sidenav-hide-md">
+							<li class="sui-vertical-tab <?php echo ( empty( $subpage ) ) ? 'current' : ''; ?>">
+								<a href="?page=wp-live-debug"><?php esc_html_e( 'Live Debug', 'wp-live-debug' ); ?></a>
+							</li>
+							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'WordPress' === $subpage ) ? 'current' : ''; ?>">
+								<a href="?page=wp-live-debug&subpage=WordPress"><?php esc_html_e( 'WordPress', 'wp-live-debug' ); ?></a>
+							</li>
+							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'Server' === $subpage ) ? 'current' : ''; ?>">
+								<a href="?page=wp-live-debug&subpage=Server"><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></a>
+							</li>
+							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'PHP' === $subpage ) ? 'current' : ''; ?>">
+								<a href="?page=wp-live-debug&subpage=PHP"><?php esc_html_e( 'PHP Info', 'wp-live-debug' ); ?></a>
+							</li>
+						</ul>
+						<div class="sui-sidenav-hide-lg">
+							<select class="sui-mobile-nav" style="display: none;">
+								<option value="#livedebug" <?php echo ( empty( $subpage ) ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Live Debug', 'wp-live-debug' ); ?></option>
+								<option value="#WordPress" <?php echo ( ! empty( $subpage ) && 'WordPress' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'WordPress', 'wp-live-debug' ); ?></option>
+								<option value="#Server" <?php echo ( ! empty( $subpage ) && 'Server' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></option>
+								<option value="#PHP" <?php echo ( ! empty( $subpage ) && 'PHP' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'PHP', 'wp-live-debug' ); ?></option>
+							</select>
+						</div>
+					</div>
+					<?php
+					if ( ! empty( $subpage ) ) {
+						switch ( $subpage ) {
+							case 'WordPress':
+								WP_Live_Debug_WordPress_Info::create_page();
+								break;
+							case 'Server':
+								WP_Live_Debug_Server_Info::create_page();
+								break;
+							case 'PHP':
+								WP_Live_Debug_PHP_Info::create_page();
+								break;
+							default:
+								WP_Live_Debug_Live_Debug::create_page();
+						}
+					} else {
+						WP_Live_Debug_Live_Debug::create_page();
+					}
+					?>
+				</div>
+			</div>
+			<?php
 		}
 
 	}

@@ -35,10 +35,6 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 
 		public static function create_page() {
 			?>
-			<div class="sui-wrap">
-				<div class="sui-header">
-					<h1 class="sui-header-title">WP Live Debug - Server</h1>
-				</div>
 				<div class="sui-box">
 					<div class="sui-box-header">
 						<h2 class="sui-box-title">Server</h2>
@@ -92,13 +88,13 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 
 			$server['Software Name']     = $server_info[0];
 			$server['Software Version']  = $server_version;
-			$server['Server IP']         = @$_SERVER['SERVER_ADDR'];
-			$server['Server Hostname']   = @$_SERVER['SERVER_NAME'];
-			$server['Server Admin']      = @$_SERVER['SERVER_ADMIN'];
+			$server['Server IP']         = @$_SERVER['SERVER_ADDR']; // phpcs:ignore
+			$server['Server Hostname']   = @$_SERVER['SERVER_NAME']; // phpcs:ignore
+			$server['Server Admin']      = @$_SERVER['SERVER_ADMIN']; // phpcs:ignore
 			$server['Server local time'] = date( 'Y-m-d H:i:s (\U\T\C P)' );
-			$server['Operating System']  = @php_uname( 's' );
-			$server['OS Hostname']       = @php_uname( 'n' );
-			$server['OS Version']        = @php_uname( 'v' );
+			$server['Operating System']  = @php_uname( 's' ); // phpcs:ignore
+			$server['OS Hostname']       = @php_uname( 'n' ); // phpcs:ignore
+			$server['OS Version']        = @php_uname( 'v' ); // phpcs:ignore
 
 			return  $server;
 		}
@@ -119,16 +115,13 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 
 			$extra_info = array();
 
-			$variables = $wpdb->get_results( "
-				SHOW VARIABLES
-				WHERE Variable_name IN ( '" . implode( "', '", array_keys( $mysql_vars ) ) . "' )
-			" );
+			$variables = $wpdb->get_results( "SHOW VARIABLES WHERE Variable_name IN ( '" . implode( "', '", array_keys( $mysql_vars ) ) . "' )" ); // phpcs:ignore
 
 			$dbh = $wpdb->dbh;
 
 			if ( is_resource( $dbh ) ) {
-				$driver = 'mysql';
-				$version = function_exists( 'mysqli_get_server_info' ) ? mysqli_get_server_info( $dbh ) : mysql_get_server_info( $dbh );
+				$driver  = 'mysql';
+				$version = function_exists( 'mysqli_get_server_info' ) ? mysqli_get_server_info( $dbh ) : mysql_get_server_info( $dbh ); // phpcs:ignore
 			} elseif ( is_object( $dbh ) ) {
 				$driver = get_class( $dbh );
 				if ( method_exists( $dbh, 'db_version' ) ) {
@@ -168,7 +161,7 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			}
 
 			foreach ( $variables as $item ) {
-				$mysql[ $item->Variable_name ] = WP_Live_Debug_Server_Info::format_num( $item->Value );
+				$mysql[ $item->Variable_name ] = WP_Live_Debug_Server_Info::format_num( $item->Value ); // phpcs:ignore
 			}
 
 			return $mysql;
