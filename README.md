@@ -10,11 +10,22 @@ Stable tag: 4.9.8
 
 Requires PHP: 5.4
 
-[![Buy me a coffee!](https://img.shields.io/badge/Buy%20me-a%20coffee!-1abc9c.svg)](https://xkon.gr/#buymeacoffee) [![My Website](https://img.shields.io/badge/My-Website-F37F40.svg)](https://xkon.gr)  [![WordPress Profile](https://img.shields.io/badge/WordPress-Profile-blue.svg)](https://profiles.wordpress.org/xkon)
+[![My Website](https://img.shields.io/badge/My-Website-F37F40.svg)](https://xkon.gr)  [![WordPress Profile](https://img.shields.io/badge/WordPress-Profile-blue.svg)](https://profiles.wordpress.org/xkon)
 
 ### Description
 
 Enables debugging and adds various installation information. Simply enable the plugin and go to the WP Live Debug tab to see your debug.log.
+
+### Credits
+
+This is a personal project that I use for debugging, but some parts of the code are written by other awesome people.
+
+So props also go to:
+WPMU DEV: Parts of debug info & Shared UI
+WPMU DEV Shared UI - Licence GPLv2 - [WPMUDEV]( https://premium.wpmudev.org ) - [Shared UI]( https://github.com/wpmudev/shared-ui )
+
+The WordPress.org community: Parts of debug info
+Health Check - Licence GPLv2 - [wp.org plugin]( https://wordpress.org/plugins/health-check/ ) - [github]( https://github.com/wordpress/health-check )
 
 ### Installation
 

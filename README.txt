@@ -4,7 +4,7 @@ Tags: debug
 Requires at least: 4.8
 Tested up to: 4.9.8
 Stable tag: 4.9.8
-Requires PHP: 5.3
+Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
