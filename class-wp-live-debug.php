@@ -4,7 +4,7 @@
  * Plugin Name:       WP Live Debug
  * Description:       Enables debugging and adds a screen into the WordPress Admin to view the debug.log.
  * Version:           4.9.8
- * Author:            Xenos (xkon) Konstantinos
+ * Author:            Konstantinos (xkon) Xenos
  * Author URI:        https://xkon.gr
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
@@ -32,13 +32,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /*
 Credits & Licences:
-This is a personal project that I use for debugging, but some parts of the code are written by other awesome developers.
+This is a personal project that I use for debugging, but some parts of the code are written by other awesome people.
 
 So props also go to:
-Calum Brash, Aaron Edwards, Philipp Stracker, Victor Ivanov, Vladislav Bailovic, Jeffri H, Marko Miljus
+WPMU DEV: Parts of debug info & UI
 WPMU DEV Shared UI - Licence GPLv2 - ( https://premium.wpmudev.org ) - ( https://github.com/wpmudev/shared-ui )
 
-The WordPress.org community
+The WordPress.org community: Parts of debug info
 Health Check - Licence GPLv2 - ( https://wordpress.org/plugins/health-check/ ) - ( https://github.com/wordpress/health-check )
 */
 
