@@ -65,7 +65,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		/**
 		 * WP_Live_Debug constructor.
 		 *
-		 * @uses WPLiveDebug::init()
+		 * @uses WP_Live_Debug::init()
 		 *
 		 * @return void
 		 */
@@ -83,6 +83,28 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		public function init() {
 			add_action( 'init', array( 'WP_Live_Debug', 'create_menus' ) );
 			add_action( 'admin_enqueue_scripts', array( 'WP_Live_Debug', 'load_scripts_styles' ) );
+			add_action( 'wp_ajax_wp-live-debug-accept-risk', array( 'WP_Live_Debug', 'accept_risk' ) );
+		}
+
+		/**
+		 * Accept Risk
+		 */
+		public static function accept_risk() {
+			update_option( 'wp_live_debug_risk', 'yes' );
+
+			$response = array(
+				'message' => esc_html__( 'risk accepted.', 'wp-live-debug' ),
+			);
+
+			wp_send_json_success( $response );
+		}
+
+		/**
+		 * Deactivation
+		 */
+
+		public static function on_deactivate() {
+			delete_option( 'wp_live_debug_risk' );
 		}
 
 		/**
@@ -161,7 +183,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * Create Page
 		 */
 		public static function create_page() {
-			$first_time_running = get_option( 'wp_live_debug_first' );
+			$first_time_running = get_option( 'wp_live_debug_risk' );
 
 			if ( ! empty( $_GET['subpage'] ) ) {
 				$subpage = esc_attr( $_GET['subpage'] );
@@ -237,9 +259,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 								</p>
 							</div>
 							<div class="sui-box-footer">
-								<div class="sui-flex-child-right">
-									<button class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
-								</div>
+								<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
 							</div>
 						</div>
 					</div>
@@ -284,6 +304,10 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		}
 
 	}
+
+	// Deactivation Hook
+	register_deactivation_hook( __FILE__, array( 'WP_Live_Debug', 'on_deactivate' ) );
+
 	// Include extra classes
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-live-debug.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-wordpress-info.php';

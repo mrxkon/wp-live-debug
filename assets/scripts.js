@@ -1,5 +1,7 @@
 (function( $ ) {
 	var safetyPopup            = $( '#safety-popup' ),
+		acceptRisk             = $( '#riskaccept' ),
+		acceptRiskData         = { 'action': 'wp-live-debug-accept-risk' },
 		responseHolder         = $( '#wp-debug-response-holder' ),
 		refreshToggle          = $( '#toggle-auto-refresh' ),
 		debugArea              = $( '#wp-live-debug-area' ),
@@ -129,8 +131,19 @@
 	if ( safetyPopup.length ) {
 		const el = document.getElementById( 'safety-popup' );
 		const dialog = new A11yDialog( el );
+
 		setTimeout( function() {
 			dialog.show();
 		}, 300 );
+
+		acceptRisk.on( 'click', function( e ) {
+			e.preventDefault();
+			dialog.hide();
+			$.post( ajaxurl, acceptRiskData, function( response ) {
+				if ( response.error ) {
+					responseHolder.html( response.data.message );
+				}
+			});
+		});
 	}
 } )( jQuery )
