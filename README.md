@@ -21,11 +21,12 @@ Enables debugging and adds various installation information. Simply enable the p
 This is a personal project that I use for debugging, but some parts of the code are written by other awesome people.
 
 So props also go to:
-WPMU DEV: Parts of debug info & Shared UI
-WPMU DEV Shared UI - Licence GPLv2 - [WPMUDEV]( https://premium.wpmudev.org ) - [Shared UI]( https://github.com/wpmudev/shared-ui )
+[WPMU DEV]( https://premium.wpmudev.org ) for parts of debug info & Shared UI
 
-The WordPress.org community: Parts of debug info
-Health Check - Licence GPLv2 - [wp.org plugin]( https://wordpress.org/plugins/health-check/ ) - [github]( https://github.com/wordpress/health-check )
+- WPMU DEV [Shared UI]( https://github.com/wpmudev/shared-ui ) - Licence GPLv2
+
+The [WordPress.org]( https://wordpress.org ) community for parts of debug info
+- [Health Check]( https://wordpress.org/plugins/health-check/ ) - Licence GPLv2 - [github]( https://github.com/wordpress/health-check )
 
 ### Installation
 
