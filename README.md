@@ -4,9 +4,9 @@
 
 Requires at least: WordPress 4.8
 
-Tested up to: WordPress 4.9.4
+Tested up to: WordPress 4.9.8
 
-Stable tag: 4.9.4.2
+Stable tag: 4.9.8
 
 Requires PHP: 5.3
 
@@ -14,7 +14,7 @@ Requires PHP: 5.3
 
 ### Description
 
-Enables debugging and adds a screen into the WordPress Admin to view the debug.log. Simply enable the plugin and go to the WP Live Debug tab to see your debug.log. The view is refreshed every 3 seconds.
+Enables debugging and adds various installation information. Simply enable the plugin and go to the WP Live Debug tab to see your debug.log.
 
 ### Installation
 
@@ -36,6 +36,12 @@ Enables debugging and adds a screen into the WordPress Admin to view the debug.l
 ![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot-1.png)
 
 ### Changelog
+
+##### 4.9.8
+* Refactored Live Debugging
+* Added Server Information
+* Added General WordPress Information
+* Added PHP Information
 
 ##### 4.9.4.2
 * Update required PHP to 5.3.
