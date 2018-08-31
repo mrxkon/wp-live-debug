@@ -81,7 +81,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 							</div>
 							<div class="sui-form-field">
 								<label for="email_message" class="sui-label">Message</label>
-								<textarea id="email_message" name="email_message" class="sui-form-control"><?php echo $email_body; ?></textarea>
+								<textarea id="email_message" name="email_message" class="sui-form-control" rows="4"><?php echo $email_body; ?></textarea>
 							</div>
 							<div class="sui-form-field">
 								<input type="submit" class="sui-button sui-button-green" value="<?php esc_html_e( 'Send test mail', 'wp-live-debug' ); ?>">
