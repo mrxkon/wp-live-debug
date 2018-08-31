@@ -26,8 +26,34 @@
 		checksumsDiffButton    = 'button[id=wp-live-debug-diff]',
 		checksumsResponse      = $( '#checksums-response' ),
 		checksumsResponseTitle = $( '#checksums-popup .sui-box-title' ),
-		checksumsResponseBody  = $( '#checksums-popup .sui-box-body .diff-holder' );
+		checksumsResponseBody  = $( '#checksums-popup .sui-box-body .diff-holder' ),
+		mailCheckForm          = $( '#wp-live-debug-mail-check' );
 
+	// Mail Check
+	mailCheckForm.submit( function( e ) {
+		var email = $( '#wp-live-debug-mail-check #email' ).val(),
+			emailSubject = $( '#wp-live-debug-mail-check #email_subject' ).val(),
+			emailMessage = $( '#wp-live-debug-mail-check #email_message' ).val(),
+			data;
+
+		e.preventDefault();
+
+		$( '#mail-check-box .sui-box-body' ).html('<i id="checksums-loading" class="sui-icon-loader sui-loading" aria-hidden="true"></i>');
+
+		data = {
+			'action': 'wp-live-debug-mail',
+			'email': email,
+			'email_subject': emailSubject,
+			'email_message': emailMessage
+		};
+
+		$.post(
+			ajaxurl,
+			data,
+			function( response ) {
+				$( '#mail-check-box .sui-box-body' ).html( response.data.message );
+			});
+	});
 	// Checksum Ajax
 	checksumsButton.on( 'click', function( e ) {
 		e.preventDefault();
