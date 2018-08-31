@@ -283,7 +283,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			$sendmail      = false;
 			$email         = sanitize_email( $_POST['email'] );
 			$email_subject = sanitize_text_field( $_POST['email_subject'] );
-			$email_message = sanitize_text_field( $_POST['email_message'] );
+			$email_message = sanitize_textarea_field( $_POST['email_message'] );
 
 			$sendmail = wp_mail( $email, $email_subject, $email_message );
 
