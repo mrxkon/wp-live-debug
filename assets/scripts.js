@@ -20,7 +20,43 @@
 		disableScriptDebugData = { 'action': 'wp-live-debug-disable-script-debug' },
 		savequeriesToggle      = $( '#toggle-savequeries' ),
 		enableSavequeriesData  = { 'action': 'wp-live-debug-enable-savequeries' },
-		disableSavequeriesData = { 'action': 'wp-live-debug-disable-savequeries' };
+		disableSavequeriesData = { 'action': 'wp-live-debug-disable-savequeries' },
+		checksumsButton        = $( '#run-checksums' ),
+		checksumsData          = { 'action': 'wp-live-debug-checksums-check' },
+		checksumsDiffButton    = 'button[id=wp-live-debug-diff]',
+		checksumsResponse      = $( '#checksums-response' ),
+		checksumsResponseTitle = $( '#checksums-popup .sui-box-title' ),
+		checksumsResponseBody  = $( '#checksums-popup .sui-box-body .diff-holder' );
+
+	// Checksum Ajax
+	checksumsButton.on( 'click', function( e ) {
+		e.preventDefault();
+		$( '#checksums-loading' ).show();
+
+		$.post(	ajaxurl, checksumsData, function( response ) {
+			checksumsResponse.html( response.data.message );
+		});
+	});
+	// Checksum Diff
+	checksumsResponse.on( 'click', checksumsDiffButton, function( e ) {
+		var file = $( this ).data( 'file' ),
+			data;
+
+		e.preventDefault();
+
+		data = {
+			'action': 'wp-live-debug-view-diff',
+			'file': file
+		};
+
+		$.post( ajaxurl, data, function( response ) {
+			const cp = document.getElementById( 'checksums-popup' );
+			const checksum = new A11yDialog( cp );
+			checksum.show();
+			checksumsResponseTitle.html( file );
+			checksumsResponseBody.html( response.data.message );
+		});
+	});
 
 	if ( debugArea.length ) {
 		// Scroll the textarea to bottom.
@@ -127,18 +163,18 @@
 			}
 		});
 	}
-	// Safety Popup
+	// Safety Dialog
 	if ( safetyPopup.length ) {
-		const el = document.getElementById( 'safety-popup' );
-		const dialog = new A11yDialog( el );
+		const sp = document.getElementById( 'safety-popup' );
+		const safety = new A11yDialog( sp );
 
 		setTimeout( function() {
-			dialog.show();
+			safety.show();
 		}, 300 );
 
 		acceptRisk.on( 'click', function( e ) {
 			e.preventDefault();
-			dialog.hide();
+			safety.hide();
 			$.post( ajaxurl, acceptRiskData, function( response ) {
 				if ( response.error ) {
 					responseHolder.html( response.data.message );

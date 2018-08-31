@@ -323,4 +323,5 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-tools.php';
 	// Initialize WP Live Debug.
 	new WP_Live_Debug();
+	new WP_Live_Debug_Tools();
 }

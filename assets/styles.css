@@ -8,7 +8,6 @@ body.toplevel_page_wp-live-debug .center table {
 	max-width: 100% !important;
 	width: 100% !important;
 }
-
 body.toplevel_page_wp-live-debug .center table tr {
 	width: 100% !important;
 }
@@ -19,4 +18,22 @@ body.toplevel_page_wp-live-debug .center table .v {
 	word-wrap: break-word !important;
 	word-break: break-word !important;
 	overflow-x: unset !important;
+}
+body.toplevel_page_wp-live-debug #checksums-loading {
+	display: none;
+}
+body.toplevel_page_wp-live-debug #checksums-popup .sui-box-body {
+	height: calc( 100vh - 230px );
+}
+body.toplevel_page_wp-live-debug #checksums-popup .sui-dialog-content {
+	max-width: 100%;
+}
+body.toplevel_page_wp-live-debug #checksums-popup .sui-box-body .diff-holder {
+	width: 100%;
+	height: 100%;
+	display: block;
+	overflow-y: scroll;
+}
+body.toplevel_page_wp-live-debug table.diff td:nth-child(2) {
+	background: #f8f8f8;
 }
