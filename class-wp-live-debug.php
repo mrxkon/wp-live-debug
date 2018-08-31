@@ -208,6 +208,9 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'PHP' === $subpage ) ? 'current' : ''; ?>">
 								<a href="?page=wp-live-debug&subpage=PHP"><?php esc_html_e( 'PHP Info', 'wp-live-debug' ); ?></a>
 							</li>
+							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'Tools' === $subpage ) ? 'current' : ''; ?>">
+								<a href="?page=wp-live-debug&subpage=Tools"><?php esc_html_e( 'Tools', 'wp-live-debug' ); ?></a>
+							</li>
 						</ul>
 						<div class="sui-sidenav-hide-lg">
 							<select class="sui-mobile-nav" style="display: none;" onchange="location = this.value;">
@@ -215,6 +218,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 								<option value="?page=wp-live-debug&subpage=WordPress" <?php echo ( ! empty( $subpage ) && 'WordPress' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'WordPress', 'wp-live-debug' ); ?></option>
 								<option value="?page=wp-live-debug&subpage=Server" <?php echo ( ! empty( $subpage ) && 'Server' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></option>
 								<option value="?page=wp-live-debug&subpage=PHP" <?php echo ( ! empty( $subpage ) && 'PHP' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'PHP', 'wp-live-debug' ); ?></option>
+								<option value="?page=wp-live-debug&subpage=Tools" <?php echo ( ! empty( $subpage ) && 'Tools' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Tools', 'wp-live-debug' ); ?></option>
 							</select>
 						</div>
 					</div>
@@ -229,6 +233,9 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 								break;
 							case 'PHP':
 								WP_Live_Debug_PHP_Info::create_page();
+								break;
+							case 'Tools':
+								WP_Live_Debug_Tools::create_page();
 								break;
 							default:
 								WP_Live_Debug_Live_Debug::create_page();
@@ -313,6 +320,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-wordpress-info.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-php-info.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-server-info.php';
+	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-tools.php';
 	// Initialize WP Live Debug.
 	new WP_Live_Debug();
 }
