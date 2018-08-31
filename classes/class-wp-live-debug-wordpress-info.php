@@ -123,7 +123,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 		public static function get_directory_permissions() {
 			$uploads_dir = wp_upload_dir();
 
-			if ( defined( WP_TEMP_DIR ) ) {
+			if ( defined( 'WP_TEMP_DIR' ) ) {
 				$tmp_dir  = WP_TEMP_DIR;
 				$writable = ( wp_is_writable( $tmp_dir ) ) ? __( 'Writable', 'wp-live-debug' ) : __( 'Not writable', 'wp-live-debug' );
 			} else {

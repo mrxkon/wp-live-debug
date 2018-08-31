@@ -120,8 +120,14 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			$dbh = $wpdb->dbh;
 
 			if ( is_resource( $dbh ) ) {
-				$driver  = 'mysql';
-				$version = function_exists( 'mysqli_get_server_info' ) ? mysqli_get_server_info( $dbh ) : mysql_get_server_info( $dbh ); // phpcs:ignore
+				$driver = 'mysql';
+				if ( function_exists( 'mysqli_get_server_info' ) ) {
+					// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_get_server_info
+					$version = mysqli_get_server_info( $dbh );
+				} else {
+					// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysql_get_server_info
+					$version = mysql_get_server_info( $dbh );
+				}
 			} elseif ( is_object( $dbh ) ) {
 				$driver = get_class( $dbh );
 				if ( method_exists( $dbh, 'db_version' ) ) {
@@ -134,10 +140,10 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 					$version = __( 'Unknown', 'wp-live-debug' );
 				}
 				if ( isset( $dbh->client_info ) ) {
-					$extra_info['Driver version'] = $dbh->client_info;
+					$extra_info['Driver Version'] = $dbh->client_info;
 				}
 				if ( isset( $dbh->host_info ) ) {
-					$extra_info['Connection info'] = $dbh->host_info;
+					$extra_info['Connection'] = $dbh->host_info;
 				}
 			} else {
 				$version = __( 'Unknown', 'wp-live-debug' );
@@ -149,8 +155,8 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			$extra_info['Collate']      = $wpdb->collate;
 			$extra_info['Table Prefix'] = $wpdb->prefix;
 
-			$mysql['Server Version'] = $version;
-			$mysql['Driver']         = $driver;
+			$mysql['Version'] = $version;
+			$mysql['Driver']  = $driver;
 
 			foreach ( $extra_info as $key => $val ) {
 				$mysql[ $key ] = $val;
