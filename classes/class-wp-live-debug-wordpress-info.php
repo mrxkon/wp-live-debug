@@ -34,7 +34,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 		}
 
 		public static function create_page() {
-		?>
+			?>
 			<div class="sui-box">
 				<div class="sui-box-header">
 					<h2 class="sui-box-title">General Information</h2>
@@ -83,7 +83,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 					</table>
 				</div>
 			</div>
-		<?php
+			<?php
 		}
 
 		public static function general_wp_information() {
