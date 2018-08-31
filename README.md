@@ -45,13 +45,13 @@ The [WordPress.org]( https://wordpress.org ) community for parts of debug info
 
 ### Screenshots
 
-![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot-1.png)
+![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot1.png)
 
-![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot-2.png)
+![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot2.png)
 
-![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot-3.png)
+![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot3.png)
 
-![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot-4.png)
+![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot4.png)
 
 ### Changelog
 
