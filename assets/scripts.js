@@ -38,7 +38,7 @@
 
 		e.preventDefault();
 
-		$( '#mail-check-box .sui-box-body' ).html('<i id="checksums-loading" class="sui-icon-loader sui-loading" aria-hidden="true"></i>');
+		$( '#mail-check-box .sui-box-body' ).html('<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>');
 
 		data = {
 			'action': 'wp-live-debug-mail',
