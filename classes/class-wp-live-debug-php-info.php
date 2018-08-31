@@ -45,11 +45,11 @@ if ( ! class_exists( 'WP_Live_Debug_PHP_Info' ) ) {
 
 		public static function get_info() {
 			if ( ! function_exists( 'phpinfo' ) ) {
-		?>
+				?>
 				<div class="sui-notice sui-notice-error">
 					<p><?php _e( '<code>phpinfo();</code> is disabled. Please contact your hosting provider if you need more information about your PHP setup.', 'wp-live-debug' ); ?></p>
 				</div>
-		<?php
+				<?php
 			} else {
 				ob_start();
 				phpinfo();
