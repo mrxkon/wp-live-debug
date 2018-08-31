@@ -175,7 +175,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * Add Shared UI 2.2.10
 		 */
 		public static function admin_body_classes( $classes ) {
-			$classes .= 'sui-2-2-10';
+			$classes .= ' sui-2-2-10 ';
 			return $classes;
 		}
 
