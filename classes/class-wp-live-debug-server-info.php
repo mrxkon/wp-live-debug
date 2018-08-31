@@ -125,8 +125,9 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 					// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_get_server_info
 					$version = mysqli_get_server_info( $dbh );
 				} else {
-					// phpcs:ignore PHPCompatibility.PHP.RemovedExtensions.mysql_DeprecatedRemoved,WordPress.DB.RestrictedFunctions.mysql_mysql_get_server_info
+					// phpcs:disable
 					$version = mysql_get_server_info( $dbh );
+					// phpcs:enable
 				}
 			} elseif ( is_object( $dbh ) ) {
 				$driver = get_class( $dbh );
