@@ -13,9 +13,6 @@ matrix:
       env: PHPC_WPC=1
     - php: '5.4'
       env: PHPC_WPC=1
-    - php: 5.3
-      dist: precise
-      env: PHPC_WPC=1
 before_script:
     - pear install pear/PHP_CodeSniffer
     - export SNIFFS_DIR=/tmp/sniffs
