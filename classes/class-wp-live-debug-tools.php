@@ -46,7 +46,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			$email_subject = sprintf( esc_html__( 'Test Message from %s', 'wp-live-debug' ), $wp_address );
 
 			$email_body = sprintf(
-				// translators: %1$s: website name. %2$s: website url. %3$s: additional message from user.
+				// translators: %1$s: website name. %2$s: website url. %3$s: date. %4$s: time
 				esc_html__( 'Hi. This test message was sent from %1$s (%2$s) on %3$s at %4$s. Since you’re reading this, it obviously works!', 'wp-live-debug' ),
 				$wp_name,
 				$wp_address,
