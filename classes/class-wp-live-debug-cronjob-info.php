@@ -62,7 +62,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			}
 
 			$output .= '<table class="sui-table striped">';
-			$output .= '<thead><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Arguments', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Next Run In', 'wp-live-debug' ) . '</tr></thead><tbody>';
+			$output .= '<thead><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Arguments', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 
 			foreach ( $cronjobs as $time => $job ) {
 				foreach ( $job as $proc => $task ) {
@@ -89,7 +89,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 							}
 						}
 					} else {
-						$action = '-';
+						$action = '';
 					}
 
 					$output .= '<tr>';
@@ -106,16 +106,16 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 							$output .= '<td></td>';
 						}
 						if ( ! empty( $taskdetails['schedule'] ) ) {
-							$output .= '<td>' . $taskdetails['schedule'] . ' ( ' . $taskdetails['interval'] . ' )</td>';
+							$output .= '<td>' . $taskdetails['schedule'] . ' ( ' . $taskdetails['interval'] . ' )';
 						} else {
-							$output .= '<td>' . esc_html__( 'single ( - )', 'wp-live-debug' ) . '</td>';
+							$output .= '<td>' . esc_html__( 'single', 'wp-live-debug' );
 						}
 					}
-					$output .= '<td>' . human_time_diff( $time, time() ) . '<br>' . date( 'H:i - F j, Y', $time ) . '</td>';
+					$output .= '<br><strong>' . esc_html__( 'Next run in', 'wp-live-debug' ) . ':</strong><br>' . human_time_diff( $time, time() ) . '<br>' . date( 'H:i - F j, Y', $time ) . '</td>';
 					$output .= '</tr>';
 				}
 			}
-			$output .= '<tfoot><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Arguments', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Next Run In', 'wp-live-debug' ) . '</tr></tfoot>';
+			$output .= '<tfoot><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Arguments', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th></tr></tfoot>';
 			$output .= '</tbody></table>';
 
 			$response = array(
