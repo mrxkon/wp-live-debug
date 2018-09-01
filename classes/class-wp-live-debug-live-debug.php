@@ -101,7 +101,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 							</div>
 							<div class="sui-col-md-4 sui-col-lg-2">
 								<label class="sui-toggle">
-									<input type="checkbox" id="toggle-auto-refresh" checked>
+									<input type="checkbox" id="toggle-auto-refresh">
 									<span class="sui-toggle-slider"></span>
 								</label>
 								<label for="toggle-auto-refresh">Auto Refresh</label>
