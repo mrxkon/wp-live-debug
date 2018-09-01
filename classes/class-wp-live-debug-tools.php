@@ -161,7 +161,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 						if ( ! empty( $taskdetails['schedule'] ) ) {
 							$output .= '<td>' . $taskdetails['schedule'] . ' ( ' . $taskdetails['interval'] . ' )</td>';
 						} else {
-							$output .= '<td>' . esc_html__( 'Single', 'wp-live-debug' ) . '</td>';
+							$output .= '<td>' . esc_html__( 'single ( - )', 'wp-live-debug' ) . '</td>';
 						}
 					}
 					$output .= '<td>' . human_time_diff( $time, time() ) . '<br>' . date( 'H:i - F j, Y', $time ) . '</td>';
