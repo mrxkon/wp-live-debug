@@ -33,7 +33,6 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-checksums-check', array( 'WP_Live_Debug_Tools', 'run_checksums_check' ) );
 			add_action( 'wp_ajax_wp-live-debug-view-diff', array( 'WP_Live_Debug_Tools', 'view_file_diff' ) );
 			add_action( 'wp_ajax_wp-live-debug-mail', array( 'WP_Live_Debug_Tools', 'send_mail' ) );
-			add_action( 'wp_ajax_wp-live-debug-gather-cronjob-info', array( 'WP_Live_Debug_Tools', 'gather_cronjob_info' ) );
 		}
 
 		public static function create_page() {
@@ -63,14 +62,6 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 					</div>
 				</div>
-				<div class="sui-box">
-					<div class="sui-box-header">
-						<h2 class="sui-box-title"><?php esc_html_e( 'Scheduled Tasks', 'wp-live-debug' ); ?></h2>
-					</div>
-					<div class="sui-box-body" id="cronjob-response">
-						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-					</div>
-				</div>
 				<div class="sui-box" id="mail-check-box">
 					<div class="sui-box-header">
 						<h2 class="sui-box-title"><?php esc_html_e( 'wp_mail() Check', 'wp-live-debug' ); ?></h2>
@@ -78,15 +69,15 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					<div class="sui-box-body">
 						<form action="#" id="wp-live-debug-mail-check" method="POST">
 							<div class="sui-form-field">
-								<label for="email" class="sui-label">E-mail</label>
+								<label for="email" class="sui-label"><?php esc_html_e( 'E-mail', 'wp-live-debug' ); ?></label>
 								<input type="email" id="email" name="email" class="sui-form-control" value="<?php echo $current_user->user_email; ?>">
 							</div>
 							<div class="sui-form-field">
-								<label for="email_subject" class="sui-label">Subject</label>
+								<label for="email_subject" class="sui-label"><?php esc_html_e( 'Subject', 'wp-live-debug' ); ?></label>
 								<input type="text" id="email_subject" name="email_subject" class="sui-form-control" value="<?php echo $email_subject; ?>">
 							</div>
 							<div class="sui-form-field">
-								<label for="email_message" class="sui-label">Message</label>
+								<label for="email_message" class="sui-label"><?php esc_html_e( 'Message', 'wp-live-debug' ); ?></label>
 								<textarea id="email_message" name="email_message" class="sui-form-control" rows="4"><?php echo $email_body; ?></textarea>
 							</div>
 							<div class="sui-form-field">
@@ -112,79 +103,6 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					</div>
 				</div>
 			<?php
-		}
-
-		public static function gather_cronjob_info() {
-			global $wp_filter;
-
-			if ( function_exists( '_get_cron_array' ) ) {
-				$cronjobs = _get_cron_array();
-			} else {
-				$cronjobs = get_option( 'cron' );
-			}
-			error_log( print_r( $cronjobs, true ) );
-			$output  = '<table class="sui-table striped">';
-			$output .= '<thead><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Arguments', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Next Run In', 'wp-live-debug' ) . '</tr></thead><tbody>';
-
-			foreach ( $cronjobs as $time => $job ) {
-				foreach ( $job as $proc => $task ) {
-					if ( has_action( $proc ) ) {
-						$action = '';
-						if ( isset( $GLOBALS['wp_filter'][ $proc ] ) ) {
-							foreach ( $GLOBALS['wp_filter'][ $proc ] as $priority => $taskpriority ) {
-								foreach ( $taskpriority as $calls ) {
-									foreach ( $calls as $funcs ) {
-										if ( ! ( 1 == $funcs ) ) {
-											if ( is_array( $funcs ) ) {
-												if ( is_object( $funcs[0] ) ) {
-													$info = get_class( $funcs[0] ) . '::' . $funcs[1];
-												} else {
-													$info = print_r( $funcs, true );
-												}
-												$action .= $info . ' ( ' . $priority . ' ) ' . '<br>';
-											} else {
-												$action .= $funcs . ' ( ' . $priority . ' ) ' . '<br>';
-											}
-										}
-									}
-								}
-							}
-						}
-					} else {
-						$action = '-';
-					}
-
-					$output .= '<tr>';
-					$output .= '<td>' . $proc . '</td>';
-					$output .= '<td>' . $action . '</td>';
-					foreach ( $task as $md5key => $taskdetails ) {
-						if ( ! empty( $taskdetails['args'] ) ) {
-							$output .= '<td>';
-							foreach ( $taskdetails['args'] as $arg ) {
-								$output .= $arg . '<br>';
-							}
-							$output .= '</td>';
-						} else {
-							$output .= '<td></td>';
-						}
-						if ( ! empty( $taskdetails['schedule'] ) ) {
-							$output .= '<td>' . $taskdetails['schedule'] . ' ( ' . $taskdetails['interval'] . ' )</td>';
-						} else {
-							$output .= '<td>' . esc_html__( 'single ( - )', 'wp-live-debug' ) . '</td>';
-						}
-					}
-					$output .= '<td>' . human_time_diff( $time, time() ) . '<br>' . date( 'H:i - F j, Y', $time ) . '</td>';
-					$output .= '</tr>';
-				}
-			}
-			$output .= '<tfoot><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Arguments', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Next Run In', 'wp-live-debug' ) . '</tr></tfoot>';
-			$output .= '</tbody></table>';
-
-			$response = array(
-				'message' => $output,
-			);
-
-			wp_send_json_success( $response );
 		}
 
 		/**
