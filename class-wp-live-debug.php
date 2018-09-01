@@ -277,16 +277,16 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		}
 
 		public static function table_info( $list ) {
-			$content = '<table class="sui-table striped"><tbody>';
+			$output = '<table class="sui-table striped"><tbody>';
 
 			foreach ( $list as $key => $value ) {
-				$content .= '<tr><td>' . esc_html( $key ) . '</td><td>' . $value . '</td></tr>';
+				$output .= '<tr><td>' . esc_html( $key ) . '</td><td>' . $value . '</td></tr>';
 			}
 
-			$content .= '</tbody></table>';
+			$output .= '</tbody></table>';
 
 			$response = array(
-				'message' => $content,
+				'message' => $output,
 			);
 
 			wp_send_json_success( $response );

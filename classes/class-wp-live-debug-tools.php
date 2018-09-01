@@ -33,6 +33,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-checksums-check', array( 'WP_Live_Debug_Tools', 'run_checksums_check' ) );
 			add_action( 'wp_ajax_wp-live-debug-view-diff', array( 'WP_Live_Debug_Tools', 'view_file_diff' ) );
 			add_action( 'wp_ajax_wp-live-debug-mail', array( 'WP_Live_Debug_Tools', 'send_mail' ) );
+			add_action( 'wp_ajax_wp-live-debug-gather-cronjob-info', array( 'WP_Live_Debug_Tools', 'gather_cronjob_info' ) );
 		}
 
 		public static function create_page() {
@@ -63,6 +64,14 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					</div>
 					<div class="sui-box-body" id="checksums-response">
 						<i id="checksums-loading" class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+					</div>
+				</div>
+				<div class="sui-box">
+					<div class="sui-box-header">
+						<h2 class="sui-box-title"><?php esc_html_e( 'Scheduled Tasks', 'wp-live-debug' ); ?></h2>
+					</div>
+					<div class="sui-box-body" id="cronjob-response">
+						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 					</div>
 				</div>
 				<div class="sui-box" id="mail-check-box">
@@ -108,12 +117,69 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			<?php
 		}
 
+		public static function gather_cronjob_info() {
+			if ( function_exists( '_get_cron_array' ) ) {
+				$cronjobs = _get_cron_array();
+			} else {
+				$cronjobs = get_option( 'cron' );
+			}
+
+			$output  = '<table class="sui-table striped">';
+			$output .= '<thead><tr><th>' . __( 'Job', 'wp-live-debug' ) . '</th><th>' . __( 'Action', 'wp-live-debug' ) . '</th><th>' . __( 'Schedule', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
+
+			foreach ( $cronjobs as $time => $job ) {
+				foreach ( $job as $proc => $task ) {
+					if ( has_action( $proc ) ) {
+						$action = '';
+						if ( isset( $GLOBALS['wp_filter'][ $proc ] ) ) {
+							foreach ( $GLOBALS['wp_filter'][ $proc ] as $priority => $taskpriority ) {
+								foreach ( $taskpriority as $calls ) {
+									foreach ( $calls as $funcs ) {
+										if ( ! ( 1 == $funcs ) ) {
+											if ( is_array( $funcs ) ) {
+												if ( is_object( $funcs[0] ) ) {
+													$info = get_class( $funcs[0] ) . '::' . $funcs[1];
+												} else {
+													$info = print_r( $funcs, true );
+												}
+												$action .= $priority . '&nbsp;' . $info . '<br>';
+											} else {
+												$action .= $priority . '&nbsp;' . $funcs . '<br>';
+											}
+										}
+									}
+								}
+							}
+						}
+					} else {
+						$action = '-';
+					}
+
+					$output .= '<tr>';
+					$output .= '<td>' . $proc . '</td>';
+					$output .= '<td>' . $action . '</td>';
+					foreach ( $task as $md5key => $taskdetails ) {
+						$output .= '<td>' . $taskdetails['schedule'] . ' ( ' . $taskdetails['interval'] . ' )</td>';
+					}
+					$output .= '</tr>';
+				}
+			}
+
+			$output .= '</tbody></table>';
+
+			$response = array(
+				'message' => $output,
+			);
+
+			wp_send_json_success( $response );
+		}
+
 		/**
 		 * Gathers checksums from WordPress API and cross checks the core files in the current installation.
 		 *
 		 * @return void
 		 */
-		static function run_checksums_check() {
+		public static function run_checksums_check() {
 			$checksums = WP_Live_Debug_Tools::call_checksums_api();
 
 			$files = WP_Live_Debug_Tools::parse_checksums_results( $checksums );
@@ -135,7 +201,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		*
 		* @return array
 		*/
-		static function call_checksums_api() {
+		public static function call_checksums_api() {
 			// Setup variables.
 			$wpversion = get_bloginfo( 'version' );
 			$wplocale  = get_locale();
@@ -167,7 +233,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		*
 		* @return array
 		*/
-		static function parse_checksums_results( $checksums ) {
+		public static function parse_checksums_results( $checksums ) {
 			$filepath = ABSPATH;
 			$files    = array();
 			// Parse the results.
@@ -195,7 +261,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		*
 		* @return void
 		*/
-		static function create_the_response( $files ) {
+		public static function create_the_response( $files ) {
 			$filepath = ABSPATH;
 			$output   = '';
 
@@ -244,7 +310,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		*
 		* @return void
 		*/
-		static function view_file_diff() {
+		public static function view_file_diff() {
 			$filepath         = ABSPATH;
 			$file             = $_POST['file'];
 			$wpversion        = get_bloginfo( 'version' );
@@ -278,7 +344,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		 *
 		 * @return void
 		 */
-		static function send_mail() {
+		public static function send_mail() {
 			$output        = '';
 			$sendmail      = false;
 			$email         = sanitize_email( $_POST['email'] );

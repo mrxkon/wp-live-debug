@@ -35,8 +35,16 @@
 		phpInfo                = $( '#php-info' ),
 		phpInfodata            = { 'action': 'wp-live-debug-gather-php-info' },
 		constantsInfo          = $( '#constants-info' ),
-		constantsInfodata      = { 'action': 'wp-live-debug-gather-constants-info' };
+		constantsInfodata      = { 'action': 'wp-live-debug-gather-constants-info' },
+		cronjobInfodata        = { 'action': 'wp-live-debug-gather-cronjob-info' },
+		cronjobInfo            = $( '#cronjob-response' );
 
+	// Get Cronjobs
+	if( cronjobInfo.length ) {
+		$.post(	ajaxurl, cronjobInfodata, function( response ) {
+			cronjobInfo.html( response.data.message );
+		});
+	}
 	// Server Info
 	if ( serverInfo.length ) {
 		$.post( ajaxurl, serverInfodata, function( response ) {

@@ -19,7 +19,8 @@ body.toplevel_page_wp-live-debug .center table .v {
 	word-break: break-word !important;
 	overflow-x: unset !important;
 }
-body.toplevel_page_wp-live-debug #checksums-loading {
+body.toplevel_page_wp-live-debug #checksums-loading,
+body.toplevel_page_wp-live-debug #cronjobs-loading {
 	display: none;
 }
 body.toplevel_page_wp-live-debug #checksums-popup .sui-box-body {
