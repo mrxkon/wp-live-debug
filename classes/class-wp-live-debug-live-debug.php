@@ -800,8 +800,11 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 			if ( 2000000 > filesize( WP_CONTENT_DIR . '/debug.log' ) ) {
 				$debug_contents = file_get_contents( WP_CONTENT_DIR . '/debug.log' );
+				if ( empty( $debug_contents ) ) {
+					$debug_contents = esc_html__( 'Awesome! debug.log seems to be empty.', 'wp-live-deubg' );
+				}
 			} else {
-				$debug_contents = esc_html__( 'Debug.log is over 2 MB. Please open it via FTP -or- click the "CLEAR DEBUG.LOG" button for a fresh start!', 'wp-live-debug' );
+				$debug_contents = esc_html__( 'debug.log is over 2 MB. Please open it via FTP -or- click the "CLEAR DEBUG.LOG" button for a fresh start!', 'wp-live-debug' );
 			}
 
 			echo $debug_contents;
