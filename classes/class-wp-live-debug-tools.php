@@ -122,9 +122,9 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			} else {
 				$cronjobs = get_option( 'cron' );
 			}
-
+			error_log( print_r( $cronjobs, true ) );
 			$output  = '<table class="sui-table striped">';
-			$output .= '<thead><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Next Run In', 'wp-live-debug' ) . '</tr></thead><tbody>';
+			$output .= '<thead><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Arguments', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Next Run In', 'wp-live-debug' ) . '</tr></thead><tbody>';
 
 			foreach ( $cronjobs as $time => $job ) {
 				foreach ( $job as $proc => $task ) {
@@ -158,6 +158,15 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					$output .= '<td>' . $proc . '</td>';
 					$output .= '<td>' . $action . '</td>';
 					foreach ( $task as $md5key => $taskdetails ) {
+						if ( ! empty( $taskdetails['args'] ) ) {
+							$output .= '<td>';
+							foreach ( $taskdetails['args'] as $arg ) {
+								$output .= $arg . '<br>';
+							}
+							$output .= '</td>';
+						} else {
+							$output .= '<td></td>';
+						}
 						if ( ! empty( $taskdetails['schedule'] ) ) {
 							$output .= '<td>' . $taskdetails['schedule'] . ' ( ' . $taskdetails['interval'] . ' )</td>';
 						} else {
@@ -168,7 +177,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					$output .= '</tr>';
 				}
 			}
-			$output .= '<tfoot><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . __( 'Schedule', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Next Run In', 'wp-live-debug' ) . '</tr></tfoot>';
+			$output .= '<tfoot><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Arguments', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Next Run In', 'wp-live-debug' ) . '</tr></tfoot>';
 			$output .= '</tbody></table>';
 
 			$response = array(
