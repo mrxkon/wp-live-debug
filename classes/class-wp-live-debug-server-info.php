@@ -135,7 +135,7 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 				} elseif ( isset( $dbh->server_version ) ) {
 					$version = $dbh->server_version;
 				} else {
-					$version = __( 'Unknown', 'wp-live-debug' );
+					$version = esc_html__( 'Unknown', 'wp-live-debug' );
 				}
 				if ( isset( $dbh->client_info ) ) {
 					$extra_info['Driver Version'] = $dbh->client_info;
@@ -144,8 +144,8 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 					$extra_info['Connection'] = $dbh->host_info;
 				}
 			} else {
-				$version = __( 'Unknown', 'wp-live-debug' );
-				$driver  = __( 'Unknown', 'wp-live-debug' );
+				$version = esc_html__( 'Unknown', 'wp-live-debug' );
+				$driver  = esc_html__( 'Unknown', 'wp-live-debug' );
 			}
 
 			$extra_info['Database']     = $wpdb->dbname;
@@ -172,7 +172,7 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 		}
 
 		public static function gather_php_info() {
-			WP_Live_Debug::table_info( WP_Live_Debug_Server_Info::get_php_error_info() );
+			WP_Live_Debug::table_info( WP_Live_Debug_Server_Info::get_php_info() );
 		}
 
 		public static function get_php_info() {

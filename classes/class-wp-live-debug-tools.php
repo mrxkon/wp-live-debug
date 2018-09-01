@@ -124,7 +124,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			}
 
 			$output  = '<table class="sui-table striped">';
-			$output .= '<thead><tr><th>' . __( 'Task', 'wp-live-debug' ) . '</th><th>' . __( 'Action', 'wp-live-debug' ) . '</th><th>' . __( 'Schedule', 'wp-live-debug' ) . '</th><th>' . __( 'Next Run In', 'wp-live-debug' )  . '</tr></thead><tbody>';
+			$output .= '<thead><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Next Run In', 'wp-live-debug' ) . '</tr></thead><tbody>';
 
 			foreach ( $cronjobs as $time => $job ) {
 				foreach ( $job as $proc => $task ) {
@@ -168,7 +168,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					$output .= '</tr>';
 				}
 			}
-
+			$output .= '<tfoot><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Action', 'wp-live-debug' ) . '</th><th>' . __( 'Schedule', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Next Run In', 'wp-live-debug' ) . '</tr></tfoot>';
 			$output .= '</tbody></table>';
 
 			$response = array(
@@ -288,6 +288,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					$output .= '<td>' . $tampered[1] . '</td>';
 					$output .= '</tr>';
 				}
+				$output .= '<tfoot><tr><th>' . esc_html__( 'File', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Reason', 'wp-live-debug' ) . '</th></tr></tfoot>';
 				$output .= '</tbody>';
 				$output .= '</table>';
 			}

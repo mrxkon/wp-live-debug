@@ -127,8 +127,8 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 */
 		public static function create_admin_menu() {
 			add_menu_page(
-				__( 'WP Live Debug', 'wp-live-debug' ),
-				__( 'WP Live Debug', 'wp-live-debug' ),
+				esc_html__( 'WP Live Debug', 'wp-live-debug' ),
+				esc_html__( 'WP Live Debug', 'wp-live-debug' ),
 				'manage_options',
 				'wp-live-debug',
 				array( 'WP_Live_Debug', 'create_page' ),
@@ -277,12 +277,12 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		}
 
 		public static function table_info( $list ) {
-			$output = '<table class="sui-table striped"><tbody>';
+			$output = '<table class="sui-table striped"><thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 
 			foreach ( $list as $key => $value ) {
 				$output .= '<tr><td>' . esc_html( $key ) . '</td><td>' . $value . '</td></tr>';
 			}
-
+			$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
 			$output .= '</tbody></table>';
 
 			$response = array(

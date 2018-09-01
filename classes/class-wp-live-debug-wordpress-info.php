@@ -41,39 +41,45 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				</div>
 				<div class="sui-box-body">
 					<table class="sui-table striped">
+						<thead><tr><th><?php esc_html_e( 'Title', 'wp-live-debug' ); ?><th><?php esc_html_e( 'Value', 'wp-live-debug' ); ?></th></tr></thead>
 						<tbody>
 							<?php WP_Live_Debug_WordPress_Info::general_wp_information(); ?>
 						</tbody>
+						<tfoot><tr><th><?php esc_html_e( 'Title', 'wp-live-debug' ); ?><th><?php esc_html_e( 'Value', 'wp-live-debug' ); ?></th></tr></tfoot>
 					</table>
 				</div>
 			</div>
 			<div class="sui-box">
 				<div class="sui-box-header">
-					<h2 class="sui-box-title">Directory Permissions</h2>
+					<h2 class="sui-box-title"><?php esc_html_e( 'Directory Permissions', 'wp-live-debug' ); ?></h2>
 				</div>
 				<div class="sui-box-body">
 					<table class="sui-table striped">
+						<thead><tr><th><?php esc_html_e( 'Directory', 'wp-live-debug' ); ?><th><?php esc_html_e( 'Permission', 'wp-live-debug' ); ?></th></tr></thead>
 						<tbody>
 							<?php WP_Live_Debug_WordPress_Info::get_directory_permissions(); ?>
 						</tbody>
+						<tfoot><tr><th><?php esc_html_e( 'Directory', 'wp-live-debug' ); ?><th><?php esc_html_e( 'Permission', 'wp-live-debug' ); ?></th></tr></tfoot>
 					</table>
 				</div>
 			</div>
 			<div class="sui-box">
 				<div class="sui-box-header">
-					<h2 class="sui-box-title">Installation Size</h2>
+					<h2 class="sui-box-title"><?php esc_html_e( 'Installation Size', 'wp-live-debug' ); ?></h2>
 				</div>
 				<div class="sui-box-body">
 					<table class="sui-table striped">
+						<thead><tr><th><?php esc_html_e( 'Title', 'wp-live-debug' ); ?><th><?php esc_html_e( 'Value', 'wp-live-debug' ); ?></th></tr></thead>
 						<tbody>
 							<?php WP_Live_Debug_WordPress_Info::get_installation_size(); ?>
 						</tbody>
+						<tfoot><tr><th><?php esc_html_e( 'Title', 'wp-live-debug' ); ?><th><?php esc_html_e( 'Value', 'wp-live-debug' ); ?></th></tr></tfoot>
 					</table>
 				</div>
 			</div>
 			<div class="sui-box">
 				<div class="sui-box-header">
-					<h2 class="sui-box-title">Constants</h2>
+					<h2 class="sui-box-title"><?php esc_html_e( 'Constants', 'wp-live-debug' ); ?></h2>
 				</div>
 				<div class="sui-box-body" id="constants-info">
 					<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
@@ -87,19 +93,19 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 
 			$wp = array(
 				array(
-					'label' => __( 'WordPress Version', 'wp-live-debug' ),
+					'label' => esc_html__( 'WordPress Version', 'wp-live-debug' ),
 					'value' => $wp_version,
 				),
 				array(
-					'label' => __( 'Database Version', 'wp-live-debug' ),
+					'label' => esc_html__( 'Database Version', 'wp-live-debug' ),
 					'value' => $wp_db_version,
 				),
 				array(
-					'label' => __( 'Required PHP Version', 'wp-live-debug' ),
+					'label' => esc_html__( 'Required PHP Version', 'wp-live-debug' ),
 					'value' => $required_php_version,
 				),
 				array(
-					'label' => __( 'Required MySQL Version', 'wp-live-debug' ),
+					'label' => esc_html__( 'Required MySQL Version', 'wp-live-debug' ),
 					'value' => $required_mysql_version,
 				),
 			);
@@ -121,32 +127,32 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 
 			if ( defined( 'WP_TEMP_DIR' ) ) {
 				$tmp_dir  = WP_TEMP_DIR;
-				$writable = ( wp_is_writable( $tmp_dir ) ) ? __( 'Writable', 'wp-live-debug' ) : __( 'Not writable', 'wp-live-debug' );
+				$writable = ( wp_is_writable( $tmp_dir ) ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' );
 			} else {
 				$tmp_dir  = sys_get_temp_dir();
-				$writable = ( wp_is_writable( $tmp_dir ) ) ? __( 'Writable', 'wp-live-debug' ) : __( 'Not writable', 'wp-live-debug' );
+				$writable = ( wp_is_writable( $tmp_dir ) ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' );
 			}
 
 			$directories = array(
 				array(
 					'label' => ABSPATH,
-					'value' => ( wp_is_writable( ABSPATH ) ? __( 'Writable', 'wp-live-debug' ) : __( 'Not writable', 'wp-live-debug' ) ),
+					'value' => ( wp_is_writable( ABSPATH ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' ) ),
 				),
 				array(
 					'label' => WP_CONTENT_DIR,
-					'value' => ( wp_is_writable( WP_CONTENT_DIR ) ? __( 'Writable', 'wp-live-debug' ) : __( 'Not writable', 'wp-live-debug' ) ),
+					'value' => ( wp_is_writable( WP_CONTENT_DIR ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' ) ),
 				),
 				array(
 					'label' => $uploads_dir['basedir'],
-					'value' => ( wp_is_writable( $uploads_dir['basedir'] ) ? __( 'Writable', 'wp-live-debug' ) : __( 'Not writable', 'wp-live-debug' ) ),
+					'value' => ( wp_is_writable( $uploads_dir['basedir'] ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' ) ),
 				),
 				array(
 					'label' => WP_PLUGIN_DIR,
-					'value' => ( wp_is_writable( WP_PLUGIN_DIR ) ? __( 'Writable', 'wp-live-debug' ) : __( 'Not writable', 'wp-live-debug' ) ),
+					'value' => ( wp_is_writable( WP_PLUGIN_DIR ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' ) ),
 				),
 				array(
 					'label' => get_template_directory() . '/..',
-					'value' => ( wp_is_writable( get_template_directory() . '/..' ) ? __( 'Writable', 'wp-live-debug' ) : __( 'Not writable', 'wp-live-debug' ) ),
+					'value' => ( wp_is_writable( get_template_directory() . '/..' ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' ) ),
 				),
 				array(
 					'label' => $tmp_dir,
@@ -204,31 +210,31 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 
 			$directories = array(
 				array(
-					'label' => __( 'Uploads Directory', 'wp-live-debug' ),
+					'label' => esc_html__( 'Uploads Directory', 'wp-live-debug' ),
 					'value' => size_format( $sizes['uploads']['size'], 2 ),
 				),
 				array(
-					'label' => __( 'Themes Directory', 'wp-live-debug' ),
+					'label' => esc_html__( 'Themes Directory', 'wp-live-debug' ),
 					'value' => size_format( $sizes['themes']['size'], 2 ),
 				),
 				array(
-					'label' => __( 'Plugins Directory', 'wp-live-debug' ),
+					'label' => esc_html__( 'Plugins Directory', 'wp-live-debug' ),
 					'value' => size_format( $sizes['plugins']['size'], 2 ),
 				),
 				array(
-					'label' => __( 'Database size', 'wp-live-debug' ),
-					'value' => size_format( $size_db, 2 ),
-				),
-				array(
-					'label' => __( 'Whole WordPress Directory', 'wp-live-debug' ),
+					'label' => esc_html__( 'WordPress Directory', 'wp-live-debug' ),
 					'value' => size_format( $sizes['wp']['size'], 2 ),
 				),
 				array(
-					'label' => __( 'Total installation size', 'wp-live-debug' ),
+					'label' => esc_html__( 'Database Size', 'wp-live-debug' ),
+					'value' => size_format( $size_db, 2 ),
+				),
+				array(
+					'label' => esc_html__( 'Total installation Size', 'wp-live-debug' ),
 					'value' => sprintf(
 						'%s %s',
 						size_format( $size_total, 2 ),
-						( false === $inaccurate ? '' : __( 'Invalid permissions found, some values  may be inaccurate.', 'wp-live-debug' ) )
+						( false === $inaccurate ? '' : esc_html__( 'Invalid permissions found, some values  may be inaccurate.', 'wp-live-debug' ) )
 					),
 				),
 			);
