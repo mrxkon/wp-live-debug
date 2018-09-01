@@ -124,7 +124,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			}
 
 			$output  = '<table class="sui-table striped">';
-			$output .= '<thead><tr><th>' . __( 'Task', 'wp-live-debug' ) . '</th><th>' . __( 'Action', 'wp-live-debug' ) . '</th><th>' . __( 'Schedule', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
+			$output .= '<thead><tr><th>' . __( 'Task', 'wp-live-debug' ) . '</th><th>' . __( 'Action', 'wp-live-debug' ) . '</th><th>' . __( 'Schedule', 'wp-live-debug' ) . '</th><th>' . __( 'Next Run In', 'wp-live-debug' )  . '</tr></thead><tbody>';
 
 			foreach ( $cronjobs as $time => $job ) {
 				foreach ( $job as $proc => $task ) {
@@ -158,8 +158,13 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					$output .= '<td>' . $proc . '</td>';
 					$output .= '<td>' . $action . '</td>';
 					foreach ( $task as $md5key => $taskdetails ) {
-						$output .= '<td>' . $taskdetails['schedule'] . ' ( ' . $taskdetails['interval'] . ' )</td>';
+						if ( ! empty( $taskdetails['schedule'] ) ) {
+							$output .= '<td>' . $taskdetails['schedule'] . ' ( ' . $taskdetails['interval'] . ' )</td>';
+						} else {
+							$output .= '<td>' . esc_html__( 'Single', 'wp-live-debug' ) . '</td>';
+						}
 					}
+					$output .= '<td>' . human_time_diff( $time, time() ) . '<br>' . date( 'H:i - F j, Y', $time ) . '</td>';
 					$output .= '</tr>';
 				}
 			}
