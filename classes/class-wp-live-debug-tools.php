@@ -202,8 +202,8 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 				$output .= '</p></div>';
 			} else {
 				$output .= '<div class="sui-notice sui-notice-error"><p>';
-				$output .= esc_html__( 'It appears as if some files may have been modified.', 'wp-live-debug' );
-				$output .= '<br>' . esc_html__( "This might be a false-positive if your installation contains translated versions. An easy way to fix this and re-check is to re-install WordPress. Don't worry though as this will only affect WordPress' core files.", 'wp-live-debug' );
+				$output .= esc_html__( 'It appears that some files have been modified.', 'wp-live-debug' );
+				$output .= '<br>' . esc_html__( "This might be a false-positive if your installation contains translated versions. An easy way to fix this is to re-install WordPress but don't worry as this will only affect the core WordPress files.", 'wp-live-debug' );
 				$output .= '</p></div><table class="sui-table striped"><thead><tr><th>';
 				$output .= esc_html__( 'File', 'wp-live-debug' );
 				$output .= '</th><th>';
