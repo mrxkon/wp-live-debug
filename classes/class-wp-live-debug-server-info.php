@@ -50,6 +50,7 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 						<h2 class="sui-box-title"><?php esc_html_e( 'MySQL', 'wp-live-debug' ); ?></h2>
 					</div>
 					<div class="sui-box-body" id="mysql-info">
+						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 					</div>
 				</div>
 				<div class="sui-box">
@@ -57,6 +58,7 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 						<h2 class="sui-box-title"><?php esc_html_e( 'PHP', 'wp-live-debug' ); ?></h2>
 					</div>
 					<div class="sui-box-body" id="php-info">
+						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 					</div>
 				</div>
 			<?php

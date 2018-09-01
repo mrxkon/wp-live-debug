@@ -76,6 +76,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 					<h2 class="sui-box-title">Constants</h2>
 				</div>
 				<div class="sui-box-body" id="constants-info">
+					<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 				</div>
 			</div>
 			<?php
