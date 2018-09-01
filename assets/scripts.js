@@ -112,6 +112,7 @@
 			const checksum = new A11yDialog( cp );
 			checksum.show();
 			checksumsResponseTitle.html( file );
+			checksumsResponseBody.scrollTop( checksumsResponseBody[0] );
 			checksumsResponseBody.html( response.data.message );
 		});
 	});
