@@ -277,13 +277,19 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		}
 
 		public static function table_info( $list ) {
+			$content = '<table class="sui-table striped"><tbody>';
+
 			foreach ( $list as $key => $value ) {
-				printf(
-					'<tr><td>%s</td><td>%s</td></tr>',
-					esc_html( $key ),
-					$value
-				);
+				$content .= '<tr><td>' . esc_html( $key ) . '</td><td>' . $value . '</td></tr>';
 			}
+
+			$content .= '</tbody></table>';
+
+			$response = array(
+				'message' => $content,
+			);
+
+			wp_send_json_success( $response );
 		}
 
 		public static function format_num( $val ) {
@@ -323,5 +329,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-tools.php';
 	// Initialize WP Live Debug.
 	new WP_Live_Debug();
+	new WP_Live_Debug_Server_Info();
 	new WP_Live_Debug_Tools();
 }

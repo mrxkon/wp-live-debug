@@ -30,48 +30,40 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 		 * @return void
 		 */
 		public static function init() {
-			// silence
+			add_action( 'wp_ajax_wp-live-debug-gather-server-info', array( 'WP_Live_Debug_Server_Info', 'gather_server_info' ) );
+			add_action( 'wp_ajax_wp-live-debug-gather-mysql-info', array( 'WP_Live_Debug_Server_Info', 'gather_mysql_info' ) );
+			add_action( 'wp_ajax_wp-live-debug-gather-php-info', array( 'WP_Live_Debug_Server_Info', 'gather_php_info' ) );
 		}
 
 		public static function create_page() {
 			?>
-<div class="sui-box">
+				<div class="sui-box">
 					<div class="sui-box-header">
-						<h2 class="sui-box-title">Server</h2>
+						<h2 class="sui-box-title"><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></h2>
 					</div>
-					<div class="sui-box-body">
-						<table class="sui-table striped">
-							<tbody>
-								<?php WP_Live_Debug::table_info( WP_Live_Debug_Server_Info::get_server_info() ); ?>
-							</tbody>
-						</table>
+					<div class="sui-box-body" id="server-info">
+						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 					</div>
 				</div>
 				<div class="sui-box">
 					<div class="sui-box-header">
-						<h2 class="sui-box-title">MySQL</h2>
+						<h2 class="sui-box-title"><?php esc_html_e( 'MySQL', 'wp-live-debug' ); ?></h2>
 					</div>
-					<div class="sui-box-body">
-						<table class="sui-table striped">
-							<tbody>
-								<?php WP_Live_Debug::table_info( WP_Live_Debug_Server_Info::get_mysql_info() ); ?>
-							</tbody>
-						</table>
+					<div class="sui-box-body" id="mysql-info">
 					</div>
 				</div>
 				<div class="sui-box">
 					<div class="sui-box-header">
-						<h2 class="sui-box-title">PHP</h2>
+						<h2 class="sui-box-title"><?php esc_html_e( 'PHP', 'wp-live-debug' ); ?></h2>
 					</div>
-					<div class="sui-box-body">
-						<table class="sui-table striped">
-							<tbody>
-								<?php WP_Live_Debug::table_info( WP_Live_Debug_Server_Info::get_php_info() ); ?>
-							</tbody>
-						</table>
+					<div class="sui-box-body" id="php-info">
 					</div>
 				</div>
 			<?php
+		}
+
+		public static function gather_server_info() {
+			WP_Live_Debug::table_info( WP_Live_Debug_Server_Info::get_server_info() );
 		}
 
 		public static function get_server_info() {
@@ -97,6 +89,10 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			$server['OS Version']        = @php_uname( 'v' ); // phpcs:ignore
 
 			return  $server;
+		}
+
+		public static function gather_mysql_info() {
+			WP_Live_Debug::table_info( WP_Live_Debug_Server_Info::get_mysql_info() );
 		}
 
 		public static function get_mysql_info() {
@@ -171,6 +167,10 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			}
 
 			return $mysql;
+		}
+
+		public static function gather_php_info() {
+			WP_Live_Debug::table_info( WP_Live_Debug_Server_Info::get_php_error_info() );
 		}
 
 		public static function get_php_info() {

@@ -27,8 +27,32 @@
 		checksumsResponse      = $( '#checksums-response' ),
 		checksumsResponseTitle = $( '#checksums-popup .sui-box-title' ),
 		checksumsResponseBody  = $( '#checksums-popup .sui-box-body .diff-holder' ),
-		mailCheckForm          = $( '#wp-live-debug-mail-check' );
+		mailCheckForm          = $( '#wp-live-debug-mail-check' ),
+		serverInfo             = $( '#server-info' ),
+		serverInfodata         = { 'action': 'wp-live-debug-gather-server-info' },
+		mysqlInfo              = $( '#mysql-info' ),
+		mysqlInfodata          = { 'action': 'wp-live-debug-gather-mysql-info' },
+		phpInfo                = $( '#php-info' ),
+		phpInfodata            = { 'action': 'wp-live-debug-gather-php-info' };
 
+	// Server Info
+	if ( serverInfo.length ) {
+		$.post( ajaxurl, serverInfodata, function( response ) {
+			serverInfo.html( response.data.message );
+		});
+	}
+	// MySQL Info
+	if ( mysqlInfo.length ) {
+		$.post( ajaxurl, mysqlInfodata, function( response ) {
+			mysqlInfo.html( response.data.message );
+		});
+	}
+	// PHP Info
+	if ( phpInfo.length ) {
+		$.post( ajaxurl, phpInfodata, function( response ) {
+			phpInfo.html( response.data.message );
+		});
+	}
 	// Mail Check
 	mailCheckForm.submit( function( e ) {
 		var email = $( '#wp-live-debug-mail-check #email' ).val(),
