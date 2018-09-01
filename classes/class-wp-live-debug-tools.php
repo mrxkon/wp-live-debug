@@ -58,12 +58,9 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 				<div class="sui-box">
 					<div class="sui-box-header">
 						<h2 class="sui-box-title"><?php esc_html_e( 'Checksums Check', 'wp-live-debug' ); ?></h2>
-						<div class="sui-actions-right">
-							<button id="run-checksums" class="sui-button sui-button-primary"><?php esc_html_e( 'Scan Files', 'wp-live-debug' ); ?></button>
-						</div>
 					</div>
 					<div class="sui-box-body" id="checksums-response">
-						<i id="checksums-loading" class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 					</div>
 				</div>
 				<div class="sui-box">
@@ -118,6 +115,8 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		}
 
 		public static function gather_cronjob_info() {
+			global $wp_filter;
+
 			if ( function_exists( '_get_cron_array' ) ) {
 				$cronjobs = _get_cron_array();
 			} else {
@@ -125,7 +124,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			}
 
 			$output  = '<table class="sui-table striped">';
-			$output .= '<thead><tr><th>' . __( 'Job', 'wp-live-debug' ) . '</th><th>' . __( 'Action', 'wp-live-debug' ) . '</th><th>' . __( 'Schedule', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
+			$output .= '<thead><tr><th>' . __( 'Task', 'wp-live-debug' ) . '</th><th>' . __( 'Action', 'wp-live-debug' ) . '</th><th>' . __( 'Schedule', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 
 			foreach ( $cronjobs as $time => $job ) {
 				foreach ( $job as $proc => $task ) {
@@ -142,9 +141,9 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 												} else {
 													$info = print_r( $funcs, true );
 												}
-												$action .= $priority . '&nbsp;' . $info . '<br>';
+												$action .= $info . ' ( ' . $priority . ' ) ' . '<br>';
 											} else {
-												$action .= $priority . '&nbsp;' . $funcs . '<br>';
+												$action .= $funcs . ' ( ' . $priority . ' ) ' . '<br>';
 											}
 										}
 									}

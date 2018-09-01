@@ -21,7 +21,6 @@
 		savequeriesToggle      = $( '#toggle-savequeries' ),
 		enableSavequeriesData  = { 'action': 'wp-live-debug-enable-savequeries' },
 		disableSavequeriesData = { 'action': 'wp-live-debug-disable-savequeries' },
-		checksumsButton        = $( '#run-checksums' ),
 		checksumsData          = { 'action': 'wp-live-debug-checksums-check' },
 		checksumsDiffButton    = 'button[id=wp-live-debug-diff]',
 		checksumsResponse      = $( '#checksums-response' ),
@@ -88,13 +87,11 @@
 		});
 	});
 	// Checksum Ajax
-	checksumsButton.on( 'click', function( e ) {
-		e.preventDefault();
-		$( '#checksums-loading' ).show();
+	if ( checksumsResponse.length ) {
 		$.post(	ajaxurl, checksumsData, function( response ) {
 			checksumsResponse.html( response.data.message );
 		});
-	});
+	}
 	// Checksum Diff
 	checksumsResponse.on( 'click', checksumsDiffButton, function( e ) {
 		var file = $( this ).data( 'file' ),
