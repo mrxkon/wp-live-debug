@@ -67,30 +67,22 @@
 			emailSubject = $( '#wp-live-debug-mail-check #email_subject' ).val(),
 			emailMessage = $( '#wp-live-debug-mail-check #email_message' ).val(),
 			data;
-
 		e.preventDefault();
-
 		$( '#mail-check-box .sui-box-body' ).html('<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>');
-
 		data = {
 			'action': 'wp-live-debug-mail',
 			'email': email,
 			'email_subject': emailSubject,
 			'email_message': emailMessage
 		};
-
-		$.post(
-			ajaxurl,
-			data,
-			function( response ) {
-				$( '#mail-check-box .sui-box-body' ).html( response.data.message );
-			});
+		$.post( ajaxurl, data, function( response ) {
+			$( '#mail-check-box .sui-box-body' ).html( response.data.message );
+		});
 	});
 	// Checksum Ajax
 	checksumsButton.on( 'click', function( e ) {
 		e.preventDefault();
 		$( '#checksums-loading' ).show();
-
 		$.post(	ajaxurl, checksumsData, function( response ) {
 			checksumsResponse.html( response.data.message );
 		});
@@ -99,14 +91,11 @@
 	checksumsResponse.on( 'click', checksumsDiffButton, function( e ) {
 		var file = $( this ).data( 'file' ),
 			data;
-
 		e.preventDefault();
-
 		data = {
 			'action': 'wp-live-debug-view-diff',
 			'file': file
 		};
-
 		$.post( ajaxurl, data, function( response ) {
 			const cp = document.getElementById( 'checksums-popup' );
 			const checksum = new A11yDialog( cp );
@@ -116,7 +105,7 @@
 			checksumsResponseBody.html( response.data.message );
 		});
 	});
-
+	// Debug View
 	if ( debugArea.length ) {
 		// Scroll the textarea to bottom.
 		function scrollDebugAreaToBottom() {
@@ -226,11 +215,9 @@
 	if ( safetyPopup.length ) {
 		const sp = document.getElementById( 'safety-popup' );
 		const safety = new A11yDialog( sp );
-
 		setTimeout( function() {
 			safety.show();
 		}, 300 );
-
 		acceptRisk.on( 'click', function( e ) {
 			e.preventDefault();
 			safety.hide();
