@@ -111,7 +111,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 							$output .= '<td>' . esc_html__( 'single', 'wp-live-debug' );
 						}
 					}
-					$output .= '<br><strong>' . esc_html__( 'Next run in', 'wp-live-debug' ) . ':</strong><br>' . human_time_diff( $time, time() ) . '<br>' . date( 'H:i - F j, Y', $time ) . '</td>';
+					$output .= '<br><strong>' . esc_html__( 'Next run in', 'wp-live-debug' ) . ':</strong> ' . human_time_diff( $time, time() ) . '<br>' . date( 'H:i - F j, Y', $time ) . '</td>';
 					$output .= '</tr>';
 				}
 			}
