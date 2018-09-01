@@ -33,7 +33,9 @@
 		mysqlInfo              = $( '#mysql-info' ),
 		mysqlInfodata          = { 'action': 'wp-live-debug-gather-mysql-info' },
 		phpInfo                = $( '#php-info' ),
-		phpInfodata            = { 'action': 'wp-live-debug-gather-php-info' };
+		phpInfodata            = { 'action': 'wp-live-debug-gather-php-info' },
+		constantsInfo          = $( '#constants-info' ),
+		constantsInfodata      = { 'action': 'wp-live-debug-gather-constants-info' };
 
 	// Server Info
 	if ( serverInfo.length ) {
@@ -51,6 +53,12 @@
 	if ( phpInfo.length ) {
 		$.post( ajaxurl, phpInfodata, function( response ) {
 			phpInfo.html( response.data.message );
+		});
+	}
+	// Constants Info
+	if ( constantsInfo.length ) {
+		$.post( ajaxurl, constantsInfodata, function( response ) {
+			constantsInfo.html( response.data.message );
 		});
 	}
 	// Mail Check

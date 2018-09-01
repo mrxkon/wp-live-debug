@@ -30,7 +30,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 		 * @return void
 		 */
 		public static function init() {
-			// silence
+			add_action( 'wp_ajax_wp-live-debug-gather-constants-info', array( 'WP_Live_Debug_WordPress_Info', 'gather_constants_info' ) );
 		}
 
 		public static function create_page() {
@@ -75,12 +75,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				<div class="sui-box-header">
 					<h2 class="sui-box-title">Constants</h2>
 				</div>
-				<div class="sui-box-body">
-					<table class="sui-table striped">
-						<tbody>
-							<?php WP_Live_Debug::table_info( WP_Live_Debug_WordPress_Info::get_wp_constants() ); ?>
-						</tbody>
-					</table>
+				<div class="sui-box-body" id="constants-info">
 				</div>
 			</div>
 			<?php
@@ -273,6 +268,9 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			return $size;
 		}
 
+		public static function gather_constants_info() {
+			WP_Live_Debug::table_info( WP_Live_Debug_WordPress_Info::get_wp_constants() );
+		}
 		public static function get_wp_constants() {
 			$wp        = array();
 			$wp_consts = array(
