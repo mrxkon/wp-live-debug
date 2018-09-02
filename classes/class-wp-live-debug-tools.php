@@ -132,9 +132,20 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			$call = $ssl_api->fetch_host_information( $host, $publish, $start_new, $from_cache, $max_age, $all, $ignore_mismatch );
 
 			if ( 'IN_PROGRESS' === $call->status ) {
+				$progress = 0;
+				foreach ( $call->endpoints as $key => $endpoint ) {
+					if ( ! empty( $call->endpoints[ $key ]->progress ) ) {
+						$progress = $progress + $call->endpoints[ $key ]->progress;
+					}
+				}
 				$output  = '<div class="sui-notice sui-notice-info"><p>';
-				$output .= esc_html__( 'Currently testing and gathering information. Please check back in a while.' , 'wp-live-debug' ); // phpcs:ignore
+				$output .= esc_html__( 'Currently testing and gathering information. This might take a while so make sure to check back!' , 'wp-live-debug' ); // phpcs:ignore
 				$output .= '</p></div>';
+				$output .= '<div class="sui-progress-block"><div class="sui-progress"><div class="sui-progress-text sui-icon-loader sui-loading">';
+				$output .= '<span>' . $progress . '%</span>';
+				$output .= '</div><div class="sui-progress-bar">';
+				$output .= '<span style="width: ' . $progress . '%"></span>';
+				$output .= '</div></div></div>';
 			} elseif ( 'ERROR' === $call->status ) {
 				$output  = '<div class="sui-notice sui-notice-error"><p>';
 				$output .= $call->status . ': ' . $call->statusMessage; // phpcs:ignore
@@ -175,9 +186,20 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 				$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
 				$output .= '</table>';
 			} else {
+				$progress = 0;
+				foreach ( $call->endpoints as $key => $endpoint ) {
+					if ( ! empty( $call->endpoints[ $key ]->progress ) ) {
+						$progress = $progress + $call->endpoints[ $key ]->progress;
+					}
+				}
 				$output  = '<div class="sui-notice sui-notice-info"><p>';
-				$output .= esc_html__( 'Currently testing and gathering information. Please check back in a while.' , 'wp-live-debug' ); // phpcs:ignore
+				$output .= esc_html__( 'Currently testing and gathering information. This might take a while so make sure to check back!' , 'wp-live-debug' ); // phpcs:ignore
 				$output .= '</p></div>';
+				$output .= '<div class="sui-progress-block"><div class="sui-progress"><div class="sui-progress-text sui-icon-loader sui-loading">';
+				$output .= '<span>' . $progress . '%</span>';
+				$output .= '</div><div class="sui-progress-bar">';
+				$output .= '<span style="width: ' . $progress . '%"></span>';
+				$output .= '</div></div></div>';
 			}
 
 			$response = array(
