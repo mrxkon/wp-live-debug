@@ -248,27 +248,27 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 
 			$directories = array(
 				array(
-					'label' => ABSPATH,
+					'label' => str_replace( '\\', '/', ABSPATH ),
 					'value' => ( wp_is_writable( ABSPATH ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' ) ),
 				),
 				array(
-					'label' => WP_CONTENT_DIR,
+					'label' => str_replace( '\\', '/', WP_CONTENT_DIR ),
 					'value' => ( wp_is_writable( WP_CONTENT_DIR ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' ) ),
 				),
 				array(
-					'label' => $uploads_dir['basedir'],
+					'label' => str_replace( '\\', '/', $uploads_dir['basedir'] ),
 					'value' => ( wp_is_writable( $uploads_dir['basedir'] ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' ) ),
 				),
 				array(
-					'label' => WP_PLUGIN_DIR,
+					'label' => str_replace( '\\', '/', WP_CONTENT_DIR ),
 					'value' => ( wp_is_writable( WP_PLUGIN_DIR ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' ) ),
 				),
 				array(
-					'label' => get_template_directory() . '/..',
+					'label' => str_replace( '\\', '/', get_template_directory() . '/..' ),
 					'value' => ( wp_is_writable( get_template_directory() . '/..' ) ? esc_html__( 'Writable', 'wp-live-debug' ) : esc_html__( 'Not writable', 'wp-live-debug' ) ),
 				),
 				array(
-					'label' => $tmp_dir,
+					'label' => str_replace( '\\', '/', $tmp_dir ),
 					'value' => $writable,
 				),
 			);
