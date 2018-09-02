@@ -75,13 +75,15 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			}
 
 			$output .= '<table class="sui-table striped">';
-			$output .= '<thead><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th><th></th></tr></thead><tbody>';
+			$output .= '<thead><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 
 			$events = WP_Live_Debug_Cronjob_Info::get_cronjobs();
 
 			foreach ( $events as $id => $event ) {
 				$output .= '<tr>';
-				$output .= '<td>' . $event->hook . '</td>';
+				$output .= '<td>' . $event->hook . '<br>';
+				$output .= '<a href="#" data-do="run-job" data-hook="' . $event->hook . '" data-sig="' . $event->sig . '">Run Now</a>';
+				$output .= '</td>';
 				$output .= '<td>';
 				$actions = array();
 				foreach ( WP_Live_Debug_Cronjob_Info::get_cronjobs_actions( $event->hook ) as $action ) {
@@ -95,10 +97,9 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 					$output .= '<td>' . esc_html__( 'single', 'wp-live-debug' );
 				}
 				$output .= '<br><strong>' . esc_html__( 'Next run in', 'wp-live-debug' ) . ':</strong> ' . human_time_diff( $event->time, time() ) . '<br>' . date( 'H:i - F j, Y', $event->time ) . '</td>';
-				$output .= '<td><button class="sui-button" data-do="run-job" data-hook="' . $event->hook . '" data-sig="' . $event->sig . '">Run Now</button></td>';
 				$output .= '</tr>';
 			}
-			$output .= '<tfoot><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th><th></th></tr></tfoot>';
+			$output .= '<tfoot><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th></tr></tfoot>';
 			$output .= '</tbody></table>';
 
 			$response = array(

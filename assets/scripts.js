@@ -37,7 +37,7 @@
 		constantsInfodata      = { 'action': 'wp-live-debug-gather-constants-info' },
 		cronjobInfodata        = { 'action': 'wp-live-debug-gather-cronjob-info' },
 		cronjobInfo            = $( '#cronjob-response' ),
-		cronjobRunButton       = 'button[data-do=run-job]',
+		cronjobRunButton       = 'a[data-do=run-job]',
 		cronjobRespHolder      = $( '.hookname' ),
 		cronjobSuccess         = $( '#job-success' ),
 		cronjobError           = $( '#job-error' );
