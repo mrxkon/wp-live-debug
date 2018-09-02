@@ -91,6 +91,57 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 		public static function general_wp_information() {
 			global $wp_version, $required_php_version, $required_mysql_version, $wp_db_version;
 
+			$theme_updates        = get_theme_updates();
+			$all_themes           = wp_get_themes();
+			$active_theme         = wp_get_theme();
+			$themes_total         = 0;
+			$themes_need_updates  = 0;
+			$themes_inactive      = 0;
+			$has_default_theme    = false;
+			$plugins              = get_plugins();
+			$plugin_updates       = get_plugin_updates();
+			$plugins_have_updates = false;
+			$plugins_active       = 0;
+			$plugins_total        = 0;
+			$plugins_needs_update = 0;
+
+			// Populate a list of all themes available in the install.
+
+			foreach ( $all_themes as $theme_slug => $theme ) {
+				$themes_total++;
+
+				if ( WP_DEFAULT_THEME === $theme_slug ) {
+					$has_default_theme = true;
+				}
+
+				if ( array_key_exists( $theme_slug, $theme_updates ) ) {
+					$themes_need_updates++;
+				}
+			}
+
+			foreach ( $plugins as $plugin_path => $plugin ) {
+				$plugins_total++;
+
+				if ( is_plugin_active( $plugin_path ) ) {
+					$plugins_active++;
+				}
+
+				$plugin_version = $plugin['Version'];
+
+				if ( array_key_exists( $plugin_path, $plugin_updates ) ) {
+					$plugins_needs_update++;
+					$plugins_have_updates = true;
+				}
+			}
+
+			$themes_output = $themes_total . ' ' . '( ' . $themes_need_updates . ' ' . esc_html__( 'out of date', 'wp-live-debug' ) . ' )';
+
+			if ( ! $has_default_theme ) {
+				$themes_output .= '<br>' . esc_html__( 'Your site does not have the default theme installed.', 'wp-live-debug' ) . ' ( ' . WP_DEFAULT_THEME . ' ) ';
+			}
+
+			$plugin_output = $plugins_total . ' ' . '( ' . $plugins_active . ' ' . esc_html__( 'active', 'wp-live-debug' ) . ' / ' . $plugins_needs_update . ' ' . esc_html__( 'out of date', 'wp-live-debug' ) . ' )';
+
 			$wp = array(
 				array(
 					'label' => esc_html__( 'WordPress Version', 'wp-live-debug' ),
@@ -107,6 +158,14 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				array(
 					'label' => esc_html__( 'Required MySQL Version', 'wp-live-debug' ),
 					'value' => $required_mysql_version,
+				),
+				array(
+					'label' => esc_html__( 'Themes', 'wp-live-debug' ),
+					'value' => $themes_output,
+				),
+				array(
+					'label' => esc_html__( 'Plugins', 'wp-live-debug' ),
+					'value' => $plugin_output,
 				),
 			);
 
