@@ -57,6 +57,8 @@ The [WordPress.org]( https://wordpress.org ) community for parts of debug info
 
 ![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot6.png)
 
+![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot7.png)
+
 ### Changelog
 
 ##### 4.9.8
