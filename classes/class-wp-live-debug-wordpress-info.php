@@ -105,8 +105,6 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			$plugins_total        = 0;
 			$plugins_needs_update = 0;
 
-			// Populate a list of all themes available in the install.
-
 			foreach ( $all_themes as $theme_slug => $theme ) {
 				$themes_total++;
 
@@ -155,6 +153,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			$wp_dotorg = wp_remote_get( 'https://wordpress.org', array(
 				'timeout' => 10,
 			) );
+
 			if ( ! is_wp_error( $wp_dotorg ) ) {
 				$dotorg = esc_html__( 'Connected successfully', 'wp-live-debug' );
 			} else {
@@ -173,8 +172,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			}
 
 			$url = admin_url();
-
-			$r = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout' ) );
+			$r   = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout' ) );
 
 			if ( is_wp_error( $r ) ) {
 				$loopback_status  = esc_html__( 'The loopback request to your site failed', 'wp-live-debug' );
