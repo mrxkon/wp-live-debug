@@ -335,6 +335,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-server-info.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-cronjob-info.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-tools.php';
+	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-ssl-labs-api.php';
 
 	// Initialize WP Live Debug.
 	new WP_Live_Debug();

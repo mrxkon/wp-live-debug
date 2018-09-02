@@ -40,9 +40,18 @@
 		cronjobRunButton       = 'a[data-do=run-job]',
 		cronjobRespHolder      = $( '.hookname' ),
 		cronjobSuccess         = $( '#job-success' ),
-		cronjobError           = $( '#job-error' );
+		cronjobError           = $( '#job-error' ),
+		sslInfoData            = { 'action': 'wp-live-debug-get-ssl-information' },
+		sslResponse            = $( '#ssl-response' );
 
-	// Run Cronjo
+	// Get SSL Information
+	if ( sslResponse.length ) {
+		sslResponse.html( '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>' );
+		$.post( ajaxurl, sslInfoData, function( response ) {
+			sslResponse.html( response.data.message );
+		} );
+	}
+	// Run Cronjob
 	cronjobInfo.on( 'click', cronjobRunButton, function( e ) {
 		var hook = $( this ).data( 'hook' ),
 			sig = $( this ).data( 'sig' ),

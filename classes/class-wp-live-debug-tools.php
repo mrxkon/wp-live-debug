@@ -33,6 +33,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-checksums-check', array( 'WP_Live_Debug_Tools', 'run_checksums_check' ) );
 			add_action( 'wp_ajax_wp-live-debug-view-diff', array( 'WP_Live_Debug_Tools', 'view_file_diff' ) );
 			add_action( 'wp_ajax_wp-live-debug-mail', array( 'WP_Live_Debug_Tools', 'send_mail' ) );
+			add_action( 'wp_ajax_wp-live-debug-get-ssl-information', array( 'WP_Live_Debug_Tools', 'get_ssl_information' ) );
 		}
 
 		public static function create_page() {
@@ -54,6 +55,13 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 				$time
 			);
 			?>
+				<div class="sui-box">
+					<div class="sui-box-header">
+						<h2 class="sui-box-title"><?php esc_html_e( 'SSL Information', 'wp-live-debug' ); ?></h2>
+					</div>
+					<div class="sui-box-body" id="ssl-response">
+					</div>
+				</div>
 				<div class="sui-box">
 					<div class="sui-box-header">
 						<h2 class="sui-box-title"><?php esc_html_e( 'Checksums Check', 'wp-live-debug' ); ?></h2>
@@ -105,6 +113,79 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			<?php
 		}
 
+
+		/**
+		 * SSL Information
+		 */
+		public static function get_ssl_information() {
+			$ssl_api = new WP_Live_Debug_SSL_Labs_API( true );
+
+			$host            = get_site_url();
+			$host            = str_replace( array( 'http://', 'https://' ), '', $host );
+			$publish         = false;
+			$start_new       = true;
+			$from_cache      = false;
+			$max_age         = null;
+			$all             = 'done';
+			$ignore_mismatch = false;
+
+			$call = $ssl_api->fetch_host_information( $host, $publish, $start_new, $from_cache, $max_age, $all, $ignore_mismatch );
+
+			if ( 'IN_PROGRESS' === $call->status ) {
+				$output  = '<div class="sui-notice sui-notice-info"><p>';
+				$output .= esc_html__( 'Currently testing and gathering information. Please check back in a while.' , 'wp-live-debug' ); // phpcs:ignore
+				$output .= '</p></div>';
+			} elseif ( 'ERROR' === $call->status ) {
+				$output  = '<div class="sui-notice sui-notice-error"><p>';
+				$output .= $call->status . ': ' . $call->statusMessage; // phpcs:ignore
+				$output .= '</p></div>';
+				$output .= '<table class="sui-table striped">';
+				$output .= '<thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead>';
+				$output .= '<tbody>';
+				$output .= '<tr><td>' . esc_html__( 'Host', 'wp-live-debug' ) . '</td><td>' . $call->host . '</td></tr>';
+				$output .= '<tr><td>' . esc_html__( 'Port', 'wp-live-debug' ) . '</td><td>' . $call->port . '</td></tr>';
+				$output .= '<tr><td>' . esc_html__( 'Protocol', 'wp-live-debug' ) . '</td><td>' . $call->protocol . '</td></tr>';
+				$output .= '</tbody>';
+				$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
+				$output .= '</table>';
+			} elseif ( 'READY' === $call->status ) {
+				$output  = '<div class="sui-notice sui-notice-success"><p>';
+				$output .= esc_html__( 'Success! Valid SSL information received for', 'wp-live-debug' ) . ': ' . $call->host; // phpcs:ignore
+				$output .= '</p></div>';
+				$output .= '<table class="sui-table striped">';
+				$output .= '<thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead>';
+				$output .= '<tbody>';
+				$output .= '<tr><td>' . esc_html__( 'Host', 'wp-live-debug' ) . '</td><td>' . $call->host . '</td></tr>';
+				$output .= '<tr><td>' . esc_html__( 'Port', 'wp-live-debug' ) . '</td><td>' . $call->port . '</td></tr>';
+				$output .= '<tr><td>' . esc_html__( 'Protocol', 'wp-live-debug' ) . '</td><td>' . $call->protocol . '</td></tr>';
+				$output .= '<tr><td>' . esc_html__( 'IP Address', 'wp-live-debug' ) . '</td><td>' . $call->endpoints[0]->ipAddress . '</td></tr>'; // phpcs:ignore
+				$output .= '<tr><td>' . esc_html__( 'Server Name', 'wp-live-debug' ) . '</td><td>' . $call->endpoints[0]->serverName . '</td></tr>'; // phpcs:ignore
+				$output .= '<tr><td>' . esc_html__( 'Grade', 'wp-live-debug' ) . '</td><td>' . $call->endpoints[0]->grade . '</td></tr>'; // phpcs:ignore
+				$output .= '<tr><td>' . esc_html__( 'Protocols', 'wp-live-debug' ) . '</td><td>';
+				foreach ( $call->endpoints[0]->details->protocols as $protocol ) {
+					$output .= $protocol->name . $protocol->version . '<br>'; // phpcs:ignore
+				}
+				$output .= '</td></tr>';
+				$output .= '<tr><td>' . esc_html__( 'Certificate ID', 'wp-live-debug' ) . '</td><td>' . $call->certs[0]->id . '</td></tr>'; // phpcs:ignore
+				$output .= '<tr><td>' . esc_html__( 'Alternative Names', 'wp-live-debug' ) . '</td><td>';
+				$output .= implode( '<br>', $call->certs[0]->altNames );
+				$output .= '</td></tr>'; // phpcs:ignore
+				$output .= '<tr><td>' . esc_html__( 'Issuer', 'wp-live-debug' ) . '</td><td>' . $call->certs[1]->commonNames[0] . '</td></tr>'; // phpcs:ignore
+				$output .= '</tbody>';
+				$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
+				$output .= '</table>';
+			} else {
+				$output  = '<div class="sui-notice sui-notice-info"><p>';
+				$output .= esc_html__( 'Currently testing and gathering information. Please check back in a while.' , 'wp-live-debug' ); // phpcs:ignore
+				$output .= '</p></div>';
+			}
+
+			$response = array(
+				'message' => $output,
+			);
+
+			wp_send_json_success( $response );
+		}
 		/**
 		 * Gathers checksums from WordPress API and cross checks the core files in the current installation.
 		 *
