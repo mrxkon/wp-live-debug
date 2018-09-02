@@ -162,6 +162,30 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				$dotorg .= '<br>' . $wp_dotorg->get_error_message();
 			}
 
+			$cookies = wp_unslash( $_COOKIE );
+			$timeout = 10;
+			$headers = array(
+				'Cache-Control' => 'no-cache',
+			);
+
+			if ( isset( $_SERVER['PHP_AUTH_USER'] ) && isset( $_SERVER['PHP_AUTH_PW'] ) ) {
+				$headers['Authorization'] = 'Basic ' . base64_encode( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) . ':' . wp_unslash( $_SERVER['PHP_AUTH_PW'] ) );
+			}
+
+			$url = admin_url();
+
+			$r = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout' ) );
+
+			if ( is_wp_error( $r ) ) {
+				$loopback_status  = esc_html__( 'The loopback request to your site failed', 'wp-live-debug' );
+				$loopback_status .= '<br>' . wp_remote_retrieve_response_code( $r ) . ' ' . $r->get_error_message();
+			} elseif ( 200 !== wp_remote_retrieve_response_code( $r ) ) {
+				$loopback_status  = esc_html__( 'The loopback request to your site failed', 'wp-live-debug' );
+				$loopback_status .= '<br>' . esc_html__( 'Unexpected status: ' ) . wp_remote_retrieve_response_code( $r );
+			} else {
+				$loopback_status = esc_html__( 'The loopback request was successfull', 'wp-live-debug' );
+			}
+
 			$wp = array(
 				array(
 					'label' => esc_html__( 'WordPress Version', 'wp-live-debug' ),
@@ -194,6 +218,10 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				array(
 					'label' => esc_html__( 'Connection with WordPress.org', 'wp-live-debug' ),
 					'value' => $dotorg,
+				),
+				array(
+					'label' => esc_html__( 'Loopback', 'wp-live-debug' ),
+					'value' => $loopback_status,
 				),
 			);
 
