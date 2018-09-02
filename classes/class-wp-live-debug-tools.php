@@ -122,12 +122,12 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 
 			$host            = get_site_url();
 			$host            = str_replace( array( 'http://', 'https://' ), '', $host );
-			$publish         = false;
-			$start_new       = true;
-			$from_cache      = false;
+			$publish         = 'off';
+			$start_new       = 'on';
+			$from_cache      = 'off';
 			$max_age         = null;
 			$all             = 'done';
-			$ignore_mismatch = false;
+			$ignore_mismatch = 'off';
 
 			$call = $ssl_api->fetch_host_information( $host, $publish, $start_new, $from_cache, $max_age, $all, $ignore_mismatch );
 
