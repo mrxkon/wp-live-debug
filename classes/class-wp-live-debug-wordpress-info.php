@@ -31,6 +31,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 		 */
 		public static function init() {
 			add_action( 'wp_ajax_wp-live-debug-gather-constants-info', array( 'WP_Live_Debug_WordPress_Info', 'gather_constants_info' ) );
+			add_action( 'wp_ajax_wp-live-debug-get-dir-size', array( 'WP_Live_Debug_WordPress_Info', 'get_installation_size' ) );
 		}
 
 		public static function create_page() {
@@ -67,14 +68,8 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				<div class="sui-box-header">
 					<h2 class="sui-box-title"><?php esc_html_e( 'Installation Size', 'wp-live-debug' ); ?></h2>
 				</div>
-				<div class="sui-box-body">
-					<table class="sui-table striped">
-						<thead><tr><th><?php esc_html_e( 'Title', 'wp-live-debug' ); ?><th><?php esc_html_e( 'Value', 'wp-live-debug' ); ?></th></tr></thead>
-						<tbody>
-							<?php WP_Live_Debug_WordPress_Info::get_installation_size(); ?>
-						</tbody>
-						<tfoot><tr><th><?php esc_html_e( 'Title', 'wp-live-debug' ); ?><th><?php esc_html_e( 'Value', 'wp-live-debug' ); ?></th></tr></tfoot>
-					</table>
+				<div class="sui-box-body" id="dir-size">
+					<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 				</div>
 			</div>
 			<div class="sui-box">
@@ -352,16 +347,26 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				),
 			);
 
-			$result = '';
+			$output  = '<table class="sui-table striped">';
+			$output .= '<thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '<th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead>';
+			$output .= '<tbody>';
 
 			foreach ( $directories as $directory ) {
-				$result .= '<tr>';
-				$result .= '<td>' . $directory['label'] . '</td>';
-				$result .= '<td>' . $directory['value'] . '</td>';
-				$result .= '</tr>';
+				$output .= '<tr>';
+				$output .= '<td>' . $directory['label'] . '</td>';
+				$output .= '<td>' . $directory['value'] . '</td>';
+				$output .= '</tr>';
 			}
 
-			echo $result;
+			$output .= '</tbody>';
+			$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '<th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
+			$output .= '</table>';
+
+			$response = array(
+				'message' => $output,
+			);
+
+			wp_send_json_success( $response );
 		}
 
 		public static function get_directory_size( $path ) {

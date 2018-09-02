@@ -42,8 +42,16 @@
 		cronjobSuccess         = $( '#job-success' ),
 		cronjobError           = $( '#job-error' ),
 		sslInfoData            = { 'action': 'wp-live-debug-get-ssl-information' },
-		sslResponse            = $( '#ssl-response' );
+		sslResponse            = $( '#ssl-response' ),
+		dirSize                = $( '#dir-size' ),
+		dirSizeData            = { 'action': 'wp-live-debug-get-dir-size' };
 
+	// Get Dir Size
+	if ( dirSize.length ) {
+		$.post( ajaxurl, dirSizeData, function( response ) {
+			dirSize.html( response.data.message );
+		} );
+	}
 	// Get SSL Information
 	if ( sslResponse.length ) {
 		sslResponse.html( '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>' );
