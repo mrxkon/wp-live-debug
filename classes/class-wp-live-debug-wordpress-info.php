@@ -137,17 +137,29 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			$themes_output = $themes_total . ' ' . '( ' . $themes_need_updates . ' ' . esc_html__( 'out of date', 'wp-live-debug' ) . ' )';
 
 			if ( ! $has_default_theme ) {
-				$themes_output .= '<br>' . esc_html__( 'Your site does not have the default theme installed.', 'wp-live-debug' ) . ' ( ' . WP_DEFAULT_THEME . ' ) ';
+				$themes_output .= '<br>' . esc_html__( 'Your site does not have the default theme installed', 'wp-live-debug' ) . ' ( ' . WP_DEFAULT_THEME . ' ) ';
 			}
 
 			$plugin_output = $plugins_total . ' ' . '( ' . $plugins_active . ' ' . esc_html__( 'active', 'wp-live-debug' ) . ' / ' . $plugins_needs_update . ' ' . esc_html__( 'out of date', 'wp-live-debug' ) . ' )';
 
-			$json = WP_Live_Debug_WordPress_Info::json_check();
+			$extension_loaded = extension_loaded( 'json' );
+			$functions_exist  = function_exists( 'json_encode' ) && function_exists( 'json_decode' );
+			$functions_work   = function_exists( 'json_encode' ) && ( '' != json_encode( 'my test string' ) );
 
-			if ( $json ) {
+			if ( $extension_loaded && $functions_exist && $functions_work ) {
 				$json_support = esc_html__( 'Yes', 'wp-live-debug' );
 			} else {
 				$json_support = esc_html__( 'No', 'wp-live-debug' );
+			}
+
+			$wp_dotorg = wp_remote_get( 'https://wordpress.org', array(
+				'timeout' => 10,
+			) );
+			if ( ! is_wp_error( $wp_dotorg ) ) {
+				$dotorg = esc_html__( 'Connected successfully', 'wp-live-debug' );
+			} else {
+				$dotorg  = esc_html__( 'Could not connect', 'wp-live-debug' );
+				$dotorg .= '<br>' . $wp_dotorg->get_error_message();
 			}
 
 			$wp = array(
@@ -178,6 +190,10 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				array(
 					'label' => esc_html__( 'JSON Support', 'wp-live-debug' ),
 					'value' => $json_support,
+				),
+				array(
+					'label' => esc_html__( 'Connection with WordPress.org', 'wp-live-debug' ),
+					'value' => $dotorg,
 				),
 			);
 
@@ -320,14 +336,6 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			}
 
 			echo $result;
-		}
-
-		public static function json_check() {
-			$extension_loaded = extension_loaded( 'json' );
-			$functions_exist  = function_exists( 'json_encode' ) && function_exists( 'json_decode' );
-			$functions_work   = function_exists( 'json_encode' ) && ( '' != json_encode( 'my test string' ) );
-
-			return $extension_loaded && $functions_exist && $functions_work;
 		}
 
 		public static function get_directory_size( $path ) {
