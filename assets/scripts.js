@@ -44,8 +44,16 @@
 		sslInfoData            = { 'action': 'wp-live-debug-get-ssl-information' },
 		sslResponse            = $( '#ssl-response' ),
 		dirSize                = $( '#dir-size' ),
-		dirSizeData            = { 'action': 'wp-live-debug-get-dir-size' };
+		dirSizeData            = { 'action': 'wp-live-debug-get-dir-size' }
+		dirPerm                = $( '#dir-perm' ),
+		dirPermData            = { 'action': 'wp-live-debug-get-dir-perm' };
 
+	// Get Dir Size
+	if ( dirPerm.length ) {
+		$.post( ajaxurl, dirPermData, function( response ) {
+			dirPerm.html( response.data.message );
+		} );
+	}
 	// Get Dir Size
 	if ( dirSize.length ) {
 		$.post( ajaxurl, dirSizeData, function( response ) {
