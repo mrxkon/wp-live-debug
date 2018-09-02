@@ -171,7 +171,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			foreach ( $checksums['checksums'] as $file => $checksum ) {
 				// Check the files.
 				if ( file_exists( $filepath . $file ) && md5_file( $filepath . $file ) !== $checksum ) {
-					$reason = '<button id="wp-live-debug-diff" class="sui-button sui-button-red" data-file="' . $file . '">' . esc_html__( 'View Changes', 'wp-live-debug' ) . '</button>';
+					$reason = '<button data-do="wp-live-debug-diff" class="sui-button sui-button-red" data-file="' . $file . '">' . esc_html__( 'View Changes', 'wp-live-debug' ) . '</button>';
 					array_push( $files, array( $file, $reason ) );
 				} elseif ( ! file_exists( $filepath . $file ) ) {
 					$reason = esc_html__( 'File not found', 'wp-live-debug' );

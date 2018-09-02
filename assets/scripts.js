@@ -22,7 +22,7 @@
 		enableSavequeriesData  = { 'action': 'wp-live-debug-enable-savequeries' },
 		disableSavequeriesData = { 'action': 'wp-live-debug-disable-savequeries' },
 		checksumsData          = { 'action': 'wp-live-debug-checksums-check' },
-		checksumsDiffButton    = 'button[id=wp-live-debug-diff]',
+		checksumsDiffButton    = 'button[data-do=wp-live-debug-diff]',
 		checksumsResponse      = $( '#checksums-response' ),
 		checksumsResponseTitle = $( '#checksums-popup .sui-box-title' ),
 		checksumsResponseBody  = $( '#checksums-popup .sui-box-body .diff-holder' ),
@@ -36,8 +36,32 @@
 		constantsInfo          = $( '#constants-info' ),
 		constantsInfodata      = { 'action': 'wp-live-debug-gather-constants-info' },
 		cronjobInfodata        = { 'action': 'wp-live-debug-gather-cronjob-info' },
-		cronjobInfo            = $( '#cronjob-response' );
+		cronjobInfo            = $( '#cronjob-response' ),
+		cronjobRunButton       = 'button[data-do=run-job]',
+		cronjobRespHolder      = $( '.hookname' ),
+		cronjobSuccess         = $( '#job-success' ),
+		cronjobError           = $( '#job-error' );
 
+	// Run Cronjo
+	cronjobInfo.on( 'click', cronjobRunButton, function( e ) {
+		var hook = $( this ).data( 'hook' ),
+			sig = $( this ).data( 'sig' ),
+			data;
+		e.preventDefault();
+		data = {
+			'action': 'wp-live-debug-run-cronjob',
+			'hook': hook,
+			'sig': sig
+		};
+		cronjobRespHolder.html( hook );
+		$.post( ajaxurl, data, function( response ) {
+			if ( response.success ) {
+				cronjobSuccess.show();
+			} else {
+				cronjobError.show();
+			}
+		});
+	});
 	// Get Cronjobs
 	if( cronjobInfo.length ) {
 		$.post(	ajaxurl, cronjobInfodata, function( response ) {
@@ -145,7 +169,7 @@
 			$.post( ajaxurl, createBackupData, function( response ) {
 				if ( response.success ) {
 					window.location.href = window.location.href;
-				} else if ( response.error ) {
+				} else {
 					responseHolder.html( response.data.message );
 				}
 			});
@@ -156,7 +180,7 @@
 			$.post( ajaxurl, restoreBackupData, function( response ) {
 				if ( response.success ) {
 					window.location.href = window.location.href;
-				} else if ( response.error ) {
+				} else {
 					responseHolder.html( response.data.message );
 				}
 			});
@@ -167,13 +191,13 @@
 			var checked = $(this).is( ':checked');
 			if ( checked ) {
 				$.post( ajaxurl, enableWPDebugData, function( response ) {
-					if (response.error ) {
+					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
 				});
 			} else if ( ! checked ) {
 				$.post( ajaxurl, disableWPDebugData, function( response ) {
-					if (response.error ) {
+					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
 				});
@@ -185,13 +209,13 @@
 			var checked = $(this).is( ':checked');
 			if ( checked ) {
 				$.post( ajaxurl, enableScriptDebugData, function( response ) {
-					if ( response.error ) {
+					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
 				});
 			} else if ( ! checked ) {
 				$.post( ajaxurl, disableScriptDebugData, function( response ) {
-					if ( response.error ) {
+					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
 				});
@@ -203,13 +227,13 @@
 			var checked = $(this).is( ':checked');
 			if ( checked ) {
 				$.post( ajaxurl, enableSavequeriesData, function( response ) {
-					if ( response.error ) {
+					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
 				});
 			} else if ( ! checked ) {
 				$.post( ajaxurl, disableSavequeriesData, function( response ) {
-					if ( response.error ) {
+					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
 				});
@@ -227,7 +251,7 @@
 			e.preventDefault();
 			safety.hide();
 			$.post( ajaxurl, acceptRiskData, function( response ) {
-				if ( response.error ) {
+				if ( ! response.success ) {
 					responseHolder.html( response.data.message );
 				}
 			});
