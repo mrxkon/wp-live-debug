@@ -67,6 +67,7 @@ The [WordPress.org]( https://wordpress.org ) community for parts of debug info
 * Added Scheduled Tasks Information
 * Added Checksums tool to verify core files
 * Added a simple wp_mail() check
+* Added SSL/TLS Information
 
 ##### 4.9.4.2
 * Update required PHP to 5.3.
