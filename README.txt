@@ -50,6 +50,9 @@ Health Check ( https://wordpress.org/plugins/health-check/ ) - Licence GPLv2 - (
 * Added Server Information
 * Added General WordPress Information
 * Added PHP Information
+* Added Scheduled Tasks Information
+* Added Checksums tool to verify core files
+* Added a simple wp_mail() check
 
 = 4.9.4.2 =
 * Update required PHP to 5.3.
@@ -83,7 +86,7 @@ Health Check ( https://wordpress.org/plugins/health-check/ ) - Licence GPLv2 - (
 
 = 4.9.8 =
 
-Refactored Live Debugging. Added Server Information. Added General WordPress Information. Added PHP Information.
+Refactored Live Debugging. Added Server Information. Added General WordPress Information. Added PHP Information. Added Scheduled Tasks Information. Added Checksums tool to verify core files. Added a simple wp_mail() check.
 
 = 4.9.4.2 =
 

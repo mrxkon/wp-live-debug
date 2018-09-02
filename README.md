@@ -53,6 +53,10 @@ The [WordPress.org]( https://wordpress.org ) community for parts of debug info
 
 ![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot4.png)
 
+![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot5.png)
+
+![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot6.png)
+
 ### Changelog
 
 ##### 4.9.8
@@ -60,6 +64,9 @@ The [WordPress.org]( https://wordpress.org ) community for parts of debug info
 * Added Server Information
 * Added General WordPress Information
 * Added PHP Information
+* Added Scheduled Tasks Information
+* Added Checksums tool to verify core files
+* Added a simple wp_mail() check
 
 ##### 4.9.4.2
 * Update required PHP to 5.3.
