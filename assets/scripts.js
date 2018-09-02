@@ -46,8 +46,16 @@
 		dirSize                = $( '#dir-size' ),
 		dirSizeData            = { 'action': 'wp-live-debug-get-dir-size' }
 		dirPerm                = $( '#dir-perm' ),
-		dirPermData            = { 'action': 'wp-live-debug-get-dir-perm' };
+		dirPermData            = { 'action': 'wp-live-debug-get-dir-perm' }
+		genInfo                = $( '#gen-info' ),
+		genInfoData            = { 'action': 'wp-live-debug-get-gen-info' };
 
+	// Get General Information
+	if ( genInfo.length ) {
+		$.post( ajaxurl, genInfoData, function( response ) {
+			genInfo.html( response.data.message );
+		} );
+	}
 	// Get Dir Size
 	if ( dirPerm.length ) {
 		$.post( ajaxurl, dirPermData, function( response ) {
