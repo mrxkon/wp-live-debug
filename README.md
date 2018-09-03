@@ -16,7 +16,7 @@ Requires PHP: 5.4
 
 Enables debugging and adds various installation information. Simply enable the plugin and go to the WP Live Debug tab to see your debug.log.
 
-### Credits
+### Credits & Licences:
 
 This is a personal project that I use for debugging, but some parts of the code are written by other awesome people.
 
@@ -27,6 +27,8 @@ So props also go to:
 
 The [WordPress.org]( https://wordpress.org ) community for parts of debug info
 - [Health Check]( https://wordpress.org/plugins/health-check/ ) - Licence GPLv2 - [GitHub]( https://github.com/wordpress/health-check )
+
+Fellow contributors: [Nahid F. Mohit]( https://github.com/nfmohit-wpmudev ), [Marius L. Jensen]( https://github.com/Clorith )
 
 ### Installation
 
@@ -60,6 +62,10 @@ The [WordPress.org]( https://wordpress.org ) community for parts of debug info
 ![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot7.png)
 
 ### Changelog
+
+#### 4.9.8.1
+* Added Tabs view to shorten the pages length ( thanks [Nahid F. Mohit]( https://github.com/nfmohit-wpmudev ) ! )
+* Refactored SSL tests the wp way
 
 ##### 4.9.8
 * Refactored Live Debugging

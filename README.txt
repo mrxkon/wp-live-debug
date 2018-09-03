@@ -3,7 +3,7 @@ Contributors: xkon
 Tags: debug
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 4.9.8
+Stable tag: 4.9.8.1
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -23,6 +23,8 @@ Shared UI ( https://github.com/wpmudev/shared-ui ) - Licence GPLv2
 
 The WordPress.org ( https://wordpress.org ) community for parts of debug info
 Health Check ( https://wordpress.org/plugins/health-check/ ) - Licence GPLv2 - ( https://github.com/wordpress/health-check )
+
+Fellow contributors:  Nahid F. Mohit ( https://github.com/nfmohit-wpmudev ), Marius L. Jensen ( https://github.com/Clorith )
 
 == Installation ==
 
@@ -44,6 +46,10 @@ Health Check ( https://wordpress.org/plugins/health-check/ ) - Licence GPLv2 - (
 1. WP Live Debug
 
 == Changelog ==
+
+= 4.9.8.1 =
+* Added Tabs view to shorten the pages length ( thanks [Nahid F. Mohit]( https://github.com/nfmohit-wpmudev ) ! )
+* Refactored SSL tests the wp way
 
 = 4.9.8 =
 * Refactored Live Debugging
@@ -84,6 +90,9 @@ Health Check ( https://wordpress.org/plugins/health-check/ ) - Licence GPLv2 - (
 * Initial Release
 
 == Upgrade Notice ==
+
+= 4.9.8.1 =
+Added Tabs view to shorten the pages length ( thanks [Nahid F. Mohit]( https://github.com/nfmohit-wpmudev ) ! ). Refactored SSL tests the wp way.
 
 = 4.9.8 =
 
