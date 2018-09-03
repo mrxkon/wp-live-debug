@@ -56,42 +56,41 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			);
 			?>
 				<div class="sui-box">
-					<div class="sui-box-header">
-						<h2 class="sui-box-title"><?php esc_html_e( 'SSL Information', 'wp-live-debug' ); ?></h2>
-					</div>
-					<div class="sui-box-body" id="ssl-response">
-					</div>
-				</div>
-				<div class="sui-box">
-					<div class="sui-box-header">
-						<h2 class="sui-box-title"><?php esc_html_e( 'Checksums Check', 'wp-live-debug' ); ?></h2>
-					</div>
-					<div class="sui-box-body" id="checksums-response">
-						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-					</div>
-				</div>
-				<div class="sui-box" id="mail-check-box">
-					<div class="sui-box-header">
-						<h2 class="sui-box-title"><?php esc_html_e( 'wp_mail() Check', 'wp-live-debug' ); ?></h2>
-					</div>
 					<div class="sui-box-body">
-						<form action="#" id="wp-live-debug-mail-check" method="POST">
-							<div class="sui-form-field">
-								<label for="email" class="sui-label"><?php esc_html_e( 'E-mail', 'wp-live-debug' ); ?></label>
-								<input type="email" id="email" name="email" class="sui-form-control" value="<?php echo $current_user->user_email; ?>">
+						<div class="sui-tabs">
+							<div data-tabs>
+								<div><?php esc_html_e( 'SSL Information', 'wp-live-debug' ); ?></div>
+								<div><?php esc_html_e( 'Checksums Check', 'wp-live-debug' ); ?></div>
+								<div><?php esc_html_e( 'wp_mail() Check', 'wp-live-debug' ); ?></div>
 							</div>
-							<div class="sui-form-field">
-								<label for="email_subject" class="sui-label"><?php esc_html_e( 'Subject', 'wp-live-debug' ); ?></label>
-								<input type="text" id="email_subject" name="email_subject" class="sui-form-control" value="<?php echo $email_subject; ?>">
+							<div data-panes>
+								<div id="ssl-response"></div>
+								<div id="checksums-response">
+									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+								</div>
+								<div id="mail-check-box">
+									<div class="sui-box-body">
+										<form action="#" id="wp-live-debug-mail-check" method="POST">
+											<div class="sui-form-field">
+												<label for="email" class="sui-label"><?php esc_html_e( 'E-mail', 'wp-live-debug' ); ?></label>
+												<input type="email" id="email" name="email" class="sui-form-control" value="<?php echo $current_user->user_email; ?>">
+											</div>
+											<div class="sui-form-field">
+												<label for="email_subject" class="sui-label"><?php esc_html_e( 'Subject', 'wp-live-debug' ); ?></label>
+												<input type="text" id="email_subject" name="email_subject" class="sui-form-control" value="<?php echo $email_subject; ?>">
+											</div>
+											<div class="sui-form-field">
+												<label for="email_message" class="sui-label"><?php esc_html_e( 'Message', 'wp-live-debug' ); ?></label>
+												<textarea id="email_message" name="email_message" class="sui-form-control" rows="4"><?php echo $email_body; ?></textarea>
+											</div>
+											<div class="sui-form-field">
+												<input type="submit" class="sui-button sui-button-green" value="<?php esc_html_e( 'Send test mail', 'wp-live-debug' ); ?>">
+											</div>
+										</form>
+									</div>
+								</div>
 							</div>
-							<div class="sui-form-field">
-								<label for="email_message" class="sui-label"><?php esc_html_e( 'Message', 'wp-live-debug' ); ?></label>
-								<textarea id="email_message" name="email_message" class="sui-form-control" rows="4"><?php echo $email_body; ?></textarea>
-							</div>
-							<div class="sui-form-field">
-								<input type="submit" class="sui-button sui-button-green" value="<?php esc_html_e( 'Send test mail', 'wp-live-debug' ); ?>">
-							</div>
-						</form>
+						</div>
 					</div>
 				</div>
 				<div class="sui-dialog sui-dialog-lg" aria-hidden="true" tabindex="-1" id="checksums-popup">

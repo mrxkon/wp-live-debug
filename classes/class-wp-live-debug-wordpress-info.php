@@ -38,38 +38,32 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 
 		public static function create_page() {
 			?>
-			<div class="sui-box">
-				<div class="sui-box-header">
-					<h2 class="sui-box-title">General Information</h2>
+				<div class="sui-box">
+					<div class="sui-box-body">
+						<div class="sui-tabs">
+							<div data-tabs>
+								<div><?php esc_html_e( 'General Information', 'wp-live-debug' ); ?></div>
+								<div><?php esc_html_e( 'Directory Permissions', 'wp-live-debug' ); ?></div>
+								<div><?php esc_html_e( 'Installation Size', 'wp-live-debug' ); ?></div>
+								<div><?php esc_html_e( 'Constants', 'wp-live-debug' ); ?></div>
+							</div>
+							<div data-panes>
+								<div id="gen-info">
+									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+								</div>
+								<div id="dir-perm">
+									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+								</div>
+								<div id="dir-size">
+									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+								</div>
+								<div id="constants-info">
+									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="sui-box-body" id="gen-info">
-					<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-				</div>
-			</div>
-			<div class="sui-box">
-				<div class="sui-box-header">
-					<h2 class="sui-box-title"><?php esc_html_e( 'Directory Permissions', 'wp-live-debug' ); ?></h2>
-				</div>
-				<div class="sui-box-body" id="dir-perm">
-					<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-				</div>
-			</div>
-			<div class="sui-box">
-				<div class="sui-box-header">
-					<h2 class="sui-box-title"><?php esc_html_e( 'Installation Size', 'wp-live-debug' ); ?></h2>
-				</div>
-				<div class="sui-box-body" id="dir-size">
-					<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-				</div>
-			</div>
-			<div class="sui-box">
-				<div class="sui-box-header">
-					<h2 class="sui-box-title"><?php esc_html_e( 'Constants', 'wp-live-debug' ); ?></h2>
-				</div>
-				<div class="sui-box-body" id="constants-info">
-					<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-				</div>
-			</div>
 			<?php
 		}
 

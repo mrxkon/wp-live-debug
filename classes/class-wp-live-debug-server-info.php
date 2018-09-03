@@ -38,27 +38,25 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 		public static function create_page() {
 			?>
 				<div class="sui-box">
-					<div class="sui-box-header">
-						<h2 class="sui-box-title"><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></h2>
-					</div>
-					<div class="sui-box-body" id="server-info">
-						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-					</div>
-				</div>
-				<div class="sui-box">
-					<div class="sui-box-header">
-						<h2 class="sui-box-title"><?php esc_html_e( 'MySQL', 'wp-live-debug' ); ?></h2>
-					</div>
-					<div class="sui-box-body" id="mysql-info">
-						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-					</div>
-				</div>
-				<div class="sui-box">
-					<div class="sui-box-header">
-						<h2 class="sui-box-title"><?php esc_html_e( 'PHP', 'wp-live-debug' ); ?></h2>
-					</div>
-					<div class="sui-box-body" id="php-info">
-						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+					<div class="sui-box-body">
+						<div class="sui-tabs">
+							<div data-tabs>
+								<div><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></div>
+								<div><?php esc_html_e( 'MySQL', 'wp-live-debug' ); ?></div>
+								<div><?php esc_html_e( 'PHP', 'wp-live-debug' ); ?></div>
+							</div>
+							<div data-panes>
+								<div id="server-info">
+									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+								</div>
+								<div id="mysql-info">
+									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+								</div>
+								<div id="php-info">
+									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			<?php
