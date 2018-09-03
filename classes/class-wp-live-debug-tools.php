@@ -117,88 +117,99 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		 * SSL Information
 		 */
 		public static function get_ssl_information() {
-			$ssl_api = new WP_Live_Debug_SSL_Labs_API( true );
 
-			$host            = get_site_url();
-			$host            = str_replace( array( 'http://', 'https://' ), '', $host );
-			$publish         = 'off';
-			$start_new       = 'on';
-			$from_cache      = 'off';
-			$max_age         = null;
-			$all             = 'done';
-			$ignore_mismatch = 'off';
+			$host = get_site_url();
+			$host = str_replace( array( 'http://', 'https://' ), '', $host );
 
-			$call = $ssl_api->fetch_host_information( $host, $publish, $start_new, $from_cache, $max_age, $all, $ignore_mismatch );
+			$api_response = wp_remote_get( 'https://api.ssllabs.com/api/v3/analyze', array(
+				'body' => array(
+					'host'            => $host,
+					'publish'         => 'off',
+					'start_new'       => 'on',
+					'from_cache'      => 'off',
+					'max_age'         => null,
+					'all'             => 'done',
+					'ignore_mismatch' => 'off',
+				),
+			));
 
-			if ( 'IN_PROGRESS' === $call->status ) {
-				$progress = 0;
-				foreach ( $call->endpoints as $key => $endpoint ) {
-					if ( ! empty( $call->endpoints[ $key ]->progress ) ) {
-						$progress = $progress + $call->endpoints[ $key ]->progress;
-					}
-				}
-				$output  = '<div class="sui-notice sui-notice-info"><p>';
-				$output .= esc_html__( 'Currently testing and gathering information. This might take a while so make sure to check back!' , 'wp-live-debug' ); // phpcs:ignore
-				$output .= '</p></div>';
-				$output .= '<div class="sui-progress-block"><div class="sui-progress"><div class="sui-progress-text sui-icon-loader sui-loading">';
-				$output .= '<span>' . $progress . '%</span>';
-				$output .= '</div><div class="sui-progress-bar">';
-				$output .= '<span style="width: ' . $progress . '%"></span>';
-				$output .= '</div></div></div>';
-			} elseif ( 'ERROR' === $call->status ) {
-				$output  = '<div class="sui-notice sui-notice-error"><p>';
-				$output .= $call->status . ': ' . $call->statusMessage; // phpcs:ignore
-				$output .= '</p></div>';
-				$output .= '<table class="sui-table striped">';
-				$output .= '<thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead>';
-				$output .= '<tbody>';
-				$output .= '<tr><td>' . esc_html__( 'Host', 'wp-live-debug' ) . '</td><td>' . $call->host . '</td></tr>';
-				$output .= '<tr><td>' . esc_html__( 'Port', 'wp-live-debug' ) . '</td><td>' . $call->port . '</td></tr>';
-				$output .= '<tr><td>' . esc_html__( 'Protocol', 'wp-live-debug' ) . '</td><td>' . $call->protocol . '</td></tr>';
-				$output .= '</tbody>';
-				$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
-				$output .= '</table>';
-			} elseif ( 'READY' === $call->status ) {
-				$output  = '<div class="sui-notice sui-notice-success"><p>';
-				$output .= esc_html__( 'Success! Valid SSL information received for', 'wp-live-debug' ) . ': ' . $call->host; // phpcs:ignore
-				$output .= '</p></div>';
-				$output .= '<table class="sui-table striped">';
-				$output .= '<thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead>';
-				$output .= '<tbody>';
-				$output .= '<tr><td>' . esc_html__( 'Host', 'wp-live-debug' ) . '</td><td>' . $call->host . '</td></tr>';
-				$output .= '<tr><td>' . esc_html__( 'Port', 'wp-live-debug' ) . '</td><td>' . $call->port . '</td></tr>';
-				$output .= '<tr><td>' . esc_html__( 'Protocol', 'wp-live-debug' ) . '</td><td>' . $call->protocol . '</td></tr>';
-				$output .= '<tr><td>' . esc_html__( 'IP Address', 'wp-live-debug' ) . '</td><td>' . $call->endpoints[0]->ipAddress . '</td></tr>'; // phpcs:ignore
-				$output .= '<tr><td>' . esc_html__( 'Server Name', 'wp-live-debug' ) . '</td><td>' . $call->endpoints[0]->serverName . '</td></tr>'; // phpcs:ignore
-				$output .= '<tr><td>' . esc_html__( 'Grade', 'wp-live-debug' ) . '</td><td>' . $call->endpoints[0]->grade . '</td></tr>'; // phpcs:ignore
-				$output .= '<tr><td>' . esc_html__( 'Protocols', 'wp-live-debug' ) . '</td><td>';
-				foreach ( $call->endpoints[0]->details->protocols as $protocol ) {
-					$output .= $protocol->name . $protocol->version . '<br>'; // phpcs:ignore
-				}
-				$output .= '</td></tr>';
-				$output .= '<tr><td>' . esc_html__( 'Certificate ID', 'wp-live-debug' ) . '</td><td>' . $call->certs[0]->id . '</td></tr>'; // phpcs:ignore
-				$output .= '<tr><td>' . esc_html__( 'Alternative Names', 'wp-live-debug' ) . '</td><td>';
-				$output .= implode( '<br>', $call->certs[0]->altNames );
-				$output .= '</td></tr>'; // phpcs:ignore
-				$output .= '<tr><td>' . esc_html__( 'Issuer', 'wp-live-debug' ) . '</td><td>' . $call->certs[1]->commonNames[0] . '</td></tr>'; // phpcs:ignore
-				$output .= '</tbody>';
-				$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
-				$output .= '</table>';
+			if ( is_wp_error( $api_response ) ) {
+				$error_message = $api_response->get_error_message();
+				$output        = '<div class="sui-notice sui-notice-error"><p>';
+				$output       .= esc_html( 'Something went wrong', 'wp-live-debug' ) . ': ' . $error_message; // phpcs:ignore
+				$output       .= '</p></div>';
+				$output       .= '<table class="sui-table striped">';
 			} else {
-				$progress = 0;
-				foreach ( $call->endpoints as $key => $endpoint ) {
-					if ( ! empty( $call->endpoints[ $key ]->progress ) ) {
-						$progress = $progress + $call->endpoints[ $key ]->progress;
+				$call = json_decode( wp_remote_retrieve_body( $api_response ), true );
+				if ( 'IN_PROGRESS' === $call['status'] ) {
+					$progress       = 0;
+					$progress_count = 0;
+					foreach ( $call['endpoints'] as $key => $endpoint ) {
+						if ( ! empty( $call['endpoints'][ $key ]['progress'] ) ) {
+							$progress = $progress + $call['endpoints'][ $key ]['progress'];
+							$progress_count++;
+						}
 					}
+					if ( 0 != $progress ) {
+						$prototal = floor( $progress / $progress_count );
+					} else {
+						$prototal = 0;
+					}
+					$output  = '<div class="sui-notice sui-notice-info"><p>';
+					$output .= esc_html__( 'Currently testing and gathering information. This might take a while so make sure to check back!' , 'wp-live-debug' ); // phpcs:ignore
+					$output .= '</p></div>';
+					$output .= '<div class="sui-progress-block"><div class="sui-progress"><div class="sui-progress-text sui-icon-loader sui-loading">';
+					$output .= '<span>' . $prototal . '%</span>';
+					$output .= '</div><div class="sui-progress-bar">';
+					$output .= '<span style="width: ' . $prototal . '%"></span>';
+					$output .= '</div></div></div>';
+				} elseif ( 'ERROR' === $call['status'] ) {
+					$output  = '<div class="sui-notice sui-notice-error"><p>';
+					$output .= $call['status'] . ': ' . $call['statusMessage']; // phpcs:ignore
+					$output .= '</p></div>';
+					$output .= '<table class="sui-table striped">';
+					$output .= '<thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead>';
+					$output .= '<tbody>';
+					$output .= '<tr><td>' . esc_html__( 'Host', 'wp-live-debug' ) . '</td><td>' . $call['host'] . '</td></tr>';
+					$output .= '<tr><td>' . esc_html__( 'Port', 'wp-live-debug' ) . '</td><td>' . $call['port'] . '</td></tr>';
+					$output .= '<tr><td>' . esc_html__( 'Protocol', 'wp-live-debug' ) . '</td><td>' . $call['protocol'] . '</td></tr>';
+					$output .= '</tbody>';
+					$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
+					$output .= '</table>';
+				} elseif ( 'READY' === $call['status'] ) {
+					$output  = '<div class="sui-notice sui-notice-success"><p>';
+					$output .= esc_html__( 'Success! Valid SSL information received for', 'wp-live-debug' ) . ': ' . $call['host'];
+					$output .= '</p></div>';
+					$output .= '<table class="sui-table striped">';
+					$output .= '<thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead>';
+					$output .= '<tbody>';
+					$output .= '<tr><td>' . esc_html__( 'Host', 'wp-live-debug' ) . '</td><td>' . $call['host'] . '</td></tr>';
+					$output .= '<tr><td>' . esc_html__( 'Port', 'wp-live-debug' ) . '</td><td>' . $call['port'] . '</td></tr>';
+					$output .= '<tr><td>' . esc_html__( 'Protocol', 'wp-live-debug' ) . '</td><td>' . $call['protocol'] . '</td></tr>';
+					$output .= '<tr><td>' . esc_html__( 'Alternative Names', 'wp-live-debug' ) . '</td><td>';
+					$output .= implode( '<br>', $call['certs'][0]['altNames'] );
+					$output .= '</td></tr>';
+					$output .= '<tr><td>' . esc_html__( 'IP Address', 'wp-live-debug' ) . '</td><td>' . $call['endpoints'][0]['ipAddress'] . '</td></tr>';
+					$output .= '<tr><td>' . esc_html__( 'Issuer', 'wp-live-debug' ) . '</td><td>' . $call['certs'][1]['commonNames'][0] . '</td></tr>';
+					$output .= '<tr><td>' . esc_html__( 'Certificate ID', 'wp-live-debug' ) . '</td><td>' . $call['certs'][0]['id'] . '</td></tr>';
+					$output .= '<tr><td>' . esc_html__( 'Protocols', 'wp-live-debug' ) . '</td><td>';
+					foreach ( $call['endpoints'][0]['details']['protocols'] as $protocol ) {
+						$output .= $protocol['name'] . $protocol['version'] . '<br>';
+					}
+					$output .= '</td></tr>';
+					$output .= '</tbody>';
+					$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
+					$output .= '</table>';
+				} else {
+					$output  = '<div class="sui-notice sui-notice-info"><p>';
+					$output .= esc_html__( 'Currently testing and gathering information. This might take a while so make sure to check back!' , 'wp-live-debug' ); // phpcs:ignore
+					$output .= '</p></div>';
+					$output .= '<div class="sui-progress-block"><div class="sui-progress"><div class="sui-progress-text sui-icon-loader sui-loading">';
+					$output .= '<span>0%</span>';
+					$output .= '</div><div class="sui-progress-bar">';
+					$output .= '<span style="width: 0"></span>';
+					$output .= '</div></div></div>';
 				}
-				$output  = '<div class="sui-notice sui-notice-info"><p>';
-				$output .= esc_html__( 'Currently testing and gathering information. This might take a while so make sure to check back!' , 'wp-live-debug' ); // phpcs:ignore
-				$output .= '</p></div>';
-				$output .= '<div class="sui-progress-block"><div class="sui-progress"><div class="sui-progress-text sui-icon-loader sui-loading">';
-				$output .= '<span>' . $progress . '%</span>';
-				$output .= '</div><div class="sui-progress-bar">';
-				$output .= '<span style="width: ' . $progress . '%"></span>';
-				$output .= '</div></div></div>';
 			}
 
 			$response = array(
