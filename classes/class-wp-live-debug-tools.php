@@ -75,7 +75,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 								<div id="ssl-holder" class="active">
 									<form>
 										<div class="sui-with-button">
-												<input id="ssl-host" type="text" id="demo-input-button-large" class="sui-form-control" value="<?php echo $host; ?>">
+												<input id="ssl-host" type="text" class="sui-form-control" value="<?php echo $host; ?>">
 												<button id="check-ssl" type="submit" class="sui-button sui-button-lg sui-button-green"><?php esc_html_e( 'Verify', 'wp-live-debug' ); ?></button>
 										</div>
 									</form>
