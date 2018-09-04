@@ -6,7 +6,7 @@ Tested up to: WordPress 4.9.8
 
 Stable tag: 4.9.8.3 [Latest]( https://github.com/mrxkon/wp-live-debug/releases/latest )
 
-Requires PHP: 5.4
+Requires PHP: 5.6
 
 [![My Website](https://img.shields.io/badge/My-Website-F37F40.svg)](https://xkon.gr)  [![WordPress Profile](https://img.shields.io/badge/WordPress-Profile-blue.svg)](https://profiles.wordpress.org/xkon)
 
