@@ -333,7 +333,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		* @return void
 		*/
 		public static function create_the_response( $files ) {
-			$filepath = ABSPATH;
+			$filepath = wp_normalize_path( ABSPATH );
 			$output   = '';
 
 			if ( empty( $files ) ) {
@@ -389,9 +389,9 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 				));
 			}
 
-			$filepath         = ABSPATH;
-			$file             = $_POST['file'];
-			$actual_file      = wp_normalize_path( realpath( "{$filepath}{$file}" ) );
+			$filepath    = wp_normalize_path( ABSPATH );
+			$file        = $_POST['file'];
+			$actual_file = wp_normalize_path( realpath( "{$filepath}{$file}" ) );
 
 			if ( empty( $actual_file ) || ! is_readable( $actual_file ) ) {
 				wp_send_json_error(array(
