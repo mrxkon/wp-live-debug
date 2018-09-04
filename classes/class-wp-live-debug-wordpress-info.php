@@ -435,6 +435,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 		public static function gather_constants_info() {
 			WP_Live_Debug::table_info( WP_Live_Debug_WordPress_Info::get_wp_constants() );
 		}
+
 		public static function get_wp_constants() {
 			$wp        = array();
 			$wp_consts = array(

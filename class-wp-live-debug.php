@@ -232,6 +232,9 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'Tools' === $subpage ) ? 'current' : ''; ?>">
 								<a href="?page=wp-live-debug&subpage=Tools"><?php esc_html_e( 'Tools', 'wp-live-debug' ); ?></a>
 							</li>
+							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'WPMUDEV' === $subpage ) ? 'current' : ''; ?>">
+								<a href="?page=wp-live-debug&subpage=WPMUDEV"><?php esc_html_e( 'WPMU DEV', 'wp-live-debug' ); ?></a>
+							</li>
 						</ul>
 						<div class="sui-sidenav-hide-lg">
 							<select class="sui-mobile-nav" style="display: none;" onchange="location = this.value;">
@@ -240,6 +243,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 								<option value="?page=wp-live-debug&subpage=Server" <?php echo ( ! empty( $subpage ) && 'Server' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></option>
 								<option value="?page=wp-live-debug&subpage=Cron" <?php echo ( ! empty( $subpage ) && 'Cron' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Scheduled Tasks', 'wp-live-debug' ); ?></option>
 								<option value="?page=wp-live-debug&subpage=Tools" <?php echo ( ! empty( $subpage ) && 'Tools' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Tools', 'wp-live-debug' ); ?></option>
+								<option value="?page=wp-live-debug&subpage=WPMUDEV" <?php echo ( ! empty( $subpage ) && 'WPMUDEV' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'WPMU DEV', 'wp-live-debug' ); ?></option>
 							</select>
 						</div>
 					</div>
@@ -257,6 +261,9 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 								break;
 							case 'Tools':
 								WP_Live_Debug_Tools::create_page();
+							break;
+							case 'WPMUDEV':
+								WP_Live_Debug_WPMUDEV::create_page();
 								break;
 							default:
 								WP_Live_Debug_Live_Debug::create_page();
@@ -350,6 +357,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-server-info.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-cronjob-info.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-tools.php';
+	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-wpmudev.php';
 
 	// Initialize WP Live Debug.
 	new WP_Live_Debug();
@@ -357,4 +365,5 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	new WP_Live_Debug_Server_Info();
 	new WP_Live_Debug_Cronjob_Info();
 	new WP_Live_Debug_Tools();
+	new WP_Live_Debug_WPMUDEV();
 }

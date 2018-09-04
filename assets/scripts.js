@@ -50,8 +50,24 @@
 		dirPermData            = { 'action': 'wp-live-debug-get-dir-perm' }
 		genInfo                = $( '#gen-info' ),
 		genInfoData            = { 'action': 'wp-live-debug-get-gen-info' },
-		selectLog              = $( '#log-list' );
+		selectLog              = $( '#log-list' ),
+		snapshotInfo           = $( '#wpmudev-snapshot-info' ),
+		snapshotInfodata       = { 'action': 'wp-live-debug-gather-snapshot-constants' },
+		shipperInfo            = $( '#wpmudev-shipper-info' ),
+		shipperInfodata        = { 'action': 'wp-live-debug-gather-shipper-constants' };;
 
+	// Get Shipper Information
+	if ( shipperInfo.length ) {
+		$.post( ajaxurl, shipperInfodata, function( response ) {
+			shipperInfo.html( response.data.message );
+		});
+	}
+	// Get Snapshot Information
+	if ( snapshotInfo.length ) {
+		$.post( ajaxurl, snapshotInfodata, function( response ) {
+			snapshotInfo.html( response.data.message );
+		});
+	}
 	// Select different log
 	selectLog.on( 'change', function( e ) {
 		var log = $( this ).val(),
