@@ -49,8 +49,28 @@
 		dirPerm                = $( '#dir-perm' ),
 		dirPermData            = { 'action': 'wp-live-debug-get-dir-perm' }
 		genInfo                = $( '#gen-info' ),
-		genInfoData            = { 'action': 'wp-live-debug-get-gen-info' };
+		genInfoData            = { 'action': 'wp-live-debug-get-gen-info' },
+		selectLog              = $( '#log-list' );
 
+	// Select different log
+	selectLog.on( 'change', function( e ) {
+		var log = $( this ).val(),
+			nonce = $( this ).find(':selected').data( 'nonce' ),
+			data;
+		e.preventDefault();
+		console.log( log );
+		console.log( nonce );
+		data = {
+			'action': 'wp-live-debug-select-log',
+			'log': log,
+			'nonce': nonce
+		}
+		$.post( ajaxurl, data, function( response ) {
+			if ( response.success ) {
+				window.location.href = window.location.href;
+			}
+		});
+	});
 	// Get General Information
 	if ( genInfo.length ) {
 		$.post( ajaxurl, genInfoData, function( response ) {
@@ -71,10 +91,11 @@
 	}
 	// Get SSL Information
 	var runSSLCheck = function() {
-		var data;
+		var host = sslHost.val(),
+			data;
 		data = {
 			'action': 'wp-live-debug-get-ssl-information',
-			'host': sslHost.val()
+			'host': host
 		}
 		$.post( ajaxurl, data, function( response ) {
 			if ( 'ready' == response.data.status || 'error' == response.data.status ) {

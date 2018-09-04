@@ -31,6 +31,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 */
 		public static function init() {
 			add_action( 'wp_ajax_wp-live-debug-read-log', array( 'WP_Live_Debug_Live_Debug', 'read_debug_log' ) );
+			add_action( 'wp_ajax_wp-live-debug-select-log', array( 'WP_Live_Debug_Live_Debug', 'select_log_file' ) );
 			add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( 'WP_Live_Debug_Live_Debug', 'clear_debug_log' ) );
 			add_action( 'wp_ajax_wp-live-debug-create-backup', array( 'WP_Live_Debug_Live_Debug', 'create_wp_config_backup' ) );
 			add_action( 'wp_ajax_wp-live-debug-restore-backup', array( 'WP_Live_Debug_Live_Debug', 'restore_wp_config_backup' ) );
@@ -53,7 +54,32 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			?>
 				<div class="sui-box">
 					<div class="sui-box-body">
-						<textarea id="wp-live-debug-area" class="sui-form-control"></textarea>
+						<div class="sui-form-field">
+						<label for="wp-live-debug-area" class="sui-label"><?php echo esc_html__( 'Viewing', 'wp-live-debug' ) . ': ' . basename( get_option( 'wp_live_debug_log_file' ) ); ?></label>
+							<textarea id="wp-live-debug-area" name="wp-live-debug-area" class="sui-form-control"></textarea>
+						</div>
+						<?php
+						$path = wp_normalize_path( ABSPATH );
+						$logs = array();
+						foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $path ) ) as $file ) {
+							if ( is_file( $file ) && 'log' === $file->getExtension() ) {
+								$logs[] = wp_normalize_path( $file );
+							}
+						}
+						$debug_log = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+						?>
+						<select id="log-list" name="select-list">
+							<?php
+							foreach ( $logs as $log ) {
+								$selected = '';
+								$log_name = date( 'M d Y H:i:s', filemtime( $log ) ) . ' - ' . basename( $log );
+								if ( get_option( 'wp_live_debug_log_file' ) === $log ) {
+									$selected = 'selected="selected"';
+								}
+								echo '<option data-nonce="' . wp_create_nonce( $log ) . '" value="' . $log . '" ' . $selected . '>' . $log_name . '</option>';
+							}
+							?>
+						</select>
 					</div>
 				</div>
 				<div class="sui-box">
@@ -792,24 +818,37 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 * @return string $debug_contents The content of debug.log
 		 */
 		public static function read_debug_log() {
-			if ( ! file_exists( WP_CONTENT_DIR . '/debug.log' ) ) {
-				$fo = fopen( WP_CONTENT_DIR . '/debug.log', 'w' ) or die( 'Cannot create debug.log!' );
-				fwrite( $fo, '' );
-				fclose( $fo );
-			}
+			$log_file = get_option( 'wp_live_debug_log_file' );
 
-			if ( 2000000 > filesize( WP_CONTENT_DIR . '/debug.log' ) ) {
-				$debug_contents = file_get_contents( WP_CONTENT_DIR . '/debug.log' );
+			if ( 2000000 > filesize( $log_file ) ) {
+				$debug_contents = file_get_contents( $log_file );
 				if ( empty( $debug_contents ) ) {
-					$debug_contents = esc_html__( 'Awesome! debug.log seems to be empty.', 'wp-live-deubg' );
+					// translators: %1$s log filename.
+					$debug_contents = sprintf( esc_html__( 'Awesome! %1$s seems to be empty.', 'wp-live-deubg' ), basename( $log_file ) );
 				}
 			} else {
-				$debug_contents = esc_html__( 'debug.log is over 2 MB. Please open it via FTP -or- click the "CLEAR DEBUG.LOG" button for a fresh start!', 'wp-live-debug' );
+				// translators: %1$s log filename.
+				$debug_contents = sprintf( esc_html__( '%1$s is over 2 MB. Please open it via FTP.', 'wp-live-debug' ), basename( $log_file ) );
 			}
 
 			echo $debug_contents;
 
 			wp_die();
+		}
+
+		/**
+		 * Select log file
+		 */
+		public static function select_log_file() {
+			$nonce    = sanitize_text_field( $_POST['nonce'] );
+			$log_file = sanitize_text_field( $_POST['log'] );
+
+			if ( ! wp_verify_nonce( $nonce, $log_file ) ) {
+				wp_send_json_error();
+			}
+
+			update_option( 'wp_live_debug_log_file', $log_file );
+			wp_send_json_success();
 		}
 
 		/**
@@ -822,7 +861,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 */
 		public static function clear_debug_log() {
 			file_put_contents( WP_CONTENT_DIR . '/debug.log', '' );
-
 			wp_die();
 		}
 	}

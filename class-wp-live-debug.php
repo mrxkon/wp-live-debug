@@ -106,6 +106,16 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 			$host = get_site_url();
 			$host = str_replace( array( 'http://', 'https://' ), '', $host );
 			update_option( 'wp_live_debug_ssl_domain', $host );
+
+			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+
+			if ( ! file_exists( $log_file ) ) {
+				$fo = fopen( $log_file, 'w' ) or die( 'Cannot create debug.log!' );
+				fwrite( $fo, '' );
+				fclose( $fo );
+			}
+
+			update_option( 'wp_live_debug_log_file', $log_file );
 		}
 
 		/**
@@ -115,6 +125,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		public static function on_deactivate() {
 			delete_option( 'wp_live_debug_risk' );
 			delete_option( 'wp_live_debug_ssl_domain' );
+			delete_option( 'wp_live_debug_log_file' );
 		}
 
 		/**
