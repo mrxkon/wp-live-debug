@@ -4,7 +4,7 @@ Requires at least: WordPress 4.8
 
 Tested up to: WordPress 4.9.8
 
-Stable tag: 4.9.8.3 [Latest]( https://github.com/mrxkon/wp-live-debug/releases/latest )
+Stable tag: 4.9.8.4 [Latest]( https://github.com/mrxkon/wp-live-debug/releases/latest )
 
 Requires PHP: 5.6
 
@@ -60,6 +60,11 @@ Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F.
 ![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot7.png)
 
 ### Changelog
+
+#### 4.9.8.4
+* Introduce WPMU DEV Tab
+* Snapshot constants
+* Global installation .log reader
 
 #### 4.9.8.3
 * Added scheduled task nonces

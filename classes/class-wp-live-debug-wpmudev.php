@@ -31,7 +31,7 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 		 */
 		public static function init() {
 			add_action( 'wp_ajax_wp-live-debug-gather-snapshot-constants', array( 'WP_Live_Debug_WPMUDEV', 'gather_snapshot_constants_info' ) );
-			add_action( 'wp_ajax_wp-live-debug-gather-shipper-constants', array( 'WP_Live_Debug_WPMUDEV', 'gather_shipper_constants_info' ) );
+			//add_action( 'wp_ajax_wp-live-debug-gather-shipper-constants', array( 'WP_Live_Debug_WPMUDEV', 'gather_shipper_constants_info' ) );
 		}
 
 		public static function create_page() {
@@ -43,7 +43,7 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 								<div class="active"><?php esc_html_e( 'Dashboard', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Defender', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Hummingbird', 'wp-live-debug' ); ?></div>
-								<div><?php esc_html_e( 'Shipper', 'wp-live-debug' ); ?></div>
+								<!--<div><?php //esc_html_e( 'Shipper', 'wp-live-debug' ); ?></div>-->
 								<div><?php esc_html_e( 'Smartcrawl', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Smush', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Snapshot', 'wp-live-debug' ); ?></div>
@@ -58,9 +58,9 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 								<div id="wpmudev-hummingbird-info">
 									Not yet implemented!
 								</div>
-								<div id="wpmudev-shipper-info">
+								<!-- <div id="wpmudev-shipper-info">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-								</div>
+								</div> -->
 								<div id="wpmudev-smartcrawl-info">
 									Not yet implemented!
 								</div>
