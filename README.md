@@ -6,7 +6,7 @@ Requires at least: WordPress 4.8
 
 Tested up to: WordPress 4.9.8
 
-Stable tag: 4.9.8
+Stable tag: 4.9.8.2 [Latest]( https://github.com/mrxkon/wp-live-debug/releases/latest )
 
 Requires PHP: 5.4
 
@@ -62,6 +62,10 @@ Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F.
 ![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot7.png)
 
 ### Changelog
+
+#### 4.9.8.2
+* Adds SSL verification for any domain
+* Security fixes ( thanks [Vladislav Bailovic ]( https://github.com/vladislavbailovic ) ! )
 
 #### 4.9.8.1
 * Added Tabs view to shorten the pages length ( thanks [Nahid F. Mohit]( https://github.com/nfmohit-wpmudev ) ! )

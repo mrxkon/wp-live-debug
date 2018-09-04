@@ -3,7 +3,7 @@ Contributors: xkon
 Tags: debug
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 4.9.8.1
+Stable tag: 4.9.8.2
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -47,8 +47,12 @@ Fellow contributors:  Marius L. Jensen ( https://github.com/Clorith ), Nahid F. 
 
 == Changelog ==
 
+= 4.9.8.2 =
+* Adds SSL verification for any domain
+* Security fixes ( thanks Vladislav Bailovic ( https://github.com/vladislavbailovic ) ! )
+
 = 4.9.8.1 =
-* Added Tabs view to shorten the pages length ( thanks [Nahid F. Mohit]( https://github.com/nfmohit-wpmudev ) ! )
+* Added Tabs view to shorten the pages length ( thanks Nahid F. Mohit ( https://github.com/nfmohit-wpmudev ) ! )
 * Refactored SSL tests the wp way
 
 = 4.9.8 =
@@ -91,8 +95,11 @@ Fellow contributors:  Marius L. Jensen ( https://github.com/Clorith ), Nahid F. 
 
 == Upgrade Notice ==
 
+= 4.9.8.2 =
+Adds SSL verification for any domain. Security fixes ( thanks Vladislav Bailovic ( https://github.com/vladislavbailovic ) ! ).
+
 = 4.9.8.1 =
-Added Tabs view to shorten the pages length ( thanks [Nahid F. Mohit]( https://github.com/nfmohit-wpmudev ) ! ). Refactored SSL tests the wp way.
+Added Tabs view to shorten the pages length ( thanks Nahid F. Mohit ( https://github.com/nfmohit-wpmudev ) ! ). Refactored SSL tests the wp way.
 
 = 4.9.8 =
 
