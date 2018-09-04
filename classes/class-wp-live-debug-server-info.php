@@ -41,12 +41,13 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 					<div class="sui-box-body">
 						<div class="sui-tabs">
 							<div data-tabs>
-								<div><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></div>
+								<div class="active"><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'MySQL', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'PHP', 'wp-live-debug' ); ?></div>
+								<div><?php esc_html_e( 'phpinfo()', 'wp-live-debug' ); ?></div>
 							</div>
 							<div data-panes>
-								<div id="server-info">
+								<div id="server-info" class="active">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 								</div>
 								<div id="mysql-info">
@@ -54,6 +55,9 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 								</div>
 								<div id="php-info">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+								</div>
+								<div id="phpinfo-info">
+									<?php WP_Live_Debug_Server_Info::gather_phpinfo_info(); ?>
 								</div>
 							</div>
 						</div>
@@ -254,6 +258,40 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			}
 
 			return $errors;
+		}
+
+		public static function gather_phpinfo_info() {
+			if ( ! function_exists( 'phpinfo' ) ) {
+				?>
+				<div class="sui-notice sui-notice-error">
+					<p><?php _e( '<code>phpinfo();</code> is disabled. Please contact your hosting provider if you need more information about your PHP setup.', 'wp-live-debug' ); ?></p>
+				</div>
+				<?php
+			} else {
+				ob_start();
+				phpinfo();
+				$phpinfo_output = ob_get_clean();
+
+				preg_match_all( '/<body[^>]*>(.*)<\/body>/siU', $phpinfo_output, $phpinfo );
+				preg_match_all( '/<style[^>]*>(.*)<\/style>/siU', $phpinfo_output, $styles );
+
+				$remove_patterns = array( "/a:.+?\n/si", "/body.+?\n/si" );
+				if ( isset( $styles[1][0] ) ) {
+					$styles = preg_replace( $remove_patterns, '', $styles[1][0] );
+					$styles = str_replace( ',', ', #phpinfo-info', $styles );
+				}
+				$styles = explode( "\n", $styles );
+				$styles = array_filter( $styles );
+				foreach ( $styles as $key => $value ) {
+					$styles[ $key ] = '#phpinfo-info ' . $styles[ $key ];
+				}
+				$styles = implode( "\n", $styles );
+				echo '<style type="text/css">' . $styles . '</style>';
+
+				if ( isset( $phpinfo[1][0] ) ) {
+					echo $phpinfo[1][0];
+				}
+			}
 		}
 	}
 }

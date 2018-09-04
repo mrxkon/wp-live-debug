@@ -59,12 +59,12 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					<div class="sui-box-body">
 						<div class="sui-tabs">
 							<div data-tabs>
-								<div><?php esc_html_e( 'SSL Information', 'wp-live-debug' ); ?></div>
+								<div class="active"><?php esc_html_e( 'SSL Information', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Checksums Check', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'wp_mail() Check', 'wp-live-debug' ); ?></div>
 							</div>
 							<div data-panes>
-								<div id="ssl-response"></div>
+								<div id="ssl-response" class="active"></div>
 								<div id="checksums-response">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 								</div>

@@ -42,13 +42,13 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 					<div class="sui-box-body">
 						<div class="sui-tabs">
 							<div data-tabs>
-								<div><?php esc_html_e( 'General Information', 'wp-live-debug' ); ?></div>
+								<div class="active"><?php esc_html_e( 'General Information', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Directory Permissions', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Installation Size', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Constants', 'wp-live-debug' ); ?></div>
 							</div>
 							<div data-panes>
-								<div id="gen-info">
+								<div id="gen-info" class="active">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 								</div>
 								<div id="dir-perm">
