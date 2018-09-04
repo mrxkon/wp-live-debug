@@ -3,7 +3,7 @@ Contributors: xkon
 Tags: debug
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 4.9.8.2
+Stable tag: 4.9.8.3
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -46,6 +46,11 @@ Fellow contributors:  Marius L. Jensen ( https://github.com/Clorith ), Nahid F. 
 1. WP Live Debug
 
 == Changelog ==
+
+= 4.9.8.3 =
+* Added scheduled task nonces
+* Fixed the SSL form to work via 'enter' also
+* Minor fixes
 
 = 4.9.8.2 =
 * Adds SSL verification for any domain
@@ -94,6 +99,9 @@ Fellow contributors:  Marius L. Jensen ( https://github.com/Clorith ), Nahid F. 
 * Initial Release
 
 == Upgrade Notice ==
+
+= 4.9.8.3 =
+Added scheduled task nonces. Fixed the SSL form to work via 'enter' also. Minor fixes
 
 = 4.9.8.2 =
 Adds SSL verification for any domain. Security fixes ( thanks Vladislav Bailovic ( https://github.com/vladislavbailovic ) ! ).
