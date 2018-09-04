@@ -125,7 +125,7 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 					// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_get_server_info
 					$version = mysqli_get_server_info( $dbh );
 				} else {
-					// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysql_get_server_info,PHPCompatibility.PHP.RemovedExtensions.mysql_DeprecatedRemoved
+					// phpcs:disable WordPress.DB.RestrictedFunctions.mysql_mysql_get_server_info
 					$version = mysql_get_server_info( $dbh );
 				}
 			} elseif ( is_object( $dbh ) ) {
