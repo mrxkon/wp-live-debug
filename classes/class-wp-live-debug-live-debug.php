@@ -847,6 +847,10 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 				wp_send_json_error();
 			}
 
+			if ( 'log' != substr( strrchr( $log_file, '.' ), 1) ) {
+				wp_send_json_error();
+			}
+
 			update_option( 'wp_live_debug_log_file', $log_file );
 			wp_send_json_success();
 		}

@@ -261,7 +261,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 								break;
 							case 'Tools':
 								WP_Live_Debug_Tools::create_page();
-							break;
+								break;
 							case 'WPMUDEV':
 								WP_Live_Debug_WPMUDEV::create_page();
 								break;
