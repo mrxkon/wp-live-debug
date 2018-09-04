@@ -82,7 +82,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			foreach ( $events as $id => $event ) {
 				$output .= '<tr>';
 				$output .= '<td>' . $event->hook . '<br>';
-				$output .= '<a href="#" data-do="run-job" data-hook="' . $event->hook . '" data-sig="' . $event->sig . '">Run Now</a>';
+				$output .= '<a href="#" data-do="run-job" data-nonce="' . wp_create_nonce( $event->hook ) . '" data-hook="' . $event->hook . '" data-sig="' . $event->sig . '">Run Now</a>';
 				$output .= '</td>';
 				$output .= '<td>';
 				$actions = array();
@@ -184,11 +184,20 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 		}
 
 		public static function run_cron() {
+			$hook  = sanitize_text_field( $_POST['hook'] );
+			$sig   = sanitize_text_field( $_POST['sig'] );
+			$nonce = sanitize_text_field( $_POST['nonce'] );
+
+			if ( ! wp_verify_nonce( $nonce, $hook ) ) {
+				wp_send_json_error();
+			}
+
 			if ( function_exists( '_get_cron_array' ) ) {
 				$cronjobs = _get_cron_array();
 			} else {
 				$cronjobs = get_option( 'cron' );
 			}
+
 			foreach ( $cronjobs as $time => $cron ) {
 				if ( isset( $cron[ $_POST['hook'] ][ $_POST['sig'] ] ) ) {
 					$args = $cron[ $_POST['hook'] ][ $_POST['sig'] ]['args'];
@@ -198,6 +207,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 					wp_send_json_success();
 				}
 			}
+
 			wp_send_json_error();
 		}
 	}

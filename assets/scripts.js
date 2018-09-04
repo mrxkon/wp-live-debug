@@ -96,12 +96,14 @@
 	cronjobInfo.on( 'click', cronjobRunButton, function( e ) {
 		var hook = $( this ).data( 'hook' ),
 			sig = $( this ).data( 'sig' ),
+			nonce = $( this ).data( 'nonce' ),
 			data;
 		e.preventDefault();
 		data = {
 			'action': 'wp-live-debug-run-cronjob',
 			'hook': hook,
-			'sig': sig
+			'sig': sig,
+			'nonce': nonce
 		};
 		cronjobRespHolder.html( hook );
 		$.post( ajaxurl, data, function( response ) {
