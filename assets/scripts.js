@@ -41,7 +41,7 @@
 		cronjobRespHolder      = $( '.hookname' ),
 		cronjobSuccess         = $( '#job-success' ),
 		cronjobError           = $( '#job-error' ),
-		sslButton              = $( '#check-ssl' ),
+		sslForm                = $( '#check-ssl' ),
 		sslHost                = $( '#ssl-host' ),
 		sslResponse            = $( '#ssl-response' ),
 		dirSize                = $( '#dir-size' ),
@@ -87,7 +87,7 @@
 			}
 		});
 	}
-	sslButton.on( 'click', function( e ) {
+	sslForm.submit( function( e ) {
 		e.preventDefault();
 		sslResponse.html( '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>' );
 		runSSLCheck();
