@@ -356,6 +356,12 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		* @return void
 		*/
 		public static function view_file_diff() {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error(array(
+					'message' => __( 'Does your mom know you\'re doing this?', 'wp-live-debug' ),
+				));
+			}
+
 			$filepath         = ABSPATH;
 			$file             = $_POST['file'];
 			$actual_file      = wp_normalize_path( realpath( "{$filepath}{$file}" ) );
