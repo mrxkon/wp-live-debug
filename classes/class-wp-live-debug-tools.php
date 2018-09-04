@@ -54,6 +54,14 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 				$date,
 				$time
 			);
+
+			if ( ! empty( get_option( 'wp_live_debug_ssl_domain' ) ) ) {
+				$host = get_option( 'wp_live_debug_ssl_domain' );
+			} else {
+				$host = get_site_url();
+				$host = str_replace( array( 'http://', 'https://' ), '', $host );
+			}
+
 			?>
 				<div class="sui-box">
 					<div class="sui-box-body">
@@ -64,30 +72,34 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 								<div><?php esc_html_e( 'wp_mail() Check', 'wp-live-debug' ); ?></div>
 							</div>
 							<div data-panes>
-								<div id="ssl-response" class="active"></div>
+								<div id="ssl-holder" class="active">
+								<div class="sui-with-button">
+									<input id="ssl-host" type="text" id="demo-input-button-large" class="sui-form-control" value="<?php echo $host; ?>">
+									<button id="check-ssl" class="sui-button sui-button-lg sui-button-green"><?php esc_html_e( 'Verify', 'wp-live-debug' ); ?></button>
+								</div>
+								<div id="ssl-response"></div>
+								</div>
 								<div id="checksums-response">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 								</div>
 								<div id="mail-check-box">
-									<div class="sui-box-body">
-										<form action="#" id="wp-live-debug-mail-check" method="POST">
-											<div class="sui-form-field">
-												<label for="email" class="sui-label"><?php esc_html_e( 'E-mail', 'wp-live-debug' ); ?></label>
-												<input type="email" id="email" name="email" class="sui-form-control" value="<?php echo $current_user->user_email; ?>">
-											</div>
-											<div class="sui-form-field">
-												<label for="email_subject" class="sui-label"><?php esc_html_e( 'Subject', 'wp-live-debug' ); ?></label>
-												<input type="text" id="email_subject" name="email_subject" class="sui-form-control" value="<?php echo $email_subject; ?>">
-											</div>
-											<div class="sui-form-field">
-												<label for="email_message" class="sui-label"><?php esc_html_e( 'Message', 'wp-live-debug' ); ?></label>
-												<textarea id="email_message" name="email_message" class="sui-form-control" rows="4"><?php echo $email_body; ?></textarea>
-											</div>
-											<div class="sui-form-field">
-												<input type="submit" class="sui-button sui-button-green" value="<?php esc_html_e( 'Send test mail', 'wp-live-debug' ); ?>">
-											</div>
-										</form>
-									</div>
+									<form action="#" id="wp-live-debug-mail-check" method="POST">
+										<div class="sui-form-field">
+											<label for="email" class="sui-label"><?php esc_html_e( 'E-mail', 'wp-live-debug' ); ?></label>
+											<input type="email" id="email" name="email" class="sui-form-control" value="<?php echo $current_user->user_email; ?>">
+										</div>
+										<div class="sui-form-field">
+											<label for="email_subject" class="sui-label"><?php esc_html_e( 'Subject', 'wp-live-debug' ); ?></label>
+											<input type="text" id="email_subject" name="email_subject" class="sui-form-control" value="<?php echo $email_subject; ?>">
+										</div>
+										<div class="sui-form-field">
+											<label for="email_message" class="sui-label"><?php esc_html_e( 'Message', 'wp-live-debug' ); ?></label>
+											<textarea id="email_message" name="email_message" class="sui-form-control" rows="4"><?php echo $email_body; ?></textarea>
+										</div>
+										<div class="sui-form-field">
+											<input type="submit" class="sui-button sui-button-green" value="<?php esc_html_e( 'Send test mail', 'wp-live-debug' ); ?>">
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -118,8 +130,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		 */
 		public static function get_ssl_information() {
 
-			$host = get_site_url();
-			$host = str_replace( array( 'http://', 'https://' ), '', $host );
+			$host = sanitize_text_field( $_POST['host'] );
 
 			$api_response = wp_remote_get( 'https://api.ssllabs.com/api/v3/analyze', array(
 				'body' => array(
@@ -156,13 +167,18 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 						$prototal = 0;
 					}
 					$output  = '<div class="sui-notice sui-notice-info"><p>';
-					$output .= esc_html__( 'Currently testing and gathering information. This might take a while so make sure to check back!' , 'wp-live-debug' ); // phpcs:ignore
+					$output .= esc_html__( 'Testing and gathering information for:', 'wp-live-debug' ) . '<strong> '.  $host . '</strong>. ' . esc_html( 'This might take a while so make sure to keep this page open!' , 'wp-live-debug' ); // phpcs:ignore
 					$output .= '</p></div>';
 					$output .= '<div class="sui-progress-block"><div class="sui-progress"><div class="sui-progress-text sui-icon-loader sui-loading">';
 					$output .= '<span>' . $prototal . '%</span>';
 					$output .= '</div><div class="sui-progress-bar">';
 					$output .= '<span style="width: ' . $prototal . '%"></span>';
 					$output .= '</div></div></div>';
+
+					$response = array(
+						'message' => $output,
+						'status'  => 'in_progress',
+					);
 				} elseif ( 'ERROR' === $call['status'] ) {
 					$output  = '<div class="sui-notice sui-notice-error"><p>';
 					$output .= $call['status'] . ': ' . $call['statusMessage']; // phpcs:ignore
@@ -176,6 +192,11 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					$output .= '</tbody>';
 					$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
 					$output .= '</table>';
+
+					$response = array(
+						'message' => $output,
+						'status'  => 'error',
+					);
 				} elseif ( 'READY' === $call['status'] ) {
 					$output  = '<div class="sui-notice sui-notice-success"><p>';
 					$output .= esc_html__( 'Success! Valid SSL information received for', 'wp-live-debug' ) . ': ' . $call['host'];
@@ -200,21 +221,27 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					$output .= '</tbody>';
 					$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
 					$output .= '</table>';
+
+					$response = array(
+						'message' => $output,
+						'status'  => 'ready',
+					);
 				} else {
 					$output  = '<div class="sui-notice sui-notice-info"><p>';
-					$output .= esc_html__( 'Currently testing and gathering information. This might take a while so make sure to check back!' , 'wp-live-debug' ); // phpcs:ignore
+					$output .= esc_html__( 'Testing and gathering information for:', 'wp-live-debug' ) . '<strong> '.  $host . '</strong>. ' . esc_html( 'This might take a while so make sure to keep this page open!' , 'wp-live-debug' ); // phpcs:ignore
 					$output .= '</p></div>';
 					$output .= '<div class="sui-progress-block"><div class="sui-progress"><div class="sui-progress-text sui-icon-loader sui-loading">';
 					$output .= '<span>0%</span>';
 					$output .= '</div><div class="sui-progress-bar">';
 					$output .= '<span style="width: 0"></span>';
 					$output .= '</div></div></div>';
+
+					$response = array(
+						'message' => $output,
+						'status'  => 'else',
+					);
 				}
 			}
-
-			$response = array(
-				'message' => $output,
-			);
 
 			wp_send_json_success( $response );
 		}

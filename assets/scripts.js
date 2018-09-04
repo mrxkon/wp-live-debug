@@ -41,7 +41,8 @@
 		cronjobRespHolder      = $( '.hookname' ),
 		cronjobSuccess         = $( '#job-success' ),
 		cronjobError           = $( '#job-error' ),
-		sslInfoData            = { 'action': 'wp-live-debug-get-ssl-information' },
+		sslButton              = $( '#check-ssl' ),
+		sslHost                = $( '#ssl-host' ),
 		sslResponse            = $( '#ssl-response' ),
 		dirSize                = $( '#dir-size' ),
 		dirSizeData            = { 'action': 'wp-live-debug-get-dir-size' }
@@ -54,27 +55,43 @@
 	if ( genInfo.length ) {
 		$.post( ajaxurl, genInfoData, function( response ) {
 			genInfo.html( response.data.message );
-		} );
+		});
 	}
 	// Get Dir Size
 	if ( dirPerm.length ) {
 		$.post( ajaxurl, dirPermData, function( response ) {
 			dirPerm.html( response.data.message );
-		} );
+		});
 	}
 	// Get Dir Size
 	if ( dirSize.length ) {
 		$.post( ajaxurl, dirSizeData, function( response ) {
 			dirSize.html( response.data.message );
-		} );
+		});
 	}
 	// Get SSL Information
-	if ( sslResponse.length ) {
-		sslResponse.html( '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>' );
-		$.post( ajaxurl, sslInfoData, function( response ) {
-			sslResponse.html( response.data.message );
-		} );
+	var runSSLCheck = function() {
+		var data;
+		data = {
+			'action': 'wp-live-debug-get-ssl-information',
+			'host': sslHost.val()
+		}
+		$.post( ajaxurl, data, function( response ) {
+			if ( 'ready' == response.data.status || 'error' == response.data.status ) {
+				sslResponse.html( response.data.message );
+			} else {
+				sslResponse.html( response.data.message );
+				setTimeout( function() {
+					runSSLCheck();
+				}, 3000 );
+			}
+		});
 	}
+	sslButton.on( 'click', function( e ) {
+		e.preventDefault();
+		sslResponse.html( '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>' );
+		runSSLCheck();
+	});
 	// Run Cronjob
 	cronjobInfo.on( 'click', cronjobRunButton, function( e ) {
 		var hook = $( this ).data( 'hook' ),
@@ -132,7 +149,7 @@
 			emailMessage = $( '#wp-live-debug-mail-check #email_message' ).val(),
 			data;
 		e.preventDefault();
-		$( '#mail-check-box .sui-box-body' ).html('<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>');
+		$( '#mail-check-box' ).html('<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>');
 		data = {
 			'action': 'wp-live-debug-mail',
 			'email': email,
@@ -140,7 +157,7 @@
 			'email_message': emailMessage
 		};
 		$.post( ajaxurl, data, function( response ) {
-			$( '#mail-check-box .sui-box-body' ).html( response.data.message );
+			$( '#mail-check-box' ).html( response.data.message );
 		});
 	});
 	// Checksum Ajax

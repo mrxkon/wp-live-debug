@@ -100,11 +100,21 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		}
 
 		/**
+		 * Activation
+		 */
+		public static function on_activate() {
+			$host = get_site_url();
+			$host = str_replace( array( 'http://', 'https://' ), '', $host );
+			update_option( 'wp_live_debug_ssl_domain', $host );
+		}
+
+		/**
 		 * Deactivation
 		 */
 
 		public static function on_deactivate() {
 			delete_option( 'wp_live_debug_risk' );
+			delete_option( 'wp_live_debug_ssl_domain' );
 		}
 
 		/**
@@ -256,7 +266,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 							<div class="sui-box-body">
 								<p>
 								<?php
-									_e( 'WP LIVE DEBUG enables debugging and checks files & runs various tests to gather information about your installation.', 'wp-live-debug' );
+									_e( 'WP LIVE DEBUG enables debugging, checks files and runs various tests to gather information about your installation.', 'wp-live-debug' );
 								?>
 								</p>
 								<p>
@@ -317,6 +327,8 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		}
 
 	}
+	// Activation Hook
+	register_activation_hook( __FILE__, array( 'WP_Live_Debug', 'on_activate' ) );
 
 	// Deactivation Hook
 	register_deactivation_hook( __FILE__, array( 'WP_Live_Debug', 'on_deactivate' ) );

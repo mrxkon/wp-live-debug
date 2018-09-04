@@ -34,3 +34,6 @@ body.toplevel_page_wp-live-debug #checksums-popup .sui-box-body .diff-holder {
 body.toplevel_page_wp-live-debug table.diff td:nth-child(2) {
 	background: #f8f8f8;
 }
+body.toplevel_page_wp-live-debug #ssl-response {
+	padding-top: 30px;
+}

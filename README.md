@@ -28,7 +28,7 @@ So props also go to:
 The [WordPress.org]( https://wordpress.org ) community for parts of debug info
 - [Health Check]( https://wordpress.org/plugins/health-check/ ) - Licence GPLv2 - [GitHub]( https://github.com/wordpress/health-check )
 
-Fellow contributors: [Nahid F. Mohit]( https://github.com/nfmohit-wpmudev ), [Marius L. Jensen]( https://github.com/Clorith )
+Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F. Mohit]( https://github.com/nfmohit-wpmudev ), [Vladislav Bailovic ]( https://github.com/vladislavbailovic )
 
 ### Installation
 

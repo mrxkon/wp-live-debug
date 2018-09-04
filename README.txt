@@ -24,7 +24,7 @@ Shared UI ( https://github.com/wpmudev/shared-ui ) - Licence GPLv2
 The WordPress.org ( https://wordpress.org ) community for parts of debug info
 Health Check ( https://wordpress.org/plugins/health-check/ ) - Licence GPLv2 - ( https://github.com/wordpress/health-check )
 
-Fellow contributors:  Nahid F. Mohit ( https://github.com/nfmohit-wpmudev ), Marius L. Jensen ( https://github.com/Clorith )
+Fellow contributors:  Marius L. Jensen ( https://github.com/Clorith ), Nahid F. Mohit ( https://github.com/nfmohit-wpmudev ), Vladislav Bailovic ( https://github.com/vladislavbailovic )
 
 == Installation ==
 
