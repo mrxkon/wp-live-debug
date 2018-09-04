@@ -163,6 +163,29 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				$loopback_status = esc_html__( 'The loopback request was successfull', 'wp-live-debug' );
 			}
 
+			if ( is_multisite() ) {
+				$total_users = get_user_count();
+
+				$networks    = new WP_Network_Query();
+				$network_ids = $networks->query( array(
+					'fields'        => 'ids',
+					'number'        => 100,
+					'no_found_rows' => false,
+				) );
+
+				$total_networks = $networks->found_networks;
+
+				$total_sites = 0;
+				foreach ( $network_ids as $network_id ) {
+					$total_sites += get_blog_count( $network_id );
+				}
+			} else {
+				$total_networks = 0;
+				$total_sites    = 1;
+				$total_users    = count_users();
+				$total_users    = $total_users['total_users'];
+			}
+
 			$wp = array(
 				array(
 					'label' => esc_html__( 'WordPress Version', 'wp-live-debug' ),
@@ -179,6 +202,18 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				array(
 					'label' => esc_html__( 'Required MySQL Version', 'wp-live-debug' ),
 					'value' => $required_mysql_version,
+				),
+				array(
+					'label' => esc_html__( 'Users', 'wp-live-debug' ),
+					'value' => $total_users,
+				),
+				array(
+					'label' => esc_html__( 'Networks', 'wp-live-debug' ),
+					'value' => $total_networks,
+				),
+				array(
+					'label' => esc_html__( 'Sites', 'wp-live-debug' ),
+					'value' => $total_sites,
 				),
 				array(
 					'label' => esc_html__( 'Themes', 'wp-live-debug' ),
