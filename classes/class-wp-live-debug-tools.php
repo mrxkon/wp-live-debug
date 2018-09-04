@@ -366,6 +366,12 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 				));
 			}
 
+			if ( ! preg_match( '/^' . preg_quote( $filepath, '/' ) . '/', $actual_file ) ) {
+				wp_send_json_error(array(
+					'message' => __( 'Will not do this.', 'wp-live-debug' ),
+				));
+			}
+
 			$wpversion        = get_bloginfo( 'version' );
 			$local_file_body  = file_get_contents( $actual_file, FILE_USE_INCLUDE_PATH );
 			$remote_file      = wp_remote_get( 'https://core.svn.wordpress.org/tags/' . $wpversion . '/' . $file );
