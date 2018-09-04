@@ -390,6 +390,12 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		 * @return void
 		 */
 		public static function send_mail() {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error(array(
+					'message' => __( 'Does your mom know you\'re doing this?', 'wp-live-debug' ),
+				));
+			}
+
 			$output        = '';
 			$sendmail      = false;
 			$email         = sanitize_email( $_POST['email'] );
