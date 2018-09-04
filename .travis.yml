@@ -19,7 +19,6 @@ before_script:
     - |
       if [[ "$PHPC_WPC" == "1" ]]; then
         git clone -b master --depth 1 https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $SNIFFS_DIR
-        git clone -b master --depth 1 https://github.com/wimg/PHPCompatibility.git $SNIFFS_DIR/PHPCompatibility
         phpenv rehash
       fi
 script:
