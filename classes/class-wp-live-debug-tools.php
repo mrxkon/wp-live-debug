@@ -383,10 +383,30 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		* @return void
 		*/
 		public static function view_file_diff() {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error(array(
+					'message' => __( 'Does your mom know you\'re doing this?', 'wp-live-debug' ),
+				));
+			}
+
 			$filepath         = ABSPATH;
 			$file             = $_POST['file'];
+			$actual_file      = wp_normalize_path( realpath( "{$filepath}{$file}" ) );
+
+			if ( empty( $actual_file ) || ! is_readable( $actual_file ) ) {
+				wp_send_json_error(array(
+					'message' => __( 'Can not do this.', 'wp-live-debug' ),
+				));
+			}
+
+			if ( ! preg_match( '/^' . preg_quote( $filepath, '/' ) . '/', $actual_file ) ) {
+				wp_send_json_error(array(
+					'message' => __( 'Will not do this.', 'wp-live-debug' ),
+				));
+			}
+
 			$wpversion        = get_bloginfo( 'version' );
-			$local_file_body  = file_get_contents( $filepath . $file, FILE_USE_INCLUDE_PATH );
+			$local_file_body  = file_get_contents( $actual_file, FILE_USE_INCLUDE_PATH );
 			$remote_file      = wp_remote_get( 'https://core.svn.wordpress.org/tags/' . $wpversion . '/' . $file );
 			$remote_file_body = wp_remote_retrieve_body( $remote_file );
 			$diff_args        = array(
