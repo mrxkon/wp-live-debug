@@ -53,18 +53,20 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			?>
 				<div class="sui-box">
 					<div class="sui-box-body">
-						<textarea id="wp-live-debug-area" class="sui-form-control"></textarea>
+						<div class="sui-form-field">
+							<textarea id="wp-live-debug-area" class="sui-form-control"></textarea>
+						</div>
 						<?php
 						$path = wp_normalize_path( ABSPATH );
 						$logs = array();
 						foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $path ) ) as $file ) {
-							if ( 'log' === $file->getExtension() && is_file( $file ) ) {
+							if ( is_file( $file ) && 'log' === $file->getExtension() && wp_normalize_path( $file ) !== wp_normalize_path( WP_CONTENT_DIR . '/debug.log' ) ) {
 								$logs[] = wp_normalize_path( $file );
 							}
 						}
 						?>
 						<select id="list" name="select-list">
-							<option value="" selected="selected">Select Option</option>
+							<option value="<?php echo wp_normalize_path( WP_CONTENT_DIR . '/debug.log' ); ?>" selected="selected"><?php echo wp_normalize_path( WP_CONTENT_DIR . '/debug.log' ); ?></option>
 							<?php
 							foreach ( $logs as $log ) {
 								echo '<option value="' . $log . '">' . $log . '</option>';
