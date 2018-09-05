@@ -3,7 +3,7 @@ Contributors: xkon
 Tags: debug
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 4.9.8.4
+Stable tag: 4.9.8.5
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -46,6 +46,9 @@ Fellow contributors:  Marius L. Jensen ( https://github.com/Clorith ), Nahid F. 
 1. WP Live Debug
 
 == Changelog ==
+
+= 4.9.8.5 =
+* Add Info to Snapshot
 
 = 4.9.8.4 =
 * Introduce WPMU DEV Tab
@@ -104,6 +107,9 @@ Fellow contributors:  Marius L. Jensen ( https://github.com/Clorith ), Nahid F. 
 * Initial Release
 
 == Upgrade Notice ==
+
+= 4.9.8.5 =
+Add Info to Snapshot.
 
 = 4.9.8.4 =
 Introduce WPMU DEV Tab. Snapshot constants. Global installation .log reader.

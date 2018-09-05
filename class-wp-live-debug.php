@@ -3,7 +3,7 @@
  *
  * Plugin Name:       WP Live Debug
  * Description:       Enables debugging and adds a screen into the WordPress Admin to view the debug.log.
- * Version:           4.9.8.4
+ * Version:           4.9.8.5
  * Author:            Konstantinos (xkon) Xenos
  * Author URI:        https://xkon.gr
  * License:           GPL-2.0+

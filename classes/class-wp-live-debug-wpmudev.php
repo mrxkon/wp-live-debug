@@ -199,7 +199,6 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 		}
 
 		public static function table_wpmudev_info( $list ) {
-			error_log( print_r( $list, true ) );
 			$output = '<table class="sui-table striped"><thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Default Value', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 
 			foreach ( $list as $key => $value ) {
