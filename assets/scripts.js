@@ -34,7 +34,7 @@
 		phpInfo                = $( '#php-info' ),
 		phpInfodata            = { 'action': 'wp-live-debug-gather-php-info' },
 		constantsInfo          = $( '#constants-info' ),
-		constantsInfodata      = { 'action': 'wp-live-debug-gather-constants-info' },
+		constantsInfodata      = { 'action': 'wp-live-debug-wordpress-info-constants' },
 		cronjobInfodata        = { 'action': 'wp-live-debug-gather-cronjob-info' },
 		cronjobInfo            = $( '#cronjob-response' ),
 		cronjobRunButton       = 'a[data-do=run-job]',
@@ -45,11 +45,11 @@
 		sslHost                = $( '#ssl-host' ),
 		sslResponse            = $( '#ssl-response' ),
 		dirSize                = $( '#dir-size' ),
-		dirSizeData            = { 'action': 'wp-live-debug-get-dir-size' }
+		dirSizeData            = { 'action': 'wp-live-debug-wordpress-info-installation-size' }
 		dirPerm                = $( '#dir-perm' ),
-		dirPermData            = { 'action': 'wp-live-debug-get-dir-perm' }
+		dirPermData            = { 'action': 'wp-live-debug-wordpress-info-directory-permissions' }
 		genInfo                = $( '#gen-info' ),
-		genInfoData            = { 'action': 'wp-live-debug-get-gen-info' },
+		genInfoData            = { 'action': 'wp-live-debug-wordpress-info-general-information' },
 		selectLog              = $( '#log-list' ),
 		snapshotInfo           = $( '#wpmudev-snapshot-info' ),
 		snapshotInfodata       = { 'action': 'wp-live-debug-gather-snapshot-constants' },

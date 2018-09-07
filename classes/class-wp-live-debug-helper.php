@@ -38,6 +38,7 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 				$table .= '<tr><td>' . esc_html( $value[0] ) . '</td><td>' . $value[1] . '</td><td>' . $value[2] . '</td></tr>';
 				$table .= '<tr><td colspan="3"><em>' . esc_html( $value[3] ) . '</em></td></tr>';
 			}
+
 			$table .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Default Value', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
 			$table .= '</tbody></table>';
 
@@ -47,13 +48,17 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 		public static function table_wpmudev_actions_filters( $array ) {
 			$table  = '<table class="sui-table striped"><thead><tr><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Filters', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 			$table .= '<tr><td>';
+
 			foreach ( $array['actions'] as $action ) {
 				$table .= $action . '<br>';
 			}
+
 			$table .= '</td><td>';
+
 			foreach ( $array['filters'] as $filter ) {
 				$table .= $filter . '<br>';
 			}
+
 			$table .= '</td><tr>';
 			$table .= '<tfoot><tr><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Filters', 'wp-live-debug' ) . '</th></tr></tfoot>';
 			$table .= '</tbody></table>';
@@ -67,6 +72,7 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			foreach ( $array as $key => $value ) {
 				$table .= '<tr><td>' . esc_html( $key ) . '</td><td>' . $value . '</td></tr>';
 			}
+
 			$table .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
 			$table .= '</tbody></table>';
 
@@ -77,7 +83,9 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			if ( ! defined( $constant ) ) {
 				return '<em>' . esc_html__( 'Undefined', 'wp-live-debug' ) . '</em>';
 			}
+
 			$value = constant( $constant );
+
 			if ( ! is_bool( $value ) ) {
 				return $value;
 			} elseif ( ! $value ) {
@@ -91,7 +99,33 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			if ( is_numeric( $value ) and ( $value >= ( 1024 * 1024 ) ) ) {
 				$value = size_format( $value );
 			}
+
 			return $value;
+		}
+
+		public static function get_database_size() {
+			global $wpdb;
+
+			$size = 0;
+			$rows = $wpdb->get_results( 'SHOW TABLE STATUS', ARRAY_A );
+
+			if ( $wpdb->num_rows > 0 ) {
+				foreach ( $rows as $row ) {
+					$size += $row['Data_length'] + $row['Index_length'];
+				}
+			}
+
+			return $size;
+		}
+
+		public static function get_directory_size( $dir ) {
+			$size = 0;
+
+			foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir ) ) as $file ) {
+				$size += $file->getSize();
+			}
+
+			return $size;
 		}
 
 	}

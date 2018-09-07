@@ -30,10 +30,10 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 		 * @return void
 		 */
 		public static function init() {
-			add_action( 'wp_ajax_wp-live-debug-gather-constants-info', array( 'WP_Live_Debug_WordPress_Info', 'gather_constants_info' ) );
-			add_action( 'wp_ajax_wp-live-debug-get-dir-size', array( 'WP_Live_Debug_WordPress_Info', 'get_installation_size' ) );
-			add_action( 'wp_ajax_wp-live-debug-get-dir-perm', array( 'WP_Live_Debug_WordPress_Info', 'get_directory_permissions' ) );
-			add_action( 'wp_ajax_wp-live-debug-get-gen-info', array( 'WP_Live_Debug_WordPress_Info', 'general_wp_information' ) );
+			add_action( 'wp_ajax_wp-live-debug-wordpress-info-general-information', array( 'WP_Live_Debug_WordPress_Info', 'general_information' ) );
+			add_action( 'wp_ajax_wp-live-debug-wordpress-info-directory-permissions', array( 'WP_Live_Debug_WordPress_Info', 'directory_permissions' ) );
+			add_action( 'wp_ajax_wp-live-debug-wordpress-info-installation-size', array( 'WP_Live_Debug_WordPress_Info', 'installation_size' ) );
+			add_action( 'wp_ajax_wp-live-debug-wordpress-info-constants', array( 'WP_Live_Debug_WordPress_Info', 'constants' ) );
 		}
 
 		public static function create_page() {
@@ -67,7 +67,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			<?php
 		}
 
-		public static function general_wp_information() {
+		public static function general_information() {
 			global $wp_version, $required_php_version, $required_mysql_version, $wp_db_version;
 
 			$theme_updates        = get_theme_updates();
@@ -259,7 +259,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			wp_send_json_success( $response );
 		}
 
-		public static function get_directory_permissions() {
+		public static function directory_permissions() {
 			$uploads_dir = wp_upload_dir();
 
 			if ( defined( 'WP_TEMP_DIR' ) ) {
@@ -319,7 +319,7 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			wp_send_json_success( $response );
 		}
 
-		public static function get_installation_size() {
+		public static function installation_size() {
 			$uploads_dir = wp_upload_dir();
 
 			$sizes = array(
@@ -345,13 +345,13 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 
 			foreach ( $sizes as $size => $attributes ) {
 				try {
-					$sizes[ $size ]['size'] = WP_Live_Debug_WordPress_Info::get_directory_size( $attributes['path'] );
+					$sizes[ $size ]['size'] = WP_Live_Debug_Helper::get_directory_size( $attributes['path'] );
 				} catch ( Exception $e ) {
 					$inaccurate = true;
 				}
 			}
 
-			$size_db = WP_Live_Debug_WordPress_Info::get_database_size();
+			$size_db = WP_Live_Debug_Helper::get_database_size();
 
 			$size_total = $sizes['wp']['size'] + $size_db;
 
@@ -408,37 +408,8 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			wp_send_json_success( $response );
 		}
 
-		public static function get_directory_size( $path ) {
-			$size = 0;
-
-			foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $path ) ) as $file ) {
-				$size += $file->getSize();
-			}
-
-			return $size;
-		}
-
-		public static function get_database_size() {
-			global $wpdb;
-			$size = 0;
-			$rows = $wpdb->get_results( 'SHOW TABLE STATUS', ARRAY_A );
-
-			if ( $wpdb->num_rows > 0 ) {
-				foreach ( $rows as $row ) {
-					$size += $row['Data_length'] + $row['Index_length'];
-				}
-			}
-
-			return $size;
-		}
-
-		public static function gather_constants_info() {
-			WP_Live_Debug::table_info( WP_Live_Debug_WordPress_Info::get_wp_constants() );
-		}
-
-		public static function get_wp_constants() {
-			$wp        = array();
-			$wp_consts = array(
+		public static function constants() {
+			$defines = array(
 				'ABSPATH',
 				'ADMIN_COOKIE_PATH',
 				'ALTERNATE_WP_CRON',
@@ -510,11 +481,17 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				'WPMU_PLUGIN_URL',
 			);
 
-			foreach ( $wp_consts as $const ) {
-				$wp[ $const ] = WP_Live_Debug::format_constant( $const );
+			foreach ( $defines as $define ) {
+				$constants[ $define ] = WP_Live_Debug_Helper::format_constant( $define );
 			}
 
-			return $wp;
+			$output = WP_Live_Debug_Helper::table_general( $constants );
+
+			$response = array(
+				'message' => $output,
+			);
+
+			wp_send_json_success( $response );
 		}
 	}
 }
