@@ -106,7 +106,10 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 			$host = get_site_url();
 			$host = str_replace( array( 'http://', 'https://' ), '', $host );
 			update_option( 'wp_live_debug_ssl_domain', $host );
+			WP_Live_Debug::create_debug_log();
+		}
 
+		public static function create_debug_log() {
 			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
 
 			if ( ! file_exists( $log_file ) ) {
