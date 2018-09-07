@@ -30,9 +30,9 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 		 * @return void
 		 */
 		public static function init() {
-			add_action( 'wp_ajax_wp-live-debug-gather-server-info', array( 'WP_Live_Debug_Server_Info', 'server_info' ) );
-			add_action( 'wp_ajax_wp-live-debug-gather-mysql-info', array( 'WP_Live_Debug_Server_Info', 'mysql_info' ) );
-			add_action( 'wp_ajax_wp-live-debug-gather-php-info', array( 'WP_Live_Debug_Server_Info', 'php_info' ) );
+			add_action( 'wp_ajax_wp-live-debug-server-info-server-info', array( 'WP_Live_Debug_Server_Info', 'server_info' ) );
+			add_action( 'wp_ajax_wp-live-debug-server-info-mysql-info', array( 'WP_Live_Debug_Server_Info', 'mysql_info' ) );
+			add_action( 'wp_ajax_wp-live-debug-server-info-php-info', array( 'WP_Live_Debug_Server_Info', 'php_info' ) );
 		}
 
 		public static function create_page() {
