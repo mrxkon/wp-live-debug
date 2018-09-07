@@ -7,7 +7,7 @@
 		debugArea              = $( '#wp-live-debug-area' ),
 		refreshData            = { 'action': 'wp-live-debug-read-log' },
 		clearButton            = $( '#wp-live-debug-clear' ),
-		clearData              = { 'action': 'wp-live-debug-clear-debug-log' },
+		deleteButton           = $( '#wp-live-debug-delete' ),
 		backupButton           = $( '#wp-live-debug-backup' ),
 		createBackupData       = { 'action': 'wp-live-debug-create-backup' },
 		restoreButton          = $( '#wp-live-debug-restore' ),
@@ -246,10 +246,36 @@
 		}, 2000 );
 		// Handle the clear button clicks.
 		clearButton.on( 'click', function( e ) {
+			var nonce = $( this ).data( 'nonce' ),
+				log   = $( this ).data( 'log' ),
+				data;
 			e.preventDefault();
-			$.post( ajaxurl, clearData, function( response ) {
+			data = {
+				'action': 'wp-live-debug-clear-debug-log',
+				'log': log,
+				'nonce': nonce
+			}
+			$.post( ajaxurl, data, function( response ) {
 				debugArea.html( response );
 				scrollDebugAreaToBottom();
+			} );
+		} );
+		// Handle the delete button clicks.
+		deleteButton.on( 'click', function( e ) {
+			var nonce = $( this ).data( 'nonce' ),
+				log   = $( this ).data( 'log' ),
+				data;
+			e.preventDefault();
+			$( this ).find( '.sui-icon-trash' ).removeClass( 'sui-icon-trash' ).addClass( 'sui-icon-loader sui-loading' ).css( 'display', 'inline-block' ).css( 'position', 'relative' );
+			data = {
+				'action': 'wp-live-debug-delete-debug-log',
+				'log': log,
+				'nonce': nonce
+			}
+			$.post( ajaxurl, data, function( response ) {
+				if ( response.success ) {
+					window.location.href = window.location.href;
+				}
 			} );
 		} );
 		// Create wp-config backup

@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore
 /**
  *
  * Plugin Name:       WP Live Debug

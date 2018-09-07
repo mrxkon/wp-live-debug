@@ -61,6 +61,13 @@ Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F.
 
 ### Changelog
 
+#### NEXT: 4.9.8.6
+* Log viewer UI changes
+* Add full log path on viewer title
+* Clear any log
+* Delete any log
+* PHPCS Fixes
+
 #### 4.9.8.5
 * Add Info to Snapshot
 

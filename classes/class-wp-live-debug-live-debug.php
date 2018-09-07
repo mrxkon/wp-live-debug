@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 // Check that the file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -33,6 +33,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-read-log', array( 'WP_Live_Debug_Live_Debug', 'read_debug_log' ) );
 			add_action( 'wp_ajax_wp-live-debug-select-log', array( 'WP_Live_Debug_Live_Debug', 'select_log_file' ) );
 			add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( 'WP_Live_Debug_Live_Debug', 'clear_debug_log' ) );
+			add_action( 'wp_ajax_wp-live-debug-delete-debug-log', array( 'WP_Live_Debug_Live_Debug', 'delete_debug_log' ) );
 			add_action( 'wp_ajax_wp-live-debug-create-backup', array( 'WP_Live_Debug_Live_Debug', 'create_wp_config_backup' ) );
 			add_action( 'wp_ajax_wp-live-debug-restore-backup', array( 'WP_Live_Debug_Live_Debug', 'restore_wp_config_backup' ) );
 			add_action( 'wp_ajax_wp-live-debug-enable', array( 'WP_Live_Debug_Live_Debug', 'enable_wp_debug' ) );
@@ -51,11 +52,12 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 * @return void
 		 */
 		public static function create_page() {
+			$option_log_name = wp_normalize_path( get_option( 'wp_live_debug_log_file' ) );
 			?>
 				<div class="sui-box">
 					<div class="sui-box-body">
 						<div class="sui-form-field">
-						<label for="wp-live-debug-area" class="sui-label"><?php echo esc_html__( 'Viewing', 'wp-live-debug' ) . ': ' . basename( get_option( 'wp_live_debug_log_file' ) ); ?></label>
+							<label for="wp-live-debug-area" class="sui-label"><?php echo esc_html__( 'Viewing', 'wp-live-debug' ) . ': ' . $option_log_name; ?></label>
 							<textarea id="wp-live-debug-area" name="wp-live-debug-area" class="sui-form-control"></textarea>
 						</div>
 						<?php
@@ -81,62 +83,63 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 							?>
 						</select>
 					</div>
-				</div>
-				<div class="sui-box">
-					<div class="sui-box-header">
-						<h3 class="sui-box-title">Options</h3>
-					</div>
 					<div class="sui-box-body">
 						<div class="sui-row">
-							<div class="sui-col-md-4 sui-col-lg-2">
+							<div class="sui-col-md-4 sui-col-lg-4 text-center">
+									<button id="wp-live-debug-clear" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="sui-button sui-button-primary"><?php esc_html_e( 'Clear Log', 'wp-live-debug' ); ?></button>
+							</div>
+							<div class="sui-col-md-4 sui-col-lg-4 text-center">
+									<button id="wp-live-debug-delete" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="sui-button sui-button-ghost sui-button-red"><i class="sui-icon-trash" aria-hidden="true"></i> <?php esc_html_e( 'Delete Log', 'wp-live-debug' ); ?></button>
+							</div>
+							<div class="sui-col-md-4 sui-col-lg-4 text-center">
+								<label class="sui-toggle">
+									<input type="checkbox" id="toggle-auto-refresh">
+									<span class="sui-toggle-slider"></span>
+								</label>
+								<label for="toggle-auto-refresh"><?php esc_html_e( 'Auto Refresh Log', 'wp-live-debug' ); ?></label>
+							</div>
+						</div>
+						<div class="sui-box-settings-row divider"></div>
+						<div class="sui-row mt30">
+							<div class="sui-col-md-6 sui-col-lg-3 text-center">
 								<?php if ( ! WP_Live_Debug_Live_Debug::check_wp_config_backup() ) { ?>
-									<input id="wp-live-debug-backup" type="button" class="sui-button sui-button-green" value="<?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?>">
+									<button id="wp-live-debug-backup" type="button" class="sui-button sui-button-green"><?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?></button>
 								<?php } else { ?>
-									<input id="wp-live-debug-restore" type="button" class="sui-button sui-button-primary" value="<?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?>">
+									<button id="wp-live-debug-restore" type="button" class="sui-button sui-button-primary"><?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?></button>
 								<?php } ?>
 							</div>
-							<div class="sui-col-md-4 sui-col-lg-2">
-									<input id="wp-live-debug-clear" type="button" class="sui-button sui-button" value="<?php esc_html_e( 'Clear debug.log', 'wp-live-debug' ); ?>">
-							</div>
-							<div class="sui-col-md-4 sui-col-lg-2">
+							<div class="sui-col-md-6 sui-col-lg-3 text-center">
 								<span class="sui-tooltip sui-tooltip-top sui-tooltip-constrained" data-tooltip="The WP_DEBUG constant that can be used to trigger the 'debug' mode throughout WordPress. This will enable WP_DEBUG, WP_DEBUG_LOG and disable WP_DEBUG_DISPLAY and display_errors.">
 									<label class="sui-toggle">
 										<input type="checkbox" id="toggle-wp-debug" <?php echo ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'checked' : ''; ?> >
 										<span class="sui-toggle-slider"></span>
 									</label>
-									<label for="toggle-wp-debug">WP Debug</label>
+									<label for="toggle-wp-debug"><?php esc_html_e( 'WP Debug', 'wp-live-debug' ); ?></label>
 								</span>
 							</div>
-							<div class="sui-col-md-4 sui-col-lg-2">
+							<div class="sui-col-md-6 sui-col-lg-3 text-center">
 								<span class="sui-tooltip sui-tooltip-top sui-tooltip-constrained" data-tooltip="The SCRIPT_DEBUG constant will force WordPress to use the 'dev' versions of some core CSS and JavaScript files rather than the minified versions that are normally loaded.">
 									<label class="sui-toggle">
 										<input type="checkbox" id="toggle-script-debug" <?php echo ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'checked' : ''; ?> >
 										<span class="sui-toggle-slider"></span>
 									</label>
-									<label for="toggle-script-debug">Script Debug</label>
+									<label for="toggle-script-debug"><?php esc_html_e( 'Script Debug', 'wp-live-debug' ); ?></label>
 								</span>
 							</div>
-							<div class="sui-col-md-4 sui-col-lg-2">
+							<div class="sui-col-md-6 sui-col-lg-3 text-center">
 								<span class=" sui-tooltip sui-tooltip-top sui-tooltip-constrained" data-tooltip="The SAVEQUERIES constant causes each query to be saved in the databse along with how long that query took to execute and what function called it. The array is stored in the global $wpdb->queries.">
 									<label class="sui-toggle">
 										<input type="checkbox" id="toggle-savequeries" <?php echo ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) ? 'checked' : ''; ?> >
 										<span class="sui-toggle-slider"></span>
 									</label>
-									<label for="toggle-savequeries">Save Queries</label>
+									<label for="toggle-savequeries"><?php esc_html_e( 'Save Queries', 'wp-live-debug' ); ?></label>
 								</span>
-							</div>
-							<div class="sui-col-md-4 sui-col-lg-2">
-								<label class="sui-toggle">
-									<input type="checkbox" id="toggle-auto-refresh">
-									<span class="sui-toggle-slider"></span>
-								</label>
-								<label for="toggle-auto-refresh">Auto Refresh</label>
 							</div>
 						</div>
 					</div>
 					<div class="sui-box-footer">
 						<p class="sui-description">
-							More information at <a target="_blank" rel="noopener" href="https://codex.wordpress.org/Debugging_in_WordPress">Debugging in WordPress</a>.
+							<?php esc_html_e( 'More information at', 'wp-live-debug' ); ?> <a target="_blank" rel="noopener" href="https://codex.wordpress.org/Debugging_in_WordPress">Debugging in WordPress</a>.
 						</p>
 					</div>
 				</div>
@@ -805,7 +808,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Read debug.log contents and return them.
+		 * Read log.
 		 *
 		 * @uses file_exists()
 		 * @uses fopen()
@@ -819,6 +822,11 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 */
 		public static function read_debug_log() {
 			$log_file = get_option( 'wp_live_debug_log_file' );
+
+			if ( ! file_exists( $log_file ) ) {
+				// translators: %1$s log filename.
+				$debug_contents = sprintf( esc_html__( 'Could not find %1$s file.', 'wp-live-deubg' ), basename( $log_file ) );
+			}
 
 			if ( 2000000 > filesize( $log_file ) ) {
 				$debug_contents = file_get_contents( $log_file );
@@ -856,7 +864,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Clear debug.log content.
+		 * Clear log.
 		 *
 		 * @uses file_put_contents()
 		 * @uses wp_die()
@@ -864,8 +872,45 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 * @return void
 		 */
 		public static function clear_debug_log() {
-			file_put_contents( WP_CONTENT_DIR . '/debug.log', '' );
-			wp_die();
+			$nonce    = sanitize_text_field( $_POST['nonce'] );
+			$log_file = sanitize_text_field( $_POST['log'] );
+
+			if ( ! wp_verify_nonce( $nonce, $log_file ) ) {
+				wp_send_json_error();
+			}
+
+			if ( 'log' != substr( strrchr( $log_file, '.' ), 1 ) ) {
+				wp_send_json_error();
+			}
+
+			file_put_contents( $log_file, '' );
+
+			wp_send_json_success();
+		}
+
+		/**
+		 * Delete log.
+		 *
+		 * @uses file_put_contents()
+		 * @uses wp_die()
+		 *
+		 * @return void
+		 */
+		public static function delete_debug_log() {
+			$nonce    = sanitize_text_field( $_POST['nonce'] );
+			$log_file = sanitize_text_field( $_POST['log'] );
+
+			if ( ! wp_verify_nonce( $nonce, $log_file ) ) {
+				wp_send_json_error();
+			}
+
+			if ( 'log' != substr( strrchr( $log_file, '.' ), 1 ) ) {
+				wp_send_json_error();
+			}
+
+			unlink( $log_file );
+
+			wp_send_json_success();
 		}
 	}
 

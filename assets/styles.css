@@ -2,7 +2,7 @@ body.toplevel_page_wp-live-debug textarea#wp-live-debug-area {
 	font-family: Consolas,Monaco,monospace;
 	font-size: 12px;
 	width: 100%;
-	min-height:500px;
+	min-height:400px;
 }
 body.toplevel_page_wp-live-debug .center table {
 	max-width: 100% !important;
@@ -36,4 +36,17 @@ body.toplevel_page_wp-live-debug table.diff td:nth-child(2) {
 }
 body.toplevel_page_wp-live-debug #ssl-response {
 	padding-top: 30px;
+}
+body.toplevel_page_wp-live-debug .mt30 {
+	margin-top: 30px;
+}
+body.toplevel_page_wp-live-debug .divider {
+	margin-top: 0 !important;
+	padding-bottom: 0 !important;
+}
+body.toplevel_page_wp-live-debug .text-center {
+	text-align: center;
+}
+body.toplevel_page_wp-live-debug #wp-live-debug-delete i {
+	display: none;
 }
