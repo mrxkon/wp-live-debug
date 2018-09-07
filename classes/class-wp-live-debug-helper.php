@@ -48,11 +48,11 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			$table  = '<table class="sui-table striped"><thead><tr><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Filters', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 			$table .= '<tr><td>';
 			foreach ( $array['actions'] as $action ) {
-				$table .= 'add_action( \'<strong>' . $action . '</strong>\', \'some_function\' );<br>';
+				$table .= $action . '<br>';
 			}
 			$table .= '</td><td>';
 			foreach ( $array['filters'] as $filter ) {
-				$table .= 'add_filter( \'<strong>' . $filter . '</strong>\', \'some_function\' );<br>';
+				$table .= $filter . '<br>';
 			}
 			$table .= '</td><tr>';
 			$table .= '<tfoot><tr><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Filters', 'wp-live-debug' ) . '</th></tr></tfoot>';
@@ -75,7 +75,7 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 
 		public static function format_constant( $constant ) {
 			if ( ! defined( $constant ) ) {
-				return '<em>Undefined</em>';
+				return '<em>' . esc_html__( 'Undefined', 'wp-live-debug' ) . '</em>';
 			}
 			$value = constant( $constant );
 			if ( ! is_bool( $value ) ) {
