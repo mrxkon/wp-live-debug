@@ -30,8 +30,8 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 		 * @return void
 		 */
 		public static function init() {
-			add_action( 'wp_ajax_wp-live-debug-gather-snapshot-constants', array( 'WP_Live_Debug_WPMUDEV', 'gather_snapshot_constants_info' ) );
-			//add_action( 'wp_ajax_wp-live-debug-gather-shipper-constants', array( 'WP_Live_Debug_WPMUDEV', 'gather_shipper_constants_info' ) );
+			add_action( 'wp_ajax_wp-live-debug-gather-snapshot-constants', array( 'WP_Live_Debug_WPMUDEV', 'gather_snapshot_info' ) );
+			add_action( 'wp_ajax_wp-live-debug-gather-shipper-constants', array( 'WP_Live_Debug_WPMUDEV', 'gather_shipper_info' ) );
 		}
 
 		public static function create_page() {
@@ -43,7 +43,7 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 								<div class="active"><?php esc_html_e( 'Dashboard', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Defender', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Hummingbird', 'wp-live-debug' ); ?></div>
-								<!--<div><?php //esc_html_e( 'Shipper', 'wp-live-debug' ); ?></div>-->
+								<div><?php esc_html_e( 'Shipper', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Smartcrawl', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Smush', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Snapshot', 'wp-live-debug' ); ?></div>
@@ -58,9 +58,9 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 								<div id="wpmudev-hummingbird-info">
 									Not yet implemented!
 								</div>
-								<!-- <div id="wpmudev-shipper-info">
+								<div id="wpmudev-shipper-info">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-								</div> -->
+								</div>
 								<div id="wpmudev-smartcrawl-info">
 									Not yet implemented!
 								</div>
@@ -77,40 +77,126 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 			<?php
 		}
 
-		public static function gather_shipper_constants_info() {
-			WP_Live_Debug::table_info( WP_Live_Debug_WPMUDEV::get_shipper_constants() );
-		}
-
-		public static function get_shipper_constants() {
-			$output    = array();
-			$constants = array(
-				'SHIPPER_EXPORTED_TABLE_CHARSET',
-				'SHIPPER_EXPORTED_TABLE_COLLATION',
-				'SHIPPER_I_KNOW_WHAT_IM_DOING',
-				'SHIPPER_MOCK_API',
-				'SHIPPER_MOCK_IMPORT',
-				'SHIPPER_MOCK_IMPORT_DB',
-				'SHIPPER_MOCK_IMPORT_FS',
-				'SHIPPER_QUICK_EXPORT',
-				'SHIPPER_QUICK_EXPORT_DB',
-				'SHIPPER_QUICK_EXPORT_FS',
-				'SHIPPER_RUNNER_PING_TIMEOUT',
+		public static function gather_shipper_info() {
+			$defines = array(
+				array(
+					'SHIPPER_EXPORTED_TABLE_CHARSET',
+					'',
+					'',
+				),
+				array(
+					'SHIPPER_EXPORTED_TABLE_COLLATION',
+					'',
+					'',
+				),
+				array(
+					'SHIPPER_I_KNOW_WHAT_IM_DOING',
+					'',
+					'',
+				),
+				array(
+					'SHIPPER_MOCK_API',
+					'',
+					'',
+				),
+				array(
+					'SHIPPER_MOCK_IMPORT',
+					'',
+					'',
+				),
+				array(
+					'SHIPPER_MOCK_IMPORT_DB',
+					'',
+					'',
+				),
+				array(
+					'SHIPPER_MOCK_IMPORT_FS',
+					'',
+					'',
+				),
+				array(
+					'SHIPPER_QUICK_EXPORT',
+					'',
+					'',
+				),
+				array(
+					'SHIPPER_QUICK_EXPORT_DB',
+					'',
+					'',
+				),
+				array(
+					'SHIPPER_QUICK_EXPORT_FS',
+					'',
+					'',
+				),
+				array(
+					'SHIPPER_RUNNER_PING_TIMEOUT',
+					'',
+					'',
+				),
 			);
 
-			foreach ( $constants as $constant ) {
-				$output[ $constant ] = WP_Live_Debug::format_constant( $constant );
+			foreach ( $defines as $key => $define ) {
+				$constants[ $key ][0] = $define[0];
+				$constants[ $key ][1] = $define[1];
+				$constants[ $key ][2] = WP_Live_Debug_Helper::format_constant( $define[0] );
+				$constants[ $key ][3] = $define[2];
 			}
 
-			return $output;
+			$output = WP_Live_Debug_Helper::table_wpmudev_constants( $constants );
+
+			$actions_filters = array(
+				'actions' => array(
+					'shipper_runner_pre_request_tick',
+					'shipper_migration_complete',
+					'shipper_migration_cancel_local',
+					'shipper_migration_cancel',
+				),
+				'filters' => array(
+					'shipper_api_mock_local',
+					'shipper_internals_is_in_debug_mode',
+					'shipper_runner_tick_validity_interval',
+					'shipper_runner_ping_is_blocking',
+					'shipper_runner_is_auth_requiring_env',
+					'shipper_runner_ping_timeout',
+					'shipper_migration_log_clear',
+					'shipper_assets_shipper_icon',
+					'shipper_hash_obfuscation_key',
+					'shipper_helper_system_disabled',
+					'shipper_helper_system_changeable',
+					'shipper_helper_system_safemode',
+					'shipper_path_include_file',
+					'shipper_thresholds_max_file_size',
+					'shipper_thresholds_max_package_size',
+					'shipper_checks_hub_dashboard_present',
+					'shipper_checks_hub_dashboard_active',
+					'shipper_checks_hub_dashboard_apikey',
+					'shipper_api_service_url',
+					'shipper_api_request_args',
+					'shipper_path_include_table',
+					'shipper_export_tables_row_limit',
+					'shipper_export_tables_create_{something}',
+					'shipper_import_mock_files',
+					'shipper_task_import_tables_list',
+					'shipper_import_tables_row_limit',
+					'shipper_import_mock_tables',
+					'shipper_await_cancel_{$identifier}_max',
+					'shipper_await_cancel_{$identifier}_step',
+					'shipper_site_uniqid',
+				),
+			);
+
+			$output .= WP_Live_Debug_Helper::table_wpmudev_actions_filters( $actions_filters );
+
+			$response = array(
+				'message' => $output,
+			);
+
+			wp_send_json_success( $response );
 		}
 
-		public static function gather_snapshot_constants_info() {
-			WP_Live_Debug_WPMUDEV::table_wpmudev_info( WP_Live_Debug_WPMUDEV::get_snapshot_constants() );
-		}
-
-		public static function get_snapshot_constants() {
-			$snapshot           = array();
-			$snapshot_constants = array(
+		public static function gather_snapshot_info() {
+			$defines = array(
 				array(
 					'SNAPSHOT_ATTEMPT_SYSTEM_BACKUP',
 					'FALSE',
@@ -188,48 +274,63 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 				),
 			);
 
-			foreach ( $snapshot_constants as $key => $constant ) {
-				$snapshot[ $key ][0] = $constant[0];
-				$snapshot[ $key ][1] = $constant[1];
-				$snapshot[ $key ][2] = WP_Live_Debug_WPMUDEV::format_wpmudev_constant( $constant[0] );
-				$snapshot[ $key ][3] = $constant[2];
+			foreach ( $defines as $key => $define ) {
+				$constants[ $key ][0] = $define[0];
+				$constants[ $key ][1] = $define[1];
+				$constants[ $key ][2] = WP_Live_Debug_Helper::format_constant( $define[0] );
+				$constants[ $key ][3] = $define[2];
 			}
 
-			return $snapshot;
-		}
+			$output = WP_Live_Debug_Helper::table_wpmudev_constants( $constants );
 
-		public static function table_wpmudev_info( $list ) {
-			$output = '<table class="sui-table striped"><thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Default Value', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
+			$actions_filters = array(
+				'actions' => array(
+					'shipper_runner_pre_request_tick',
+					'shipper_migration_complete',
+					'shipper_migration_cancel_local',
+					'shipper_migration_cancel',
+				),
+				'filters' => array(
+					'shipper_api_mock_local',
+					'shipper_internals_is_in_debug_mode',
+					'shipper_runner_tick_validity_interval',
+					'shipper_runner_ping_is_blocking',
+					'shipper_runner_is_auth_requiring_env',
+					'shipper_runner_ping_timeout',
+					'shipper_migration_log_clear',
+					'shipper_assets_shipper_icon',
+					'shipper_hash_obfuscation_key',
+					'shipper_helper_system_disabled',
+					'shipper_helper_system_changeable',
+					'shipper_helper_system_safemode',
+					'shipper_path_include_file',
+					'shipper_thresholds_max_file_size',
+					'shipper_thresholds_max_package_size',
+					'shipper_checks_hub_dashboard_present',
+					'shipper_checks_hub_dashboard_active',
+					'shipper_checks_hub_dashboard_apikey',
+					'shipper_api_service_url',
+					'shipper_api_request_args',
+					'shipper_path_include_table',
+					'shipper_export_tables_row_limit',
+					'shipper_export_tables_create_{something}',
+					'shipper_import_mock_files',
+					'shipper_task_import_tables_list',
+					'shipper_import_tables_row_limit',
+					'shipper_import_mock_tables',
+					'shipper_await_cancel_{$identifier}_max',
+					'shipper_await_cancel_{$identifier}_step',
+					'shipper_site_uniqid',
+				),
+			);
 
-			foreach ( $list as $key => $value ) {
-				$output .= '<tr><td>' . esc_html( $value[0] ) . '</td><td>' . $value[1] . '</td><td>' . $value[2] . '</td></tr>';
-				$output .= '<tr><td colspan="3"><em>' . esc_html( $value[3] ) . '</em></td></tr>';
-			}
-			$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Default Value', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
-			$output .= '</tbody></table>';
+			$output .= WP_Live_Debug_Helper::table_wpmudev_actions_filters( $actions_filters );
 
 			$response = array(
 				'message' => $output,
 			);
 
 			wp_send_json_success( $response );
-		}
-
-		public static function format_wpmudev_constant( $constant ) {
-
-			if ( ! defined( $constant ) ) {
-				return '<em>undefined</em>';
-			}
-
-			$val = constant( $constant );
-
-			if ( ! is_bool( $val ) ) {
-				return $val;
-			} elseif ( ! $val ) {
-				return 'FALSE';
-			} else {
-				return 'TRUE';
-			}
 		}
 
 	}

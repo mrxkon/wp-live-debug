@@ -306,48 +306,8 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 			</div>
 			<?php
 		}
-
-		public static function table_info( $list ) {
-			$output = '<table class="sui-table striped"><thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
-
-			foreach ( $list as $key => $value ) {
-				$output .= '<tr><td>' . esc_html( $key ) . '</td><td>' . $value . '</td></tr>';
-			}
-			$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
-			$output .= '</tbody></table>';
-
-			$response = array(
-				'message' => $output,
-			);
-
-			wp_send_json_success( $response );
-		}
-
-		public static function format_num( $val ) {
-			if ( is_numeric( $val ) and ( $val >= ( 1024 * 1024 ) ) ) {
-				$val = size_format( $val );
-			}
-
-			return $val;
-		}
-
-		public static function format_constant( $constant ) {
-			if ( ! defined( $constant ) ) {
-				return '<em>undefined</em>';
-			}
-
-			$val = constant( $constant );
-
-			if ( ! is_bool( $val ) ) {
-				return $val;
-			} elseif ( ! $val ) {
-				return 'FALSE';
-			} else {
-				return 'TRUE';
-			}
-		}
-
 	}
+
 	// Activation Hook
 	register_activation_hook( __FILE__, array( 'WP_Live_Debug', 'on_activate' ) );
 
@@ -361,6 +321,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-cronjob-info.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-tools.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-wpmudev.php';
+	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-helper.php';
 
 	// Initialize WP Live Debug.
 	new WP_Live_Debug();
@@ -369,4 +330,5 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	new WP_Live_Debug_Cronjob_Info();
 	new WP_Live_Debug_Tools();
 	new WP_Live_Debug_WPMUDEV();
+	new WP_Live_Debug_Helper();
 }
