@@ -34,6 +34,13 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-gather-shipper-constants', array( 'WP_Live_Debug_WPMUDEV', 'gather_shipper_info' ) );
 		}
 
+		/**
+		 * Create the WPMU DEV page.
+		 *
+		 * @uses esc_html__()
+		 *
+		 * @return string html The html of the page viewed.
+		 */
 		public static function create_page() {
 			?>
 				<div class="sui-box">
@@ -77,6 +84,16 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 			<?php
 		}
 
+		/**
+		 * Gather Shipper plugin information.
+		 *
+		 * @uses WP_Live_Debug_Helper::format_constant()
+		 * @uses WP_Live_Debug_Helper::table_wpmudev_constants()
+		 * @uses WP_Live_Debug_Helper::table_wpmudev_actions_filters()
+		 * @uses wp_send_json_success()
+		 *
+		 * @return string json success with the response.
+		 */
 		public static function gather_shipper_info() {
 			$defines = array(
 				array(
@@ -195,6 +212,16 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 			wp_send_json_success( $response );
 		}
 
+		/**
+		 * Gather Snapshot plugin information.
+		 *
+		 * @uses WP_Live_Debug_Helper::format_constant()
+		 * @uses WP_Live_Debug_Helper::table_wpmudev_constants()
+		 * @uses WP_Live_Debug_Helper::table_wpmudev_actions_filters()
+		 * @uses wp_send_json_success()
+		 *
+		 * @return string json success with the response.
+		 */
 		public static function gather_snapshot_info() {
 			$defines = array(
 				array(
@@ -342,6 +369,5 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 
 			wp_send_json_success( $response );
 		}
-
 	}
 }

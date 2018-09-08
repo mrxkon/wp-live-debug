@@ -35,7 +35,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 		}
 
 		/**
-		 * Create Schedules Events page.
+		 * Create the Schedules Events page.
 		 *
 		 * @uses esc_html__()
 		 *
