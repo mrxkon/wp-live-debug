@@ -206,7 +206,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 				if ( is_a( $actions['function'], 'Closure' ) ) {
 					$actions['name'] = 'Closure';
 				} else {
-					$class          = get_class( $actions['function'] );
+					$class           = get_class( $actions['function'] );
 					$actions['name'] = $class . '->__invoke()';
 				}
 			} else {
