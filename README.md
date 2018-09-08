@@ -66,7 +66,8 @@ Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F.
 * Add full log path on viewer title
 * Clear any log
 * Delete any log
-* PHPCS Fixes
+* Various fixes
+* PHPCS fixes
 
 #### 4.9.8.5
 * Add Info to Snapshot
