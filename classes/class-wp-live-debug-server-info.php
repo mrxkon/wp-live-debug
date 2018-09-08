@@ -35,6 +35,14 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-server-info-php-info', array( 'WP_Live_Debug_Server_Info', 'php_info' ) );
 		}
 
+		/**
+		 * Create the Server page.
+		 *
+		 * @uses esc_html_e()
+		 * @uses WP_Live_Debug_Server_Info::phpinfo_info()
+		 *
+		 * @return string The html of the page viewed.
+		 */
 		public static function create_page() {
 			?>
 				<div class="sui-box">
@@ -66,6 +74,13 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			<?php
 		}
 
+		/**
+		 * Get the Server information.
+		 *
+		 * @uses WP_Live_Debug_Helper::table_general()
+		 *
+		 * @return string json success with the response.
+		 */
 		public static function server_info() {
 			$server      = array();
 			$server_info = explode( ' ', $_SERVER['SERVER_SOFTWARE'] );
@@ -96,6 +111,17 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			wp_send_json_success( $response );
 		}
 
+		/**
+		 * Get the Server information.
+		 *
+		 * @uses wpdb
+		 * @uses get_results()
+		 * @uses esc_html__()
+		 * @uses WP_Live_Debug_Helper::format_num()
+		 * @uses WP_Live_Debug_Helper::table_general()
+		 *
+		 * @return string json success with the response.
+		 */
 		public static function mysql_info() {
 			global $wpdb;
 
@@ -177,6 +203,14 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			wp_send_json_success( $response );
 		}
 
+		/**
+		 * Get the PHP information.
+		 *
+		 * @uses WP_Live_Debug_Helper::get_php_errors()
+		 * @uses WP_Live_Debug_Helper::table_general()
+		 *
+		 * @return string json success with the response.
+		 */
 		public static function php_info() {
 			$php      = array();
 			$php_vars = array(
@@ -229,6 +263,13 @@ if ( ! class_exists( 'WP_Live_Debug_Server_Info' ) ) {
 			wp_send_json_success( $response );
 		}
 
+		/**
+		 * Get the phpinfo().
+		 *
+		 * @uses _e()
+		 *
+		 * @return string phpinfo() contents.
+		 */
 		public static function phpinfo_info() {
 			if ( ! function_exists( 'phpinfo' ) ) {
 				?>

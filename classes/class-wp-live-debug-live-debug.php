@@ -52,6 +52,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 * @uses RecursiveIteratorIterator
 		 * @uses getExtension()
 		 * @uses esc_html__()
+		 * @uses esc_html_e()
 		 * @uses wp_create_nonce()
 		 *
 		 * @return string The html of the page viewed.
