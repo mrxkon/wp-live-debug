@@ -30,8 +30,8 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 		 * @return void
 		 */
 		public static function init() {
-			add_action( 'wp_ajax_wp-live-debug-cronjob-info-list', array( 'WP_Live_Debug_Cronjob_Info', 'list' ) );
-			add_action( 'wp_ajax_wp-live-debug-cronjob-info-run', array( 'WP_Live_Debug_Cronjob_Info', 'run' ) );
+			add_action( 'wp_ajax_wp-live-debug-cronjob-info-scheduled-events', array( 'WP_Live_Debug_Cronjob_Info', 'scheduled_events' ) );
+			add_action( 'wp_ajax_wp-live-debug-cronjob-info-run-event', array( 'WP_Live_Debug_Cronjob_Info', 'run_event' ) );
 		}
 
 		public static function create_page() {
@@ -51,7 +51,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 				</div>
 				<div class="sui-box">
 					<div class="sui-box-header">
-						<h2 class="sui-box-title"><?php esc_html_e( 'Scheduled Tasks', 'wp-live-debug' ); ?></h2>
+						<h2 class="sui-box-title"><?php esc_html_e( 'Scheduled Events', 'wp-live-debug' ); ?></h2>
 					</div>
 					<div class="sui-box-body" id="cronjob-response">
 						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
@@ -60,7 +60,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			<?php
 		}
 
-		public static function list() {
+		public static function scheduled_events() {
 
 			if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
 				$output = '<div class="sui-notice sui-notice-error"><p>' . esc_html__( 'WP Cron is Disabled!', 'wp-live-debug' ) . '</p></div>';
@@ -75,7 +75,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			}
 
 			$output .= '<table class="sui-table striped">';
-			$output .= '<thead><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
+			$output .= '<thead><tr><th>' . esc_html__( 'Event', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 
 			$events = WP_Live_Debug_Cronjob_Info::get_events();
 
@@ -109,7 +109,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			wp_send_json_success( $response );
 		}
 
-		public static function run() {
+		public static function run_event() {
 			$hook  = sanitize_text_field( $_POST['hook'] );
 			$sig   = sanitize_text_field( $_POST['sig'] );
 			$nonce = sanitize_text_field( $_POST['nonce'] );

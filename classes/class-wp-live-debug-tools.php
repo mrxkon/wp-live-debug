@@ -30,10 +30,10 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		 * @return void
 		 */
 		public static function init() {
+			add_action( 'wp_ajax_wp-live-debug-get-ssl-information', array( 'WP_Live_Debug_Tools', 'get_ssl_information' ) );
 			add_action( 'wp_ajax_wp-live-debug-checksums-check', array( 'WP_Live_Debug_Tools', 'run_checksums_check' ) );
 			add_action( 'wp_ajax_wp-live-debug-view-diff', array( 'WP_Live_Debug_Tools', 'view_file_diff' ) );
 			add_action( 'wp_ajax_wp-live-debug-mail', array( 'WP_Live_Debug_Tools', 'send_mail' ) );
-			add_action( 'wp_ajax_wp-live-debug-get-ssl-information', array( 'WP_Live_Debug_Tools', 'get_ssl_information' ) );
 		}
 
 		public static function create_page() {

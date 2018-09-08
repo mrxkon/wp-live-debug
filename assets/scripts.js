@@ -35,7 +35,7 @@
 		phpInfodata            = { 'action': 'wp-live-debug-server-info-php-info' },
 		constantsInfo          = $( '#constants-info' ),
 		constantsInfodata      = { 'action': 'wp-live-debug-wordpress-info-constants' },
-		cronjobInfodata        = { 'action': 'wp-live-debug-cronjob-info-list' },
+		cronjobInfodata        = { 'action': 'wp-live-debug-cronjob-info-scheduled-events' },
 		cronjobInfo            = $( '#cronjob-response' ),
 		cronjobRunButton       = 'a[data-do=run-job]',
 		cronjobRespHolder      = $( '.hookname' ),
@@ -137,7 +137,7 @@
 			data;
 		e.preventDefault();
 		data = {
-			'action': 'wp-live-debug-cronjob-info-run',
+			'action': 'wp-live-debug-cronjob-info-run-event',
 			'hook': hook,
 			'sig': sig,
 			'nonce': nonce

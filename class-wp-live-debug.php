@@ -230,7 +230,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 								<a href="?page=wp-live-debug&subpage=Server"><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></a>
 							</li>
 							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'Cron' === $subpage ) ? 'current' : ''; ?>">
-								<a href="?page=wp-live-debug&subpage=Cron"><?php esc_html_e( 'Scheduled Tasks', 'wp-live-debug' ); ?></a>
+								<a href="?page=wp-live-debug&subpage=Cron"><?php esc_html_e( 'Scheduled Events', 'wp-live-debug' ); ?></a>
 							</li>
 							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'Tools' === $subpage ) ? 'current' : ''; ?>">
 								<a href="?page=wp-live-debug&subpage=Tools"><?php esc_html_e( 'Tools', 'wp-live-debug' ); ?></a>
@@ -244,7 +244,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 								<option value="?page=wp-live-debug" <?php echo ( empty( $subpage ) ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Live Debug', 'wp-live-debug' ); ?></option>
 								<option value="?page=wp-live-debug&subpage=WordPress" <?php echo ( ! empty( $subpage ) && 'WordPress' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'WordPress', 'wp-live-debug' ); ?></option>
 								<option value="?page=wp-live-debug&subpage=Server" <?php echo ( ! empty( $subpage ) && 'Server' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></option>
-								<option value="?page=wp-live-debug&subpage=Cron" <?php echo ( ! empty( $subpage ) && 'Cron' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Scheduled Tasks', 'wp-live-debug' ); ?></option>
+								<option value="?page=wp-live-debug&subpage=Cron" <?php echo ( ! empty( $subpage ) && 'Cron' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Scheduled Events', 'wp-live-debug' ); ?></option>
 								<option value="?page=wp-live-debug&subpage=Tools" <?php echo ( ! empty( $subpage ) && 'Tools' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Tools', 'wp-live-debug' ); ?></option>
 								<option value="?page=wp-live-debug&subpage=WPMUDEV" <?php echo ( ! empty( $subpage ) && 'WPMUDEV' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'WPMU DEV', 'wp-live-debug' ); ?></option>
 							</select>
