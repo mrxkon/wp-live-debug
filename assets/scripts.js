@@ -45,16 +45,16 @@
 		sslHost                = $( '#ssl-host' ),
 		sslResponse            = $( '#ssl-response' ),
 		dirSize                = $( '#dir-size' ),
-		dirSizeData            = { 'action': 'wp-live-debug-wordpress-info-installation-size' }
+		dirSizeData            = { 'action': 'wp-live-debug-wordpress-info-installation-size' },
 		dirPerm                = $( '#dir-perm' ),
-		dirPermData            = { 'action': 'wp-live-debug-wordpress-info-directory-permissions' }
+		dirPermData            = { 'action': 'wp-live-debug-wordpress-info-directory-permissions' },
 		genInfo                = $( '#gen-info' ),
 		genInfoData            = { 'action': 'wp-live-debug-wordpress-info-general-information' },
 		selectLog              = $( '#log-list' ),
 		snapshotInfo           = $( '#wpmudev-snapshot-info' ),
 		snapshotInfodata       = { 'action': 'wp-live-debug-gather-snapshot-constants' },
 		shipperInfo            = $( '#wpmudev-shipper-info' ),
-		shipperInfodata        = { 'action': 'wp-live-debug-gather-shipper-constants' };;
+		shipperInfodata        = { 'action': 'wp-live-debug-gather-shipper-constants' };
 
 	// Get Shipper Information
 	if ( shipperInfo.length ) {
@@ -74,13 +74,11 @@
 			nonce = $( this ).find(':selected').data( 'nonce' ),
 			data;
 		e.preventDefault();
-		console.log( log );
-		console.log( nonce );
 		data = {
 			'action': 'wp-live-debug-select-log',
 			'log': log,
 			'nonce': nonce
-		}
+		};
 		$.post( ajaxurl, data, function( response ) {
 			if ( response.success ) {
 				window.location.href = window.location.href;
@@ -112,9 +110,9 @@
 		data = {
 			'action': 'wp-live-debug-tools-ssl-information',
 			'host': host
-		}
+		};
 		$.post( ajaxurl, data, function( response ) {
-			if ( 'ready' == response.data.status || 'error' == response.data.status ) {
+			if ( 'ready' === response.data.status || 'error' === response.data.status ) {
 				sslResponse.html( response.data.message );
 			} else {
 				sslResponse.html( response.data.message );
@@ -123,7 +121,7 @@
 				}, 3000 );
 			}
 		} );
-	}
+	};
 	sslForm.submit( function( e ) {
 		e.preventDefault();
 		sslResponse.html( '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>' );
@@ -216,8 +214,8 @@
 		};
 		const cp = document.getElementById( 'checksums-popup' );
 		const checksum = new A11yDialog( cp );
-		checksumsResponseTitle.html('');
-		checksumsResponseBody.html('<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>');
+		checksumsResponseTitle.html( '' );
+		checksumsResponseBody.html( '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>' );
 		checksum.show();
 		$.post( ajaxurl, data, function( response ) {
 			checksumsResponseTitle.html( file );
@@ -225,12 +223,12 @@
 			checksumsResponseBody.html( response.data.message );
 		} );
 	} );
+	// Scroll the textarea to bottom.
+	function scrollDebugAreaToBottom() {
+		debugArea.scrollTop( debugArea[0].scrollHeight );
+	}
 	// Debug View
 	if ( debugArea.length ) {
-		// Scroll the textarea to bottom.
-		function scrollDebugAreaToBottom() {
-			debugArea.scrollTop( debugArea[0].scrollHeight );
-		}
 		// Make the initial debug.log read.
 		$.post( ajaxurl, refreshData, function( response ) {
 			debugArea.html( response );
@@ -238,7 +236,7 @@
 		} );
 		// Enable / Disable Auto Scroll
 		setInterval( function() {
-			var checked = refreshToggle.is( ':checked');
+			var checked = refreshToggle.is( ':checked' );
 			if ( checked ) {
 				$.post( ajaxurl, refreshData, function( response ) {
 					debugArea.html( response );
@@ -256,7 +254,7 @@
 				'action': 'wp-live-debug-clear-debug-log',
 				'log': log,
 				'nonce': nonce
-			}
+			};
 			$.post( ajaxurl, data, function( response ) {
 				debugArea.html( response );
 				scrollDebugAreaToBottom();
@@ -374,4 +372,4 @@
 			} );
 		} );
 	}
-} )( jQuery )
+} )( jQuery );
