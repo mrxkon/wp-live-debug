@@ -680,7 +680,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 * @uses wp_send_json_error()
 		 * @uses wp_send_json_success()
 		 *
-		 * @return string json success/error with the response.
+		 * @return string json success / error with the response.
 		 */
 		public static function select_log_file() {
 			$nonce    = sanitize_text_field( $_POST['nonce'] );
@@ -707,7 +707,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 * @uses wp_send_json_error()
 		 * @uses wp_send_json_success()
 		 *
-		 * @return string json success/error with the response.
+		 * @return string json success / error with the response.
 		 */
 		public static function clear_debug_log() {
 			$nonce    = sanitize_text_field( $_POST['nonce'] );
@@ -736,7 +736,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 * @uses wp_send_json_error()
 		 * @uses wp_send_json_success()
 		 *
-		 * @return string json success/error with the response.
+		 * @return string json success / error with the response.
 		 */
 		public static function delete_debug_log() {
 			$nonce    = sanitize_text_field( $_POST['nonce'] );

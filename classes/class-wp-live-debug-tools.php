@@ -36,6 +36,18 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-tools-wp-mail', array( 'WP_Live_Debug_Tools', 'send_mail' ) );
 		}
 
+		/**
+		 * Create the Tools page.
+		 *
+		 * @uses wp_get_current_user()
+		 * @uses get_bloginfo()
+		 * @uses esc_html__()
+		 * @uses esc_html_e()
+		 * @uses get_option()
+		 * @uses get_site_url()
+		 *
+		 * @return string The html of the page viewed.
+		 */
 		public static function create_page() {
 			$current_user = wp_get_current_user();
 			$wp_address   = get_bloginfo( 'url' );
@@ -126,7 +138,17 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		}
 
 		/**
-		 * SSL Information
+		 * Get information on the SSL certificate.
+		 *
+		 * @uses sanitize_text_field()
+		 * @uses wp_remote_get()
+		 * @uses is_wp_error()
+		 * @uses get_error_message()
+		 * @uses esc_html__()
+		 * @uses wp_remote_retrieve_body()
+		 * @uses wp_send_json_success()
+		 *
+		 * @return string json success with the response.
 		 */
 		public static function ssl_information() {
 			$host         = sanitize_text_field( $_POST['host'] );
@@ -145,7 +167,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			if ( is_wp_error( $api_response ) ) {
 				$error_message = $api_response->get_error_message();
 				$output        = '<div class="sui-notice sui-notice-error"><p>';
-				$output       .= esc_html( 'Something went wrong', 'wp-live-debug' ) . ': ' . $error_message; // phpcs:ignore
+				$output       .= esc_html__( 'Something went wrong', 'wp-live-debug' ) . ': ' . $error_message; // phpcs:ignore
 				$output       .= '</p></div>';
 				$output       .= '<table class="sui-table striped">';
 			} else {
@@ -248,8 +270,13 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 
 			wp_send_json_success( $response );
 		}
+
 		/**
 		 * Gathers checksums from WordPress API and cross checks the core files in the current installation.
+		 *
+		 * @uses WP_Live_Debug_Tools::call_checksums_api()
+		 * @uses WP_Live_Debug_Tools::parse_checksums_results()
+		 * @uses WP_Live_Debug_Tools::create_checksums_response()
 		 *
 		 * @return void
 		 */
@@ -261,30 +288,22 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		}
 
 		/**
-		* Calls the WordPress API on the checksums endpoint
+		* Calls the WordPress API on the checksums endpoint.
 		*
 		* @uses get_bloginfo()
 		* @uses get_locale()
-		* @uses ABSPATH
-		* @uses wp_remote_get()
 		* @uses get_bloginfo()
-		* @uses strpos()
-		* @uses unset()
+		* @uses wp_remote_get()
+		* @uses wp_remote_retrieve_body()
 		*
-		* @return array
+		* @return array $checksumapibody Array of files and their checksums.
 		*/
 		public static function call_checksums_api() {
-			// Setup variables.
-			$wpversion = get_bloginfo( 'version' );
-			$wplocale  = get_locale();
-
-			// Setup API Call.
-			$checksumapi = wp_remote_get( 'https://api.wordpress.org/core/checksums/1.0/?version=' . $wpversion . '&locale=' . $wplocale, array( 'timeout' => 10000 ) );
-
-			// Encode the API response body.
+			$wpversion       = get_bloginfo( 'version' );
+			$wplocale        = get_locale();
+			$checksumapi     = wp_remote_get( 'https://api.wordpress.org/core/checksums/1.0/?version=' . $wpversion . '&locale=' . $wplocale, array( 'timeout' => 10000 ) );
 			$checksumapibody = json_decode( wp_remote_retrieve_body( $checksumapi ), true );
 
-			// Remove the wp-content/ files from checking
 			foreach ( $checksumapibody['checksums'] as $file => $checksum ) {
 				if ( false !== strpos( $file, 'wp-content/' ) ) {
 					unset( $checksumapibody['checksums'][ $file ] );
@@ -297,20 +316,17 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		/**
 		* Parses the results from the WordPress API call
 		*
-		* @uses file_exists()
-		* @uses md5_file()
-		* @uses ABSPATH
+		* @param array $checksums The checksums list from WordPress API.
+
+		* @uses esc_html__()
 		*
-		* @param array $checksums
-		*
-		* @return array
+		* @return array $files The files that have a wrong checksum.
 		*/
 		public static function parse_checksums_results( $checksums ) {
 			$filepath = ABSPATH;
 			$files    = array();
-			// Parse the results.
+
 			foreach ( $checksums['checksums'] as $file => $checksum ) {
-				// Check the files.
 				if ( file_exists( $filepath . $file ) && md5_file( $filepath . $file ) !== $checksum ) {
 					$reason = '<button data-do="wp-live-debug-diff" class="sui-button sui-button-red" data-file="' . $file . '">' . esc_html__( 'View Changes', 'wp-live-debug' ) . '</button>';
 					array_push( $files, array( $file, $reason ) );
@@ -326,13 +342,13 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		/**
 		* Generates the response
 		*
+		* @param array $files The files that have wrong checksums.
+		*
+		* @uses wp_normalize_path()
 		* @uses wp_send_json_success()
-		* @uses wp_die()
-		* @uses ABSPATH
+		* @uses esc_html__()
 		*
-		* @param null|array $files
-		*
-		* @return void
+		* @return string json success with the response.
 		*/
 		public static function create_checksums_response( $files ) {
 			$filepath = wp_normalize_path( ABSPATH );
@@ -374,17 +390,16 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		/**
 		* Generates Diff view
 		*
+		* @uses current_user_can()
+		* @uses wp_normalize_path()
 		* @uses get_bloginfo()
 		* @uses wp_remote_get()
 		* @uses wp_remote_retrieve_body()
+		* @uses esc_html__()
+		* @uses wp_send_json_error()
 		* @uses wp_send_json_success()
-		* @uses wp_die()
-		* @uses ABSPATH
-		* @uses FILE_USE_INCLUDE_PATH
-		* @uses wp_text_diff()
 		*
-		*
-		* @return void
+		* @return string json success / error with the response.
 		*/
 		public static function view_file_diff() {
 			if ( ! current_user_can( 'manage_options' ) ) {
@@ -434,12 +449,16 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		/**
 		 * Checks if wp_mail() works.
 		 *
+		 * @uses current_user_can()
 		 * @uses sanitize_email()
+		 * @uses sanitize_text_field()
+		 * @uses sanitize_textarea_field()
 		 * @uses wp_mail()
+		 * @uses esc_html__()
+		 * @uses wp_send_json_error()
 		 * @uses wp_send_json_success()
-		 * @uses wp_die()
 		 *
-		 * @return void
+		 * @return string json success / error with the response.
 		 */
 		public static function send_mail() {
 			if ( ! current_user_can( 'manage_options' ) ) {
