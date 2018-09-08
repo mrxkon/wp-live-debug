@@ -36,6 +36,13 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-wordpress-info-constants', array( 'WP_Live_Debug_WordPress_Info', 'constants' ) );
 		}
 
+		/**
+		 * Create the WordPress page.
+		 *
+		 * @uses esc_html_e()
+		 *
+		 * @return string The html of the page viewed.
+		 */
 		public static function create_page() {
 			?>
 				<div class="sui-box">
@@ -67,6 +74,35 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			<?php
 		}
 
+		/**
+		 * Get directory permissions.
+		 *
+		 * @uses get_theme_updates()
+		 * @uses wp_get_themes()
+		 * @uses wp_get_theme()
+		 * @uses get_plugins()
+		 * @uses get_plugin_updates()
+		 * @uses is_plugin_active()
+		 * @uses esc_html__()
+		 * @uses wp_remote_get()
+		 * @uses is_wp_error()
+		 * @uses get_error_message()
+		 * @uses wp_unslash()
+		 * @uses admin_url()
+		 * @uses wp_remote_retrieve_response_code()
+		 * @uses is_multisite()
+		 * @uses wpdb
+		 * @uses wp_version
+		 * @uses required_php_version
+		 * @uses required_mysql_version
+		 * @uses wp_db_version
+		 * @uses get_user_count()
+		 * @uses get_blog_count()
+		 * @uses count_users()
+		 * @uses wp_send_json_success()
+		 *
+		 * @return string json success with the response.
+		 */
 		public static function general_information() {
 			global $wp_version, $required_php_version, $required_mysql_version, $wp_db_version;
 
@@ -259,6 +295,16 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			wp_send_json_success( $response );
 		}
 
+		/**
+		 * Get directory permissions.
+		 *
+		 * @uses wp_upload_dir()
+		 * @uses wp_normalize_path()
+		 * @uses wp_is_writable()
+		 * @uses esc_html__()
+		 *
+		 * @return string json success with the response.
+		 */
 		public static function directory_permissions() {
 			$uploads_dir = wp_upload_dir();
 
@@ -319,6 +365,18 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			wp_send_json_success( $response );
 		}
 
+		/**
+		 * Get WordPress installation size.
+		 *
+		 * @uses wp_upload_dir()
+		 * @uses get_theme_root()
+		 * @uses WP_Live_Debug_Helper::get_directory_size()
+		 * @uses WP_Live_Debug_Helper::get_database_size()
+		 * @uses esc_html__()
+		 * @uses size_format()
+		 *
+		 * @return string json success with the response.
+		 */
 		public static function installation_size() {
 			$uploads_dir = wp_upload_dir();
 
@@ -408,6 +466,14 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 			wp_send_json_success( $response );
 		}
 
+		/**
+		 * Get information on WordPress constants.
+		 *
+		 * @uses WP_Live_Debug_Helper::format_constant()
+		 * @uses WP_Live_Debug_Helper::table_general()
+		 *
+		 * @return string json success with the response.
+		 */
 		public static function constants() {
 			$defines = array(
 				'ABSPATH',
