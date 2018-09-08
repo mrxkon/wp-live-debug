@@ -909,7 +909,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 			unlink( $log_file );
 
-			WP_Live_Debug::create_debug_log();
+			WP_Live_Debug_Helper::create_debug_log();
 
 			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
 

@@ -31,6 +31,27 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			// silence
 		}
 
+		/**
+		 * Create the debug.log if it doesn't exist
+		 *
+		 * @uses wp_normalize_path()
+		 * @uses update_option()
+		 *
+		 * @return void
+		 */
+		public static function create_debug_log() {
+			// Get the default path for debug.log
+			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+			// If debug.log doesn't exist create an empty one
+			if ( ! file_exists( $log_file ) ) {
+				$fo = fopen( $log_file, 'w' ) or die( 'Cannot create debug.log!' );
+				fwrite( $fo, '' );
+				fclose( $fo );
+			}
+			// Update the log file path option
+			update_option( 'wp_live_debug_log_file', $log_file );
+		}
+
 		public static function table_wpmudev_constants( $array ) {
 			$table = '<table class="sui-table striped"><thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Default Value', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 

@@ -87,38 +87,39 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Accept Risk
+		 * Accept Risk Popup
+		 *
+		 * @uses update_option()
+		 * @uses esc_html__()
+		 * @uses wp_send_json_success()
+		 *
+		 * @return string json success
 		 */
 		public static function accept_risk() {
+			// Update the option that the user accepted the risk
 			update_option( 'wp_live_debug_risk', 'yes' );
-
+			// Create the response
 			$response = array(
 				'message' => esc_html__( 'risk accepted.', 'wp-live-debug' ),
 			);
-
+			// Send the response
 			wp_send_json_success( $response );
 		}
 
 		/**
-		 * Activation
+		 * Activation Hook
+		 *
+		 * @uses get_site_url()
+		 * @uses update_option()
+		 * @uses WP_Live_Debug_Helper::create_debug_log()
+		 *
+		 * @return void
 		 */
 		public static function on_activate() {
 			$host = get_site_url();
 			$host = str_replace( array( 'http://', 'https://' ), '', $host );
 			update_option( 'wp_live_debug_ssl_domain', $host );
-			WP_Live_Debug::create_debug_log();
-		}
-
-		public static function create_debug_log() {
-			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
-
-			if ( ! file_exists( $log_file ) ) {
-				$fo = fopen( $log_file, 'w' ) or die( 'Cannot create debug.log!' );
-				fwrite( $fo, '' );
-				fclose( $fo );
-			}
-
-			update_option( 'wp_live_debug_log_file', $log_file );
+			WP_Live_Debug_Helper::create_debug_log();
 		}
 
 		/**
