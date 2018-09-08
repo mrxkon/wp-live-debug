@@ -117,7 +117,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 								</div>
 							</div>
 							<div class="sui-box-body">
-								<div class="diff-holder"></div>
+								<div class="diff-holder"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i></div>
 							</div>
 						</div>
 					</div>

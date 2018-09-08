@@ -214,10 +214,12 @@
 			'action': 'wp-live-debug-tools-view-diff',
 			'file': file
 		};
+		const cp = document.getElementById( 'checksums-popup' );
+		const checksum = new A11yDialog( cp );
+		checksumsResponseTitle.html('');
+		checksumsResponseBody.html('<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>');
+		checksum.show();
 		$.post( ajaxurl, data, function( response ) {
-			const cp = document.getElementById( 'checksums-popup' );
-			const checksum = new A11yDialog( cp );
-			checksum.show();
 			checksumsResponseTitle.html( file );
 			checksumsResponseBody.scrollTop( checksumsResponseBody[0] );
 			checksumsResponseBody.html( response.data.message );
