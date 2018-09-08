@@ -34,6 +34,13 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-cronjob-info-run-event', array( 'WP_Live_Debug_Cronjob_Info', 'run_event' ) );
 		}
 
+		/**
+		 * Create Schedules Events page.
+		 *
+		 * @uses esc_html__()
+		 *
+		 * @return string The html of the page viewed.
+		 */
 		public static function create_page() {
 			?>
 				<div style="display:none;" id="job-success" class="sui-notice-top sui-notice-success sui-can-dismiss">
@@ -60,6 +67,19 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			<?php
 		}
 
+		/**
+		 * Create the scheduled events table.
+		 *
+		 * @uses _get_cron_array()
+		 * @uses WP_Live_Debug_Cronjob_Info::get_events()
+		 * @uses WP_Live_Debug_Cronjob_Info::get_actions()
+		 * @uses wp_create_nonce()
+		 * @uses wp_send_json_success()
+		 * @uses human_time_diff()
+		 * @uses esc_html__()
+		 *
+		 * @return string json success / error with the response.
+		 */
 		public static function scheduled_events() {
 
 			if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
@@ -115,6 +135,21 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			wp_send_json_success( $response );
 		}
 
+		/**
+		 * Run the scheduled event.
+		 *
+		 * @uses sanitize_text_field()
+		 * @uses wp_verify_nonce()
+		 * @uses _get_cron_array()
+		 * @uses ge_option()
+		 * @uses delete_transient()
+		 * @uses wp_schedule_single_event()
+		 * @uses spawn_cron()
+		 * @uses wp_send_json_error()
+		 * @uses wp_send_json_success()
+		 *
+		 * @return string json success / error with the response.
+		 */
 		public static function run_event() {
 			$hook  = sanitize_text_field( $_POST['hook'] );
 			$sig   = sanitize_text_field( $_POST['sig'] );
@@ -143,6 +178,14 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			wp_send_json_error();
 		}
 
+		/**
+		 * Get the scheduled events.
+		 *
+		 * @uses _get_cron_array()
+		 * @uses get_option()
+		 *
+		 * @return array $events The scheduled events.
+		 */
 		public static function get_events() {
 			if ( function_exists( '_get_cron_array' ) ) {
 				$cronjobs = _get_cron_array();
@@ -170,6 +213,15 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			return $events;
 		}
 
+		/**
+		 * Get the actions of events.
+		 *
+		 * @param string $name The name of the event.
+		 *
+		 * @uses WP_Live_Debug_Cronjob_Info::populate_actions
+		 *
+		 * @return array $actions The scheduled events.
+		 */
 		public static function get_actions( $name ) {
 			global $wp_filter;
 
@@ -193,6 +245,15 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			return $actions;
 		}
 
+		/**
+		 * Populate the actions of events.
+		 *
+		 * @param array $actions The actions of the event.
+		 *
+		 * @uses WP_Live_Debug_Cronjob_Info::populate_actions
+		 *
+		 * @return array $actions The actions.
+		 */
 		public static function populate_actions( $actions ) {
 			if ( is_string( $actions['function'] ) && ( false !== strpos( $actions['function'], '::' ) ) ) {
 				$actions['function'] = explode( '::', $actions['function'] );
