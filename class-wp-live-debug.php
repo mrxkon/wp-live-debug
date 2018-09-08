@@ -390,8 +390,10 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-wpmudev.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-helper.php';
 
-	// Initialize WP Live Debug.
+	// Initialize WP Live Debug Plugin.
 	new WP_Live_Debug();
+	// Initialize Live Debug information.
+	new WP_Live_Debug_Live_Debug();
 	// Initialize WordPress information.
 	new WP_Live_Debug_WordPress_Info();
 	// Initialize Server information.

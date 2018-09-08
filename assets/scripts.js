@@ -1,4 +1,4 @@
-(function( $ ) {
+( function( $ ) {
 	var safetyPopup            = $( '#safety-popup' ),
 		acceptRisk             = $( '#riskaccept' ),
 		acceptRiskData         = { 'action': 'wp-live-debug-accept-risk' },
@@ -60,13 +60,13 @@
 	if ( shipperInfo.length ) {
 		$.post( ajaxurl, shipperInfodata, function( response ) {
 			shipperInfo.html( response.data.message );
-		});
+		} );
 	}
 	// Get Snapshot Information
 	if ( snapshotInfo.length ) {
 		$.post( ajaxurl, snapshotInfodata, function( response ) {
 			snapshotInfo.html( response.data.message );
-		});
+		} );
 	}
 	// Select different log
 	selectLog.on( 'change', function( e ) {
@@ -85,25 +85,25 @@
 			if ( response.success ) {
 				window.location.href = window.location.href;
 			}
-		});
-	});
+		} );
+	} );
 	// Get General Information
 	if ( genInfo.length ) {
 		$.post( ajaxurl, genInfoData, function( response ) {
 			genInfo.html( response.data.message );
-		});
+		} );
 	}
 	// Get Dir Size
 	if ( dirPerm.length ) {
 		$.post( ajaxurl, dirPermData, function( response ) {
 			dirPerm.html( response.data.message );
-		});
+		} );
 	}
 	// Get Dir Size
 	if ( dirSize.length ) {
 		$.post( ajaxurl, dirSizeData, function( response ) {
 			dirSize.html( response.data.message );
-		});
+		} );
 	}
 	// Get SSL Information
 	var runSSLCheck = function() {
@@ -122,13 +122,13 @@
 					runSSLCheck();
 				}, 3000 );
 			}
-		});
+		} );
 	}
 	sslForm.submit( function( e ) {
 		e.preventDefault();
 		sslResponse.html( '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>' );
 		runSSLCheck();
-	});
+	} );
 	// Run Cronjob
 	cronjobInfo.on( 'click', cronjobRunButton, function( e ) {
 		var hook = $( this ).data( 'hook' ),
@@ -149,37 +149,37 @@
 			} else {
 				cronjobError.show();
 			}
-		});
-	});
+		} );
+	} );
 	// Get Cronjobs
 	if( cronjobInfo.length ) {
 		$.post(	ajaxurl, cronjobInfodata, function( response ) {
 			cronjobInfo.html( response.data.message );
-		});
+		} );
 	}
 	// Server Info
 	if ( serverInfo.length ) {
 		$.post( ajaxurl, serverInfodata, function( response ) {
 			serverInfo.html( response.data.message );
-		});
+		} );
 	}
 	// MySQL Info
 	if ( mysqlInfo.length ) {
 		$.post( ajaxurl, mysqlInfodata, function( response ) {
 			mysqlInfo.html( response.data.message );
-		});
+		} );
 	}
 	// PHP Info
 	if ( phpInfo.length ) {
 		$.post( ajaxurl, phpInfodata, function( response ) {
 			phpInfo.html( response.data.message );
-		});
+		} );
 	}
 	// Constants Info
 	if ( constantsInfo.length ) {
 		$.post( ajaxurl, constantsInfodata, function( response ) {
 			constantsInfo.html( response.data.message );
-		});
+		} );
 	}
 	// Mail Check
 	mailCheckForm.submit( function( e ) {
@@ -197,13 +197,13 @@
 		};
 		$.post( ajaxurl, data, function( response ) {
 			$( '#mail-check-box' ).html( response.data.message );
-		});
-	});
+		} );
+	} );
 	// Checksum Ajax
 	if ( checksumsResponse.length ) {
 		$.post(	ajaxurl, checksumsData, function( response ) {
 			checksumsResponse.html( response.data.message );
-		});
+		} );
 	}
 	// Checksum Diff
 	checksumsResponse.on( 'click', checksumsDiffButton, function( e ) {
@@ -223,8 +223,8 @@
 			checksumsResponseTitle.html( file );
 			checksumsResponseBody.scrollTop( checksumsResponseBody[0] );
 			checksumsResponseBody.html( response.data.message );
-		});
-	});
+		} );
+	} );
 	// Debug View
 	if ( debugArea.length ) {
 		// Scroll the textarea to bottom.
@@ -289,8 +289,8 @@
 				} else {
 					responseHolder.html( response.data.message );
 				}
-			});
-		});
+			} );
+		} );
 		// Restore wp-config backup
 		restoreButton.on( 'click', function( e ) {
 			e.preventDefault();
@@ -300,8 +300,8 @@
 				} else {
 					responseHolder.html( response.data.message );
 				}
-			});
-		});
+			} );
+		} );
 		// Enable / Disable WP DEDUG
 		wpDebugToggle.on( 'change', function( e ) {
 			e.preventDefault();
@@ -311,15 +311,15 @@
 					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
-				});
+				} );
 			} else if ( ! checked ) {
 				$.post( ajaxurl, disableWPDebugData, function( response ) {
 					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
-				});
+				} );
 			}
-		});
+		} );
 		// Enable / Disable SCRIPT DEDUG
 		scriptDebugToggle.on( 'change', function( e ) {
 			e.preventDefault();
@@ -329,15 +329,15 @@
 					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
-				});
+				} );
 			} else if ( ! checked ) {
 				$.post( ajaxurl, disableScriptDebugData, function( response ) {
 					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
-				});
+				} );
 			}
-		});
+		} );
 		// Enable / Disable SAVEQUERIES
 		savequeriesToggle.on( 'change', function( e ) {
 			e.preventDefault();
@@ -347,15 +347,15 @@
 					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
-				});
+				} );
 			} else if ( ! checked ) {
 				$.post( ajaxurl, disableSavequeriesData, function( response ) {
 					if ( ! response.success ) {
 						responseHolder.html( response.data.message );
 					}
-				});
+				} );
 			}
-		});
+		} );
 	}
 	// Safety Dialog
 	if ( safetyPopup.length ) {
@@ -371,7 +371,7 @@
 				if ( ! response.success ) {
 					responseHolder.html( response.data.message );
 				}
-			});
-		});
+			} );
+		} );
 	}
 } )( jQuery )

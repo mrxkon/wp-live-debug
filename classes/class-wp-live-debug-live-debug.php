@@ -918,6 +918,4 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			wp_send_json_success();
 		}
 	}
-
-	new WP_Live_Debug_Live_Debug();
 }

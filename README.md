@@ -68,6 +68,7 @@ Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F.
 * Delete any log
 * Various fixes
 * PHPCS fixes
+* Code docs
 
 #### 4.9.8.5
 * Add Info to Snapshot
