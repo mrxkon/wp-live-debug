@@ -45,11 +45,14 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Create Admin Page
+		 * Create Live Debug page.
 		 *
-		 * @uses ini_set()
+		 * @uses wp_normalize_path()
+		 * @uses get_option
+		 * @uses esc_html__()
+		 * @uses wp_create_nonce()
 		 *
-		 * @return void
+		 * @return string The html of the page viewed.
 		 */
 		public static function create_page() {
 			$option_log_name = wp_normalize_path( get_option( 'wp_live_debug_log_file' ) );
@@ -63,11 +66,13 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 						<?php
 						$path = wp_normalize_path( ABSPATH );
 						$logs = array();
+
 						foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $path ) ) as $file ) {
 							if ( is_file( $file ) && 'log' === $file->getExtension() ) {
 								$logs[] = wp_normalize_path( $file );
 							}
 						}
+
 						$debug_log = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
 						?>
 						<select id="log-list" name="select-list">
@@ -75,9 +80,11 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 							foreach ( $logs as $log ) {
 								$selected = '';
 								$log_name = date( 'M d Y H:i:s', filemtime( $log ) ) . ' - ' . basename( $log );
+
 								if ( get_option( 'wp_live_debug_log_file' ) === $log ) {
 									$selected = 'selected="selected"';
 								}
+
 								echo '<option data-nonce="' . wp_create_nonce( $log ) . '" value="' . $log . '" ' . $selected . '>' . $log_name . '</option>';
 							}
 							?>
@@ -147,16 +154,14 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Check if wp-config backup exists
+		 * Check if wp-config.php backup exists.
 		 *
 		 * @uses file_exists()
 		 *
-		 * @return bool true/false depending if the backup exists
+		 * @return bool true/false depending if the backup exists.
 		 */
 		public static function check_wp_config_backup() {
-			$wpconfig_backup = ABSPATH . 'wp-config_wpld_backup.php';
-
-			if ( file_exists( $wpconfig_backup ) ) {
+			if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
 				return true;
 			}
 
@@ -164,21 +169,20 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Creates a backup of wp-config.php
+		 * Creates a backup of wp-config.php.
 		 *
-		 * @uses file_exists()
-		 * @uses copy()
+		 * @uses wp_send_json_error()
+		 * @uses wp_send_json_success()
+		 * @uses esc_html__()
 		 *
-		 * @return string $output Success/Fail
+		 * @return string json success / error with the response.
 		 */
 		public static function create_wp_config_backup() {
-			$wpconfig        = ABSPATH . 'wp-config.php';
-			$wpconfig_backup = ABSPATH . 'wp-config_wpld_backup.php';
-
-			if ( ! copy( $wpconfig, $wpconfig_backup ) ) {
+			if ( ! copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
 				$response = array(
 					'message' => esc_html__( 'wp-config.php backup failed.', 'wp-live-debug' ),
 				);
+
 				wp_send_json_error( $response );
 			}
 
@@ -190,98 +194,82 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Restores a backup of wp-config.php
+		 * Restores a backup of wp-config.php.
 		 *
-		 * @uses copy()
-		 * @uses unlink()
+		 * @uses wp_send_json_error()
+		 * @uses wp_send_json_success()
+		 * @uses esc_html__()
 		 *
-		 * @return string $output Success/Fail
+		 * @return string json success / error with the response.
 		 */
 		public static function restore_wp_config_backup() {
-			$wpconfig        = ABSPATH . 'wp-config.php';
-			$wpconfig_backup = ABSPATH . 'wp-config_wpld_backup.php';
-
-			if ( ! copy( $wpconfig_backup, $wpconfig ) ) {
+			if ( ! copy( WP_LIVE_DEBUG_WP_CONFIG_BACKUP, WP_LIVE_DEBUG_WP_CONFIG ) ) {
 				$response = array(
 					'message' => esc_html__( 'wp-config.php restore failed.', 'wp-live-debug' ),
 				);
+
 				wp_send_json_error( $response );
 			}
+
+			unlink( WP_LIVE_DEBUG_WP_CONFIG_BACKUP );
 
 			$response = array(
 				'message' => esc_html__( 'wp-config.php backup was restored.', 'wp-live-debug' ),
 			);
 
-			unlink( $wpconfig_backup );
-
 			wp_send_json_success( $response );
 		}
 
 		/**
-		 * Enables WP_DEBUG
+		 * Enables WP_DEBUG.
 		 *
-		 * @uses copy()
-		 * @uses file()
-		 * @uses file_put_contents()
-		 * @uses fopen()
-		 * @uses strpos()
-		 * @uses fputs()
-		 * @uses fclose()
-		 * @uses wp_send_json_error()
+		 * @uses WP_Live_Debug_Live_Debug::enable_wp_debug_log()
+		 * @uses WP_Live_Debug_Live_Debug::disable_wp_debug_display()
+		 * @uses WP_Live_Debug_Live_Debug::disable_wp_debug_ini_set_display()
+		 * @uses esc_html__()
 		 * @uses wp_send_json_succes()
 		 *
-		 * @return void
+		 * @return json success with the response.
 		 */
 		public static function enable_wp_debug() {
-			$wpconfig = ABSPATH . 'wp-config.php';
+			$not_found        = true;
+			$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
-			$found = 'no';
-
-			$editing_wpconfig = file( $wpconfig );
-
-			file_put_contents( $wpconfig, '' );
+			file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
 
 			$write_wpconfig = fopen( $wpconfig, 'w' );
 
 			foreach ( $editing_wpconfig as $line ) {
 				if ( false !== strpos( $line, "'WP_DEBUG'" ) || false !== strpos( $line, '"WP_DEBUG"' ) ) {
-					$line  = "define( 'WP_DEBUG', true ); // Added by WP Live Debug" . PHP_EOL;
-					$found = 'yes';
+					$line      = "define( 'WP_DEBUG', true ); // Added by WP Live Debug" . PHP_EOL;
+					$not_found = false;
 				}
+
 				fputs( $write_wpconfig, $line );
 			}
 
-			fclose( $write_wpconfig );
-
-			if ( 'no' === $found ) {
-
-				$editing_wpconfig = file( $wpconfig );
-
-				file_put_contents( $wpconfig, '' );
-
-				$write_wpconfig = fopen( $wpconfig, 'w' );
-
+			if ( $not_found ) {
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "define( 'WP_DEBUG', true ); // Added by WP Live Debug" . PHP_EOL;
 						$line .= "/* That's all, stop editing! Happy blogging. */" . PHP_EOL;
 					}
+
 					fputs( $write_wpconfig, $line );
 				}
-
-				fclose( $write_wpconfig );
 			}
 
-			$response = array(
-				'message' => esc_html__( 'WP_DEBUG was enabled.', 'wp-live-debug' ),
-			);
+			fclose( $write_wpconfig );
 
 			WP_Live_Debug_Live_Debug::enable_wp_debug_log();
 			WP_Live_Debug_Live_Debug::disable_wp_debug_display();
 			WP_Live_Debug_Live_Debug::disable_wp_debug_ini_set_display();
 
-			wp_send_json_success( $response );
+			$response = array(
+				'message' => esc_html__( 'WP_DEBUG was enabled.', 'wp-live-debug' ),
+			);
 
+			wp_send_json_success( $response );
 		}
 
 		/**
@@ -292,164 +280,109 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 * @uses wp_send_json_error()
 		 * @uses wp_send_json_succes()
 		 *
-		 * @return void
+		 * @return json success with the response.
 		 */
 		public static function disable_wp_debug() {
-			$wpconfig = ABSPATH . 'wp-config.php';
+			$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
-			$editing_wpconfig = file( $wpconfig );
+			file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
 
-			file_put_contents( $wpconfig, '' );
-
-			$write_wpconfig = fopen( $wpconfig, 'w' );
+			$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
 
 			foreach ( $editing_wpconfig as $line ) {
 				if ( false !== strpos( $line, "'WP_DEBUG'" ) || false !== strpos( $line, '"WP_DEBUG"' ) ) {
 					$line = "define( 'WP_DEBUG', false ); // Added by WP Live Debug" . PHP_EOL;
 				}
+
 				fputs( $write_wpconfig, $line );
 			}
 
 			fclose( $write_wpconfig );
-
-			$response = array(
-				'message' => esc_html__( 'WP_DEBUG was disabled.', 'wp-live-debug' ),
-			);
 
 			WP_Live_Debug_Live_Debug::disable_wp_debug_log();
 			WP_Live_Debug_Live_Debug::disable_wp_debug_display();
 			WP_Live_Debug_Live_Debug::disable_wp_debug_ini_set_display();
 
-			wp_send_json_success( $response );
+			$response = array(
+				'message' => esc_html__( 'WP_DEBUG was disabled.', 'wp-live-debug' ),
+			);
 
+			wp_send_json_success( $response );
 		}
 
 		/**
 		 * Enables WP_DEBUG_LOG
 		 *
-		 * @uses copy()
-		 * @uses file()
-		 * @uses file_put_contents()
-		 * @uses fopen()
-		 * @uses strpos()
-		 * @uses fputs()
-		 * @uses fclose()
-		 * @uses wp_send_json_error()
-		 * @uses wp_send_json_succes()
-		 *
 		 * @return void
 		 */
 		public static function enable_wp_debug_log() {
+			$not_found        = true;
+			$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
-			$wpconfig = ABSPATH . 'wp-config.php';
+			file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
 
-			$found = 'no';
-
-			$editing_wpconfig = file( $wpconfig );
-
-			file_put_contents( $wpconfig, '' );
-
-			$write_wpconfig = fopen( $wpconfig, 'w' );
+			$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
 
 			foreach ( $editing_wpconfig as $line ) {
 				if ( false !== strpos( $line, "'WP_DEBUG_LOG'" ) || false !== strpos( $line, '"WP_DEBUG_LOG"' ) ) {
-					$line  = "define( 'WP_DEBUG_LOG', true ); // Added by WP Live Debug" . PHP_EOL;
-					$found = 'yes';
+					$line      = "define( 'WP_DEBUG_LOG', true ); // Added by WP Live Debug" . PHP_EOL;
+					$not_found = false;
 				}
+
 				fputs( $write_wpconfig, $line );
 			}
 
-			fclose( $write_wpconfig );
-
-			if ( 'no' === $found ) {
-
-				$editing_wpconfig = file( $wpconfig );
-
-				file_put_contents( $wpconfig, '' );
-
-				$write_wpconfig = fopen( $wpconfig, 'w' );
-
+			if ( $not_found ) {
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "define( 'WP_DEBUG_LOG', true ); // Added by WP Live Debug" . PHP_EOL;
 						$line .= "/* That's all, stop editing! Happy blogging. */" . PHP_EOL;
 					}
+
 					fputs( $write_wpconfig, $line );
 				}
-
-				fclose( $write_wpconfig );
 			}
 
+			fclose( $write_wpconfig );
 		}
 
 		/**
 		 * Disables WP_DEBUG_LOG
 		 *
-		 * @uses file_exists()
-		 * @uses fopen()
-		 * @uses copy()
-		 * @uses strpos()
-		 * @uses fputs()
-		 * @uses fclose()
-		 * @uses wp_send_json_error()
-		 * @uses wp_send_json_succes()
-		 *
 		 * @return void
 		 */
 		public static function disable_wp_debug_log() {
+			$not_found        = true;
+			$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
-			$wpconfig = ABSPATH . 'wp-config.php';
+			file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
 
-			$found = 'no';
-
-			$editing_wpconfig = file( $wpconfig );
-
-			file_put_contents( $wpconfig, '' );
-
-			$write_wpconfig = fopen( $wpconfig, 'w' );
+			$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
 
 			foreach ( $editing_wpconfig as $line ) {
 				if ( false !== strpos( $line, "'WP_DEBUG_LOG'" ) || false !== strpos( $line, '"WP_DEBUG_LOG"' ) ) {
 					$line  = "define( 'WP_DEBUG_LOG', false ); // Added by WP Live Debug" . PHP_EOL;
-					$found = 'yes';
+					$not_found = false;
 				}
 				fputs( $write_wpconfig, $line );
 			}
 
-			fclose( $write_wpconfig );
-
-			if ( 'no' === $found ) {
-
-				$editing_wpconfig = file( $wpconfig );
-
-				file_put_contents( $wpconfig, '' );
-
-				$write_wpconfig = fopen( $wpconfig, 'w' );
-
+			if ( $not_found ) {
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "define( 'WP_DEBUG_LOG', false ); // Added by WP Live Debug" . PHP_EOL;
 						$line .= "/* That's all, stop editing! Happy blogging. */" . PHP_EOL;
 					}
+
 					fputs( $write_wpconfig, $line );
 				}
-
-				fclose( $write_wpconfig );
 			}
 
+			fclose( $write_wpconfig );
 		}
 
 		/**
 		 * Disables WP_DEBUG_DISPLAY
-		 *
-		 * @uses file_exists()
-		 * @uses fopen()
-		 * @uses copy()
-		 * @uses strpos()
-		 * @uses fputs()
-		 * @uses fclose()
-		 * @uses wp_send_json_error()
-		 * @uses wp_send_json_succes()
 		 *
 		 * @return void
 		 */

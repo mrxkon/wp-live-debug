@@ -55,6 +55,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Define the plugin version for internal use
  */
 define( 'WP_LIVE_DEBUG_VERSION', '4.9.8.6' );
+define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
+define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config_wpld_backup.php' );
 
 /**
  * WP_Live_Debug Class.
@@ -96,7 +98,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * @uses esc_html__()
 		 * @uses wp_send_json_success()
 		 *
-		 * @return string json success.
+		 * @return string json success with the response.
 		 */
 		public static function accept_risk() {
 			// Update the option that the user accepted the risk.
@@ -244,7 +246,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Create the Live Debug page.
+		 * Create the WP Live Debug page.
 		 *
 		 * @uses get_option()
 		 * @uses esc_attr()
@@ -265,7 +267,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 			if ( ! empty( $_GET['subpage'] ) ) {
 				$subpage = esc_attr( $_GET['subpage'] );
 			}
-			// Live Debug page contents.
+			// WP Live Debug page contents.
 			?>
 			<div class="sui-wrap">
 				<div class="sui-header">
