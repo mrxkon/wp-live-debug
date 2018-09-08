@@ -52,9 +52,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Various Defines
+ * Define the plugin version for internal use
  */
-define( 'WP_LIVE_DEBUG_VERSION', '4.9.8' );
+define( 'WP_LIVE_DEBUG_VERSION', '4.9.8.6' );
 
 /**
  * WP_Live_Debug Class.
@@ -81,33 +81,36 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * @return void
 		 */
 		public function init() {
+			// Create the menus.
 			add_action( 'init', array( 'WP_Live_Debug', 'create_menus' ) );
-			add_action( 'admin_enqueue_scripts', array( 'WP_Live_Debug', 'load_scripts_styles' ) );
+			// Enqueue the scripts and styles.
+			add_action( 'admin_enqueue_scripts', array( 'WP_Live_Debug', 'enqueue_scripts_styles' ) );
+			// Load the Risk Popup.
 			add_action( 'wp_ajax_wp-live-debug-accept-risk', array( 'WP_Live_Debug', 'accept_risk' ) );
 		}
 
 		/**
-		 * Accept Risk Popup
+		 * Accept Risk Popup.
 		 *
 		 * @uses update_option()
 		 * @uses esc_html__()
 		 * @uses wp_send_json_success()
 		 *
-		 * @return string json success
+		 * @return string json success.
 		 */
 		public static function accept_risk() {
-			// Update the option that the user accepted the risk
+			// Update the option that the user accepted the risk.
 			update_option( 'wp_live_debug_risk', 'yes' );
-			// Create the response
+			// Create the response.
 			$response = array(
 				'message' => esc_html__( 'risk accepted.', 'wp-live-debug' ),
 			);
-			// Send the response
+			// Send the response.
 			wp_send_json_success( $response );
 		}
 
 		/**
-		 * Activation Hook
+		 * Activation Hook.
 		 *
 		 * @uses get_site_url()
 		 * @uses update_option()
@@ -116,41 +119,59 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * @return void
 		 */
 		public static function on_activate() {
+			// Get the site url.
 			$host = get_site_url();
+			// Remove the http:// & https:// from url.
 			$host = str_replace( array( 'http://', 'https://' ), '', $host );
+			// Update host url option.
 			update_option( 'wp_live_debug_ssl_domain', $host );
+			// Create the debug.log if it doesn't exist.
 			WP_Live_Debug_Helper::create_debug_log();
 		}
 
 		/**
-		 * Deactivation
+		 * Deactivation Hook.
+		 *
+		 * @uses delete_option()
+		 *
+		 * @return void
 		 */
-
 		public static function on_deactivate() {
+			// Delete the risk popup option.
 			delete_option( 'wp_live_debug_risk' );
+			// Delete the host url option.
 			delete_option( 'wp_live_debug_ssl_domain' );
+			// Delete the log file path option.
 			delete_option( 'wp_live_debug_log_file' );
 		}
 
 		/**
-		 * Create Menus
+		 * Create the Admin Menus.
+		 *
+		 * @uses is_multisite()
+		 * @uses add_action()
+		 *
+		 * @return void
 		 */
 		public static function create_menus() {
+			// If we are on a multisite the Super Admin should have the menu.
 			if ( ! is_multisite() ) {
-				add_action( 'admin_menu', array( 'WP_Live_Debug', 'create_admin_menu' ) );
+				add_action( 'admin_menu', array( 'WP_Live_Debug', 'populate_admin_menu' ) );
 			} else {
-				add_action( 'network_admin_menu', array( 'WP_Live_Debug', 'create_admin_menu' ) );
+				add_action( 'network_admin_menu', array( 'WP_Live_Debug', 'populate_admin_menu' ) );
 			}
 		}
 
 		/**
-		 * Create Admin menu.
+		 * Populate the Admin menu.
 		 *
 		 * @uses add_menu_page()
+		 * @uses esc_html__()
 		 *
 		 * @return void
 		 */
-		public static function create_admin_menu() {
+		public static function populate_admin_menu() {
+			// Bind the page to the menu.
 			add_menu_page(
 				esc_html__( 'WP Live Debug', 'wp-live-debug' ),
 				esc_html__( 'WP Live Debug', 'wp-live-debug' ),
@@ -162,15 +183,26 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Load scripts and styles
+		 * Enqueue scripts and styles.
+		 *
+		 * @param string $hook WordPress generated class for the current page.
+		 *
+		 * @uses wp_enqueue_style()
+		 * @uses plugin_dir_url()
+		 * @uses add_filter()
+		 *
+		 * @return void
 		 */
-		public static function load_scripts_styles( $hook ) {
+		public static function enqueue_scripts_styles( $hook ) {
+			// If we are viewing any of the wp-live-debug pages enqueue the scripts and styles.
 			if ( 'toplevel_page_wp-live-debug' === $hook ) {
+				// Enqueue Shared-UI Styles.
 				wp_enqueue_style(
 					'wphb-wpmudev-sui',
 					plugin_dir_url( __FILE__ ) . 'assets/sui/css/shared-ui.min.css',
 					'2.2.10'
 				);
+				// Enqueue Shared-UI Scripts.
 				wp_enqueue_script(
 					'wphb-wpmudev-sui',
 					plugin_dir_url( __FILE__ ) . 'assets/sui/js/shared-ui.min.js',
@@ -178,12 +210,14 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 					'2.2.10',
 					true
 				);
+				// Enqueue Plugin Styles.
 				wp_enqueue_style(
 					'wp-live-debug',
 					plugin_dir_url( __FILE__ ) . 'assets/styles.css',
 					array( 'wphb-wpmudev-sui' ),
 					WP_LIVE_DEBUG_VERSION
 				);
+				// Enqueue Plugin Scripts.
 				wp_enqueue_script(
 					'wp-live-debug',
 					plugin_dir_url( __FILE__ ) . 'assets/scripts.js',
@@ -191,28 +225,47 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 					WP_LIVE_DEBUG_VERSION,
 					true
 				);
-
+				// Add custom Shared-UI body classes.
 				add_filter( 'admin_body_class', array( 'WP_Live_Debug', 'admin_body_classes' ) );
 			}
 		}
 
 		/**
-		 * Add Shared UI 2.2.10
+		 * Add Shared UI Classes to body.
+		 *
+		 * @param string $classes Maybe existing classes.
+		 *
+		 * @return string $classes Updated classes list including the Shared-UI classes.
 		 */
 		public static function admin_body_classes( $classes ) {
 			$classes .= ' sui-2-2-10 ';
+
 			return $classes;
 		}
 
 		/**
-		 * Create Page
+		 * Create the Live Debug page.
+		 *
+		 * @uses get_option()
+		 * @uses esc_attr()
+		 * @uses esc_html_e()
+		 * @uses _e()
+		 * @uses WP_Live_Debug_WordPress_Info::create_page()
+		 * @uses WP_Live_Debug_Server_Info::create_page();
+		 * @uses WP_Live_Debug_Cronjob_Info::create_page();
+		 * @uses WP_Live_Debug_Tools::create_page();
+		 * @uses WP_Live_Debug_WPMUDEV::create_page();
+		 * @uses WP_Live_Debug_Live_Debug::create_page();
+		 * @uses WP_Live_Debug_Live_Debug::create_page();
+		 *
+		 * @return string html The html of the page viewed.
 		 */
 		public static function create_page() {
-			$first_time_running = get_option( 'wp_live_debug_risk' );
-
+			// Read the current page viewed.
 			if ( ! empty( $_GET['subpage'] ) ) {
 				$subpage = esc_attr( $_GET['subpage'] );
 			}
+			// Live Debug page contents.
 			?>
 			<div class="sui-wrap">
 				<div class="sui-header">
@@ -254,18 +307,23 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 					<?php
 					if ( ! empty( $subpage ) ) {
 						switch ( $subpage ) {
+							// Show WordPress page.
 							case 'WordPress':
 								WP_Live_Debug_WordPress_Info::create_page();
 								break;
+							// Show Server page.
 							case 'Server':
 								WP_Live_Debug_Server_Info::create_page();
 								break;
+							// Show Scheduled Events page.
 							case 'Cron':
 								WP_Live_Debug_Cronjob_Info::create_page();
 								break;
+							// Show Tools page.
 							case 'Tools':
 								WP_Live_Debug_Tools::create_page();
 								break;
+							// Show WPMU DEV page.
 							case 'WPMUDEV':
 								WP_Live_Debug_WPMUDEV::create_page();
 								break;
@@ -273,11 +331,17 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 								WP_Live_Debug_Live_Debug::create_page();
 						}
 					} else {
+						// Show Live Debug page.
 						WP_Live_Debug_Live_Debug::create_page();
 					}
 					?>
 				</div>
-				<?php if ( empty( $first_time_running ) ) : ?>
+				<?php
+				// Read the Risk Popup option.
+				$first_time_running = get_option( 'wp_live_debug_risk' );
+				// If the Risk option is empty show Popup.
+				if ( empty( $first_time_running ) ) {
+				?>
 				<div class="sui-dialog sui-dialog-sm" aria-hidden="true" tabindex="-1" id="safety-popup">
 					<div class="sui-dialog-overlay" data-a11y-dialog-hide></div>
 					<div class="sui-dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
@@ -303,7 +367,9 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 						</div>
 					</div>
 				</div>
-				<?php endif; ?>
+				<?php
+				}
+				?>
 			</div>
 			<?php
 		}
@@ -315,7 +381,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	// Deactivation Hook
 	register_deactivation_hook( __FILE__, array( 'WP_Live_Debug', 'on_deactivate' ) );
 
-	// Include extra classes
+	// Require extra files
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-live-debug.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-wordpress-info.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-server-info.php';
@@ -326,10 +392,16 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 	// Initialize WP Live Debug.
 	new WP_Live_Debug();
+	// Initialize WordPress information.
 	new WP_Live_Debug_WordPress_Info();
+	// Initialize Server information.
 	new WP_Live_Debug_Server_Info();
+	// Initialize Scheduled Events information.
 	new WP_Live_Debug_Cronjob_Info();
+	// Initialize Tools.
 	new WP_Live_Debug_Tools();
+	// Initialize WPMU DEV information.
 	new WP_Live_Debug_WPMUDEV();
+	// Initialize Helpers.
 	new WP_Live_Debug_Helper();
 }
