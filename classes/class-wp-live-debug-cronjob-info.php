@@ -82,6 +82,11 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 			foreach ( $events as $id => $event ) {
 				$output .= '<tr>';
 				$output .= '<td>' . $event->hook . '<br>';
+				if ( ! empty( $event->schedule ) ) {
+					$output .= $event->schedule . ' ( ' . $event->interval . ' ) ';
+				} else {
+					$output .= esc_html__( 'single', 'wp-live-debug' ) . ' ';
+				}
 				$output .= '<a href="#" data-do="run-job" data-nonce="' . wp_create_nonce( $event->hook ) . '" data-hook="' . $event->hook . '" data-sig="' . $event->sig . '">Run Now</a>';
 				$output .= '</td>';
 				$output .= '<td>';
@@ -91,12 +96,7 @@ if ( ! class_exists( 'WP_Live_Debug_Cronjob_Info' ) ) {
 				}
 				$output .= implode( '', $actions );
 				$output .= '</td>';
-				if ( ! empty( $event->schedule ) ) {
-						$output .= '<td>' . $event->schedule . ' ( ' . $event->interval . ' )';
-				} else {
-					$output .= '<td>' . esc_html__( 'single', 'wp-live-debug' );
-				}
-				$output .= '<br><strong>' . esc_html__( 'Next run in', 'wp-live-debug' ) . ':</strong> ' . human_time_diff( $event->time, time() ) . '<br>' . date( 'H:i - F j, Y', $event->time ) . '</td>';
+				$output .= '<td><strong>' . esc_html__( 'Next run in', 'wp-live-debug' ) . ':</strong> ' . human_time_diff( $event->time, time() ) . '<br>' . date( 'H:i - F j, Y', $event->time ) . '</td>';
 				$output .= '</tr>';
 			}
 			$output .= '<tfoot><tr><th>' . esc_html__( 'Task', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Schedule', 'wp-live-debug' ) . '</th></tr></tfoot>';
