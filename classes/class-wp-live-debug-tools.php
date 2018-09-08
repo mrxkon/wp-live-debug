@@ -30,10 +30,10 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		 * @return void
 		 */
 		public static function init() {
-			add_action( 'wp_ajax_wp-live-debug-get-ssl-information', array( 'WP_Live_Debug_Tools', 'get_ssl_information' ) );
-			add_action( 'wp_ajax_wp-live-debug-checksums-check', array( 'WP_Live_Debug_Tools', 'run_checksums_check' ) );
-			add_action( 'wp_ajax_wp-live-debug-view-diff', array( 'WP_Live_Debug_Tools', 'view_file_diff' ) );
-			add_action( 'wp_ajax_wp-live-debug-mail', array( 'WP_Live_Debug_Tools', 'send_mail' ) );
+			add_action( 'wp_ajax_wp-live-debug-tools-ssl-information', array( 'WP_Live_Debug_Tools', 'ssl_information' ) );
+			add_action( 'wp_ajax_wp-live-debug-tools-checksums-check', array( 'WP_Live_Debug_Tools', 'run_checksums_check' ) );
+			add_action( 'wp_ajax_wp-live-debug-tools-view-diff', array( 'WP_Live_Debug_Tools', 'view_file_diff' ) );
+			add_action( 'wp_ajax_wp-live-debug-tools-wp-mail', array( 'WP_Live_Debug_Tools', 'send_mail' ) );
 		}
 
 		public static function create_page() {
@@ -61,7 +61,6 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 				$host = get_site_url();
 				$host = str_replace( array( 'http://', 'https://' ), '', $host );
 			}
-
 			?>
 				<div class="sui-box">
 					<div class="sui-box-body">
@@ -126,14 +125,11 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			<?php
 		}
 
-
 		/**
 		 * SSL Information
 		 */
-		public static function get_ssl_information() {
-
-			$host = sanitize_text_field( $_POST['host'] );
-
+		public static function ssl_information() {
+			$host         = sanitize_text_field( $_POST['host'] );
 			$api_response = wp_remote_get( 'https://api.ssllabs.com/api/v3/analyze', array(
 				'body' => array(
 					'host'            => $host,
@@ -154,9 +150,11 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 				$output       .= '<table class="sui-table striped">';
 			} else {
 				$call = json_decode( wp_remote_retrieve_body( $api_response ), true );
+
 				if ( 'IN_PROGRESS' === $call['status'] ) {
 					$progress       = 0;
 					$progress_count = 0;
+
 					foreach ( $call['endpoints'] as $key => $endpoint ) {
 						if ( ! empty( $call['endpoints'][ $key ]['progress'] ) ) {
 							$progress = $progress + $call['endpoints'][ $key ]['progress'];
@@ -168,6 +166,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					} else {
 						$prototal = 0;
 					}
+
 					$output  = '<div class="sui-notice sui-notice-info"><p>';
 					$output .= esc_html__( 'Testing and gathering information for:', 'wp-live-debug' ) . '<strong> '.  $host . '</strong>. ' . esc_html( 'This might take a while so make sure to keep this page open!' , 'wp-live-debug' ); // phpcs:ignore
 					$output .= '</p></div>';
@@ -216,9 +215,11 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					$output .= '<tr><td>' . esc_html__( 'Issuer', 'wp-live-debug' ) . '</td><td>' . $call['certs'][1]['commonNames'][0] . '</td></tr>';
 					$output .= '<tr><td>' . esc_html__( 'Certificate ID', 'wp-live-debug' ) . '</td><td>' . $call['certs'][0]['id'] . '</td></tr>';
 					$output .= '<tr><td>' . esc_html__( 'Protocols', 'wp-live-debug' ) . '</td><td>';
+
 					foreach ( $call['endpoints'][0]['details']['protocols'] as $protocol ) {
 						$output .= $protocol['name'] . $protocol['version'] . '<br>';
 					}
+
 					$output .= '</td></tr>';
 					$output .= '</tbody>';
 					$output .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
@@ -254,11 +255,9 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		 */
 		public static function run_checksums_check() {
 			$checksums = WP_Live_Debug_Tools::call_checksums_api();
+			$files     = WP_Live_Debug_Tools::parse_checksums_results( $checksums );
 
-			$files = WP_Live_Debug_Tools::parse_checksums_results( $checksums );
-
-			WP_Live_Debug_Tools::create_the_response( $files );
-
+			WP_Live_Debug_Tools::create_checksums_response( $files );
 		}
 
 		/**
@@ -320,6 +319,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 					array_push( $files, array( $file, $reason ) );
 				}
 			}
+
 			return $files;
 		}
 
@@ -334,7 +334,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		*
 		* @return void
 		*/
-		public static function create_the_response( $files ) {
+		public static function create_checksums_response( $files ) {
 			$filepath = wp_normalize_path( ABSPATH );
 			$output   = '';
 
@@ -351,12 +351,14 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 				$output .= '</th><th>';
 				$output .= esc_html__( 'Reason', 'wp-live-debug' );
 				$output .= '</th></tr></thead><tbody>';
+
 				foreach ( $files as $tampered ) {
 					$output .= '<tr>';
 					$output .= '<td>' . $filepath . $tampered[0] . '</td>';
 					$output .= '<td>' . $tampered[1] . '</td>';
 					$output .= '</tr>';
 				}
+
 				$output .= '<tfoot><tr><th>' . esc_html__( 'File', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Reason', 'wp-live-debug' ) . '</th></tr></tfoot>';
 				$output .= '</tbody>';
 				$output .= '</table>';
@@ -415,12 +417,13 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 				'show_split_view' => true,
 			);
 
-			$output   = '<table class="diff"><thead><tr class="diff-sub-title"><th>';
-			$output  .= esc_html__( 'Original', 'wp-live-debug' );
-			$output  .= '</th><th>';
-			$output  .= esc_html__( 'Modified', 'wp-live-debug' );
-			$output  .= '</th></tr></table>';
-			$output  .= wp_text_diff( $remote_file_body, $local_file_body, $diff_args );
+			$output  = '<table class="diff"><thead><tr class="diff-sub-title"><th>';
+			$output .= esc_html__( 'Original', 'wp-live-debug' );
+			$output .= '</th><th>';
+			$output .= esc_html__( 'Modified', 'wp-live-debug' );
+			$output .= '</th></tr></table>';
+			$output .= wp_text_diff( $remote_file_body, $local_file_body, $diff_args );
+
 			$response = array(
 				'message' => $output,
 			);

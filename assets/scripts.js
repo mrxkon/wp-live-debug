@@ -21,7 +21,7 @@
 		savequeriesToggle      = $( '#toggle-savequeries' ),
 		enableSavequeriesData  = { 'action': 'wp-live-debug-enable-savequeries' },
 		disableSavequeriesData = { 'action': 'wp-live-debug-disable-savequeries' },
-		checksumsData          = { 'action': 'wp-live-debug-checksums-check' },
+		checksumsData          = { 'action': 'wp-live-debug-tools-checksums-check' },
 		checksumsDiffButton    = 'button[data-do=wp-live-debug-diff]',
 		checksumsResponse      = $( '#checksums-response' ),
 		checksumsResponseTitle = $( '#checksums-popup .sui-box-title' ),
@@ -110,7 +110,7 @@
 		var host = sslHost.val(),
 			data;
 		data = {
-			'action': 'wp-live-debug-get-ssl-information',
+			'action': 'wp-live-debug-tools-ssl-information',
 			'host': host
 		}
 		$.post( ajaxurl, data, function( response ) {
@@ -190,7 +190,7 @@
 		e.preventDefault();
 		$( '#mail-check-box' ).html('<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>');
 		data = {
-			'action': 'wp-live-debug-mail',
+			'action': 'wp-live-debug-tools-wp-mail',
 			'email': email,
 			'email_subject': emailSubject,
 			'email_message': emailMessage
@@ -211,7 +211,7 @@
 			data;
 		e.preventDefault();
 		data = {
-			'action': 'wp-live-debug-view-diff',
+			'action': 'wp-live-debug-tools-view-diff',
 			'file': file
 		};
 		$.post( ajaxurl, data, function( response ) {
