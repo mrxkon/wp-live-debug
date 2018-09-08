@@ -36,7 +36,10 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 
 			foreach ( $array as $key => $value ) {
 				$table .= '<tr><td>' . esc_html( $value[0] ) . '</td><td>' . $value[1] . '</td><td>' . $value[2] . '</td></tr>';
-				$table .= '<tr><td colspan="3"><em>' . esc_html( $value[3] ) . '</em></td></tr>';
+
+				if ( ! empty( $value[3] ) ) {
+					$table .= '<tr><td colspan="3"><em>' . esc_html( $value[3] ) . '</em></td></tr>';
+				}
 			}
 
 			$table .= '<tfoot><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Default Value', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></tfoot>';
