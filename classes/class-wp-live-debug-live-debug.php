@@ -49,6 +49,8 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 *
 		 * @uses wp_normalize_path()
 		 * @uses get_option
+		 * @uses RecursiveIteratorIterator
+		 * @uses getExtension()
 		 * @uses esc_html__()
 		 * @uses wp_create_nonce()
 		 *

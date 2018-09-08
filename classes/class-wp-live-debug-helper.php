@@ -32,7 +32,7 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 		}
 
 		/**
-		 * Create the debug.log if it doesn't exist
+		 * Create the debug.log if it doesn't exist.
 		 *
 		 * @uses wp_normalize_path()
 		 * @uses update_option()
@@ -40,18 +40,28 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 		 * @return void
 		 */
 		public static function create_debug_log() {
-			// Get the default path for debug.log
 			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
-			// If debug.log doesn't exist create an empty one
+
 			if ( ! file_exists( $log_file ) ) {
 				$fo = fopen( $log_file, 'w' ) or die( 'Cannot create debug.log!' );
+
 				fwrite( $fo, '' );
+
 				fclose( $fo );
 			}
-			// Update the log file path option
+
 			update_option( 'wp_live_debug_log_file', $log_file );
 		}
 
+		/**
+		 * Create table for WPMU DEV plugin constants.
+		 *
+		 * @param array $array The array of constants.
+		 *
+		 * @uses esc_html()
+		 *
+		 * @return string html of the table.
+		 */
 		public static function table_wpmudev_constants( $array ) {
 			$table = '<table class="sui-table striped"><thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Default Value', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 
@@ -69,6 +79,15 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			return $table;
 		}
 
+		/**
+		 * Create table for WPMU DEV plugin actions and filters.
+		 *
+		 * @param array $array The array of actions and filters.
+		 *
+		 * @uses esc_html()
+		 *
+		 * @return string html of the table.
+		 */
 		public static function table_wpmudev_actions_filters( $array ) {
 			$table  = '<table class="sui-table striped"><thead><tr><th>' . esc_html__( 'Actions', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Filters', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 			$table .= '<tr><td>';
@@ -90,6 +109,15 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			return $table;
 		}
 
+		/**
+		 * Create a general use table.
+		 *
+		 * @param array $array The array of table cells.
+		 *
+		 * @uses esc_html()
+		 *
+		 * @return string html of the table.
+		 */
 		public static function table_general( $array ) {
 			$table = '<table class="sui-table striped"><thead><tr><th>' . esc_html__( 'Title', 'wp-live-debug' ) . '</th><th>' . esc_html__( 'Value', 'wp-live-debug' ) . '</th></tr></thead><tbody>';
 
@@ -103,6 +131,15 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			return $table;
 		}
 
+		/**
+		 * Format constant.
+		 *
+		 * @param string $constant The constant to format.
+		 *
+		 * @uses esc_html()
+		 *
+		 * @return string Constant value.
+		 */
 		public static function format_constant( $constant ) {
 			if ( ! defined( $constant ) ) {
 				return '<em>' . esc_html__( 'Undefined', 'wp-live-debug' ) . '</em>';
@@ -119,6 +156,15 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			}
 		}
 
+		/**
+		 * Format constant.
+		 *
+		 * @param int $value The number to format.
+		 *
+		 * @uses size_format()
+		 *
+		 * @return string $value Formatted number.
+		 */
 		public static function format_num( $value ) {
 			if ( is_numeric( $value ) and ( $value >= ( 1024 * 1024 ) ) ) {
 				$value = size_format( $value );
@@ -127,6 +173,14 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			return $value;
 		}
 
+		/**
+		 * Get database size.
+		 *
+		 * @uses wpdb
+		 * @uses get_results()
+		 *
+		 * @return string $size Database size.
+		 */
 		public static function get_database_size() {
 			global $wpdb;
 
@@ -142,6 +196,16 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			return $size;
 		}
 
+		/**
+		 * Get directory size.
+		 *
+		 * @param string $dir The directory to search.
+		 *
+		 * @uses RecursiveIteratorIterator
+		 * @uses getSize()
+		 *
+		 * @return string $size Directory size.
+		 */
 		public static function get_directory_size( $dir ) {
 			$size = 0;
 
@@ -152,6 +216,11 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 			return $size;
 		}
 
+		/**
+		 * Get PHP errors.
+		 *
+		 * @return string $size PHP errors.
+		 */
 		public static function get_php_errors() {
 			$errors          = array();
 			$error_reporting = error_reporting();
@@ -186,6 +255,5 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 
 			return $errors;
 		}
-
 	}
 }
