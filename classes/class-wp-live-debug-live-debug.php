@@ -89,7 +89,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 									<button id="wp-live-debug-clear" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="sui-button sui-button-primary"><?php esc_html_e( 'Clear Log', 'wp-live-debug' ); ?></button>
 							</div>
 							<div class="sui-col-md-4 sui-col-lg-4 text-center">
-									<button id="wp-live-debug-delete" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="sui-button sui-button-red"><i class="sui-icon-trash" aria-hidden="true"></i> <?php esc_html_e( 'Delete Log', 'wp-live-debug' ); ?></button>
+									<button id="wp-live-debug-delete" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="sui-button sui-button-red"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Delete Log', 'wp-live-debug' ); ?></button>
 							</div>
 							<div class="sui-col-md-4 sui-col-lg-4 text-center">
 								<label class="sui-toggle">

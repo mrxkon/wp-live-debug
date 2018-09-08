@@ -47,6 +47,8 @@ body.toplevel_page_wp-live-debug .divider {
 body.toplevel_page_wp-live-debug .text-center {
 	text-align: center;
 }
+body.toplevel_page_wp-live-debug #checksums-response i,
 body.toplevel_page_wp-live-debug #wp-live-debug-delete i {
 	display: none;
+	position: relative !important;
 }

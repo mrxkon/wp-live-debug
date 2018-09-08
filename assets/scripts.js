@@ -266,7 +266,7 @@
 				log   = $( this ).data( 'log' ),
 				data;
 			e.preventDefault();
-			$( this ).find( '.sui-icon-trash' ).removeClass( 'sui-icon-trash' ).addClass( 'sui-icon-loader sui-loading' ).css( 'display', 'inline-block' ).css( 'position', 'relative' );
+			$( this ).find( '.sui-icon-loader' ).css( 'display', 'inline-block' );
 			data = {
 				'action': 'wp-live-debug-delete-debug-log',
 				'log': log,
