@@ -56,8 +56,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 define( 'WP_LIVE_DEBUG_VERSION', '4.9.8.6' );
 define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
-define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config_wpld_backup.php' );
-
+define( 'WP_LIVE_DEBUP_BACKUP_DIR', ABSPATH . 'wpld-config-backups/' );
+define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', WP_LIVE_DEBUP_BACKUP_DIR . 'wp-config.original-backup.php' );
+define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', WP_LIVE_DEBUP_BACKUP_DIR . 'wp-config.' . str_replace( array( 'http://', 'https://' ), '', get_site_url() ) . '-manual-backup.php' );
 /**
  * WP_Live_Debug Class.
  */
@@ -123,6 +124,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 			update_option( 'wp_live_debug_ssl_domain', $host );
 
 			WP_Live_Debug_Helper::create_debug_log();
+			WP_Live_Debug_Helper::get_first_backup();
 		}
 
 		/**

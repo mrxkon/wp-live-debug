@@ -240,7 +240,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 			file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
 
-			$write_wpconfig = fopen( $wpconfig, 'w' );
+			$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
 
 			foreach ( $editing_wpconfig as $line ) {
 				if ( false !== strpos( $line, "'WP_DEBUG'" ) || false !== strpos( $line, '"WP_DEBUG"' ) ) {
@@ -252,6 +252,12 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			if ( $not_found ) {
+				$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
+
+				file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
+
+				$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
+
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "define( 'WP_DEBUG', true ); // Added by WP Live Debug" . PHP_EOL;
@@ -337,6 +343,12 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			if ( $not_found ) {
+				$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
+
+				file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
+
+				$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
+
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "define( 'WP_DEBUG_LOG', true ); // Added by WP Live Debug" . PHP_EOL;
@@ -372,6 +384,12 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			if ( $not_found ) {
+				$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
+
+				file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
+
+				$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
+
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "define( 'WP_DEBUG_LOG', false ); // Added by WP Live Debug" . PHP_EOL;
@@ -408,6 +426,12 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			if ( $not_found ) {
+				$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
+
+				file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
+
+				$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
+
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "define( 'WP_DEBUG_DISPLAY', false ); // Added by WP Live Debug" . PHP_EOL;
@@ -444,6 +468,12 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			if ( $not_found ) {
+				$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
+
+				file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
+
+				$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
+
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "@ini_set( 'display_errors', 0 ); // Added by WP Live Debug" . PHP_EOL;
@@ -478,11 +508,16 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 					$line      = "define( 'SCRIPT_DEBUG', true ); // Added by WP Live Debug" . PHP_EOL;
 					$not_found = false;
 				}
-
 				fputs( $write_wpconfig, $line );
 			}
 
 			if ( $not_found ) {
+				$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
+
+				file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
+
+				$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
+
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "define( 'SCRIPT_DEBUG', true ); // Added by WP Live Debug" . PHP_EOL;
@@ -528,6 +563,12 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			if ( $not_found ) {
+				$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
+
+				file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
+
+				$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
+
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "define( 'SCRIPT_DEBUG', false ); // Added by WP Live Debug" . PHP_EOL;
@@ -573,6 +614,12 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			if ( $not_found ) {
+				$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
+
+				file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
+
+				$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
+
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "define( 'SAVEQUERIES', true ); // Added by WP Live Debug" . PHP_EOL;
@@ -618,6 +665,12 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			}
 
 			if ( $not_found ) {
+				$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
+
+				file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
+
+				$write_wpconfig = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'w' );
+
 				foreach ( $editing_wpconfig as $line ) {
 					if ( false !== strpos( $line, 'stop editing!' ) ) {
 						$line  = "define( 'SAVEQUERIES', false ); // Added by WP Live Debug" . PHP_EOL;
