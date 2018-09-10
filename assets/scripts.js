@@ -304,16 +304,29 @@
 		wpDebugToggle.on( 'change', function( e ) {
 			e.preventDefault();
 			var checked = $(this).is( ':checked');
+			backupButton.prop( 'disabled', true );
+			restoreButton.prop( 'disabled', true );
+			wpDebugToggle.prop( 'disabled', true );
+			scriptDebugToggle.prop( 'disabled', true );
+			savequeriesToggle.prop( 'disabled', true );
 			if ( checked ) {
 				$.post( ajaxurl, enableWPDebugData, function( response ) {
-					if ( ! response.success ) {
-						responseHolder.html( response.data.message );
+					if ( response.success ) {
+						backupButton.prop( 'disabled', false );
+						restoreButton.prop( 'disabled', false );
+						wpDebugToggle.prop( 'disabled', false );
+						scriptDebugToggle.prop( 'disabled', false );
+						savequeriesToggle.prop( 'disabled', false );
 					}
 				} );
 			} else if ( ! checked ) {
 				$.post( ajaxurl, disableWPDebugData, function( response ) {
-					if ( ! response.success ) {
-						responseHolder.html( response.data.message );
+					if ( response.success ) {
+						backupButton.prop( 'disabled', false );
+						restoreButton.prop( 'disabled', false );
+						wpDebugToggle.prop( 'disabled', false );
+						scriptDebugToggle.prop( 'disabled', false );
+						savequeriesToggle.prop( 'disabled', false );
 					}
 				} );
 			}
@@ -322,16 +335,29 @@
 		scriptDebugToggle.on( 'change', function( e ) {
 			e.preventDefault();
 			var checked = $(this).is( ':checked');
+			backupButton.prop( 'disabled', true );
+			restoreButton.prop( 'disabled', true );
+			wpDebugToggle.prop( 'disabled', true );
+			scriptDebugToggle.prop( 'disabled', true );
+			savequeriesToggle.prop( 'disabled', true );
 			if ( checked ) {
 				$.post( ajaxurl, enableScriptDebugData, function( response ) {
-					if ( ! response.success ) {
-						responseHolder.html( response.data.message );
+					if ( response.success ) {
+						backupButton.prop( 'disabled', false );
+						restoreButton.prop( 'disabled', false );
+						wpDebugToggle.prop( 'disabled', false );
+						scriptDebugToggle.prop( 'disabled', false );
+						savequeriesToggle.prop( 'disabled', false );
 					}
 				} );
 			} else if ( ! checked ) {
 				$.post( ajaxurl, disableScriptDebugData, function( response ) {
-					if ( ! response.success ) {
-						responseHolder.html( response.data.message );
+					if ( response.success ) {
+						backupButton.prop( 'disabled', false );
+						restoreButton.prop( 'disabled', false );
+						wpDebugToggle.prop( 'disabled', false );
+						scriptDebugToggle.prop( 'disabled', false );
+						savequeriesToggle.prop( 'disabled', false );
 					}
 				} );
 			}
@@ -340,16 +366,29 @@
 		savequeriesToggle.on( 'change', function( e ) {
 			e.preventDefault();
 			var checked = $(this).is( ':checked');
+			backupButton.prop( 'disabled', true );
+			restoreButton.prop( 'disabled', true );
+			wpDebugToggle.prop( 'disabled', true );
+			scriptDebugToggle.prop( 'disabled', true );
+			savequeriesToggle.prop( 'disabled', true );
 			if ( checked ) {
 				$.post( ajaxurl, enableSavequeriesData, function( response ) {
-					if ( ! response.success ) {
-						responseHolder.html( response.data.message );
+					if ( response.success ) {
+						backupButton.prop( 'disabled', false );
+						restoreButton.prop( 'disabled', false );
+						wpDebugToggle.prop( 'disabled', false );
+						scriptDebugToggle.prop( 'disabled', false );
+						savequeriesToggle.prop( 'disabled', false );
 					}
 				} );
 			} else if ( ! checked ) {
 				$.post( ajaxurl, disableSavequeriesData, function( response ) {
-					if ( ! response.success ) {
-						responseHolder.html( response.data.message );
+					if ( response.success ) {
+						backupButton.prop( 'disabled', false );
+						restoreButton.prop( 'disabled', false );
+						wpDebugToggle.prop( 'disabled', false );
+						scriptDebugToggle.prop( 'disabled', false );
+						savequeriesToggle.prop( 'disabled', false );
 					}
 				} );
 			}

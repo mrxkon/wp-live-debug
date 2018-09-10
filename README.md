@@ -69,6 +69,8 @@ Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F.
 * Various fixes
 * PHPCS fixes
 * Code docs
+* Keeping 1 extra wp-config.php backup on activation
+* Disable debug toggles until 1 action is finished.
 
 #### 4.9.8.5
 * Add Info to Snapshot
