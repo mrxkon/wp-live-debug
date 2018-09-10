@@ -1,4 +1,4 @@
-# Download the stable tag: 4.9.8.5 [Latest]( https://github.com/mrxkon/wp-live-debug/releases/latest )
+# [Click here to download the latest stable tag]( https://github.com/mrxkon/wp-live-debug/releases/latest ): 4.9.8.5
 
 ### WP Live Debug [![View on WordPress.org](https://img.shields.io/badge/View%20on-WordPress.org-blue.svg)](https://wordpress.org/plugins/wp-live-debug/) [![Build Status](https://travis-ci.org/mrxkon/wp-live-debug.svg?branch=master)](https://travis-ci.org/mrxkon/wp-live-debug) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-F37F40.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
 
