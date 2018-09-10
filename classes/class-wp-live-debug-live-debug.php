@@ -111,12 +111,13 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 						</div>
 						<div class="sui-box-settings-row divider"></div>
 						<div class="sui-row mt30">
+						<?php if ( ! WP_Live_Debug_Live_Debug::check_wp_config_backup() ) { ?>
+							<div class="sui-col-lg-12 text-center">
+								<button id="wp-live-debug-backup" type="button" class="sui-button sui-button-green"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?></button>
+							</div>
+							<?php } else { ?>
 							<div class="sui-col-md-6 sui-col-lg-3 text-center">
-								<?php if ( ! WP_Live_Debug_Live_Debug::check_wp_config_backup() ) { ?>
-									<button id="wp-live-debug-backup" type="button" class="sui-button sui-button-green"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?></button>
-								<?php } else { ?>
-									<button id="wp-live-debug-restore" type="button" class="sui-button sui-button-primary"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?></button>
-								<?php } ?>
+								<button id="wp-live-debug-restore" type="button" class="sui-button sui-button-primary"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?></button>
 							</div>
 							<div class="sui-col-md-6 sui-col-lg-3 text-center">
 								<span class="sui-tooltip sui-tooltip-top sui-tooltip-constrained" data-tooltip="The WP_DEBUG constant that can be used to trigger the 'debug' mode throughout WordPress. This will enable WP_DEBUG, WP_DEBUG_LOG and disable WP_DEBUG_DISPLAY and display_errors.">
@@ -145,6 +146,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 									<label for="toggle-savequeries"><?php esc_html_e( 'Save Queries', 'wp-live-debug' ); ?></label>
 								</span>
 							</div>
+							<?php } ?>
 						</div>
 					</div>
 					<div class="sui-box-footer">
