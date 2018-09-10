@@ -149,7 +149,11 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 					</div>
 					<div class="sui-box-footer">
 						<p class="sui-description">
-							<?php esc_html_e( 'More information at', 'wp-live-debug' ); ?> <a target="_blank" rel="noopener" href="https://codex.wordpress.org/Debugging_in_WordPress">Debugging in WordPress</a>.
+							You should always backup <strong>wp-config.php</strong> before enabling or disabling debugging. When you press the 'BACKUP WP-CONFIG' button a <strong>wp-config.wpld-manual-backup.php</strong> will be created on the same folder as wp-config.php, you will also be prompted to download it instantly for extra safekeeping.
+							<br><br>
+							There is also one automated backup in the same folder as wp-config.php named <strong>wp-config.wpld-original-backup.php</strong>.
+							<br><br>
+							<?php esc_html_e( 'More information at', 'wp-live-debug' ); ?> <a target="_blank" rel="noopener" href="https://codex.wordpress.org/Debugging_in_WordPress"><?php esc_html_e( 'Debugging in WordPress', 'wp-live-debug' ); ?></a>.
 						</p>
 					</div>
 				</div>
@@ -157,7 +161,22 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Check if wp-config.php backup exists.
+		 * Check if original wp-config.php backup exists.
+		 *
+		 * @uses file_exists()
+		 *
+		 * @return bool true/false depending if the backup exists.
+		 */
+		public static function check_wp_config_original_backup() {
+			if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
+		 * Check if manual wp-config.php backup exists.
 		 *
 		 * @uses file_exists()
 		 *
