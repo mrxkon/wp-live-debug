@@ -34,12 +34,9 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 		/**
 		 * Get the wp-config.original.php backup
 		 *
+		 * @return void
 		 */
 		public static function get_first_backup() {
-			if ( ! is_dir( WP_LIVE_DEBUP_BACKUP_DIR ) ) {
-				mkdir( WP_LIVE_DEBUP_BACKUP_DIR, '0755', true );
-			}
-
 			copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
 		}
 
