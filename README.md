@@ -1,10 +1,10 @@
+# Download the stable tag: 4.9.8.5 [Latest]( https://github.com/mrxkon/wp-live-debug/releases/latest )
+
 ### WP Live Debug [![View on WordPress.org](https://img.shields.io/badge/View%20on-WordPress.org-blue.svg)](https://wordpress.org/plugins/wp-live-debug/) [![Build Status](https://travis-ci.org/mrxkon/wp-live-debug.svg?branch=master)](https://travis-ci.org/mrxkon/wp-live-debug) [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-F37F40.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
 
 Requires at least: WordPress 4.8
 
 Tested up to: WordPress 4.9.8
-
-Stable tag: 4.9.8.5 [Latest]( https://github.com/mrxkon/wp-live-debug/releases/latest )
 
 Requires PHP: 5.6
 
@@ -42,22 +42,6 @@ Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F.
 * Unzip the downloaded package
 * Upload `wp-live-debug` directory to the /wp-content/plugins/ directory
 * Activate the plugin through the ‘Plugins’ menu in WordPress
-
-### Screenshots
-
-![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot1.png)
-
-![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot2.png)
-
-![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot3.png)
-
-![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot4.png)
-
-![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot5.png)
-
-![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot6.png)
-
-![Screenshot](https://raw.githubusercontent.com/mrxkon/wp-live-debug/master/assets/screenshot7.png)
 
 ### Changelog
 

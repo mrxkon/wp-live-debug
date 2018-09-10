@@ -318,33 +318,33 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 				$first_time_running = get_option( 'wp_live_debug_risk' );
 
 				if ( empty( $first_time_running ) ) {
-				?>
-				<div class="sui-dialog sui-dialog-sm" aria-hidden="true" tabindex="-1" id="safety-popup">
-					<div class="sui-dialog-overlay" data-a11y-dialog-hide></div>
-					<div class="sui-dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
-						<div class="sui-box" role="document">
-							<div class="sui-box-header">
-								<h3 class="sui-box-title">Safety First!</h3>
-							</div>
-							<div class="sui-box-body">
-								<p>
-								<?php
-									_e( 'WP LIVE DEBUG enables debugging, checks files and runs various tests to gather information about your installation.', 'wp-live-debug' );
-								?>
-								</p>
-								<p>
-								<?php
-									_e( 'Make sure to have a <strong>full backup</strong> first before proceeding with any of the tools.', 'wp-live-debug' );
-								?>
-								</p>
-							</div>
-							<div class="sui-box-footer">
-								<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
+					?>
+					<div class="sui-dialog sui-dialog-sm" aria-hidden="true" tabindex="-1" id="safety-popup">
+						<div class="sui-dialog-overlay" data-a11y-dialog-hide></div>
+						<div class="sui-dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
+							<div class="sui-box" role="document">
+								<div class="sui-box-header">
+									<h3 class="sui-box-title">Safety First!</h3>
+								</div>
+								<div class="sui-box-body">
+									<p>
+									<?php
+										_e( 'WP LIVE DEBUG enables debugging, checks files and runs various tests to gather information about your installation.', 'wp-live-debug' );
+									?>
+									</p>
+									<p>
+									<?php
+										_e( 'Make sure to have a <strong>full backup</strong> first before proceeding with any of the tools.', 'wp-live-debug' );
+									?>
+									</p>
+								</div>
+								<div class="sui-box-footer">
+									<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<?php
+					<?php
 				}
 				?>
 			</div>
