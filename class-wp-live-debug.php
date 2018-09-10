@@ -340,6 +340,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 									</p>
 								</div>
 								<div class="sui-box-footer">
+									<a href="?page=wp-live-debug&wplddlwpconfig=true" class="sui-modal-close sui-button sui-button-green"><?php esc_html_e( 'Download wp-config', 'wp-live-debug' ); ?></a>
 									<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
 								</div>
 							</div>

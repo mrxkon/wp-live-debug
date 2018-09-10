@@ -42,6 +42,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-disable-script-debug', array( 'WP_Live_Debug_Live_Debug', 'disable_script_debug' ) );
 			add_action( 'wp_ajax_wp-live-debug-enable-savequeries', array( 'WP_Live_Debug_Live_Debug', 'enable_savequeries' ) );
 			add_action( 'wp_ajax_wp-live-debug-disable-savequeries', array( 'WP_Live_Debug_Live_Debug', 'disable_savequeries' ) );
+			add_action( 'admin_init', array( 'WP_Live_Debug_Live_Debug', 'download_config_backup' ) );
 		}
 
 		/**
@@ -113,7 +114,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 						<div class="sui-row mt30">
 						<?php if ( ! WP_Live_Debug_Live_Debug::check_wp_config_backup() ) { ?>
 							<div class="sui-col-lg-12 text-center">
-								<button id="wp-live-debug-backup" type="button" class="sui-button sui-button-green"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?></button>
+								<button id="wp-live-debug-backup" type="button" class="sui-button sui-button-green"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Backup wp-config and show options', 'wp-live-debug' ); ?></button>
 							</div>
 							<?php } else { ?>
 							<div class="sui-col-md-6 sui-col-lg-3 text-center">
@@ -162,6 +163,17 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			<?php
 		}
 
+		/**
+		 * Force download wp-config original backup
+		 */
+		public static function download_config_backup() {
+			if ( ! empty( $_GET['wplddlwpconfig'] ) && 'true' === $_GET['wplddlwpconfig'] ) {
+				header( 'Content-type: textplain;' );
+				header( 'Content-disposition: attachment; filename= ' . basename( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) );
+				readfile( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
+				exit();
+			}
+		}
 		/**
 		 * Check if original wp-config.php backup exists.
 		 *
