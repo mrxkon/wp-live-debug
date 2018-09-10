@@ -118,8 +118,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * @return void
 		 */
 		public static function on_activate() {
-			$host = get_site_url();
-			$host = str_replace( array( 'http://', 'https://' ), '', $host );
+			$host = str_replace( array( 'http://', 'https://' ), '', get_site_url() );
 
 			update_option( 'wp_live_debug_ssl_domain', $host );
 

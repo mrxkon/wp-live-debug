@@ -70,8 +70,7 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			if ( ! empty( get_option( 'wp_live_debug_ssl_domain' ) ) ) {
 				$host = get_option( 'wp_live_debug_ssl_domain' );
 			} else {
-				$host = get_site_url();
-				$host = str_replace( array( 'http://', 'https://' ), '', $host );
+				$host = str_replace( array( 'http://', 'https://' ), '', get_site_url() );
 			}
 			?>
 				<div class="sui-box">
