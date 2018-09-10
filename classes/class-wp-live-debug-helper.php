@@ -32,12 +32,25 @@ if ( ! class_exists( 'WP_Live_Debug_Helper' ) ) {
 		}
 
 		/**
-		 * Get the wp-config.original.php backup
+		 * Create the wp-config.wpld-original-backup.php
 		 *
 		 * @return void
 		 */
 		public static function get_first_backup() {
-			copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
+			if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG ) ) {
+				copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
+			}
+		}
+
+		/**
+		 * Delete the wp-config.wpld-manual-backup.php on deactivation
+		 *
+		 * @return void
+		 */
+		public static function clear_manual_backup() {
+			if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
+				unlink( WP_LIVE_DEBUG_WP_CONFIG_BACKUP );
+			}
 		}
 
 		/**

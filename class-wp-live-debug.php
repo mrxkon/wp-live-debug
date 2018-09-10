@@ -136,6 +136,8 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 			delete_option( 'wp_live_debug_risk' );
 			delete_option( 'wp_live_debug_ssl_domain' );
 			delete_option( 'wp_live_debug_log_file' );
+
+			WP_Live_Debug_Helper::clear_manual_backup();
 		}
 
 		/**
