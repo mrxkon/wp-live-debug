@@ -56,6 +56,7 @@ Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F.
 * Keeping 1 extra wp-config.php backup on activation.
 * Disable debug toggles until 1 action is finished.
 * Loading icons on Clear Log, Delete Log, Backup and Restore wp-config.
+* Download wp-config on activation.
 
 #### 4.9.8.5
 * Add Info to Snapshot
