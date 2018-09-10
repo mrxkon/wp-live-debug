@@ -48,7 +48,10 @@ body.toplevel_page_wp-live-debug .text-center {
 	text-align: center;
 }
 body.toplevel_page_wp-live-debug #checksums-response i,
-body.toplevel_page_wp-live-debug #wp-live-debug-delete i {
+body.toplevel_page_wp-live-debug #wp-live-debug-delete i,
+body.toplevel_page_wp-live-debug #wp-live-debug-backup i,
+body.toplevel_page_wp-live-debug #wp-live-debug-restore i,
+body.toplevel_page_wp-live-debug #wp-live-debug-clear i {
 	display: none;
 	position: relative !important;
 }

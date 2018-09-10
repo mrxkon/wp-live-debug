@@ -96,7 +96,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 					<div class="sui-box-body">
 						<div class="sui-row">
 							<div class="sui-col-md-4 sui-col-lg-4 text-center">
-									<button id="wp-live-debug-clear" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="sui-button sui-button-primary"><?php esc_html_e( 'Clear Log', 'wp-live-debug' ); ?></button>
+									<button id="wp-live-debug-clear" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="sui-button sui-button-primary"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Clear Log', 'wp-live-debug' ); ?></button>
 							</div>
 							<div class="sui-col-md-4 sui-col-lg-4 text-center">
 									<button id="wp-live-debug-delete" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="sui-button sui-button-red"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Delete Log', 'wp-live-debug' ); ?></button>
@@ -113,9 +113,9 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 						<div class="sui-row mt30">
 							<div class="sui-col-md-6 sui-col-lg-3 text-center">
 								<?php if ( ! WP_Live_Debug_Live_Debug::check_wp_config_backup() ) { ?>
-									<button id="wp-live-debug-backup" type="button" class="sui-button sui-button-green"><?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?></button>
+									<button id="wp-live-debug-backup" type="button" class="sui-button sui-button-green"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?></button>
 								<?php } else { ?>
-									<button id="wp-live-debug-restore" type="button" class="sui-button sui-button-primary"><?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?></button>
+									<button id="wp-live-debug-restore" type="button" class="sui-button sui-button-primary"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?></button>
 								<?php } ?>
 							</div>
 							<div class="sui-col-md-6 sui-col-lg-3 text-center">
@@ -767,16 +767,27 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			$log_file = sanitize_text_field( $_POST['log'] );
 
 			if ( ! wp_verify_nonce( $nonce, $log_file ) ) {
-				wp_send_json_error();
+				$response = array(
+					'message' => esc_html__( 'Could not validate nonce', 'wp-live-debug' ),
+				);
+				wp_send_json_error( $response );
 			}
 
 			if ( 'log' != substr( strrchr( $log_file, '.' ), 1 ) ) {
-				wp_send_json_error();
+				$response = array(
+					'message' => esc_html__( 'This is not a log file.', 'wp-live-debug' ),
+				);
+
+				wp_send_json_error( $response );
 			}
 
 			file_put_contents( $log_file, '' );
 
-			wp_send_json_success();
+			$response = array(
+				'message' => esc_html__( '.log was cleared', 'wp-live-debug' ),
+			);
+
+			wp_send_json_success( $response );
 		}
 
 		/**

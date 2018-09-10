@@ -250,14 +250,17 @@
 				log   = $( this ).data( 'log' ),
 				data;
 			e.preventDefault();
+			$( this ).find( '.sui-icon-loader' ).css( 'display', 'inline-block' );
 			data = {
 				'action': 'wp-live-debug-clear-debug-log',
 				'log': log,
 				'nonce': nonce
 			};
 			$.post( ajaxurl, data, function( response ) {
-				debugArea.html( response );
-				scrollDebugAreaToBottom();
+				if ( response.success ) {
+					$( clearButton ).find( '.sui-icon-loader' ).css( 'display', 'none' );
+					scrollDebugAreaToBottom();
+				}
 			} );
 		} );
 		// Handle the delete button clicks.
@@ -281,6 +284,7 @@
 		// Create wp-config backup
 		backupButton.on( 'click', function( e ) {
 			e.preventDefault();
+			$( this ).find( '.sui-icon-loader' ).css( 'display', 'inline-block' );
 			$.post( ajaxurl, createBackupData, function( response ) {
 				if ( response.success ) {
 					window.location.href = window.location.href;
@@ -292,6 +296,7 @@
 		// Restore wp-config backup
 		restoreButton.on( 'click', function( e ) {
 			e.preventDefault();
+			$( this ).find( '.sui-icon-loader' ).css( 'display', 'inline-block' );
 			$.post( ajaxurl, restoreBackupData, function( response ) {
 				if ( response.success ) {
 					window.location.href = window.location.href;

@@ -62,15 +62,16 @@ Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F.
 ### Changelog
 
 #### NEXT: 4.9.8.6
-* Log viewer UI changes
-* Add full log path on viewer title
-* Clear any log
-* Delete any log
-* Various fixes
-* PHPCS fixes
-* Code docs
-* Keeping 1 extra wp-config.php backup on activation
+* Log viewer UI changes.
+* Add full log path on viewer title.
+* Clear any log.
+* Delete any log.
+* Various fixes.
+* PHPCS fixes.
+* Code docs.
+* Keeping 1 extra wp-config.php backup on activation.
 * Disable debug toggles until 1 action is finished.
+* Loading icons on Clear Log, Delete Log, Backup and Restore wp-config.
 
 #### 4.9.8.5
 * Add Info to Snapshot
