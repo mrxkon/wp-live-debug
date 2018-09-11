@@ -152,11 +152,17 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 					</div>
 					<div class="sui-box-footer">
 						<p class="sui-description">
-							You should always backup <strong>wp-config.php</strong> before enabling or disabling debugging. When you press the 'BACKUP WP-CONFIG' button a <strong>wp-config.wpld-manual-backup.php</strong> will be created on the same folder as wp-config.php, you will also be prompted to download it instantly for extra safekeeping.
+							<?php echo sprintf( _( 'If you did not download &amp; verify the wp-config.php backup during activation you can find two extra backups via FTP as well in <code>%1$s</code> as <code>wp-config.wpld-manual-backup.php</code> and <code>wp-config.wpld-original-backup.php</code>.', 'wp-live-debug' ), wp_normalize_path( ABSPATH ) ); ?>
 							<br><br>
-							There is also one automated backup in the same folder as wp-config.php named <strong>wp-config.wpld-original-backup.php</strong>.
+							<?php _e( "<strong>To manually enable any of the above debugging options you can edit your wp-config.php and add the following constants right above the '/* That's all, stop editing! Happy blogging. */' line.</strong>", 'wp-live-debug' ); ?>
 							<br><br>
-							<?php esc_html_e( 'More information at', 'wp-live-debug' ); ?> <a target="_blank" rel="noopener" href="https://codex.wordpress.org/Debugging_in_WordPress"><?php esc_html_e( 'Debugging in WordPress', 'wp-live-debug' ); ?></a>.
+							<?php _e( "<strong>WP Debug: <code>define( 'WP_DEBUG', true ); define( 'WP_DEBUG_LOG', true ); define( 'WP_DEBUG_DISPLAY', false ); @ini_set( 'display_errors', 0 );</code>", 'wp-live-debug' ); ?>
+							<br>
+							<?php _e( "<strong>Script Debug: <code>define( 'SCRIPT_DEBUG', true );</code>", 'wp-live-debug' ); ?>
+							<br>
+							<?php _e( "<strong>Save Queries: <code>define( 'SAVEQUERIES', true );</code>", 'wp-live-debug' ); ?>
+							<br><br>
+							<?php esc_html_e( 'You can always find more information at', 'wp-live-debug' ); ?> <a target="_blank" rel="noopener" href="https://codex.wordpress.org/Debugging_in_WordPress"><?php esc_html_e( 'Debugging in WordPress', 'wp-live-debug' ); ?></a>.
 						</p>
 					</div>
 				</div>
