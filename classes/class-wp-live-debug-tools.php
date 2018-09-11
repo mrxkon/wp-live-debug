@@ -151,17 +151,20 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		 */
 		public static function ssl_information() {
 			$host         = sanitize_text_field( $_POST['host'] );
-			$api_response = wp_remote_get( 'https://api.ssllabs.com/api/v3/analyze', array(
-				'body' => array(
-					'host'            => $host,
-					'publish'         => 'off',
-					'start_new'       => 'on',
-					'from_cache'      => 'off',
-					'max_age'         => null,
-					'all'             => 'done',
-					'ignore_mismatch' => 'off',
-				),
-			));
+			$api_response = wp_remote_get(
+				'https://api.ssllabs.com/api/v3/analyze',
+				array(
+					'body' => array(
+						'host'            => $host,
+						'publish'         => 'off',
+						'start_new'       => 'on',
+						'from_cache'      => 'off',
+						'max_age'         => null,
+						'all'             => 'done',
+						'ignore_mismatch' => 'off',
+					),
+				)
+			);
 
 			if ( is_wp_error( $api_response ) ) {
 				$error_message = $api_response->get_error_message();
@@ -402,9 +405,11 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		*/
 		public static function view_file_diff() {
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_send_json_error(array(
-					'message' => __( 'Does your mom know you\'re doing this?', 'wp-live-debug' ),
-				));
+				wp_send_json_error(
+					array(
+						'message' => __( 'Does your mom know you\'re doing this?', 'wp-live-debug' ),
+					)
+				);
 			}
 
 			$filepath    = wp_normalize_path( ABSPATH );
@@ -412,15 +417,19 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 			$actual_file = wp_normalize_path( realpath( "{$filepath}{$file}" ) );
 
 			if ( empty( $actual_file ) || ! is_readable( $actual_file ) ) {
-				wp_send_json_error(array(
-					'message' => __( 'Can not do this.', 'wp-live-debug' ),
-				));
+				wp_send_json_error(
+					array(
+						'message' => __( 'Can not do this.', 'wp-live-debug' ),
+					)
+				);
 			}
 
 			if ( ! preg_match( '/^' . preg_quote( $filepath, '/' ) . '/', $actual_file ) ) {
-				wp_send_json_error(array(
-					'message' => __( 'Will not do this.', 'wp-live-debug' ),
-				));
+				wp_send_json_error(
+					array(
+						'message' => __( 'Will not do this.', 'wp-live-debug' ),
+					)
+				);
 			}
 
 			$wpversion        = get_bloginfo( 'version' );
@@ -461,9 +470,11 @@ if ( ! class_exists( 'WP_Live_Debug_Tools' ) ) {
 		 */
 		public static function send_mail() {
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_send_json_error(array(
-					'message' => __( 'Does your mom know you\'re doing this?', 'wp-live-debug' ),
-				));
+				wp_send_json_error(
+					array(
+						'message' => __( 'Does your mom know you\'re doing this?', 'wp-live-debug' ),
+					)
+				);
 			}
 
 			$output        = '';

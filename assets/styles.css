@@ -2,7 +2,7 @@ body.toplevel_page_wp-live-debug textarea#wp-live-debug-area {
 	font-family: Consolas,Monaco,monospace;
 	font-size: 12px;
 	width: 100%;
-	min-height:400px;
+	min-height:500px;
 }
 body.toplevel_page_wp-live-debug .center table {
 	max-width: 100% !important;

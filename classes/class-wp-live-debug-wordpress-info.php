@@ -165,9 +165,12 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				$json_support = esc_html__( 'No', 'wp-live-debug' );
 			}
 
-			$wp_dotorg = wp_remote_get( 'https://wordpress.org', array(
-				'timeout' => 10,
-			) );
+			$wp_dotorg = wp_remote_get(
+				'https://wordpress.org',
+				array(
+					'timeout' => 10,
+				)
+			);
 
 			if ( ! is_wp_error( $wp_dotorg ) ) {
 				$dotorg = esc_html__( 'Connected successfully', 'wp-live-debug' );
@@ -203,11 +206,13 @@ if ( ! class_exists( 'WP_Live_Debug_WordPress_Info' ) ) {
 				$total_users = get_user_count();
 
 				$networks    = new WP_Network_Query();
-				$network_ids = $networks->query( array(
-					'fields'        => 'ids',
-					'number'        => 100,
-					'no_found_rows' => false,
-				) );
+				$network_ids = $networks->query(
+					array(
+						'fields'        => 'ids',
+						'number'        => 100,
+						'no_found_rows' => false,
+					)
+				);
 
 				$total_networks = $networks->found_networks;
 

@@ -152,7 +152,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 					</div>
 					<div class="sui-box-footer">
 						<p class="sui-description">
-							<?php echo sprintf( _( 'If you did not download &amp; verify the wp-config.php backup during activation you can find two extra backups via FTP as well in <code>%1$s</code> as <code>wp-config.wpld-manual-backup.php</code> and <code>wp-config.wpld-original-backup.php</code>.', 'wp-live-debug' ), wp_normalize_path( ABSPATH ) ); ?>
+							<?php echo sprintf( __( 'If you did not download &amp; verify the wp-config.php backup during activation you can find two extra backups via FTP as well in <code>%1$s</code> as <code>wp-config.wpld-manual-backup.php</code> and <code>wp-config.wpld-original-backup.php</code>.', 'wp-live-debug' ), wp_normalize_path( ABSPATH ) ); ?>
 							<br><br>
 							<?php _e( "<strong>To manually enable any of the above debugging options you can edit your wp-config.php and add the following constants right above the '/* That's all, stop editing! Happy blogging. */' line.</strong>", 'wp-live-debug' ); ?>
 							<br><br>
