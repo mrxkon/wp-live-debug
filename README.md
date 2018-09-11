@@ -19,6 +19,7 @@ Enables debugging and adds various installation information. Simply enable the p
 This is a personal project that I use for debugging, but some parts of the code are written by other awesome people.
 
 So props also go to:
+
 [WPMU DEV]( https://premium.wpmudev.org ) for parts of debug info & Shared UI
 
 - [Shared UI]( https://github.com/wpmudev/shared-ui ) - Licence GPLv2
