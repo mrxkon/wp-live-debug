@@ -3,7 +3,7 @@ Contributors: xkon
 Tags: debug
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 4.9.8.5
+Stable tag: 4.9.8.6
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -46,6 +46,19 @@ Fellow contributors:  Marius L. Jensen ( https://github.com/Clorith ), Nahid F. 
 1. WP Live Debug
 
 == Changelog ==
+
+= 4.9.8.6 =
+* Log viewer UI changes.
+* Add full log path on viewer title.
+* Clear any log.
+* Delete any log.
+* Various fixes.
+* PHPCS fixes.
+* Code docs.
+* Keeping 1 extra wp-config.php backup on activation.
+* Disable debug toggles until 1 action is finished.
+* Loading icons on Clear Log, Delete Log, Backup and Restore wp-config.
+* Download wp-config on activation.
 
 = 4.9.8.5 =
 * Add Info to Snapshot
@@ -107,6 +120,9 @@ Fellow contributors:  Marius L. Jensen ( https://github.com/Clorith ), Nahid F. 
 * Initial Release
 
 == Upgrade Notice ==
+
+= 4.9.8.6 =
+Log viewer UI changes. Add full log path on viewer title. Clear any log. Delete any log. Various fixes. PHPCS fixes. Code docs. Keeping 1 extra wp-config.php backup on activation. Disable debug toggles until 1 action is finished. Loading icons on Clear Log, Delete Log, Backup and Restore wp-config. Download wp-config on activation.
 
 = 4.9.8.5 =
 Add Info to Snapshot.

@@ -47,32 +47,12 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 					<div class="sui-box-body">
 						<div class="sui-tabs">
 							<div data-tabs>
-								<div class="active"><?php esc_html_e( 'Dashboard', 'wp-live-debug' ); ?></div>
-								<div><?php esc_html_e( 'Defender', 'wp-live-debug' ); ?></div>
-								<div><?php esc_html_e( 'Hummingbird', 'wp-live-debug' ); ?></div>
-								<div><?php esc_html_e( 'Shipper', 'wp-live-debug' ); ?></div>
-								<div><?php esc_html_e( 'Smartcrawl', 'wp-live-debug' ); ?></div>
-								<div><?php esc_html_e( 'Smush', 'wp-live-debug' ); ?></div>
+								<div class="active"><?php esc_html_e( 'Shipper', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Snapshot', 'wp-live-debug' ); ?></div>
 							</div>
 							<div data-panes>
-								<div id="wpmudev-dashboard-info">
-									Not yet implemented!
-								</div>
-								<div id="wpmudev-defender-info">
-									Not yet implemented!
-								</div>
-								<div id="wpmudev-hummingbird-info">
-									Not yet implemented!
-								</div>
-								<div id="wpmudev-shipper-info">
+								<div id="wpmudev-shipper-info" class="active">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
-								</div>
-								<div id="wpmudev-smartcrawl-info">
-									Not yet implemented!
-								</div>
-								<div id="wpmudev-smush-info">
-									Not yet implemented!
 								</div>
 								<div id="wpmudev-snapshot-info" class="active">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
