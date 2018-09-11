@@ -168,8 +168,9 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 */
 		public static function download_config_backup() {
 			if ( ! empty( $_GET['wplddlwpconfig'] ) && 'true' === $_GET['wplddlwpconfig'] ) {
+				$filename = 'wp-config-' . str_replace( array( 'http://', 'https://' ), '', get_site_url() ) . '-' . date( 'Ymd-Hi' ) . '-backup.php';
 				header( 'Content-type: textplain;' );
-				header( 'Content-disposition: attachment; filename= ' . basename( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) );
+				header( 'Content-disposition: attachment; filename= ' . $filename );
 				readfile( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
 				exit();
 			}
