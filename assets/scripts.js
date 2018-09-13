@@ -54,7 +54,8 @@
 		snapshotInfo           = $( '#wpmudev-snapshot-info' ),
 		snapshotInfodata       = { 'action': 'wp-live-debug-gather-snapshot-constants' },
 		shipperInfo            = $( '#wpmudev-shipper-info' ),
-		shipperInfodata        = { 'action': 'wp-live-debug-gather-shipper-constants' };
+		shipperInfodata        = { 'action': 'wp-live-debug-gather-shipper-constants' },
+		loaderIcon             = '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>';
 
 	// Get Shipper Information
 	if ( shipperInfo.length ) {
@@ -124,16 +125,19 @@
 	};
 	sslForm.submit( function( e ) {
 		e.preventDefault();
-		sslResponse.html( '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>' );
+		sslResponse.html( loaderIcon );
 		runSSLCheck();
 	} );
 	// Run Cronjob
 	cronjobInfo.on( 'click', cronjobRunButton, function( e ) {
-		var hook = $( this ).data( 'hook' ),
-			sig = $( this ).data( 'sig' ),
-			nonce = $( this ).data( 'nonce' ),
+		var link = $( this ),
+			hook = link.data( 'hook' ),
+			sig = link.data( 'sig' ),
+			nonce = link.data( 'nonce' ),
 			data;
 		e.preventDefault();
+		// Show loader.
+		link.after( '&nbsp;' + loaderIcon );
 		data = {
 			'action': 'wp-live-debug-cronjob-info-run-event',
 			'hook': hook,
@@ -147,6 +151,8 @@
 			} else {
 				cronjobError.show();
 			}
+			// Remove loader.
+			link.closest( 'td' ).find( '.sui-loading' ).remove();
 		} );
 	} );
 	// Get Cronjobs
@@ -186,7 +192,7 @@
 			emailMessage = $( '#wp-live-debug-mail-check #email_message' ).val(),
 			data;
 		e.preventDefault();
-		$( '#mail-check-box' ).html('<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>');
+		$( '#mail-check-box' ).html( loaderIcon );
 		data = {
 			'action': 'wp-live-debug-tools-wp-mail',
 			'email': email,
@@ -215,7 +221,7 @@
 		const cp = document.getElementById( 'checksums-popup' );
 		const checksum = new A11yDialog( cp );
 		checksumsResponseTitle.html( '' );
-		checksumsResponseBody.html( '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>' );
+		checksumsResponseBody.html( loaderIcon );
 		checksum.show();
 		$.post( ajaxurl, data, function( response ) {
 			checksumsResponseTitle.html( file );
