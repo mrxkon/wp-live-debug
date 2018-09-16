@@ -27,7 +27,7 @@ So props also go to:
 The [WordPress.org]( https://wordpress.org ) community for parts of debug info
 - [Health Check]( https://wordpress.org/plugins/health-check/ ) - Licence GPLv2 - [GitHub]( https://github.com/wordpress/health-check )
 
-Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F. Mohit]( https://github.com/nfmohit-wpmudev ), [Vladislav Bailovic ]( https://github.com/vladislavbailovic ), [Joel James]( https://github.com/Joel-James ), [Vaughan Montgomery]( https://github.com/vaughanm )
+Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F. Mohit]( https://github.com/nfmohit-wpmudev ), [Vladislav Bailovic]( https://github.com/vladislavbailovic ), [Joel James]( https://github.com/Joel-James ), [Vaughan Montgomery]( https://github.com/vaughanm )
 
 ### Installation
 
@@ -48,8 +48,8 @@ Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F.
 
 #### [NEXT] 4.9.8.7
 
-* Added more ajax loading icons ( Thanks Joel! )
-* Added WPMUDEV Dashboard plugin information ( Thanks Vaughan ! )
+* Added more ajax loading icons ( Thanks [Joel James]( https://github.com/Joel-James ) ! )
+* Added WPMUDEV Dashboard plugin information ( Thanks [Vaughan Montgomery]( https://github.com/vaughanm ) ! )
 
 #### 4.9.8.6
 * Log viewer UI changes.
