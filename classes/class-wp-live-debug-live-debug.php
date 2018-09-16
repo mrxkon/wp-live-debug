@@ -34,6 +34,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-select-log', array( 'WP_Live_Debug_Live_Debug', 'select_log_file' ) );
 			add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( 'WP_Live_Debug_Live_Debug', 'clear_debug_log' ) );
 			add_action( 'wp_ajax_wp-live-debug-delete-debug-log', array( 'WP_Live_Debug_Live_Debug', 'delete_debug_log' ) );
+			add_action( 'wp_ajax_wp-live-debug-refresh-debug-log', array( 'WP_Live_Debug_Live_Debug', 'refresh_debug_log' ) );
 			add_action( 'wp_ajax_wp-live-debug-create-backup', array( 'WP_Live_Debug_Live_Debug', 'create_wp_config_backup' ) );
 			add_action( 'wp_ajax_wp-live-debug-restore-backup', array( 'WP_Live_Debug_Live_Debug', 'restore_wp_config_backup' ) );
 			add_action( 'wp_ajax_wp-live-debug-enable', array( 'WP_Live_Debug_Live_Debug', 'enable_wp_debug' ) );
@@ -104,7 +105,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 							</div>
 							<div class="sui-col-md-4 sui-col-lg-4 text-center">
 								<label class="sui-toggle">
-									<input type="checkbox" id="toggle-auto-refresh">
+									<input type="checkbox" id="toggle-auto-refresh" <?php echo ( 'enabled' === get_option( 'wp_live_debug_auto_refresh' ) ) ? 'checked' : ''; ?>>
 									<span class="sui-toggle-slider"></span>
 								</label>
 								<label for="toggle-auto-refresh"><?php esc_html_e( 'Auto Refresh Log', 'wp-live-debug' ); ?></label>
@@ -123,7 +124,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 							<div class="sui-col-md-6 sui-col-lg-3 text-center">
 								<span class="sui-tooltip sui-tooltip-top sui-tooltip-constrained" data-tooltip="The WP_DEBUG constant that can be used to trigger the 'debug' mode throughout WordPress. This will enable WP_DEBUG, WP_DEBUG_LOG and disable WP_DEBUG_DISPLAY and display_errors.">
 									<label class="sui-toggle">
-										<input type="checkbox" id="toggle-wp-debug" <?php echo ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'checked' : ''; ?> >
+										<input type="checkbox" id="toggle-wp-debug" <?php echo ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'checked' : ''; ?>>
 										<span class="sui-toggle-slider"></span>
 									</label>
 									<label for="toggle-wp-debug"><?php esc_html_e( 'WP Debug', 'wp-live-debug' ); ?></label>
@@ -170,6 +171,31 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 					</div>
 				</div>
 			<?php
+		}
+
+		/** Refresh debug log toggle
+		 *
+		 * @uses update_option()
+		 * @uses wp_send_json_success()
+		 *
+		 * @return string json success with the response.
+		 */
+		public static function refresh_debug_log() {
+			if ( ! empty( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {
+				update_option( 'wp_live_debug_auto_refresh', 'enabled' );
+
+				$response = array(
+					'message' => esc_html__( 'enabled', 'wp-live-debug' ),
+				);
+			} else {
+				update_option( 'wp_live_debug_auto_refresh', 'disabled' );
+
+				$response = array(
+					'message' => esc_html__( 'disabled', 'wp-live-debug' ),
+				);
+			}
+
+			wp_send_json_success( $response );
 		}
 
 		/**

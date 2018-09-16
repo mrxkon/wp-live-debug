@@ -113,6 +113,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * @uses get_site_url()
 		 * @uses update_option()
 		 * @uses WP_Live_Debug_Helper::create_debug_log()
+		 * @uses WP_Live_Debug_Helper::get_first_backup()
 		 *
 		 * @return void
 		 */
@@ -120,6 +121,8 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 			$host = str_replace( array( 'http://', 'https://' ), '', get_site_url() );
 
 			update_option( 'wp_live_debug_ssl_domain', $host );
+
+			update_option( 'wp_live_debug_auto_refresh', 'disabled' );
 
 			WP_Live_Debug_Helper::create_debug_log();
 			WP_Live_Debug_Helper::get_first_backup();
@@ -129,6 +132,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * Deactivation Hook.
 		 *
 		 * @uses delete_option()
+		 * @uses WP_Live_Debug_Helper::clear_manual_backup()
 		 *
 		 * @return void
 		 */
@@ -136,6 +140,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 			delete_option( 'wp_live_debug_risk' );
 			delete_option( 'wp_live_debug_ssl_domain' );
 			delete_option( 'wp_live_debug_log_file' );
+			delete_option( 'wp_live_debug_auto_refresh' );
 
 			WP_Live_Debug_Helper::clear_manual_backup();
 		}

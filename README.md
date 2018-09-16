@@ -47,7 +47,7 @@ Fellow contributors: [Marius L. Jensen]( https://github.com/Clorith ), [Nahid F.
 ### Changelog
 
 #### [NEXT] 4.9.8.7
-
+* Make the log refresh button keep a permanent state
 * Added more ajax loading icons ( Thanks [Joel James]( https://github.com/Joel-James ) ! )
 * Added WPMUDEV Dashboard plugin information ( Thanks [Vaughan Montgomery]( https://github.com/vaughanm ) ! )
 

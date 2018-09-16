@@ -241,6 +241,20 @@
 	function scrollDebugAreaToBottom() {
 		debugArea.scrollTop( debugArea[0].scrollHeight );
 	}
+	// Refresh toggle setup
+	refreshToggle.on( 'click', function( e ) {
+		var checked = $( this ).is( ':checked' ),
+			data;
+		data = {
+			'action': 'wp-live-debug-refresh-debug-log',
+			'checked': checked
+		};
+		$.post( ajaxurl, data, function( response ) {
+			if ( response.success ) {
+				// silence
+			}
+		} );
+	} );
 	// Debug View
 	if ( debugArea.length ) {
 		// Make the initial debug.log read.
