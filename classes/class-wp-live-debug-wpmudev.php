@@ -56,10 +56,10 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 								<div id="wpmudev-dashboard-info" class="active">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 								</div>
-								<div id="wpmudev-shipper-info" class="active">
+								<div id="wpmudev-shipper-info">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 								</div>
-								<div id="wpmudev-snapshot-info" class="active">
+								<div id="wpmudev-snapshot-info">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 								</div>
 							</div>
@@ -81,52 +81,52 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 		 */
 		public static function gather_dashboard_info() {
 			$defines = array(
-				array(	
+				array(
 					'WPMUDEV_API_AUTHORIZATION',
 					'FALSE',
 					'No idea what this does!',
 				),
-				array(	
+				array(
 					'WPMUDEV_API_DEBUG',
 					'FALSE',
 					'Activates Dashboard API Debug',
 				),
-				array(	
+				array(
 					'WPMUDEV_API_DEBUG_ALL',
 					'FALSE',
 					'Enable Debugging for ALL Dashboard API Actions',
 				),
-				array(	
+				array(
 					'WPMUDEV_API_DEBUG_CRAZY',
 					'FALSE',
 					'Enable Crazy Debugging options for Repo Projects',
 				),
-				array(	
+				array(
 					'WPMUDEV_API_SSLVERIFY',
 					'TRUE',
 					'Verify SSL Connection to API Server.',
 				),
-				array(	
+				array(
 					'WPMUDEV_API_UNCOMPRESSED',
 					'FALSE',
 					'No idea what this does!',
 				),
-				array(	
+				array(
 					'WPMUDEV_APIKEY',
 					'',
 					'Manually define the member\'s WPMUDEV API Key',
 				),
-				array(	
+				array(
 					'WPMUDEV_BETATEST',
 					'FALSE',
-					'Not sure what this does',
+					'No idea what this does!',
 				),
-				array(	
+				array(
 					'WPMUDEV_CUSTOM_API_SERVER',
 					'',
 					'Change URL to WPMUDEV API Server',
 				),
-				array(	
+				array(
 					'WPMUDEV_DISABLE_REMOTE_ACCESS',
 					'FALSE',
 					'Disable WPMUDEV Support Access from within Support Options page',
@@ -136,29 +136,29 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 					'',
 					'Limits Dashboard access to specified user_id (Seperate multiple id\'s with a comma)',
 				),
-				array(	
+				array(
 					'WPMUDEV_MENU_LOCATION',
 					'3.012',
 					'Manually set the Dashboard Plugin menu position',
 				),
-				array(	
+				array(
 					'WPMUDEV_NO_AUTOACTIVATE',
 					'FALSE',
 					'Don\'t AutoActivate plugin',
 				),
-				array(	
+				array(
 					'WPMUDEV_OVERRIDE_LOGOUT',
 					'FALSE',
 					'Override WPMUDEV Plugin logout',
 				),
-				array(	
+				array(
 					'WPMUDEV_REMOTE_SKIP_SYNC',
 					'FALSE',
 					'Skips sending stats to WPMUDEV after Synching',
 				),
 			);
 
-                        foreach ( $defines as $key => $define ) {
+			foreach ( $defines as $key => $define ) {
 				$constants[ $key ][0] = $define[0];
 				$constants[ $key ][1] = $define[1];
 				$constants[ $key ][2] = WP_Live_Debug_Helper::format_constant( $define[0] );
@@ -208,7 +208,7 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 				),
 			);
 
-                        $output .= WP_Live_Debug_Helper::table_wpmudev_actions_filters( $actions_filters );
+			$output .= WP_Live_Debug_Helper::table_wpmudev_actions_filters( $actions_filters );
 
 			$response = array(
 				'message' => $output,
@@ -217,7 +217,7 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 			wp_send_json_success( $response );
 		}
 
-                /**
+		/**
 		 * Gather Shipper plugin information.
 		 *
 		 * @uses WP_Live_Debug_Helper::format_constant()

@@ -55,8 +55,16 @@
 		snapshotInfodata       = { 'action': 'wp-live-debug-gather-snapshot-constants' },
 		shipperInfo            = $( '#wpmudev-shipper-info' ),
 		shipperInfodata        = { 'action': 'wp-live-debug-gather-shipper-constants' },
+		dashboardInfo          = $( '#wpmudev-dashboard-info' ),
+		dashboardInfodata      = { 'action': 'wp-live-debug-gather-dashboard-constants' },
 		loaderIcon             = '<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>';
 
+	// Get Dashboard Information
+	if ( dashboardInfo.length ) {
+		$.post( ajaxurl, dashboardInfodata, function( response ) {
+			dashboardInfo.html( response.data.message );
+		} );
+	}
 	// Get Shipper Information
 	if ( shipperInfo.length ) {
 		$.post( ajaxurl, shipperInfodata, function( response ) {
