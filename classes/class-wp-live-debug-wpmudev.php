@@ -32,6 +32,7 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 		public static function init() {
 			add_action( 'wp_ajax_wp-live-debug-gather-snapshot-constants', array( 'WP_Live_Debug_WPMUDEV', 'gather_snapshot_info' ) );
 			add_action( 'wp_ajax_wp-live-debug-gather-shipper-constants', array( 'WP_Live_Debug_WPMUDEV', 'gather_shipper_info' ) );
+			add_action( 'wp_ajax_wp-live-debug-gather-dashboard-constants', array( 'WP_Live_Debug_WPMUDEV', 'gather_dashboard_info' ) );
 		}
 
 		/**
@@ -47,10 +48,14 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 					<div class="sui-box-body">
 						<div class="sui-tabs">
 							<div data-tabs>
-								<div class="active"><?php esc_html_e( 'Shipper', 'wp-live-debug' ); ?></div>
+								<div class="active"><?php esc_html_e( 'Dashboard', 'wp-live-debug' ); ?></div>
+								<div><?php esc_html_e( 'Shipper', 'wp-live-debug' ); ?></div>
 								<div><?php esc_html_e( 'Snapshot', 'wp-live-debug' ); ?></div>
 							</div>
 							<div data-panes>
+								<div id="wpmudev-dashboard-info" class="active">
+									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+								</div>
 								<div id="wpmudev-shipper-info" class="active">
 									<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 								</div>
@@ -65,6 +70,154 @@ if ( ! class_exists( 'WP_Live_Debug_WPMUDEV' ) ) {
 		}
 
 		/**
+		 * Gather Dashboard plugin information.
+		 *
+		 * @uses WP_Live_Debug_Helper::format_constant()
+		 * @uses WP_Live_Debug_Helper::table_wpmudev_constants()
+		 * @uses WP_Live_Debug_Helper::table_wpmudev_actions_filters()
+		 * @uses wp_send_json_success()
+		 *
+		 * @return string json success with the response.
+		 */
+		public static function gather_dashboard_info() {
+			$defines = array(
+				array(	
+					'WPMUDEV_API_AUTHORIZATION',
+					'FALSE',
+					'No idea what this does!',
+				),
+				array(	
+					'WPMUDEV_API_DEBUG',
+					'FALSE',
+					'Activates Dashboard API Debug',
+				),
+				array(	
+					'WPMUDEV_API_DEBUG_ALL',
+					'FALSE',
+					'Enable Debugging for ALL Dashboard API Actions',
+				),
+				array(	
+					'WPMUDEV_API_DEBUG_CRAZY',
+					'FALSE',
+					'Enable Crazy Debugging options for Repo Projects',
+				),
+				array(	
+					'WPMUDEV_API_SSLVERIFY',
+					'TRUE',
+					'Verify SSL Connection to API Server.',
+				),
+				array(	
+					'WPMUDEV_API_UNCOMPRESSED',
+					'FALSE',
+					'No idea what this does!',
+				),
+				array(	
+					'WPMUDEV_APIKEY',
+					'',
+					'Manually define the member\'s WPMUDEV API Key',
+				),
+				array(	
+					'WPMUDEV_BETATEST',
+					'FALSE',
+					'Not sure what this does',
+				),
+				array(	
+					'WPMUDEV_CUSTOM_API_SERVER',
+					'',
+					'Change URL to WPMUDEV API Server',
+				),
+				array(	
+					'WPMUDEV_DISABLE_REMOTE_ACCESS',
+					'FALSE',
+					'Disable WPMUDEV Support Access from within Support Options page',
+				),
+				array(
+					'WPMUDEV_LIMIT_TO_USER',
+					'',
+					'Limits Dashboard access to specified user_id (Seperate multiple id\'s with a comma)',
+				),
+				array(	
+					'WPMUDEV_MENU_LOCATION',
+					'3.012',
+					'Manually set the Dashboard Plugin menu position',
+				),
+				array(	
+					'WPMUDEV_NO_AUTOACTIVATE',
+					'FALSE',
+					'Don\'t AutoActivate plugin',
+				),
+				array(	
+					'WPMUDEV_OVERRIDE_LOGOUT',
+					'FALSE',
+					'Override WPMUDEV Plugin logout',
+				),
+				array(	
+					'WPMUDEV_REMOTE_SKIP_SYNC',
+					'FALSE',
+					'Skips sending stats to WPMUDEV after Synching',
+				),
+			);
+
+                        foreach ( $defines as $key => $define ) {
+				$constants[ $key ][0] = $define[0];
+				$constants[ $key ][1] = $define[1];
+				$constants[ $key ][2] = WP_Live_Debug_Helper::format_constant( $define[0] );
+				$constants[ $key ][3] = $define[2];
+			}
+
+			$output = WP_Live_Debug_Helper::table_wpmudev_constants( $constants );
+
+			$actions_filters = array(
+				'actions' => array(
+					'wpmudev_dashboard_action-admin-add',
+					'wpmudev_dashboard_action-admin-remove',
+					'wpmudev_dashboard_action-check-updates',
+					'wpmudev_dashboard_action-remote-grant',
+					'wpmudev_dashboard_action-remote-revoke',
+					'wpmudev_dashboard_action-remote-extend',
+					'wpmudev_dashboard_action-staff-note',
+					'wpmudev_dashboard_after-{$name}',
+					'wpmudev_dashboard_api_init',
+					'wpmudev_dashboard_init',
+					'wpmudev_dashboard_notice',
+					'wpmudev_dashboard_notice-dashboard',
+					'wpmudev_dashboard_notice_init',
+					'wpmudev_dashboard_notice-plugins',
+					'wpmudev_dashboard_notice-settings',
+					'wpmudev_dashboard_notice-support',
+					'wpmudev_dashboard_notice-themes',
+					'wpmudev_dashboard_setup_menu',
+					'wpmudev_dashboard_site_init',
+					'wpmudev_dashboard_ui_init',
+					'wpmudev_override_notice',
+					'wpmudev_plugin_ui_enqueued',
+				),
+				'filters' => array(
+					'auto_core_update_send_email',
+					'secure_auth_cookie',
+					'wdp_register_hub_action',
+					'wpmudev-admin-notice',
+					'wpmudev_api_project_extra_data-{$pid}',
+					'wpmudev_api_project_data',
+					'wpmudev_dashboard_before-{$name}',
+					'wpmudev_dashboard_get_membership_data',
+					'wpmudev_dashboard_get_projects_data',
+					'wpmudev_project_auto_update_projects',
+					'wpmudev_project_ignore_updates',
+					'wpmudev_project_upgrade_url',
+				),
+			);
+
+                        $output .= WP_Live_Debug_Helper::table_wpmudev_actions_filters( $actions_filters );
+
+			$response = array(
+				'message' => $output,
+			);
+
+			wp_send_json_success( $response );
+		}
+
+                /**
 		 * Gather Shipper plugin information.
 		 *
 		 * @uses WP_Live_Debug_Helper::format_constant()
