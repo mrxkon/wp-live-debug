@@ -1,0 +1,18 @@
+plugins:
+  phpmd:
+    enabled: true
+    config:
+      file_extensions: "php"
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: "php"
+      standard: "WordPress-Core"
+  phan:
+    enabled: true
+    config:
+      file_extensions: "php"
+  sonar-php:
+    enabled: true
+    config:
+      minimum_severity: critical
