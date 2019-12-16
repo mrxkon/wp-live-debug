@@ -166,7 +166,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 							<br>
 							<?php _e( "<strong>Save Queries: <code>define( 'SAVEQUERIES', true );</code>", 'wp-live-debug' ); ?>
 							<br><br>
-							<?php esc_html_e( 'You can always find more information at', 'wp-live-debug' ); ?> <a target="_blank" rel="noopener" href="https://codex.wordpress.org/Debugging_in_WordPress"><?php esc_html_e( 'Debugging in WordPress', 'wp-live-debug' ); ?></a>.
+							<?php esc_html_e( 'You can always find more information at', 'wp-live-debug' ); ?> <a target="_blank" rel="noopener noreferrer" href="https://codex.wordpress.org/Debugging_in_WordPress"><?php esc_html_e( 'Debugging in WordPress', 'wp-live-debug' ); ?></a>.
 						</p>
 					</div>
 				</div>
