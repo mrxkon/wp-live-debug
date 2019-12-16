@@ -108,10 +108,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * @return void
 		 */
 		public static function on_activate() {
-			$host = str_replace( array( 'http://', 'https://' ), '', get_site_url() );
-
-			update_option( 'wp_live_debug_ssl_domain', $host );
-
 			update_option( 'wp_live_debug_auto_refresh', 'disabled' );
 
 			WP_Live_Debug_Helper::create_debug_log();
@@ -128,7 +124,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 */
 		public static function on_deactivate() {
 			delete_option( 'wp_live_debug_risk' );
-			delete_option( 'wp_live_debug_ssl_domain' );
 			delete_option( 'wp_live_debug_log_file' );
 			delete_option( 'wp_live_debug_auto_refresh' );
 
