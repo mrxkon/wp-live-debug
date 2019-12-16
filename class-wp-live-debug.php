@@ -345,20 +345,10 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 	// Require extra files
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-live-debug.php';
-	// require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-wordpress-info.php';
-	// require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-server-info.php';
-	// require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-cronjob-info.php';
-	// require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-tools.php';
-	// require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-wpmudev.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-helper.php';
 
 	// Initialize Classes.
 	new WP_Live_Debug();
 	new WP_Live_Debug_Live_Debug();
-	// new WP_Live_Debug_WordPress_Info();
-	// new WP_Live_Debug_Server_Info();
-	// new WP_Live_Debug_Cronjob_Info();
-	// new WP_Live_Debug_Tools();
-	// new WP_Live_Debug_WPMUDEV();
 	new WP_Live_Debug_Helper();
 }
