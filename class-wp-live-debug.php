@@ -150,47 +150,80 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 					WP_LIVE_DEBUG_VERSION,
 					true
 				);
+				wp_enqueue_script(
+					'wp-live-debug-sui',
+					plugin_dir_url( __FILE__ ) . 'assets/shared-ui/dist/js/shared-ui.min.js',
+					array(),
+					WP_LIVE_DEBUG_VERSION,
+					true
+				);
+				wp_enqueue_style(
+					'wp-live-debug-sui',
+					plugin_dir_url( __FILE__ ) . 'assets/shared-ui/dist/css/shared-ui.min.css',
+					array(),
+					WP_LIVE_DEBUG_VERSION
+				);
+				add_filter( 'admin_body_class', array( 'WP_Live_Debug', 'admin_body_classes' ) );
 			}
+		}
+
+		/**
+		 * Add Shared UI Classes to body.
+		 */
+		public static function admin_body_classes( $classes ) {
+			$classes .= ' sui-2-5-2 ';
+
+			return $classes;
 		}
 
 		/**
 		 * Create the WP Live Debug page.
 		 */
 		public static function create_page() {
-			WP_Live_Debug_Live_Debug::create_page();
+			?>
+			<div class="sui-wrap">
+				<div class="sui-header">
+					<h1 class="sui-header-title">WP Live Debug</h1>
+				</div>
+				<div class="sui-row">
+					<?php WP_Live_Debug_Live_Debug::create_page(); ?>
+				</div>
+				<?php
+				$first_time_running = get_option( 'wp_live_debug_risk' );
 
-			$first_time_running = get_option( 'wp_live_debug_risk' );
-
-			if ( empty( $first_time_running ) ) {
-				?>
-				<div class="sui-dialog sui-dialog-sm" aria-hidden="true" tabindex="-1" id="safety-popup">
-					<div class="sui-dialog-overlay" data-a11y-dialog-hide></div>
-					<div class="sui-dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
-						<div class="sui-box" role="document">
-							<div class="sui-box-header">
-								<h3 class="sui-box-title">Safety First!</h3>
-							</div>
-							<div class="sui-box-body">
-								<p>
-								<?php
-									_e( 'WP LIVE DEBUG enables debugging, checks files and runs various tests to gather information about your installation.', 'wp-live-debug' );
-								?>
-								</p>
-								<p>
-								<?php
-									_e( 'Make sure to have a <strong>full backup</strong> first before proceeding with any of the tools.', 'wp-live-debug' );
-								?>
-								</p>
-							</div>
-							<div class="sui-box-footer">
-								<a href="?page=wp-live-debug&wplddlwpconfig=true" class="sui-modal-close sui-button sui-button-green"><?php esc_html_e( 'Download wp-config', 'wp-live-debug' ); ?></a>
-								<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
+				if ( empty( $first_time_running ) ) {
+					?>
+					<div class="sui-dialog sui-dialog-sm" aria-hidden="true" tabindex="-1" id="safety-popup">
+						<div class="sui-dialog-overlay" data-a11y-dialog-hide></div>
+						<div class="sui-dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
+							<div class="sui-box" role="document">
+								<div class="sui-box-header">
+									<h3 class="sui-box-title">Safety First!</h3>
+								</div>
+								<div class="sui-box-body">
+									<p>
+									<?php
+										_e( 'WP LIVE DEBUG enables debugging, checks files and runs various tests to gather information about your installation.', 'wp-live-debug' );
+									?>
+									</p>
+									<p>
+									<?php
+										_e( 'Make sure to have a <strong>full backup</strong> first before proceeding with any of the tools.', 'wp-live-debug' );
+									?>
+									</p>
+								</div>
+								<div class="sui-box-footer">
+									<a href="?page=wp-live-debug&wplddlwpconfig=true" class="sui-modal-close sui-button sui-button-green"><?php esc_html_e( 'Download wp-config', 'wp-live-debug' ); ?></a>
+									<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<?php
-			}
+					<?php
+				}
+				?>
+			</div>
+			<?php
 		}
 	}
 
