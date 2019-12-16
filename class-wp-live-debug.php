@@ -58,13 +58,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * WP_Live_Debug constructor.
 		 */
 		public function __construct() {
-			$this->init();
-		}
-
-		/**
-		 * Plugin initialization.
-		 */
-		public function init() {
 			add_action( 'init', array( 'WP_Live_Debug', 'create_menus' ) );
 			add_action( 'admin_enqueue_scripts', array( 'WP_Live_Debug', 'enqueue_scripts_styles' ) );
 			add_action( 'wp_ajax_wp-live-debug-accept-risk', array( 'WP_Live_Debug', 'accept_risk' ) );
