@@ -3,3 +3,10 @@ body.toplevel_page_wp-live-debug textarea#wp-live-debug-area {
 	font-size: 12px;
 	min-height:500px;
 }
+body.toplevel_page_wp-live-debug .button-link-delete {
+	border-color: #a00;
+}
+body.toplevel_page_wp-live-debug .button-link-delete:hover,
+body.toplevel_page_wp-live-debug .button-link-delete:focus {
+	border-color: #dc3232;
+}

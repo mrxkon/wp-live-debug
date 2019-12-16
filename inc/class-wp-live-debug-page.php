@@ -8,10 +8,10 @@ if ( ! class_exists( 'WP_Live_Debug_Page' ) ) {
 		 */
 		public static function create_page() {
 			$option_log_name = wp_normalize_path( get_option( 'wp_live_debug_log_file' ) );
+			$selected_log    = get_option( 'wp_live_debug_log_file' );
 			$path            = wp_normalize_path( ABSPATH );
 			$logs            = array();
 			$debug_log       = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
-
 			?>
 
 			<h1 class="wp-heading-inline"><?php esc_html_e( 'WP Live Debug', 'wp-live-debug' ); ?></h1>
@@ -29,28 +29,22 @@ if ( ! class_exists( 'WP_Live_Debug_Page' ) ) {
 				}
 				?>
 				<select id="log-list" name="select-list">
-					<?php
-					foreach ( $logs as $log ) {
-						$selected = '';
-						$log_name = wp_date( 'M d Y H:i:s', filemtime( $log ) ) . ' - ' . basename( $log );
-
-						if ( get_option( 'wp_live_debug_log_file' ) === $log ) {
-							$selected = 'selected="selected"';
-						}
-
-						echo '<option data-nonce="' . wp_create_nonce( $log ) . '" value="' . $log . '" ' . $selected . '>' . $log_name . '</option>';
-					}
-					?>
+					<?php foreach ( $logs as $log ) : ?>
+						<option	data-nonce="<?php echo wp_create_nonce( $log ); ?>" value="<?php echo $log; ?>"<?php selected( $log, $selected_log ); ?>><?php echo wp_date( 'M d Y H:i:s', filemtime( $log ) ) . ' - ' . basename( $log ); ?></option>
+					<?php endforeach; ?>
 				</select>
+			</p>
+			<p>
+				<button id="wp-live-debug-clear" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="button"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Clear Log', 'wp-live-debug' ); ?></button>
+				<button id="wp-live-debug-delete" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="button button-link-delete"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Delete Log', 'wp-live-debug' ); ?></button>
 			</p>
 			<div class="sui-box">
 				<div class="sui-box-body">
 					<div class="sui-row">
 						<div class="sui-col-md-4 sui-col-lg-4 text-center">
-								<button id="wp-live-debug-clear" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="sui-button sui-button-primary"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Clear Log', 'wp-live-debug' ); ?></button>
+
 						</div>
 						<div class="sui-col-md-4 sui-col-lg-4 text-center">
-								<button id="wp-live-debug-delete" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="sui-button sui-button-red"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Delete Log', 'wp-live-debug' ); ?></button>
 						</div>
 						<div class="sui-col-md-4 sui-col-lg-4 text-center">
 							<label class="sui-toggle">
