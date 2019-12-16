@@ -74,7 +74,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		/**
 		 * Activation Hook.
 		 */
-		private static function on_activate() {
+		public static function on_activate() {
 			update_option( 'wp_live_debug_auto_refresh', 'disabled' );
 
 			WP_Live_Debug_Helper::create_debug_log();
@@ -84,7 +84,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		/**
 		 * Deactivation Hook.
 		 */
-		private static function on_deactivate() {
+		public static function on_deactivate() {
 			delete_option( 'wp_live_debug_risk' );
 			delete_option( 'wp_live_debug_log_file' );
 			delete_option( 'wp_live_debug_auto_refresh' );
@@ -142,42 +142,13 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * Create the WP Live Debug page.
 		 */
 		public static function create_page() {
-			WP_Live_Debug_Live_Debug::create_page();
-			$first_time_running = get_option( 'wp_live_debug_risk' );
-
-			if ( empty( $first_time_running ) ) {
-				?>
-				<div id="safety-popup-holder">
-					<div id="safety-popup-inner">
-						<div class="safety-popup-header">
-							<h3 class="safety-popup-title">Safety First!</h3>
-						</div>
-						<div class="safety-popup-body">
-							<p>
-							<?php
-								_e( 'WP LIVE DEBUG enables debugging, checks files and runs various tests to gather information about your installation.', 'wp-live-debug' );
-							?>
-							</p>
-							<p>
-							<?php
-								_e( 'Make sure to have a <strong>full backup</strong> first before proceeding with any of the tools.', 'wp-live-debug' );
-							?>
-							</p>
-						</div>
-						<div class="safety-popup-footer">
-							<a href="?page=wp-live-debug&wplddlwpconfig=true" class="sui-modal-close sui-button sui-button-green"><?php esc_html_e( 'Download wp-config', 'wp-live-debug' ); ?></a>
-							<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
-						</div>
-					</div>
-				</div>
-				<?php
-			}
+			WP_Live_Debug_Page::create_page();
 		}
 
 		/**
 		 * Accept Risk Popup.
 		 */
-		private static function accept_risk() {
+		public static function accept_risk() {
 			update_option( 'wp_live_debug_risk', 'yes' );
 
 			$response = array(
@@ -195,8 +166,9 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	register_deactivation_hook( __FILE__, array( 'WP_Live_Debug', 'on_deactivate' ) );
 
 	// Require extra files
-	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-live-debug.php';
-	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-helper.php';
+	require_once plugin_dir_path( __FILE__ ) . '/inc/class-wp-live-debug-page.php';
+	require_once plugin_dir_path( __FILE__ ) . '/inc/class-wp-live-debug-live-debug.php';
+	require_once plugin_dir_path( __FILE__ ) . '/inc/class-wp-live-debug-helper.php';
 
 	// Load WP_Live_Debug.
 	if ( ! function_exists( 'wp_live_debug' ) ) {
