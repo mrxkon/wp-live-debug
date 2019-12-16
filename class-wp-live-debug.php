@@ -57,9 +57,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		/**
 		 * WP_Live_Debug constructor.
 		 *
-		 * @uses WP_Live_Debug::init()
-		 *
-		 * @return void
 		 */
 		public function __construct() {
 			$this->init();
@@ -68,9 +65,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		/**
 		 * Plugin initialization.
 		 *
-		 * @uses add_action()
-		 *
-		 * @return void
 		 */
 		public function init() {
 			add_action( 'init', array( 'WP_Live_Debug', 'create_menus' ) );
@@ -81,11 +75,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		/**
 		 * Accept Risk Popup.
 		 *
-		 * @uses update_option()
-		 * @uses esc_html__()
-		 * @uses wp_send_json_success()
-		 *
-		 * @return string json success with the response.
 		 */
 		public static function accept_risk() {
 			update_option( 'wp_live_debug_risk', 'yes' );
@@ -99,13 +88,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 		/**
 		 * Activation Hook.
-		 *
-		 * @uses get_site_url()
-		 * @uses update_option()
-		 * @uses WP_Live_Debug_Helper::create_debug_log()
-		 * @uses WP_Live_Debug_Helper::get_first_backup()
-		 *
-		 * @return void
 		 */
 		public static function on_activate() {
 			update_option( 'wp_live_debug_auto_refresh', 'disabled' );
@@ -116,11 +98,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 		/**
 		 * Deactivation Hook.
-		 *
-		 * @uses delete_option()
-		 * @uses WP_Live_Debug_Helper::clear_manual_backup()
-		 *
-		 * @return void
 		 */
 		public static function on_deactivate() {
 			delete_option( 'wp_live_debug_risk' );
@@ -132,11 +109,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 		/**
 		 * Create the Admin Menus.
-		 *
-		 * @uses is_multisite()
-		 * @uses add_action()
-		 *
-		 * @return void
 		 */
 		public static function create_menus() {
 			if ( ! is_multisite() ) {
@@ -148,11 +120,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 		/**
 		 * Populate the Admin menu.
-		 *
-		 * @uses add_menu_page()
-		 * @uses esc_html__()
-		 *
-		 * @return void
 		 */
 		public static function populate_admin_menu() {
 			add_menu_page(
@@ -167,14 +134,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 		/**
 		 * Enqueue scripts and styles.
-		 *
-		 * @param string $hook WordPress generated class for the current page.
-		 *
-		 * @uses wp_enqueue_style()
-		 * @uses plugin_dir_url()
-		 * @uses add_filter()
-		 *
-		 * @return void
 		 */
 		public static function enqueue_scripts_styles( $hook ) {
 			if ( 'toplevel_page_wp-live-debug' === $hook ) {
@@ -196,125 +155,42 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 		/**
 		 * Create the WP Live Debug page.
-		 *
-		 * @uses get_option()
-		 * @uses esc_attr()
-		 * @uses esc_html_e()
-		 * @uses _e()
-		 * @uses WP_Live_Debug_WordPress_Info::create_page()
-		 * @uses WP_Live_Debug_Server_Info::create_page();
-		 * @uses WP_Live_Debug_Cronjob_Info::create_page();
-		 * @uses WP_Live_Debug_Tools::create_page();
-		 * @uses WP_Live_Debug_WPMUDEV::create_page();
-		 * @uses WP_Live_Debug_Live_Debug::create_page();
-		 * @uses WP_Live_Debug_Live_Debug::create_page();
-		 *
-		 * @return string html The html of the page viewed.
 		 */
 		public static function create_page() {
-			if ( ! empty( $_GET['subpage'] ) ) {
-				$subpage = esc_attr( $_GET['subpage'] );
-			}
-			?>
-			<div class="sui-wrap">
-				<div class="sui-header">
-					<h1 class="sui-header-title">WP Live Debug</h1>
-				</div>
-				<div class="sui-row-with-sidenav">
-					<div class="sui-sidenav">
-						<ul class="sui-vertical-tabs sui-sidenav-hide-md">
-							<li class="sui-vertical-tab <?php echo ( empty( $subpage ) ) ? 'current' : ''; ?>">
-								<a href="?page=wp-live-debug"><?php esc_html_e( 'Live Debug', 'wp-live-debug' ); ?></a>
-							</li>
-							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'WordPress' === $subpage ) ? 'current' : ''; ?>">
-								<a href="?page=wp-live-debug&subpage=WordPress"><?php esc_html_e( 'WordPress', 'wp-live-debug' ); ?></a>
-							</li>
-							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'Server' === $subpage ) ? 'current' : ''; ?>">
-								<a href="?page=wp-live-debug&subpage=Server"><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></a>
-							</li>
-							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'Cron' === $subpage ) ? 'current' : ''; ?>">
-								<a href="?page=wp-live-debug&subpage=Cron"><?php esc_html_e( 'Scheduled Events', 'wp-live-debug' ); ?></a>
-							</li>
-							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'Tools' === $subpage ) ? 'current' : ''; ?>">
-								<a href="?page=wp-live-debug&subpage=Tools"><?php esc_html_e( 'Tools', 'wp-live-debug' ); ?></a>
-							</li>
-							<li class="sui-vertical-tab <?php echo ( ! empty( $subpage ) && 'WPMUDEV' === $subpage ) ? 'current' : ''; ?>">
-								<a href="?page=wp-live-debug&subpage=WPMUDEV"><?php esc_html_e( 'WPMU DEV', 'wp-live-debug' ); ?></a>
-							</li>
-						</ul>
-						<div class="sui-sidenav-hide-lg">
-							<select class="sui-mobile-nav" style="display: none;" onchange="location = this.value;">
-								<option value="?page=wp-live-debug" <?php echo ( empty( $subpage ) ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Live Debug', 'wp-live-debug' ); ?></option>
-								<option value="?page=wp-live-debug&subpage=WordPress" <?php echo ( ! empty( $subpage ) && 'WordPress' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'WordPress', 'wp-live-debug' ); ?></option>
-								<option value="?page=wp-live-debug&subpage=Server" <?php echo ( ! empty( $subpage ) && 'Server' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Server', 'wp-live-debug' ); ?></option>
-								<option value="?page=wp-live-debug&subpage=Cron" <?php echo ( ! empty( $subpage ) && 'Cron' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Scheduled Events', 'wp-live-debug' ); ?></option>
-								<option value="?page=wp-live-debug&subpage=Tools" <?php echo ( ! empty( $subpage ) && 'Tools' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'Tools', 'wp-live-debug' ); ?></option>
-								<option value="?page=wp-live-debug&subpage=WPMUDEV" <?php echo ( ! empty( $subpage ) && 'WPMUDEV' === $subpage ) ? 'selected="selected"' : ''; ?>><?php esc_html_e( 'WPMU DEV', 'wp-live-debug' ); ?></option>
-							</select>
-						</div>
-					</div>
-					<?php
-					if ( ! empty( $subpage ) ) {
-						switch ( $subpage ) {
-							case 'WordPress':
-								WP_Live_Debug_WordPress_Info::create_page();
-								break;
-							case 'Server':
-								WP_Live_Debug_Server_Info::create_page();
-								break;
-							case 'Cron':
-								WP_Live_Debug_Cronjob_Info::create_page();
-								break;
-							case 'Tools':
-								WP_Live_Debug_Tools::create_page();
-								break;
-							case 'WPMUDEV':
-								WP_Live_Debug_WPMUDEV::create_page();
-								break;
-							default:
-								WP_Live_Debug_Live_Debug::create_page();
-						}
-					} else {
-						WP_Live_Debug_Live_Debug::create_page();
-					}
-					?>
-				</div>
-				<?php
-				$first_time_running = get_option( 'wp_live_debug_risk' );
+			WP_Live_Debug_Live_Debug::create_page();
 
-				if ( empty( $first_time_running ) ) {
-					?>
-					<div class="sui-dialog sui-dialog-sm" aria-hidden="true" tabindex="-1" id="safety-popup">
-						<div class="sui-dialog-overlay" data-a11y-dialog-hide></div>
-						<div class="sui-dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
-							<div class="sui-box" role="document">
-								<div class="sui-box-header">
-									<h3 class="sui-box-title">Safety First!</h3>
-								</div>
-								<div class="sui-box-body">
-									<p>
-									<?php
-										_e( 'WP LIVE DEBUG enables debugging, checks files and runs various tests to gather information about your installation.', 'wp-live-debug' );
-									?>
-									</p>
-									<p>
-									<?php
-										_e( 'Make sure to have a <strong>full backup</strong> first before proceeding with any of the tools.', 'wp-live-debug' );
-									?>
-									</p>
-								</div>
-								<div class="sui-box-footer">
-									<a href="?page=wp-live-debug&wplddlwpconfig=true" class="sui-modal-close sui-button sui-button-green"><?php esc_html_e( 'Download wp-config', 'wp-live-debug' ); ?></a>
-									<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
-								</div>
+			$first_time_running = get_option( 'wp_live_debug_risk' );
+
+			if ( empty( $first_time_running ) ) {
+				?>
+				<div class="sui-dialog sui-dialog-sm" aria-hidden="true" tabindex="-1" id="safety-popup">
+					<div class="sui-dialog-overlay" data-a11y-dialog-hide></div>
+					<div class="sui-dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
+						<div class="sui-box" role="document">
+							<div class="sui-box-header">
+								<h3 class="sui-box-title">Safety First!</h3>
+							</div>
+							<div class="sui-box-body">
+								<p>
+								<?php
+									_e( 'WP LIVE DEBUG enables debugging, checks files and runs various tests to gather information about your installation.', 'wp-live-debug' );
+								?>
+								</p>
+								<p>
+								<?php
+									_e( 'Make sure to have a <strong>full backup</strong> first before proceeding with any of the tools.', 'wp-live-debug' );
+								?>
+								</p>
+							</div>
+							<div class="sui-box-footer">
+								<a href="?page=wp-live-debug&wplddlwpconfig=true" class="sui-modal-close sui-button sui-button-green"><?php esc_html_e( 'Download wp-config', 'wp-live-debug' ); ?></a>
+								<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
 							</div>
 						</div>
 					</div>
-					<?php
-				}
-				?>
-			</div>
-			<?php
+				</div>
+				<?php
+			}
 		}
 	}
 
