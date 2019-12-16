@@ -84,7 +84,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 							<?php
 							foreach ( $logs as $log ) {
 								$selected = '';
-								$log_name = date( 'M d Y H:i:s', filemtime( $log ) ) . ' - ' . basename( $log );
+								$log_name = wp_date( 'M d Y H:i:s', filemtime( $log ) ) . ' - ' . basename( $log );
 
 								if ( get_option( 'wp_live_debug_log_file' ) === $log ) {
 									$selected = 'selected="selected"';
@@ -203,7 +203,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 */
 		public static function download_config_backup() {
 			if ( ! empty( $_GET['wplddlwpconfig'] ) && 'true' === $_GET['wplddlwpconfig'] ) {
-				$filename = 'wp-config-' . str_replace( array( 'http://', 'https://' ), '', get_site_url() ) . '-' . date( 'Ymd-Hi' ) . '-backup.php';
+				$filename = 'wp-config-' . str_replace( array( 'http://', 'https://' ), '', get_site_url() ) . '-' . wp_date( 'Ymd-Hi' ) . '-backup.php';
 				header( 'Content-type: textplain;' );
 				header( 'Content-disposition: attachment; filename= ' . $filename );
 				readfile( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
