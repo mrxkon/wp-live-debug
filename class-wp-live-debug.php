@@ -196,22 +196,8 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 					WP_LIVE_DEBUG_VERSION,
 					true
 				);
-				add_filter( 'admin_body_class', array( 'WP_Live_Debug', 'admin_body_classes' ) );
 			}
 		}
-
-		/**
-		 * Add Shared UI Classes to body.
-		 *
-		 * @param string $classes Maybe existing classes.
-		 *
-		 * @return string $classes Updated classes list including the Shared-UI classes.
-		 */
-		// public static function admin_body_classes( $classes ) {
-		// 	$classes .= ' sui-2-2-10 ';
-
-		// 	return $classes;
-		// }
 
 		/**
 		 * Create the WP Live Debug page.
