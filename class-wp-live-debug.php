@@ -53,6 +53,14 @@ define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config.wpld-manual-backu
  */
 if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	class WP_Live_Debug {
+		private static $_instance = null;
+
+		public static function get_instance() {
+			if ( is_null( self::$_instance ) ) {
+				self::$_instance = new WP_Live_Debug();
+			}
+			return self::$_instance;
+		}
 
 		/**
 		 * WP_Live_Debug constructor.
@@ -64,22 +72,9 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Accept Risk Popup.
-		 */
-		public static function accept_risk() {
-			update_option( 'wp_live_debug_risk', 'yes' );
-
-			$response = array(
-				'message' => esc_html__( 'risk accepted.', 'wp-live-debug' ),
-			);
-
-			wp_send_json_success( $response );
-		}
-
-		/**
 		 * Activation Hook.
 		 */
-		public static function on_activate() {
+		private static function on_activate() {
 			update_option( 'wp_live_debug_auto_refresh', 'disabled' );
 
 			WP_Live_Debug_Helper::create_debug_log();
@@ -89,7 +84,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		/**
 		 * Deactivation Hook.
 		 */
-		public static function on_deactivate() {
+		private static function on_deactivate() {
 			delete_option( 'wp_live_debug_risk' );
 			delete_option( 'wp_live_debug_log_file' );
 			delete_option( 'wp_live_debug_auto_refresh' );
@@ -101,10 +96,10 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * Create the Admin Menus.
 		 */
 		public static function create_menus() {
-			if ( ! is_multisite() ) {
-				add_action( 'admin_menu', array( 'WP_Live_Debug', 'populate_admin_menu' ) );
-			} else {
+			if ( is_multisite() ) {
 				add_action( 'network_admin_menu', array( 'WP_Live_Debug', 'populate_admin_menu' ) );
+			} else {
+				add_action( 'admin_menu', array( 'WP_Live_Debug', 'populate_admin_menu' ) );
 			}
 		}
 
@@ -178,6 +173,19 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 				<?php
 			}
 		}
+
+		/**
+		 * Accept Risk Popup.
+		 */
+		private static function accept_risk() {
+			update_option( 'wp_live_debug_risk', 'yes' );
+
+			$response = array(
+				'message' => esc_html__( 'risk accepted.', 'wp-live-debug' ),
+			);
+
+			wp_send_json_success( $response );
+		}
 	}
 
 	// Activation Hook
@@ -190,8 +198,11 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-live-debug.php';
 	require_once plugin_dir_path( __FILE__ ) . '/classes/class-wp-live-debug-helper.php';
 
-	// Initialize Classes.
-	new WP_Live_Debug();
-	new WP_Live_Debug_Live_Debug();
-	new WP_Live_Debug_Helper();
+	// Load WP_Live_Debug.
+	if ( ! function_exists( 'wp_live_debug' ) ) {
+		function wp_live_debug() {
+			return WP_Live_Debug::get_instance();
+		}
+		add_action( 'plugins_loaded', 'wp_live_debug', 10 );
+	}
 }
