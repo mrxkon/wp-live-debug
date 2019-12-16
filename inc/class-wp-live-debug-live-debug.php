@@ -13,23 +13,8 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * WP_Live_Debug_Live_Debug constructor.
-		 *
-		 * @uses WP_Live_Debug_Live_Debug::init()
-		 *
-		 * @return void
 		 */
 		public function __construct() {
-			$this->init();
-		}
-
-		/**
-		 * Plugin initialization.
-		 *
-		 * @uses add_action()
-		 *
-		 * @return void
-		 */
-		public static function init() {
 			add_action( 'wp_ajax_wp-live-debug-read-log', array( 'WP_Live_Debug_Live_Debug', 'read_debug_log' ) );
 			add_action( 'wp_ajax_wp-live-debug-select-log', array( 'WP_Live_Debug_Live_Debug', 'select_log_file' ) );
 			add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( 'WP_Live_Debug_Live_Debug', 'clear_debug_log' ) );
@@ -46,12 +31,8 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			add_action( 'admin_init', array( 'WP_Live_Debug_Live_Debug', 'download_config_backup' ) );
 		}
 
-		/** Refresh debug log toggle
-		 *
-		 * @uses update_option()
-		 * @uses wp_send_json_success()
-		 *
-		 * @return string json success with the response.
+		/**
+		 * Refresh debug log toggle
 		 */
 		public static function refresh_debug_log() {
 			if ( ! empty( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {
@@ -85,10 +66,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		}
 		/**
 		 * Check if original wp-config.php backup exists.
-		 *
-		 * @uses file_exists()
-		 *
-		 * @return bool true/false depending if the backup exists.
 		 */
 		public static function check_wp_config_original_backup() {
 			if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ) {
@@ -100,10 +77,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Check if manual wp-config.php backup exists.
-		 *
-		 * @uses file_exists()
-		 *
-		 * @return bool true/false depending if the backup exists.
 		 */
 		public static function check_wp_config_backup() {
 			if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
@@ -115,12 +88,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Creates a backup of wp-config.php.
-		 *
-		 * @uses wp_send_json_error()
-		 * @uses wp_send_json_success()
-		 * @uses esc_html__()
-		 *
-		 * @return string json success / error with the response.
 		 */
 		public static function create_wp_config_backup() {
 			if ( ! copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
@@ -140,12 +107,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Restores a backup of wp-config.php.
-		 *
-		 * @uses wp_send_json_error()
-		 * @uses wp_send_json_success()
-		 * @uses esc_html__()
-		 *
-		 * @return string json success / error with the response.
 		 */
 		public static function restore_wp_config_backup() {
 			if ( ! copy( WP_LIVE_DEBUG_WP_CONFIG_BACKUP, WP_LIVE_DEBUG_WP_CONFIG ) ) {
@@ -167,14 +128,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Enables WP_DEBUG.
-		 *
-		 * @uses WP_Live_Debug_Live_Debug::enable_wp_debug_log()
-		 * @uses WP_Live_Debug_Live_Debug::disable_wp_debug_display()
-		 * @uses WP_Live_Debug_Live_Debug::disable_wp_debug_ini_set_display()
-		 * @uses esc_html__()
-		 * @uses wp_send_json_succes()
-		 *
-		 * @return string json success with the response.
 		 */
 		public static function enable_wp_debug() {
 			$not_found        = true;
@@ -225,14 +178,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Disables WP_DEBUG
-		 *
-		 * @uses WP_Live_Debug_Live_Debug::enable_wp_debug_log()
-		 * @uses WP_Live_Debug_Live_Debug::disable_wp_debug_display()
-		 * @uses WP_Live_Debug_Live_Debug::disable_wp_debug_ini_set_display()
-		 * @uses esc_html__()
-		 * @uses wp_send_json_succes()
-		 *
-		 * @return string json success with the response.
 		 */
 		public static function disable_wp_debug() {
 			$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
@@ -264,8 +209,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Enable WP_DEBUG_LOG.
-		 *
-		 * @return void
 		 */
 		public static function enable_wp_debug_log() {
 			$not_found        = true;
@@ -306,8 +249,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Disable WP_DEBUG_LOG.
-		 *
-		 * @return void
 		 */
 		public static function disable_wp_debug_log() {
 			$not_found        = true;
@@ -347,8 +288,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Disable WP_DEBUG_DISPLAY.
-		 *
-		 * @return void
 		 */
 		public static function disable_wp_debug_display() {
 			$not_found        = true;
@@ -389,8 +328,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Disable ini_set display_errors.
-		 *
-		 * @return void
 		 */
 		public static function disable_wp_debug_ini_set_display() {
 			$not_found        = true;
@@ -431,11 +368,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Enable SCRIPT_DEBUG.
-		 *
-		 * @uses esc_html__()
-		 * @uses wp_send_json_succes()
-		 *
-		 * @return string json success with the response.
 		 */
 		public static function enable_script_debug() {
 			$not_found        = true;
@@ -481,11 +413,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Disable SCRIPT_DEBUG.
-		 *
-		 * @uses esc_html__()
-		 * @uses wp_send_json_succes()
-		 *
-		 * @return string json success with the response.
 		 */
 		public static function disable_script_debug() {
 			$not_found        = true;
@@ -532,11 +459,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Enable SAVEQUERIES.
-		 *
-		 * @uses esc_html__()
-		 * @uses wp_send_json_succes()
-		 *
-		 * @return string json success with the response.
 		 */
 		public static function enable_savequeries() {
 			$not_found        = true;
@@ -583,11 +505,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Disable SAVEQUERIES.
-		 *
-		 * @uses esc_html__()
-		 * @uses wp_send_json_succes()
-		 *
-		 * @return string json success with the response.
 		 */
 		public static function disable_savequeries() {
 			$not_found        = true;
@@ -634,12 +551,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Read log.
-		 *
-		 * @uses get_option()
-		 * @uses esc_html__()
-		 * @uses wp_die()
-		 *
-		 * @return string $debug_contents The content of debug.log
 		 */
 		public static function read_debug_log() {
 			$log_file = get_option( 'wp_live_debug_log_file' );
@@ -668,14 +579,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Select log.
-		 *
-		 * @uses sanitize_text_field()
-		 * @uses wp_verify_nonce()
-		 * @uses update_option()
-		 * @uses wp_send_json_error()
-		 * @uses wp_send_json_success()
-		 *
-		 * @return string json success / error with the response.
 		 */
 		public static function select_log_file() {
 			$nonce    = sanitize_text_field( $_POST['nonce'] );
@@ -696,13 +599,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Clear log.
-		 *
-		 * @uses sanitize_text_field()
-		 * @uses wp_verify_nonce()
-		 * @uses wp_send_json_error()
-		 * @uses wp_send_json_success()
-		 *
-		 * @return string json success / error with the response.
 		 */
 		public static function clear_debug_log() {
 			$nonce    = sanitize_text_field( $_POST['nonce'] );
@@ -734,15 +630,6 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 
 		/**
 		 * Delete log.
-		 *
-		 * @uses sanitize_text_field()
-		 * @uses wp_verify_nonce()
-		 * @uses update_option()
-		 * @uses WP_Live_Debug_Helper::create_debug_log()
-		 * @uses wp_send_json_error()
-		 * @uses wp_send_json_success()
-		 *
-		 * @return string json success / error with the response.
 		 */
 		public static function delete_debug_log() {
 			$nonce    = sanitize_text_field( $_POST['nonce'] );
