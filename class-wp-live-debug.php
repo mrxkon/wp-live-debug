@@ -56,7 +56,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 		/**
 		 * WP_Live_Debug constructor.
-		 *
 		 */
 		public function __construct() {
 			$this->init();
@@ -64,7 +63,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 		/**
 		 * Plugin initialization.
-		 *
 		 */
 		public function init() {
 			add_action( 'init', array( 'WP_Live_Debug', 'create_menus' ) );
@@ -74,7 +72,6 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 
 		/**
 		 * Accept Risk Popup.
-		 *
 		 */
 		public static function accept_risk() {
 			update_option( 'wp_live_debug_risk', 'yes' );
