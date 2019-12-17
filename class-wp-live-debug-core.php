@@ -53,14 +53,19 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 		private static $_instance = null;
 
 		/**
-		 * Page class.
+		 * Page Class.
 		 */
 		public $page;
 
 		/**
-		 * Helper class.
+		 * Helper Class.
 		 */
 		public $helper;
+
+		/**
+		 * Debug Class;
+		 */
+		public $debug;
 
 		/**
 		 * Return class instance.
@@ -73,14 +78,15 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 		}
 
 		/**
-		 * WP_Live_Debug constructor.
+		 * WP_Live_Debug_Core constructor.
 		 */
 		public function __construct() {
 			spl_autoload_register( array( $this, 'autoload' ) );
 
 			$this->setup_constants();
 
-			$this->$page = new Page\Page();
+			$this->$page   = new Page\Page();
+			$this->$helper = new Helper\Helper();
 
 			add_action( 'init', array( $this, 'create_menus' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
@@ -132,8 +138,8 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 		public static function on_activate() {
 			update_option( 'wp_live_debug_auto_refresh', 'disabled' );
 
-			//WP_Live_Debug_Helper::create_debug_log();
-			//WP_Live_Debug_Helper::get_first_backup();
+			//$this->$helper->create_debug_log();
+			//$this->$helper->get_first_backup();
 		}
 
 		/**
@@ -144,7 +150,7 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 			delete_option( 'wp_live_debug_log_file' );
 			delete_option( 'wp_live_debug_auto_refresh' );
 
-			//WP_Live_Debug_Helper::clear_manual_backup();
+			//$this->$helper->clear_manual_backup();
 		}
 
 		/**

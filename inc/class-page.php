@@ -12,6 +12,7 @@
 
 namespace WP_Live_Debug\Page;
 
+//use WP_Live_Debug\Debug as Debug;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -81,7 +82,7 @@ class Page {
 				</div>
 				<div class="sui-box-settings-row divider"></div>
 				<div class="sui-row mt30">
-				<?php if ( ! WP_Live_Debug_Live_Debug::check_wp_config_backup() ) { ?>
+				<?php if ( ! Debug::check_wp_config_backup() ) { ?>
 					<div class="sui-col-lg-12 text-center">
 						<button id="wp-live-debug-backup" type="button" class="sui-button sui-button-green"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Backup wp-config and show options', 'wp-live-debug' ); ?></button>
 					</div>

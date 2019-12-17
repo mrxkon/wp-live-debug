@@ -24,7 +24,7 @@ class Helper {
 	/**
 	 * Create the wp-config.wpld-original-backup.php
 	 */
-	public static function get_first_backup() {
+	public function get_first_backup() {
 		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG ) ) {
 			copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
 		}
@@ -33,7 +33,7 @@ class Helper {
 	/**
 	 * Delete the wp-config.wpld-manual-backup.php on deactivation
 	 */
-	public static function clear_manual_backup() {
+	public function clear_manual_backup() {
 		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
 			unlink( WP_LIVE_DEBUG_WP_CONFIG_BACKUP );
 		}
@@ -42,7 +42,7 @@ class Helper {
 	/**
 	 * Create the debug.log if it doesn't exist.
 	 */
-	public static function create_debug_log() {
+	public function create_debug_log() {
 		$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
 
 		if ( ! file_exists( $log_file ) ) {
