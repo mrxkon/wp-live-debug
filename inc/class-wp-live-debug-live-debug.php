@@ -15,6 +15,7 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 		 * WP_Live_Debug_Live_Debug constructor.
 		 */
 		public function __construct() {
+			$this->init();
 			add_action( 'wp_ajax_wp-live-debug-read-log', array( 'WP_Live_Debug_Live_Debug', 'read_debug_log' ) );
 			add_action( 'wp_ajax_wp-live-debug-select-log', array( 'WP_Live_Debug_Live_Debug', 'select_log_file' ) );
 			add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( 'WP_Live_Debug_Live_Debug', 'clear_debug_log' ) );
@@ -30,11 +31,13 @@ if ( ! class_exists( 'WP_Live_Debug_Live_Debug' ) ) {
 			add_action( 'wp_ajax_wp-live-debug-disable-savequeries', array( 'WP_Live_Debug_Live_Debug', 'disable_savequeries' ) );
 			add_action( 'admin_init', array( 'WP_Live_Debug_Live_Debug', 'download_config_backup' ) );
 		}
-
+		public function init() {
+			error_log( 'aefefeafea' );}
 		/**
 		 * Refresh debug log toggle
 		 */
 		public static function refresh_debug_log() {
+			error_log('hoooo');
 			if ( ! empty( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {
 				update_option( 'wp_live_debug_auto_refresh', 'enabled' );
 

@@ -20,7 +20,8 @@
 		disableScriptDebugData = { 'action': 'wp-live-debug-disable-script-debug' },
 		savequeriesToggle      = $( '#toggle-savequeries' ),
 		enableSavequeriesData  = { 'action': 'wp-live-debug-enable-savequeries' },
-		disableSavequeriesData = { 'action': 'wp-live-debug-disable-savequeries' };
+		disableSavequeriesData = { 'action': 'wp-live-debug-disable-savequeries' },
+		selectLog              = $( '#log-list' );
 
 	// Select different log
 	selectLog.on( 'change', function( e ) {
@@ -61,6 +62,7 @@
 	if ( debugArea.length ) {
 		// Make the initial debug.log read.
 		$.post( ajaxurl, refreshData, function( response ) {
+			console.log('hey');
 			debugArea.html( response );
 			scrollDebugAreaToBottom();
 		} );

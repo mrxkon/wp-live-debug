@@ -35,29 +35,39 @@
 /****************** Plugin Start ******************/
 /**************************************************/
 
+namespace WP_Live_Debug;
+
 // Check that the file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'We\'re sorry, but you can not directly access this file.' );
 }
 
 /**
- * Various constants.
- */
-define( 'WP_LIVE_DEBUG_VERSION', '5.3.1' );
-define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
-define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . 'wp-config.wpld-original-backup.php' );
-define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config.wpld-manual-backup.php' );
-
-/**
  * WP_Live_Debug Class.
  */
-if ( ! class_exists( 'WP_Live_Debug' ) ) {
-	class WP_Live_Debug {
+if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
+	class WP_Live_Debug_Core {
+		/**
+		 * Instance.
+		 */
 		private static $_instance = null;
 
+		/**
+		 * Page class.
+		 */
+		public $page;
+
+		/**
+		 * Helper class.
+		 */
+		public $helper;
+
+		/**
+		 * Return class instance.
+		 */
 		public static function get_instance() {
-			if ( is_null( self::$_instance ) ) {
-				self::$_instance = new WP_Live_Debug();
+			if ( ! self::$_instance ) {
+				self::$_instance = new self();
 			}
 			return self::$_instance;
 		}
@@ -66,9 +76,54 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		 * WP_Live_Debug constructor.
 		 */
 		public function __construct() {
-			add_action( 'init', array( 'WP_Live_Debug', 'create_menus' ) );
-			add_action( 'admin_enqueue_scripts', array( 'WP_Live_Debug', 'enqueue_scripts_styles' ) );
-			add_action( 'wp_ajax_wp-live-debug-accept-risk', array( 'WP_Live_Debug', 'accept_risk' ) );
+			spl_autoload_register( array( $this, 'autoload' ) );
+
+			$this->setup_constants();
+
+			$this->$page = new Page\Page();
+
+			add_action( 'init', array( $this, 'create_menus' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
+			add_action( 'wp_ajax_wp-live-debug-accept-risk', array( $this, 'accept_risk' ) );
+		}
+
+		/**
+		 * Autoload additional classes.
+		 */
+		public function autoload( $class ) {
+			$prefix = 'WP_Live_Debug\\';
+			$len    = strlen( $prefix );
+
+			if ( 0 !== strncmp( $prefix, $class, $len ) ) {
+				return;
+			}
+
+			$relative_class = substr( $class, $len );
+			$path           = explode( '\\', strtolower( str_replace( '_', '-', $relative_class ) ) );
+			$file           = array_pop( $path );
+			$file           = WP_LIVE_DEBUG_DIR . 'inc/class-' . $file . '.php';
+
+			if ( file_exists( $file ) ) {
+				require $file;
+			}
+		}
+
+		public function setup_constants() {
+			if ( ! defined( 'WP_LIVE_DEBUG_VERSION' ) ) {
+				define( 'WP_LIVE_DEBUG_VERSION', '5.3.1' );
+			}
+			if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG' ) ) {
+				define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
+			}
+			if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL' ) ) {
+				define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . 'wp-config.wpld-original-backup.php' );
+			}
+			if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP' ) ) {
+				define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config.wpld-manual-backup.php' );
+			}
+			if ( ! defined( 'WP_LIVE_DEBUG_DIR' ) ) {
+				define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( trailingslashit( dirname( __FILE__ ) ) ) );
+			}
 		}
 
 		/**
@@ -77,8 +132,8 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		public static function on_activate() {
 			update_option( 'wp_live_debug_auto_refresh', 'disabled' );
 
-			WP_Live_Debug_Helper::create_debug_log();
-			WP_Live_Debug_Helper::get_first_backup();
+			//WP_Live_Debug_Helper::create_debug_log();
+			//WP_Live_Debug_Helper::get_first_backup();
 		}
 
 		/**
@@ -89,30 +144,30 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 			delete_option( 'wp_live_debug_log_file' );
 			delete_option( 'wp_live_debug_auto_refresh' );
 
-			WP_Live_Debug_Helper::clear_manual_backup();
+			//WP_Live_Debug_Helper::clear_manual_backup();
 		}
 
 		/**
 		 * Create the Admin Menus.
 		 */
-		public static function create_menus() {
+		public function create_menus() {
 			if ( is_multisite() ) {
-				add_action( 'network_admin_menu', array( 'WP_Live_Debug', 'populate_admin_menu' ) );
+				add_action( 'network_admin_menu', array( $this, 'populate_admin_menu' ) );
 			} else {
-				add_action( 'admin_menu', array( 'WP_Live_Debug', 'populate_admin_menu' ) );
+				add_action( 'admin_menu', array( $this, 'populate_admin_menu' ) );
 			}
 		}
 
 		/**
 		 * Populate the Admin menu.
 		 */
-		public static function populate_admin_menu() {
+		public function populate_admin_menu() {
 			add_menu_page(
 				esc_html__( 'WP Live Debug', 'wp-live-debug' ),
 				esc_html__( 'WP Live Debug', 'wp-live-debug' ),
 				'manage_options',
 				'wp-live-debug',
-				array( 'WP_Live_Debug', 'create_page' ),
+				array( $this->$page, 'create' ),
 				'dashicons-media-code'
 			);
 		}
@@ -120,7 +175,7 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		/**
 		 * Enqueue scripts and styles.
 		 */
-		public static function enqueue_scripts_styles( $hook ) {
+		public function enqueue_scripts_styles( $hook ) {
 			if ( 'toplevel_page_wp-live-debug' === $hook ) {
 				wp_enqueue_style(
 					'wp-live-debug',
@@ -139,16 +194,9 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 		}
 
 		/**
-		 * Create the WP Live Debug page.
-		 */
-		public static function create_page() {
-			WP_Live_Debug_Page::create_page();
-		}
-
-		/**
 		 * Accept Risk Popup.
 		 */
-		public static function accept_risk() {
+		public function accept_risk() {
 			update_option( 'wp_live_debug_risk', 'yes' );
 
 			$response = array(
@@ -160,21 +208,11 @@ if ( ! class_exists( 'WP_Live_Debug' ) ) {
 	}
 
 	// Activation Hook
-	register_activation_hook( __FILE__, array( 'WP_Live_Debug', 'on_activate' ) );
+	register_activation_hook( __FILE__, array( 'WP_Live_Debug\\WP_Live_Debug_Core', 'on_activate' ) );
 
 	// Deactivation Hook
-	register_deactivation_hook( __FILE__, array( 'WP_Live_Debug', 'on_deactivate' ) );
-
-	// Require extra files
-	require_once plugin_dir_path( __FILE__ ) . '/inc/class-wp-live-debug-page.php';
-	require_once plugin_dir_path( __FILE__ ) . '/inc/class-wp-live-debug-live-debug.php';
-	require_once plugin_dir_path( __FILE__ ) . '/inc/class-wp-live-debug-helper.php';
+	register_deactivation_hook( __FILE__, array( 'WP_Live_Debug\\WP_Live_Debug_Core', 'on_deactivate' ) );
 
 	// Load WP_Live_Debug.
-	if ( ! function_exists( 'wp_live_debug' ) ) {
-		function wp_live_debug() {
-			return WP_Live_Debug::get_instance();
-		}
-		add_action( 'plugins_loaded', 'wp_live_debug', 10 );
-	}
+	add_action( 'plugins_loaded', array( 'WP_Live_Debug\\WP_Live_Debug_Core', 'get_instance' ) );
 }
