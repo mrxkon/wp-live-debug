@@ -11,3 +11,23 @@ body.toplevel_page_wp-live-debug .button-link-delete:hover,
 body.toplevel_page_wp-live-debug .button-link-delete:focus {
 	border-color: #dc3232;
 }
+body.toplevel_page_wp-live-debug #safety-popup-holder {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba( 0,0,0,0.8);
+	display: none;
+}
+body.toplevel_page_wp-live-debug #safety-popup-inner {
+	font-size: 14px;
+	padding: 8px 12px;
+	margin: 0 auto;
+	margin-top: 100px;
+	line-height: 1.4;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	background: #fff;
+	width: 300px;
+}

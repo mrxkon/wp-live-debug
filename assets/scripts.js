@@ -1,5 +1,6 @@
 ( function( $ ) {
-	var safetyPopup            = $( '#safety-popup' ),
+	var safetyPopupHolder      = $( '#safety-popup-holder' ),
+		safetyPopup            = $( '#safety-popup' ),
 		acceptRisk             = $( '#riskaccept' ),
 		acceptRiskData         = { 'action': 'wp-live-debug-accept-risk' },
 		responseHolder         = $( '#wp-debug-response-holder' ),
@@ -231,15 +232,15 @@
 		} );
 	}
 	// Safety Dialog
-	if ( safetyPopup.length ) {
-		const sp = document.getElementById( 'safety-popup' );
-		const safety = new A11yDialog( sp );
+	if ( safetyPopupHolder.length ) {
 		setTimeout( function() {
-			safety.show();
+			safetyPopupHolder.show();
+			safetyPopup.show();
 		}, 300 );
 		acceptRisk.on( 'click', function( e ) {
 			e.preventDefault();
-			safety.hide();
+			safetyPopupHolder.hide();
+			safetyPopup.hide();
 			$.post( ajaxurl, acceptRiskData, function( response ) {
 				if ( ! response.success ) {
 					responseHolder.html( response.data.message );

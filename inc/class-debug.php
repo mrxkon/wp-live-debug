@@ -46,6 +46,7 @@ class Debug {
 	 * Force download wp-config original backup
 	 */
 	public static function download_config_backup() {
+
 		if ( ! empty( $_GET['wplddlwpconfig'] ) && 'true' === $_GET['wplddlwpconfig'] ) {
 			$filename = 'wp-config-' . str_replace( array( 'http://', 'https://' ), '', get_site_url() ) . '-' . wp_date( 'Ymd-Hi' ) . '-backup.php';
 			header( 'Content-type: textplain;' );

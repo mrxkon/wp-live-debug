@@ -41,12 +41,11 @@ class Page {
 	 * Create the page.
 	 */
 	public static function create() {
-		$option_log_name    = wp_normalize_path( get_option( 'wp_live_debug_log_file' ) );
-		$selected_log       = get_option( 'wp_live_debug_log_file' );
-		$path               = wp_normalize_path( ABSPATH );
-		$logs               = array();
-		$debug_log          = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
-		$first_time_running = get_option( 'wp_live_debug_risk' );
+		$option_log_name = wp_normalize_path( get_option( 'wp_live_debug_log_file' ) );
+		$selected_log    = get_option( 'wp_live_debug_log_file' );
+		$path            = wp_normalize_path( ABSPATH );
+		$logs            = array();
+		$debug_log       = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
 		?>
 		<h1 class="wp-heading-inline"><?php esc_html_e( 'WP Live Debug', 'wp-live-debug' ); ?></h1>
 		<hr class="wp-header-end">
@@ -170,29 +169,23 @@ class Page {
 	}
 
 	public static function safety_popup() {
+		$first_time_running = get_option( 'wp_live_debug_risk' );
+
 		if ( empty( $first_time_running ) ) {
 			?>
 			<div id="safety-popup-holder">
 				<div id="safety-popup-inner">
-					<div class="safety-popup-header">
-						<h3 class="safety-popup-title">Safety First!</h3>
-					</div>
-					<div class="safety-popup-body">
-						<p>
-						<?php
-							_e( 'WP LIVE DEBUG enables debugging, checks files and runs various tests to gather information about your installation.', 'wp-live-debug' );
-						?>
-						</p>
-						<p>
-						<?php
-							_e( 'Make sure to have a <strong>full backup</strong> first before proceeding with any of the tools.', 'wp-live-debug' );
-						?>
-						</p>
-					</div>
-					<div class="safety-popup-footer">
-						<a href="?page=wp-live-debug&wplddlwpconfig=true" class="sui-modal-close sui-button sui-button-green"><?php esc_html_e( 'Download wp-config', 'wp-live-debug' ); ?></a>
-						<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
-					</div>
+					<h3 class="safety-popup-title">Safety First!</h3>
+					<p>
+						<?php _e( 'WP LIVE DEBUG alters your wp-config.', 'wp-live-debug' ); ?>
+					</p>
+					<p>
+						<?php _e( 'Make sure to keep a <strong>backup</strong> first before proceeding.', 'wp-live-debug' ); ?>
+					</p>
+					<p>
+					<a href="?page=wp-live-debug&wplddlwpconfig=true" class="button button-primary"><?php esc_html_e( 'Download wp-config', 'wp-live-debug' ); ?></a>
+					<button id="riskaccept" class="button"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
+					</p>
 				</div>
 			</div>
 			<?php
