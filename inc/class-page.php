@@ -47,7 +47,7 @@ class Page {
 		$logs               = array();
 		$debug_log          = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
 		$first_time_running = get_option( 'wp_live_debug_risk' );
-	?>
+		?>
 		<h1 class="wp-heading-inline"><?php esc_html_e( 'WP Live Debug', 'wp-live-debug' ); ?></h1>
 		<hr class="wp-header-end">
 
@@ -165,31 +165,37 @@ class Page {
 				<br class="clear">
 			</div><!-- #poststuff -->
 		</div> <!-- .wrap -->
-		<?php if ( empty( $first_time_running ) ) : ?>
-		<div id="safety-popup-holder">
-			<div id="safety-popup-inner">
-				<div class="safety-popup-header">
-					<h3 class="safety-popup-title">Safety First!</h3>
-				</div>
-				<div class="safety-popup-body">
-					<p>
-					<?php
-						_e( 'WP LIVE DEBUG enables debugging, checks files and runs various tests to gather information about your installation.', 'wp-live-debug' );
-					?>
-					</p>
-					<p>
-					<?php
-						_e( 'Make sure to have a <strong>full backup</strong> first before proceeding with any of the tools.', 'wp-live-debug' );
-					?>
-					</p>
-				</div>
-				<div class="safety-popup-footer">
-					<a href="?page=wp-live-debug&wplddlwpconfig=true" class="sui-modal-close sui-button sui-button-green"><?php esc_html_e( 'Download wp-config', 'wp-live-debug' ); ?></a>
-					<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
+		<?php
+		self::safety_popup();
+	}
+
+	public static function safety_popup() {
+		if ( empty( $first_time_running ) ) {
+			?>
+			<div id="safety-popup-holder">
+				<div id="safety-popup-inner">
+					<div class="safety-popup-header">
+						<h3 class="safety-popup-title">Safety First!</h3>
+					</div>
+					<div class="safety-popup-body">
+						<p>
+						<?php
+							_e( 'WP LIVE DEBUG enables debugging, checks files and runs various tests to gather information about your installation.', 'wp-live-debug' );
+						?>
+						</p>
+						<p>
+						<?php
+							_e( 'Make sure to have a <strong>full backup</strong> first before proceeding with any of the tools.', 'wp-live-debug' );
+						?>
+						</p>
+					</div>
+					<div class="safety-popup-footer">
+						<a href="?page=wp-live-debug&wplddlwpconfig=true" class="sui-modal-close sui-button sui-button-green"><?php esc_html_e( 'Download wp-config', 'wp-live-debug' ); ?></a>
+						<button id="riskaccept" class="sui-modal-close sui-button sui-button-blue"><?php esc_html_e( 'I understand', 'wp-live-debug' ); ?></button>
+					</div>
 				</div>
 			</div>
-		</div>
-		<?php endif; ?>
-		<?php
+			<?php
+		}
 	}
 }
