@@ -190,5 +190,6 @@ class Page {
 			</div>
 		</div>
 		<?php endif; ?>
+		<?php
 	}
 }
