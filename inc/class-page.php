@@ -30,7 +30,6 @@ class Page {
 	 * Constructor.
 	 */
 	public function __construct() {
-		error_log( 'construct Page' );
 		// Accept Risk Ajax.
 		add_action( 'wp_ajax_wp-live-debug-accept-risk', array( $this, 'accept_risk' ) );
 	}

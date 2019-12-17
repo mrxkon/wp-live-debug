@@ -26,7 +26,6 @@ class Debug {
 	 * WP_Live_Debug_Live_Debug constructor.
 	 */
 	public function __construct() {
-		error_log( 'construct Debug' );
 		// add_action( 'wp_ajax_wp-live-debug-read-log', array( 'WP_Live_Debug_Live_Debug', 'read_debug_log' ) );
 		// add_action( 'wp_ajax_wp-live-debug-select-log', array( 'WP_Live_Debug_Live_Debug', 'select_log_file' ) );
 		// add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( 'WP_Live_Debug_Live_Debug', 'clear_debug_log' ) );
