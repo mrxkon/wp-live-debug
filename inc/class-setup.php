@@ -45,20 +45,23 @@ class Setup {
 
 		add_action( 'wp_ajax_wp-live-debug-accept-risk', array( '\\WP_Live_Debug\\Page', 'accept_risk' ) );
 
-		add_action( 'wp_ajax_wp-live-debug-read-log', array( '\\WP_Live_Debug\\Debug', 'read_debug_log' ) );
-		add_action( 'wp_ajax_wp-live-debug-select-log', array( '\\WP_Live_Debug\\Debug', 'select_log_file' ) );
-		add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( '\\WP_Live_Debug\\Debug', 'clear_debug_log' ) );
-		add_action( 'wp_ajax_wp-live-debug-delete-debug-log', array( '\\WP_Live_Debug\\Debug', 'delete_debug_log' ) );
-		add_action( 'wp_ajax_wp-live-debug-refresh-debug-log', array( '\\WP_Live_Debug\\Debug', 'refresh_debug_log' ) );
-		add_action( 'wp_ajax_wp-live-debug-create-backup', array( '\\WP_Live_Debug\\Debug', 'create_wp_config_backup' ) );
-		add_action( 'wp_ajax_wp-live-debug-restore-backup', array( '\\WP_Live_Debug\\Debug', 'restore_wp_config_backup' ) );
-		add_action( 'wp_ajax_wp-live-debug-enable', array( '\\WP_Live_Debug\\Debug', 'enable_wp_debug' ) );
-		add_action( 'wp_ajax_wp-live-debug-disable', array( '\\WP_Live_Debug\\Debug', 'disable_wp_debug' ) );
-		add_action( 'wp_ajax_wp-live-debug-enable-script-debug', array( '\\WP_Live_Debug\\Debug', 'enable_script_debug' ) );
-		add_action( 'wp_ajax_wp-live-debug-disable-script-debug', array( '\\WP_Live_Debug\\Debug', 'disable_script_debug' ) );
-		add_action( 'wp_ajax_wp-live-debug-enable-savequeries', array( '\\WP_Live_Debug\\Debug', 'enable_savequeries' ) );
-		add_action( 'wp_ajax_wp-live-debug-disable-savequeries', array( '\\WP_Live_Debug\\Debug', 'disable_savequeries' ) );
-		add_action( 'admin_init', array( '\\WP_Live_Debug\\Debug', 'download_config_backup' ) );
+		// log related actions.
+		add_action( 'wp_ajax_wp-live-debug-read-log', array( '\\WP_Live_Debug\\Debug_Log', 'read_debug_log' ) );
+		add_action( 'wp_ajax_wp-live-debug-select-log', array( '\\WP_Live_Debug\\Debug_Log', 'select_log_file' ) );
+		add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( '\\WP_Live_Debug\\Debug_Log', 'clear_debug_log' ) );
+		add_action( 'wp_ajax_wp-live-debug-delete-debug-log', array( '\\WP_Live_Debug\\Debug_Log', 'delete_debug_log' ) );
+		add_action( 'wp_ajax_wp-live-debug-refresh-debug-log', array( '\\WP_Live_Debug\\Debug_Log', 'refresh_debug_log' ) );
+
+		// wp-config related actions.
+		add_action( 'wp_ajax_wp-live-debug-create-backup', array( '\\WP_Live_Debug\\WP_Config', 'create_wp_config_backup' ) );
+		add_action( 'wp_ajax_wp-live-debug-restore-backup', array( '\\WP_Live_Debug\\WP_Config', 'restore_wp_config_backup' ) );
+		add_action( 'wp_ajax_wp-live-debug-enable', array( '\\WP_Live_Debug\\WP_Config', 'enable_wp_debug' ) );
+		add_action( 'wp_ajax_wp-live-debug-disable', array( '\\WP_Live_Debug\\WP_Config', 'disable_wp_debug' ) );
+		add_action( 'wp_ajax_wp-live-debug-enable-script-debug', array( '\\WP_Live_Debug\\WP_Config', 'enable_script_debug' ) );
+		add_action( 'wp_ajax_wp-live-debug-disable-script-debug', array( '\\WP_Live_Debug\\WP_Config', 'disable_script_debug' ) );
+		add_action( 'wp_ajax_wp-live-debug-enable-savequeries', array( '\\WP_Live_Debug\\WP_Config', 'enable_savequeries' ) );
+		add_action( 'wp_ajax_wp-live-debug-disable-savequeries', array( '\\WP_Live_Debug\\WP_Config', 'disable_savequeries' ) );
+		add_action( 'admin_init', array( '\\WP_Live_Debug\\WP_Config', 'download_config_backup' ) );
 	}
 
 	/**

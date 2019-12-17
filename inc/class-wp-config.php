@@ -18,52 +18,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Debug Class.
+ * WP_Config Class.
  */
-class Debug {
+class WP_Config {
 	/**
-	 * Refresh debug log toggle
+	 * Constructor.
 	 */
-	public static function refresh_debug_log() {
-		if ( ! empty( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {
-			update_option( 'wp_live_debug_auto_refresh', 'enabled' );
-
-			$response = array(
-				'message' => esc_html__( 'enabled', 'wp-live-debug' ),
-			);
-		} else {
-			update_option( 'wp_live_debug_auto_refresh', 'disabled' );
-
-			$response = array(
-				'message' => esc_html__( 'disabled', 'wp-live-debug' ),
-			);
-		}
-
-		wp_send_json_success( $response );
-	}
-
-	/**
-	 * Force download wp-config original backup
-	 */
-	public static function download_config_backup() {
-
-		if ( ! empty( $_GET['wplddlwpconfig'] ) && 'true' === $_GET['wplddlwpconfig'] ) {
-			$filename = 'wp-config-' . str_replace( array( 'http://', 'https://' ), '', get_site_url() ) . '-' . wp_date( 'Ymd-Hi' ) . '-backup.php';
-			header( 'Content-type: textplain;' );
-			header( 'Content-disposition: attachment; filename= ' . $filename );
-			readfile( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
-			exit();
-		}
-	}
-	/**
-	 * Check if original wp-config.php backup exists.
-	 */
-	public static function check_wp_config_original_backup() {
-		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ) {
-			return true;
-		}
-
-		return false;
+	public function __construct() {
+		// silence.
 	}
 
 	/**
@@ -530,108 +492,27 @@ class Debug {
 	}
 
 	/**
-	 * Read log.
+	 * Force download wp-config original backup
 	 */
-	public static function read_debug_log() {
-		$log_file = get_option( 'wp_live_debug_log_file' );
+	public static function download_config_backup() {
 
-		if ( file_exists( $log_file ) ) {
-			if ( 2000000 > filesize( $log_file ) ) {
-				$debug_contents = file_get_contents( $log_file );
-				if ( empty( $debug_contents ) ) {
-					// translators: %1$s log filename.
-					$debug_contents = sprintf( esc_html__( 'Awesome! %1$s seems to be empty.', 'wp-live-deubg' ), basename( $log_file ) );
-				}
-			} else {
-				// translators: %1$s log filename.
-				$debug_contents = sprintf( esc_html__( '%1$s is over 2 MB. Please open it via FTP.', 'wp-live-debug' ), basename( $log_file ) );
-			}
-		} else {
-			// translators: %1$s log filename.
-			$debug_contents = sprintf( esc_html__( 'Could not find %1$s file.', 'wp-live-deubg' ), basename( $log_file ) );
-
+		if ( ! empty( $_GET['wplddlwpconfig'] ) && 'true' === $_GET['wplddlwpconfig'] ) {
+			$filename = 'wp-config-' . str_replace( array( 'http://', 'https://' ), '', get_site_url() ) . '-' . wp_date( 'Ymd-Hi' ) . '-backup.php';
+			header( 'Content-type: textplain;' );
+			header( 'Content-disposition: attachment; filename= ' . $filename );
+			readfile( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
+			exit();
 		}
-
-		echo $debug_contents;
-
-		wp_die();
 	}
 
 	/**
-	 * Select log.
+	 * Check if original wp-config.php backup exists.
 	 */
-	public static function select_log_file() {
-		$nonce    = sanitize_text_field( $_POST['nonce'] );
-		$log_file = sanitize_text_field( $_POST['log'] );
-
-		if ( ! wp_verify_nonce( $nonce, $log_file ) ) {
-			wp_send_json_error();
+	public static function check_wp_config_original_backup() {
+		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ) {
+			return true;
 		}
 
-		if ( 'log' != substr( strrchr( $log_file, '.' ), 1 ) ) {
-			wp_send_json_error();
-		}
-
-		update_option( 'wp_live_debug_log_file', $log_file );
-
-		wp_send_json_success();
-	}
-
-	/**
-	 * Clear log.
-	 */
-	public static function clear_debug_log() {
-		$nonce    = sanitize_text_field( $_POST['nonce'] );
-		$log_file = sanitize_text_field( $_POST['log'] );
-
-		if ( ! wp_verify_nonce( $nonce, $log_file ) ) {
-			$response = array(
-				'message' => esc_html__( 'Could not validate nonce', 'wp-live-debug' ),
-			);
-			wp_send_json_error( $response );
-		}
-
-		if ( 'log' != substr( strrchr( $log_file, '.' ), 1 ) ) {
-			$response = array(
-				'message' => esc_html__( 'This is not a log file.', 'wp-live-debug' ),
-			);
-
-			wp_send_json_error( $response );
-		}
-
-		file_put_contents( $log_file, '' );
-
-		$response = array(
-			'message' => esc_html__( '.log was cleared', 'wp-live-debug' ),
-		);
-
-		wp_send_json_success( $response );
-	}
-
-	/**
-	 * Delete log.
-	 */
-	public static function delete_debug_log() {
-		$nonce    = sanitize_text_field( $_POST['nonce'] );
-		$log_file = sanitize_text_field( $_POST['log'] );
-
-		if ( ! wp_verify_nonce( $nonce, $log_file ) ) {
-			wp_send_json_error();
-		}
-
-		if ( 'log' != substr( strrchr( $log_file, '.' ), 1 ) ) {
-			wp_send_json_error();
-		}
-
-		unlink( $log_file );
-
-		WP_Live_Debug_Helper::create_debug_log();
-
-		$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
-
-		update_option( 'wp_live_debug_log_file', $log_file );
-
-		wp_send_json_success();
+		return false;
 	}
 }
-
