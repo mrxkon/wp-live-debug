@@ -23,13 +23,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Helper Class.
  */
 class Helper {
-
 	/**
 	 * Constructor.
 	 */
 	public function __construct() {
 		error_log( 'construct Helper' );
-
 		// Create the Admin menu.
 		add_action( 'init', array( $this, 'create_menus' ) );
 

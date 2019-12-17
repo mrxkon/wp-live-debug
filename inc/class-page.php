@@ -25,7 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Page Class.
  */
 class Page {
-
+	/**
+	 * Constructor.
+	 */
 	public function __construct() {
 		error_log( 'construct Page' );
 		// Accept Risk Ajax.

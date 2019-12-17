@@ -31,8 +31,6 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-namespace WP_Live_Debug;
-
 // Check that the file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'We\'re sorry, but you can not directly access this file.' );
@@ -41,157 +39,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Setup various constants.
  */
-if ( ! defined( 'WP_LIVE_DEBUG_VERSION' ) ) {
-	define( 'WP_LIVE_DEBUG_VERSION', '5.3.1' );
-}
-
-if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG' ) ) {
-	define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
-}
-
-if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL' ) ) {
-	define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . 'wp-config.wpld-original-backup.php' );
-}
-
-if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP' ) ) {
-	define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config.wpld-manual-backup.php' );
-}
-
-if ( ! defined( 'WP_LIVE_DEBUG_DIR' ) ) {
-	define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( dirname( __FILE__ ) ) );
-}
+define( 'WP_LIVE_DEBUG_VERSION', '5.3.1' );
+define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
+define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . 'wp-config.wp-live-debug-auto-bakcup.php' );
+define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config.wp-live-debug-manual-bakcup.php' );
+define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( dirname( __FILE__ ) ) );
 
 /**
- * Setup Class.
+ * Require setup file.
  */
+require_once( WP_LIVE_DEBUG_DIR . '/inc/class-setup.php' );
 
-class Setup {
-	/**
-	 * Instance.
-	 */
-	private static $instance = null;
-
-	/**
-	 * Page Class.
-	 */
-	public static $page;
-
-	/**
-	 * Helper Class.
-	 */
-	public static $helper;
-
-	/**
-	 * Debug Class;
-	 */
-	public static $debug;
-
-	/**
-	 * Return class instance.
-	 */
-	public static function get_instance() {
-		if ( ! self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		spl_autoload_register( array( $this, 'autoload' ) );
-
-		self::$page   = new Page\Page();
-		self::$helper = new Helper\Helper();
-		self::$helper = new Debug\Debug();
-	}
-
-	/**
-	 * Autoload additional classes.
-	 */
-	public function autoload( $class ) {
-		$prefix = 'WP_Live_Debug\\';
-		$len    = strlen( $prefix );
-
-		if ( 0 !== strncmp( $prefix, $class, $len ) ) {
-			return;
-		}
-
-		$relative_class = substr( $class, $len );
-		$path           = explode( '\\', strtolower( str_replace( '_', '-', $relative_class ) ) );
-		$file           = array_pop( $path );
-		$file           = WP_LIVE_DEBUG_DIR . '/inc/class-' . $file . '.php';
-
-		if ( file_exists( $file ) ) {
-			require $file;
-		}
-	}
-
-	/**
-	 * Activation Hook.
-	 */
-	public static function activate() {
-		update_option( 'wp_live_debug_auto_refresh', 'disabled' );
-
-		self::create_debug_log();
-		self::get_first_backup();
-	}
-
-	/**
-	 * Deactivation Hook.
-	 */
-	public static function deactivate() {
-		delete_option( 'wp_live_debug_risk' );
-		delete_option( 'wp_live_debug_log_file' );
-		delete_option( 'wp_live_debug_auto_refresh' );
-
-		self::clear_manual_backup();
-	}
-
-	/**
-	 * Create the debug.log if it doesn't exist.
-	 */
-	public static function create_debug_log() {
-		$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
-
-		if ( ! file_exists( $log_file ) ) {
-			$fo = fopen( $log_file, 'w' ) or die( 'Cannot create debug.log!' );
-
-			fwrite( $fo, '' );
-
-			fclose( $fo );
-		}
-
-		update_option( 'wp_live_debug_log_file', $log_file );
-	}
-
-	/**
-	 * Create the wp-config.wpld-original-backup.php
-	 */
-	public static function get_first_backup() {
-		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG ) ) {
-			copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
-		}
-	}
-
-	/**
-	 * Delete the wp-config.wpld-manual-backup.php on deactivation
-	 */
-	public static function clear_manual_backup() {
-		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
-			unlink( WP_LIVE_DEBUG_WP_CONFIG_BACKUP );
-		}
-	}
-}
-
-// Activation Hook
+/**
+ * Activation Hook
+ */
 register_activation_hook( __FILE__, array( 'WP_Live_Debug\\Setup', 'activate' ) );
 
-// Deactivation Hook
+/**
+ * Dectivation Hook
+ */
 register_deactivation_hook( __FILE__, array( 'WP_Live_Debug\\Setup', 'deactivate' ) );
 
-// Load WP_Live_Debug.
+/**
+ * Load plugin.
+ */
 add_action( 'plugins_loaded', array( 'WP_Live_Debug\\Setup', 'get_instance' ) );
-
