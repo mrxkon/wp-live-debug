@@ -45,7 +45,6 @@ class Debug {
 	 * Refresh debug log toggle
 	 */
 	public function refresh_debug_log() {
-		error_log('hoooo');
 		if ( ! empty( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {
 			update_option( 'wp_live_debug_auto_refresh', 'enabled' );
 
