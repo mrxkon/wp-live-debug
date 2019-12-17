@@ -78,14 +78,14 @@ spl_autoload_register(
 /**
  * Activation Hook
  */
-register_activation_hook( __FILE__, array( 'WP_Live_Debug\\Setup', 'activate' ) );
+register_activation_hook( __FILE__, array( '\\WP_Live_Debug\\Setup', 'activate' ) );
 
 /**
  * Dectivation Hook
  */
-register_deactivation_hook( __FILE__, array( 'WP_Live_Debug\\Setup', 'deactivate' ) );
+register_deactivation_hook( __FILE__, array( '\\WP_Live_Debug\\Setup', 'deactivate' ) );
 
 /**
  * Load plugin.
  */
-add_action( 'plugins_loaded', array( 'WP_Live_Debug\\Setup', 'get_instance' ) );
+add_action( 'plugins_loaded', array( '\\WP_Live_Debug\\Setup', 'get_instance' ) );
