@@ -12,7 +12,7 @@
 
 namespace WP_Live_Debug\Page;
 
-//use WP_Live_Debug\Debug as Debug;
+use WP_Live_Debug\Debug as Debug;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 

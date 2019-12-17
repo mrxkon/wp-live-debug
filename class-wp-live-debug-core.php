@@ -55,17 +55,17 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 		/**
 		 * Page Class.
 		 */
-		public $page;
+		public static $page;
 
 		/**
 		 * Helper Class.
 		 */
-		public $helper;
+		public static $helper;
 
 		/**
 		 * Debug Class;
 		 */
-		public $debug;
+		public static $debug;
 
 		/**
 		 * Return class instance.
@@ -85,8 +85,9 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 
 			$this->setup_constants();
 
-			$this->$page   = new Page\Page();
-			$this->$helper = new Helper\Helper();
+			self::$page   = new Page\Page();
+			self::$helper = new Helper\Helper();
+			self::$helper = new Debug\Debug();
 
 			add_action( 'init', array( $this, 'create_menus' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
@@ -138,8 +139,8 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 		public static function on_activate() {
 			update_option( 'wp_live_debug_auto_refresh', 'disabled' );
 
-			//$this->$helper->create_debug_log();
-			//$this->$helper->get_first_backup();
+			self::$helper->create_debug_log();
+			self::$helper->get_first_backup();
 		}
 
 		/**
@@ -150,7 +151,7 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 			delete_option( 'wp_live_debug_log_file' );
 			delete_option( 'wp_live_debug_auto_refresh' );
 
-			//$this->$helper->clear_manual_backup();
+			self::$helper->clear_manual_backup();
 		}
 
 		/**
@@ -173,7 +174,7 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 				esc_html__( 'WP Live Debug', 'wp-live-debug' ),
 				'manage_options',
 				'wp-live-debug',
-				array( $this->$page, 'create' ),
+				array( self::$page, 'create' ),
 				'dashicons-media-code'
 			);
 		}
