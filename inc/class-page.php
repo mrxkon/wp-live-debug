@@ -28,6 +28,21 @@ class Page {
 
 	public function __construct() {
 		error_log( 'construct Page' );
+		// Accept Risk Ajax.
+		add_action( 'wp_ajax_wp-live-debug-accept-risk', array( $this, 'accept_risk' ) );
+	}
+
+	/**
+	 * Accept Risk Popup.
+	 */
+	public function accept_risk() {
+		update_option( 'wp_live_debug_risk', 'yes' );
+
+		$response = array(
+			'message' => esc_html__( 'risk accepted.', 'wp-live-debug' ),
+		);
+
+		wp_send_json_success( $response );
 	}
 
 	/**
