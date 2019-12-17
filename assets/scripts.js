@@ -36,7 +36,7 @@
 		};
 		$.post( ajaxurl, data, function( response ) {
 			if ( response.success ) {
-				window.location.href = window.location.href;
+				window.location.reload( true );
 			}
 		} );
 	} );
@@ -108,7 +108,7 @@
 			}
 			$.post( ajaxurl, data, function( response ) {
 				if ( response.success ) {
-					window.location.href = window.location.href;
+					window.location.reload( true );
 				}
 			} );
 		} );
@@ -118,7 +118,7 @@
 			$( this ).find( '.sui-icon-loader' ).css( 'display', 'inline-block' );
 			$.post( ajaxurl, createBackupData, function( response ) {
 				if ( response.success ) {
-					window.location.href = window.location.href;
+					window.location.reload( true );
 				} else {
 					responseHolder.html( response.data.message );
 				}
@@ -130,7 +130,7 @@
 			$( this ).find( '.sui-icon-loader' ).css( 'display', 'inline-block' );
 			$.post( ajaxurl, restoreBackupData, function( response ) {
 				if ( response.success ) {
-					window.location.href = window.location.href;
+					window.location.reload( true );
 				} else {
 					responseHolder.html( response.data.message );
 				}
