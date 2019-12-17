@@ -22,11 +22,6 @@ class Setup {
 	private static $instance = null;
 
 	/**
-	 * Helper Class.
-	 */
-	public static $helper;
-
-	/**
 	 * Return class instance.
 	 */
 	public static function get_instance() {
@@ -44,6 +39,12 @@ class Setup {
 		spl_autoload_register( array( $this, 'autoload' ) );
 
 		self::$helper = new Helper();
+
+		// Create the Admin menu.
+		add_action( 'init', array( $this, 'create_menus' ) );
+
+		// Enqueue necessary scripts & styles.
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
 	/**
@@ -86,6 +87,52 @@ class Setup {
 		delete_option( 'wp_live_debug_auto_refresh' );
 
 		self::clear_manual_backup();
+	}
+
+	/**
+	 * Create the Admin Menus.
+	 */
+	public function create_menus() {
+		if ( is_multisite() ) {
+			add_action( 'network_admin_menu', array( $this, 'populate_admin_menu' ) );
+		} else {
+			add_action( 'admin_menu', array( $this, 'populate_admin_menu' ) );
+		}
+	}
+
+	/**
+	 * Populate the Admin menu.
+	 */
+	public function populate_admin_menu() {
+		add_menu_page(
+			esc_html__( 'WP Live Debug', 'wp-live-debug' ),
+			esc_html__( 'WP Live Debug', 'wp-live-debug' ),
+			'manage_options',
+			'wp-live-debug',
+			array( '\\WP_Live_Debug\\Page', 'create' ),
+			'dashicons-media-code'
+		);
+	}
+
+	/**
+	 * Enqueue scripts and styles.
+	 */
+	public function enqueue_scripts( $hook ) {
+		if ( 'toplevel_page_wp-live-debug' === $hook ) {
+			wp_enqueue_style(
+				'wp-live-debug',
+				WP_LIVE_DEBUG_URL . 'assets/styles.css',
+				array(),
+				WP_LIVE_DEBUG_VERSION
+			);
+			wp_enqueue_script(
+				'wp-live-debug',
+				WP_LIVE_DEBUG_URL . 'assets/scripts.js',
+				array( 'jquery' ),
+				WP_LIVE_DEBUG_VERSION,
+				true
+			);
+		}
 	}
 
 	/**
