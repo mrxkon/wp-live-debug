@@ -43,7 +43,8 @@ define( 'WP_LIVE_DEBUG_VERSION', '5.3.1' );
 define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
 define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . 'wp-config.wp-live-debug-auto-bakcup.php' );
 define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config.wp-live-debug-manual-bakcup.php' );
-define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( dirname( __FILE__ ) ) );
+define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( dirname( __FILE__ ) ) . '/' );
+define( 'WP_LIVE_DEBUG_URL', plugin_dir_url( __FILE__ ) );
 
 /**
  * Require setup file.

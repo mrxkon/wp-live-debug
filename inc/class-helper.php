@@ -64,13 +64,13 @@ class Helper {
 		if ( 'toplevel_page_wp-live-debug' === $hook ) {
 			wp_enqueue_style(
 				'wp-live-debug',
-				plugin_dir_url( __FILE__ ) . 'assets/styles.css',
+				WP_LIVE_DEBUG_URL . 'assets/styles.css',
 				array(),
 				WP_LIVE_DEBUG_VERSION
 			);
 			wp_enqueue_script(
 				'wp-live-debug',
-				plugin_dir_url( __FILE__ ) . 'assets/scripts.js',
+				WP_LIVE_DEBUG_URL . 'assets/scripts.js',
 				array( 'jquery' ),
 				WP_LIVE_DEBUG_VERSION,
 				true

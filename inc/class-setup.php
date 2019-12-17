@@ -27,16 +27,6 @@ class Setup {
 	public static $helper;
 
 	/**
-	 * Page Class.
-	 */
-	public static $page;
-
-	/**
-	 * Debug Class;
-	 */
-	public static $debug;
-
-	/**
 	 * Return class instance.
 	 */
 	public static function get_instance() {
@@ -51,12 +41,9 @@ class Setup {
 	 * Constructor.
 	 */
 	public function __construct() {
-		error_log( 'construct Setup' );
 		spl_autoload_register( array( $this, 'autoload' ) );
 
 		self::$helper = new Helper();
-		//self::$page   = new Page();
-		//self::$debug  = new Debug();
 	}
 
 	/**
@@ -73,7 +60,7 @@ class Setup {
 		$relative_class = substr( $class, $len );
 		$path           = explode( '\\', strtolower( str_replace( '_', '-', $relative_class ) ) );
 		$file           = array_pop( $path );
-		$file           = WP_LIVE_DEBUG_DIR . '/inc/class-' . $file . '.php';
+		$file           = WP_LIVE_DEBUG_DIR . 'inc/class-' . $file . '.php';
 
 		if ( file_exists( $file ) ) {
 			require $file;
