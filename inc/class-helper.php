@@ -57,4 +57,15 @@ class Helper {
 			unlink( WP_LIVE_DEBUG_WP_CONFIG_BACKUP );
 		}
 	}
+
+	/**
+	 * Check if manual wp-config.php backup exists.
+	 */
+	public static function check_wp_config_backup() {
+		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
+			return true;
+		}
+
+		return false;
+	}
 }

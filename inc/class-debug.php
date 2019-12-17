@@ -22,29 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Debug {
 	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		add_action( 'wp_ajax_wp-live-debug-read-log', array( $this, 'read_debug_log' ) );
-		add_action( 'wp_ajax_wp-live-debug-select-log', array( $this, 'select_log_file' ) );
-		add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( $this, 'clear_debug_log' ) );
-		add_action( 'wp_ajax_wp-live-debug-delete-debug-log', array( $this, 'delete_debug_log' ) );
-		add_action( 'wp_ajax_wp-live-debug-refresh-debug-log', array( $this, 'refresh_debug_log' ) );
-		add_action( 'wp_ajax_wp-live-debug-create-backup', array( $this, 'create_wp_config_backup' ) );
-		add_action( 'wp_ajax_wp-live-debug-restore-backup', array( $this, 'restore_wp_config_backup' ) );
-		add_action( 'wp_ajax_wp-live-debug-enable', array( $this, 'enable_wp_debug' ) );
-		add_action( 'wp_ajax_wp-live-debug-disable', array( $this, 'disable_wp_debug' ) );
-		add_action( 'wp_ajax_wp-live-debug-enable-script-debug', array( $this, 'enable_script_debug' ) );
-		add_action( 'wp_ajax_wp-live-debug-disable-script-debug', array( $this, 'disable_script_debug' ) );
-		add_action( 'wp_ajax_wp-live-debug-enable-savequeries', array( $this, 'enable_savequeries' ) );
-		add_action( 'wp_ajax_wp-live-debug-disable-savequeries', array( $this, 'disable_savequeries' ) );
-		add_action( 'admin_init', array( $this, 'download_config_backup' ) );
-	}
-
-	/**
 	 * Refresh debug log toggle
 	 */
-	public function refresh_debug_log() {
+	public static function refresh_debug_log() {
 		if ( ! empty( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {
 			update_option( 'wp_live_debug_auto_refresh', 'enabled' );
 
@@ -65,7 +45,7 @@ class Debug {
 	/**
 	 * Force download wp-config original backup
 	 */
-	public function download_config_backup() {
+	public static function download_config_backup() {
 		if ( ! empty( $_GET['wplddlwpconfig'] ) && 'true' === $_GET['wplddlwpconfig'] ) {
 			$filename = 'wp-config-' . str_replace( array( 'http://', 'https://' ), '', get_site_url() ) . '-' . wp_date( 'Ymd-Hi' ) . '-backup.php';
 			header( 'Content-type: textplain;' );
@@ -77,19 +57,8 @@ class Debug {
 	/**
 	 * Check if original wp-config.php backup exists.
 	 */
-	public function check_wp_config_original_backup() {
+	public static function check_wp_config_original_backup() {
 		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Check if manual wp-config.php backup exists.
-	 */
-	public function check_wp_config_backup() {
-		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
 			return true;
 		}
 
@@ -99,7 +68,7 @@ class Debug {
 	/**
 	 * Creates a backup of wp-config.php.
 	 */
-	public function create_wp_config_backup() {
+	public static function create_wp_config_backup() {
 		if ( ! copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
 			$response = array(
 				'message' => esc_html__( 'wp-config.php backup failed.', 'wp-live-debug' ),
@@ -118,7 +87,7 @@ class Debug {
 	/**
 	 * Restores a backup of wp-config.php.
 	 */
-	public function restore_wp_config_backup() {
+	public static function restore_wp_config_backup() {
 		if ( ! copy( WP_LIVE_DEBUG_WP_CONFIG_BACKUP, WP_LIVE_DEBUG_WP_CONFIG ) ) {
 			$response = array(
 				'message' => esc_html__( 'wp-config.php restore failed.', 'wp-live-debug' ),
@@ -139,7 +108,7 @@ class Debug {
 	/**
 	 * Enables WP_DEBUG.
 	 */
-	public function enable_wp_debug() {
+	public static function enable_wp_debug() {
 		$not_found        = true;
 		$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
@@ -175,9 +144,9 @@ class Debug {
 
 		fclose( $write_wpconfig );
 
-		WP_Live_Debug_Live_Debug::enable_wp_debug_log();
-		WP_Live_Debug_Live_Debug::disable_wp_debug_display();
-		WP_Live_Debug_Live_Debug::disable_wp_debug_ini_set_display();
+		self::enable_wp_debug_log();
+		self::disable_wp_debug_display();
+		self::disable_wp_debug_ini_set_display();
 
 		$response = array(
 			'message' => esc_html__( 'WP_DEBUG was enabled.', 'wp-live-debug' ),
@@ -189,7 +158,7 @@ class Debug {
 	/**
 	 * Disables WP_DEBUG
 	 */
-	public function disable_wp_debug() {
+	public static function disable_wp_debug() {
 		$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
 		file_put_contents( WP_LIVE_DEBUG_WP_CONFIG, '' );
@@ -206,9 +175,9 @@ class Debug {
 
 		fclose( $write_wpconfig );
 
-		WP_Live_Debug_Live_Debug::disable_wp_debug_log();
-		WP_Live_Debug_Live_Debug::disable_wp_debug_display();
-		WP_Live_Debug_Live_Debug::disable_wp_debug_ini_set_display();
+		self::disable_wp_debug_log();
+		self::disable_wp_debug_display();
+		self::disable_wp_debug_ini_set_display();
 
 		$response = array(
 			'message' => esc_html__( 'WP_DEBUG was disabled.', 'wp-live-debug' ),
@@ -220,7 +189,7 @@ class Debug {
 	/**
 	 * Enable WP_DEBUG_LOG.
 	 */
-	public function enable_wp_debug_log() {
+	public static function enable_wp_debug_log() {
 		$not_found        = true;
 		$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
@@ -260,7 +229,7 @@ class Debug {
 	/**
 	 * Disable WP_DEBUG_LOG.
 	 */
-	public function disable_wp_debug_log() {
+	public static function disable_wp_debug_log() {
 		$not_found        = true;
 		$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
@@ -299,7 +268,7 @@ class Debug {
 	/**
 	 * Disable WP_DEBUG_DISPLAY.
 	 */
-	public function disable_wp_debug_display() {
+	public static function disable_wp_debug_display() {
 		$not_found        = true;
 		$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
@@ -339,7 +308,7 @@ class Debug {
 	/**
 	 * Disable ini_set display_errors.
 	 */
-	public function disable_wp_debug_ini_set_display() {
+	public static function disable_wp_debug_ini_set_display() {
 		$not_found        = true;
 		$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
@@ -379,7 +348,7 @@ class Debug {
 	/**
 	 * Enable SCRIPT_DEBUG.
 	 */
-	public function enable_script_debug() {
+	public static function enable_script_debug() {
 		$not_found        = true;
 		$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
@@ -424,7 +393,7 @@ class Debug {
 	/**
 	 * Disable SCRIPT_DEBUG.
 	 */
-	public function disable_script_debug() {
+	public static function disable_script_debug() {
 		$not_found        = true;
 		$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
@@ -470,7 +439,7 @@ class Debug {
 	/**
 	 * Enable SAVEQUERIES.
 	 */
-	public function enable_savequeries() {
+	public static function enable_savequeries() {
 		$not_found        = true;
 		$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
@@ -516,7 +485,7 @@ class Debug {
 	/**
 	 * Disable SAVEQUERIES.
 	 */
-	public function disable_savequeries() {
+	public static function disable_savequeries() {
 		$not_found        = true;
 		$editing_wpconfig = file( WP_LIVE_DEBUG_WP_CONFIG );
 
@@ -562,7 +531,7 @@ class Debug {
 	/**
 	 * Read log.
 	 */
-	public function read_debug_log() {
+	public static function read_debug_log() {
 		$log_file = get_option( 'wp_live_debug_log_file' );
 
 		if ( file_exists( $log_file ) ) {
@@ -590,7 +559,7 @@ class Debug {
 	/**
 	 * Select log.
 	 */
-	public function select_log_file() {
+	public static function select_log_file() {
 		$nonce    = sanitize_text_field( $_POST['nonce'] );
 		$log_file = sanitize_text_field( $_POST['log'] );
 
@@ -610,7 +579,7 @@ class Debug {
 	/**
 	 * Clear log.
 	 */
-	public function clear_debug_log() {
+	public static function clear_debug_log() {
 		$nonce    = sanitize_text_field( $_POST['nonce'] );
 		$log_file = sanitize_text_field( $_POST['log'] );
 
@@ -641,7 +610,7 @@ class Debug {
 	/**
 	 * Delete log.
 	 */
-	public function delete_debug_log() {
+	public static function delete_debug_log() {
 		$nonce    = sanitize_text_field( $_POST['nonce'] );
 		$log_file = sanitize_text_field( $_POST['log'] );
 

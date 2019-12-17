@@ -55,7 +55,6 @@ define( 'WP_LIVE_DEBUG_URL', plugin_dir_url( __FILE__ ) );
  */
 spl_autoload_register(
 	function( $class ) {
-		error_log( $class );
 		$prefix = 'WP_Live_Debug\\';
 		$len    = strlen( $prefix );
 
@@ -69,7 +68,6 @@ spl_autoload_register(
 		$file           = WP_LIVE_DEBUG_DIR . 'inc/class-' . $file . '.php';
 
 		if ( file_exists( $file ) ) {
-			error_log( $file );
 			require $file;
 		}
 	}

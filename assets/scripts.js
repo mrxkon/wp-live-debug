@@ -62,7 +62,6 @@
 	if ( debugArea.length ) {
 		// Make the initial debug.log read.
 		$.post( ajaxurl, refreshData, function( response ) {
-			console.log('hey');
 			debugArea.html( response );
 			scrollDebugAreaToBottom();
 		} );

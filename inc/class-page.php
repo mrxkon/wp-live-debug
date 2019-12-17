@@ -25,17 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Page {
 	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		// Accept Risk Ajax.
-		add_action( 'wp_ajax_wp-live-debug-accept-risk', array( $this, 'accept_risk' ) );
-	}
-
-	/**
 	 * Accept Risk Popup.
 	 */
-	public function accept_risk() {
+	public static function accept_risk() {
 		update_option( 'wp_live_debug_risk', 'yes' );
 
 		$response = array(
@@ -101,7 +93,7 @@ class Page {
 				</div>
 				<div class="sui-box-settings-row divider"></div>
 				<div class="sui-row mt30">
-				<?php if ( ! Debug::check_wp_config_backup() ) { ?>
+				<?php if ( ! Helper::check_wp_config_backup() ) { ?>
 					<div class="sui-col-lg-12 text-center">
 						<button id="wp-live-debug-backup" type="button" class="sui-button sui-button-green"><i class="sui-icon-loader sui-loading" aria-hidden="true"></i> <?php esc_html_e( 'Backup wp-config and show options', 'wp-live-debug' ); ?></button>
 					</div>
