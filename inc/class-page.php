@@ -10,9 +10,10 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-namespace WP_Live_Debug\Page;
+namespace WP_Live_Debug;
 
-//use WP_Live_Debug\Debug as Debug;
+use WP_Live_Debug\Debug;
+
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -50,7 +51,7 @@ class Page {
 	/**
 	 * Create the page.
 	 */
-	public function create() {
+	public static function create() {
 		$option_log_name = wp_normalize_path( get_option( 'wp_live_debug_log_file' ) );
 		$selected_log    = get_option( 'wp_live_debug_log_file' );
 		$path            = wp_normalize_path( ABSPATH );

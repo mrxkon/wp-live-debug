@@ -10,7 +10,7 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-namespace WP_Live_Debug\Debug;
+namespace WP_Live_Debug;
 
 // Check that the file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {

@@ -54,9 +54,9 @@ class Setup {
 		error_log( 'construct Setup' );
 		spl_autoload_register( array( $this, 'autoload' ) );
 
-		self::$helper = new Helper\Helper();
-		self::$page   = new Page\Page();
-		self::$helper = new Debug\Debug();
+		self::$helper = new Helper();
+		//self::$page   = new Page();
+		//self::$debug  = new Debug();
 	}
 
 	/**

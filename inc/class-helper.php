@@ -10,9 +10,7 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-namespace WP_Live_Debug\Helper;
-
-use WP_Live_Debug\Page;
+namespace WP_Live_Debug;
 
 // Check that the file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -55,7 +53,7 @@ class Helper {
 			esc_html__( 'WP Live Debug', 'wp-live-debug' ),
 			'manage_options',
 			'wp-live-debug',
-			array( 'Page', 'create' ),
+			array( '\\WP_Live_Debug\\Page', 'create' ),
 			'dashicons-media-code'
 		);
 	}
