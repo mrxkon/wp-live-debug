@@ -12,6 +12,9 @@
 
 namespace WP_Live_Debug\Page;
 
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+
 // Check that the file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'We\'re sorry, but you can not directly access this file.' );
