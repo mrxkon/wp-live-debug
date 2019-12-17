@@ -48,15 +48,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! defined( 'WP_LIVE_DEBUG_VERSION' ) ) {
 	define( 'WP_LIVE_DEBUG_VERSION', '5.3.1' );
 }
+
 if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG' ) ) {
 	define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
 }
+
 if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL' ) ) {
 	define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . 'wp-config.wpld-original-backup.php' );
 }
+
 if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP' ) ) {
 	define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config.wpld-manual-backup.php' );
 }
+
 if ( ! defined( 'WP_LIVE_DEBUG_DIR' ) ) {
 	define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( trailingslashit( dirname( __FILE__ ) ) ) );
 }
