@@ -41,13 +41,13 @@ class Page {
 	 * Create the page.
 	 */
 	public static function create() {
-		$option_log_name = wp_normalize_path( get_option( 'wp_live_debug_log_file' ) );
-		$selected_log    = get_option( 'wp_live_debug_log_file' );
-		$path            = wp_normalize_path( ABSPATH );
-		$logs            = array();
-		$debug_log       = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
-		?>
-
+		$option_log_name    = wp_normalize_path( get_option( 'wp_live_debug_log_file' ) );
+		$selected_log       = get_option( 'wp_live_debug_log_file' );
+		$path               = wp_normalize_path( ABSPATH );
+		$logs               = array();
+		$debug_log          = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+		$first_time_running = get_option( 'wp_live_debug_risk' );
+	?>
 		<h1 class="wp-heading-inline"><?php esc_html_e( 'WP Live Debug', 'wp-live-debug' ); ?></h1>
 		<hr class="wp-header-end">
 
@@ -165,11 +165,7 @@ class Page {
 				<br class="clear">
 			</div><!-- #poststuff -->
 		</div> <!-- .wrap -->
-	<?php
-	$first_time_running = get_option( 'wp_live_debug_risk' );
-
-	if ( empty( $first_time_running ) ) {
-		?>
+		<?php if ( empty( $first_time_running ) ) : ?>
 		<div id="safety-popup-holder">
 			<div id="safety-popup-inner">
 				<div class="safety-popup-header">
@@ -193,7 +189,6 @@ class Page {
 				</div>
 			</div>
 		</div>
-		<?php
-		}
+		<?php endif; ?>
 	}
 }
