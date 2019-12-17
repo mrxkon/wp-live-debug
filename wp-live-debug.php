@@ -33,8 +33,6 @@
 
 namespace WP_Live_Debug;
 
-use WP_Live_Debug\Setup;
-
 // Check that the file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'We\'re sorry, but you can not directly access this file.' );
@@ -45,8 +43,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 define( 'WP_LIVE_DEBUG_VERSION', '5.3.1' );
 define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
-define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . 'wp-config.wp-live-debug-auto-bakcup.php' );
-define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config.wp-live-debug-manual-bakcup.php' );
+define( 'WP_LIVE_DEBUG_AUTO_BACKUP_NAME', 'wp-config.wp-live-debug-auto-bakcup.php' );
+define( 'WP_LIVE_DEBUG_MANUAL_BACKUP_NAME', 'wp-config.wp-live-debug-manual-bakcup.php' );
+define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . WP_LIVE_DEBUG_AUTO_BACKUP_NAME );
+define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . WP_LIVE_DEBUG_MANUAL_BACKUP_NAME );
 define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( dirname( __FILE__ ) ) . '/' );
 define( 'WP_LIVE_DEBUG_URL', plugin_dir_url( __FILE__ ) );
 

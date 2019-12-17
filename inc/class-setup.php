@@ -12,8 +12,6 @@
 
 namespace WP_Live_Debug;
 
-use WP_Live_Debug\Helper;
-
 /**
  * Setup Class.
  */
