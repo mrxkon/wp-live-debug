@@ -1,4 +1,4 @@
-<?php //phpcs:ignore -- \r\n notice.
+<?php //phpcs:ignore -- \r\n notice & class- filename.
 
 /**
  *
