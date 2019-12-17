@@ -43,6 +43,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Setup various constants.
+ */
+if ( ! defined( 'WP_LIVE_DEBUG_VERSION' ) ) {
+	define( 'WP_LIVE_DEBUG_VERSION', '5.3.1' );
+}
+if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG' ) ) {
+	define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
+}
+if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL' ) ) {
+	define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . 'wp-config.wpld-original-backup.php' );
+}
+if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP' ) ) {
+	define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config.wpld-manual-backup.php' );
+}
+if ( ! defined( 'WP_LIVE_DEBUG_DIR' ) ) {
+	define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( trailingslashit( dirname( __FILE__ ) ) ) );
+}
+
+/**
  * WP_Live_Debug Class.
  */
 if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
@@ -83,8 +102,6 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 		public function __construct() {
 			spl_autoload_register( array( $this, 'autoload' ) );
 
-			$this->setup_constants();
-
 			self::$page   = new Page\Page();
 			self::$helper = new Helper\Helper();
 			self::$helper = new Debug\Debug();
@@ -115,32 +132,14 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 			}
 		}
 
-		public function setup_constants() {
-			if ( ! defined( 'WP_LIVE_DEBUG_VERSION' ) ) {
-				define( 'WP_LIVE_DEBUG_VERSION', '5.3.1' );
-			}
-			if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG' ) ) {
-				define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
-			}
-			if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL' ) ) {
-				define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . 'wp-config.wpld-original-backup.php' );
-			}
-			if ( ! defined( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP' ) ) {
-				define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . 'wp-config.wpld-manual-backup.php' );
-			}
-			if ( ! defined( 'WP_LIVE_DEBUG_DIR' ) ) {
-				define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( trailingslashit( dirname( __FILE__ ) ) ) );
-			}
-		}
-
 		/**
 		 * Activation Hook.
 		 */
 		public static function on_activate() {
 			update_option( 'wp_live_debug_auto_refresh', 'disabled' );
 
-			self::$helper->create_debug_log();
-			self::$helper->get_first_backup();
+			self::create_debug_log();
+			self::get_first_backup();
 		}
 
 		/**
@@ -151,7 +150,7 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 			delete_option( 'wp_live_debug_log_file' );
 			delete_option( 'wp_live_debug_auto_refresh' );
 
-			self::$helper->clear_manual_backup();
+			self::clear_manual_backup();
 		}
 
 		/**
@@ -211,6 +210,41 @@ if ( ! class_exists( '\\WP_Live_Debug\\WP_Live_Debug_Core' ) ) {
 			);
 
 			wp_send_json_success( $response );
+		}
+
+		/**
+		 * Create the debug.log if it doesn't exist.
+		 */
+		public static function create_debug_log() {
+			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+
+			if ( ! file_exists( $log_file ) ) {
+				$fo = fopen( $log_file, 'w' ) or die( 'Cannot create debug.log!' );
+
+				fwrite( $fo, '' );
+
+				fclose( $fo );
+			}
+
+			update_option( 'wp_live_debug_log_file', $log_file );
+		}
+
+		/**
+		 * Create the wp-config.wpld-original-backup.php
+		 */
+		public static function get_first_backup() {
+			if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG ) ) {
+				copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
+			}
+		}
+
+		/**
+		 * Delete the wp-config.wpld-manual-backup.php on deactivation
+		 */
+		public static function clear_manual_backup() {
+			if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
+				unlink( WP_LIVE_DEBUG_WP_CONFIG_BACKUP );
+			}
 		}
 	}
 

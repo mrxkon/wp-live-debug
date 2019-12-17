@@ -12,7 +12,7 @@
 
 namespace WP_Live_Debug\Page;
 
-use WP_Live_Debug\Debug as Debug;
+//use WP_Live_Debug\Debug as Debug;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -25,6 +25,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Page Class.
  */
 class Page {
+
+	public function __construct() {
+		error_log( 'construct Page' );
+	}
 
 	/**
 	 * Create the page.
