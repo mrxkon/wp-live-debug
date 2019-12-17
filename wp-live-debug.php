@@ -31,6 +31,10 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
+namespace WP_Live_Debug;
+
+use WP_Live_Debug\Setup;
+
 // Check that the file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'We\'re sorry, but you can not directly access this file.' );
@@ -47,9 +51,29 @@ define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( dirname( __FILE__ ) ) . '/' );
 define( 'WP_LIVE_DEBUG_URL', plugin_dir_url( __FILE__ ) );
 
 /**
- * Require setup file.
+ * Autoload.
  */
-require_once( WP_LIVE_DEBUG_DIR . '/inc/class-setup.php' );
+spl_autoload_register(
+	function( $class ) {
+		error_log( $class );
+		$prefix = 'WP_Live_Debug\\';
+		$len    = strlen( $prefix );
+
+		if ( 0 !== strncmp( $prefix, $class, $len ) ) {
+			return;
+		}
+
+		$relative_class = substr( $class, $len );
+		$path           = explode( '\\', strtolower( str_replace( '_', '-', $relative_class ) ) );
+		$file           = array_pop( $path );
+		$file           = WP_LIVE_DEBUG_DIR . 'inc/class-' . $file . '.php';
+
+		if ( file_exists( $file ) ) {
+			error_log( $file );
+			require $file;
+		}
+	}
+);
 
 /**
  * Activation Hook

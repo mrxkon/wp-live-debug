@@ -12,6 +12,8 @@
 
 namespace WP_Live_Debug;
 
+use WP_Live_Debug\Helper;
+
 /**
  * Setup Class.
  */
@@ -36,9 +38,6 @@ class Setup {
 	 * Constructor.
 	 */
 	public function __construct() {
-		spl_autoload_register( array( $this, 'autoload' ) );
-
-		self::$helper = new Helper();
 
 		// Create the Admin menu.
 		add_action( 'init', array( $this, 'create_menus' ) );
@@ -48,34 +47,13 @@ class Setup {
 	}
 
 	/**
-	 * Autoload additional classes.
-	 */
-	public function autoload( $class ) {
-		$prefix = 'WP_Live_Debug\\';
-		$len    = strlen( $prefix );
-
-		if ( 0 !== strncmp( $prefix, $class, $len ) ) {
-			return;
-		}
-
-		$relative_class = substr( $class, $len );
-		$path           = explode( '\\', strtolower( str_replace( '_', '-', $relative_class ) ) );
-		$file           = array_pop( $path );
-		$file           = WP_LIVE_DEBUG_DIR . 'inc/class-' . $file . '.php';
-
-		if ( file_exists( $file ) ) {
-			require $file;
-		}
-	}
-
-	/**
 	 * Activation Hook.
 	 */
 	public static function activate() {
 		update_option( 'wp_live_debug_auto_refresh', 'disabled' );
 
-		self::create_debug_log();
-		self::get_first_backup();
+		Helper::create_debug_log();
+		Helper::get_first_backup();
 	}
 
 	/**
@@ -86,7 +64,7 @@ class Setup {
 		delete_option( 'wp_live_debug_log_file' );
 		delete_option( 'wp_live_debug_auto_refresh' );
 
-		self::clear_manual_backup();
+		Helper::clear_manual_backup();
 	}
 
 	/**
@@ -132,41 +110,6 @@ class Setup {
 				WP_LIVE_DEBUG_VERSION,
 				true
 			);
-		}
-	}
-
-	/**
-	 * Create the debug.log if it doesn't exist.
-	 */
-	public static function create_debug_log() {
-		$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
-
-		if ( ! file_exists( $log_file ) ) {
-			$fo = fopen( $log_file, 'w' ) or die( 'Cannot create debug.log!' );
-
-			fwrite( $fo, '' );
-
-			fclose( $fo );
-		}
-
-		update_option( 'wp_live_debug_log_file', $log_file );
-	}
-
-	/**
-	 * Create the wp-config.wpld-original-backup.php
-	 */
-	public static function get_first_backup() {
-		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG ) ) {
-			copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
-		}
-	}
-
-	/**
-	 * Delete the wp-config.wpld-manual-backup.php on deactivation
-	 */
-	public static function clear_manual_backup() {
-		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
-			unlink( WP_LIVE_DEBUG_WP_CONFIG_BACKUP );
 		}
 	}
 }
