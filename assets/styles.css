@@ -2,6 +2,7 @@ body.toplevel_page_wp-live-debug textarea#wp-live-debug-area {
 	font-family: Consolas,Monaco,monospace;
 	font-size: 12px;
 	min-height:500px;
+	width: 100%;
 }
 body.toplevel_page_wp-live-debug .button-link-delete {
 	border-color: #a00;
