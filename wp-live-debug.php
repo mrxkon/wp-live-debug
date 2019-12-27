@@ -40,8 +40,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 define( 'WP_LIVE_DEBUG_VERSION', '5.3.1' );
 define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
-define( 'WP_LIVE_DEBUG_AUTO_BACKUP_NAME', 'wp-config.wp-live-debug-auto-bakcup.php' );
-define( 'WP_LIVE_DEBUG_MANUAL_BACKUP_NAME', 'wp-config.wp-live-debug-manual-bakcup.php' );
+define( 'WP_LIVE_DEBUG_AUTO_BACKUP_NAME', 'wp-config.WPLD-auto.php' );
+define( 'WP_LIVE_DEBUG_MANUAL_BACKUP_NAME', 'wp-config.WPLD-manual.php' );
 define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . WP_LIVE_DEBUG_AUTO_BACKUP_NAME );
 define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . WP_LIVE_DEBUG_MANUAL_BACKUP_NAME );
 define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( dirname( __FILE__ ) ) . '/' );
