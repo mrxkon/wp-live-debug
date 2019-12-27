@@ -119,6 +119,9 @@ class Setup {
 	 */
 	public function enqueue_scripts( $hook ) {
 		if ( 'toplevel_page_wp-live-debug' === $hook ) {
+			// Automated dependencies array.
+			$asset_file = include( plugin_dir_path( __FILE__ ) . 'app/js/build/index.asset.php' );
+
 			wp_enqueue_style(
 				'wp-live-debug',
 				WP_LIVE_DEBUG_URL . 'app/css/styles.css',
@@ -127,9 +130,9 @@ class Setup {
 			);
 			wp_enqueue_script(
 				'wp-live-debug',
-				WP_LIVE_DEBUG_URL . 'app/js/scripts.js',
-				array( 'jquery' ),
-				WP_LIVE_DEBUG_VERSION,
+				WP_LIVE_DEBUG_URL . 'app/js/build/index.js',
+				$asset_file['dependencies'],
+				$asset_file['version'],
 				true
 			);
 		}
