@@ -1,3 +1,6 @@
+/**
+ * Main.
+ */
 const WPLDLogViewer = () => {
 	return (
 		<textarea

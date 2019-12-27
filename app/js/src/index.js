@@ -9,6 +9,6 @@ import { render } from '@wordpress/element';
 import App from './app';
 
 /**
- * Initialized the WP Live Debug screen.
+ * Render the WP Live Debug screen.
  */
 render( <App />, document.getElementById( 'wpld-page' ) );

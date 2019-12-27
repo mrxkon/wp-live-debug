@@ -3,6 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 
+/**
+ * Main.
+ */
 const WPLDHeader = () => {
 	return (
 		<div

@@ -131,9 +131,10 @@ class Setup {
 			wp_enqueue_style(
 				'wp-live-debug',
 				WP_LIVE_DEBUG_URL . 'app/css/styles.css',
-				array(),
+				array( 'wp-components' ),
 				WP_LIVE_DEBUG_VERSION
 			);
+
 			wp_enqueue_script(
 				'wp-live-debug',
 				WP_LIVE_DEBUG_URL . 'app/js/build/index.js',

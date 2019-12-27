@@ -8,6 +8,9 @@ import { __ } from '@wordpress/i18n';
  */
 import WPLDLogViewer from './WPLDLogViewer';
 
+/**
+ * Main.
+ */
 const WPLDContent = () => {
 	return (
 		<div
