@@ -45,6 +45,9 @@ class Setup {
 		// Enqueue necessary scripts & styles.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+		// Set text_domain.
+		add_action( 'init', array( $this, 'text_domain' ) );
+
 		// add_action( 'wp_ajax_wp-live-debug-accept-risk', array( '\\WP_Live_Debug\\Page', 'accept_risk' ) );
 
 		// log related actions.
@@ -112,6 +115,9 @@ class Setup {
 		);
 	}
 
+	/**
+	 * Create a page wrapper for the UI.
+	 */
 	public static function page() {
 		?>
 			<div id="wpld-page"></div>
@@ -143,5 +149,12 @@ class Setup {
 				true
 			);
 		}
+	}
+
+	/**
+	 * Load text-domain.
+	 */
+	function text_domain() {
+		load_plugin_textdomain( 'wp-live-debug', false, WP_LIVE_DEBUG_DIR . 'languages' );
 	}
 }
