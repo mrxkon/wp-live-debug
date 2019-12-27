@@ -30,9 +30,6 @@ body.toplevel_page_wp-live-debug .header .backup-restore {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-}
-
-body.toplevel_page_wp-live-debug .header .backup-restore {
 	padding: 0 20px;
 }
 

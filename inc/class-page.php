@@ -12,8 +12,6 @@
 
 namespace WP_Live_Debug;
 
-use WP_Live_Debug\Helper as Helper;
-
 // Check that the file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Nope :)' );
@@ -52,7 +50,7 @@ class Page {
 			<div class="backup-restore">
 				<?php if ( ! Helper::check_wp_config_backup() ) : ?>
 					<button id="wp-live-debug-backup" type="button" class="button button-primary"><?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?></button>
-				<?php else: ?>
+				<?php else : ?>
 					<button id="wp-live-debug-restore" type="button" class="button button-primary"><?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?></button>
 				<?php endif; ?>
 			</div>
