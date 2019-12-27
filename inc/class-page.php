@@ -158,6 +158,9 @@ class Page {
 		self::safety_popup();
 	}
 
+	/**
+	 * Display safety popup.
+	 */
 	public static function safety_popup() {
 		$first_time_running = get_option( 'wp_live_debug_risk' );
 
