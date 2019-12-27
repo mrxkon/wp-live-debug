@@ -7,7 +7,7 @@
     "stylelint-config-wordpress": "^15.0.0"
   },
   "scripts": {
-    "build": "wp-scripts build ./source/index.js",
-    "start": "wp-scripts start ./source/index.js"
+    "build": "wp-scripts build ./app/js/src/index.js --output-path=./app/js/build/",
+    "start": "wp-scripts start ./app/js/src/index.js --output-path=./app/js/build/"
   }
 }
