@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Coding Standards">
+	<description>Apply WPCS and PHPCompat 7.0+.</description>
+
+	<!-- Rules -->
+	<rule ref="PHPCompatibility"/>
+	<config name="testVersion" value="7.0-"/>
+	<rule ref="WordPress-Core"/>
+	<rule ref="WordPress-Docs"/>
+	<rule ref="WordPress.WP.I18n"/>
+
+	<!-- Extentions -->
+	<arg name="extensions" value="php"/>
+
+	<!-- Show sniff codes in all reports -->
+	<arg value="s"/>
+
+	<!-- Excludes -->
+	<exclude-pattern>node_modules/</exclude-pattern>
+	<exclude-pattern>vendor/</exclude-pattern>
+</ruleset>

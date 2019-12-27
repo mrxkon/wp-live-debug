@@ -18,6 +18,8 @@ namespace WP_Live_Debug;
 class Setup {
 	/**
 	 * Instance.
+	 *
+	 * @var $instance.
 	 */
 	private static $instance = null;
 
@@ -112,6 +114,8 @@ class Setup {
 
 	/**
 	 * Enqueue scripts and styles.
+	 *
+	 * @param string $hook The page name.
 	 */
 	public function enqueue_scripts( $hook ) {
 		if ( 'toplevel_page_wp-live-debug' === $hook ) {

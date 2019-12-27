@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "@wordpress/eslint-plugin": "^3.3.0",
+    "@wordpress/scripts": "^6.1.0",
+    "eslint": "^6.8.0",
+    "stylelint": "^12.0.1",
+    "stylelint-config-wordpress": "^15.0.0"
+  },
+  "scripts": {
+    "build": "wp-scripts build ./source/index.js",
+    "start": "wp-scripts start ./source/index.js"
+  }
+}
