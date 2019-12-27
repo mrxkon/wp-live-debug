@@ -1,5 +1,7 @@
 ### General ###
 .gitignore
+/node_modules
+/vendor
 
 ### Linux ###
 *~
