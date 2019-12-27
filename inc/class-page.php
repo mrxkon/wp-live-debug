@@ -42,9 +42,7 @@ class Page {
 	public static function create() {
 		$option_log_name = wp_normalize_path( get_option( 'wp_live_debug_log_file' ) );
 		$selected_log    = get_option( 'wp_live_debug_log_file' );
-		$path            = wp_normalize_path( ABSPATH );
 		$logs            = Helper::gather_log_files();
-		$debug_log       = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
 		?>
 		<h1 class="wp-heading-inline"><?php esc_html_e( 'WP Live Debug', 'wp-live-debug' ); ?></h1>
 		<hr class="wp-header-end">
