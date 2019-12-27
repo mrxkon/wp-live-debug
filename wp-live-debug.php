@@ -62,7 +62,7 @@ spl_autoload_register(
 		$relative_class = substr( $class, $len );
 		$path           = explode( '\\', strtolower( str_replace( '_', '-', $relative_class ) ) );
 		$file           = array_pop( $path );
-		$file           = WP_LIVE_DEBUG_DIR . 'inc/class-' . $file . '.php';
+		$file           = WP_LIVE_DEBUG_DIR . 'app/php/class-' . $file . '.php';
 
 		if ( file_exists( $file ) ) {
 			require $file;
