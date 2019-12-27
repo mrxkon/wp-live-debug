@@ -44,116 +44,97 @@ class Page {
 		$selected_log    = get_option( 'wp_live_debug_log_file' );
 		$logs            = Helper::gather_log_files();
 		?>
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'WP Live Debug', 'wp-live-debug' ); ?></h1>
-		<hr class="wp-header-end">
 
-		<div class="wrap">
-			<div id="poststuff">
-				<div id="post-body" class="metabox-holder columns-2">
-					<!-- main content -->
-					<div id="post-body-content">
-						<div class="meta-box-sortables ui-sortable">
-							<div class="postbox">
-								<h2><span><?php echo esc_html__( 'Viewing:', 'wp-live-debug' ) . ' ' . $option_log_name; ?></span></h2>
-								<div class="inside">
-									<textarea id="wp-live-debug-area" name="wp-live-debug-area" spellcheck="false"></textarea>
-									<p>
-										<select id="log-list" name="select-list">
-											<?php foreach ( $logs as $log ) : ?>
-												<option	data-nonce="<?php echo wp_create_nonce( $log ); ?>" value="<?php echo $log; ?>"<?php selected( $log, $selected_log ); ?>><?php echo wp_date( 'M d Y H:i:s', filemtime( $log ) ) . ' - ' . basename( $log ); ?></option>
-											<?php endforeach; ?>
-										</select>
-									</p>
-								</div><!-- .inside -->
-							</div><!-- .postbox -->
-						</div><!-- .meta-box-sortables .ui-sortable -->
-					</div><!-- post-body-content -->
-					<!-- /main content -->
-					<!-- sidebar -->
-					<div id="postbox-container-1" class="postbox-container">
-						<div class="meta-box-sortables">
-							<div class="postbox">
-								<div class="inside">
-									<h3><span><?php esc_attr_e( 'General Options', 'wp-live-debug' ); ?></span></h3>
-									<p>
-										<button id="wp-live-debug-clear" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="button"><?php esc_html_e( 'Clear Log', 'wp-live-debug' ); ?></button>
-										<button id="wp-live-debug-delete" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="button button-link-delete"><?php esc_html_e( 'Delete Log', 'wp-live-debug' ); ?></button>
-									</p>
-									<p>
-									<fieldset>
-										<legend class="screen-reader-text"><span><?php esc_html_e( 'Auto Refresh Log', 'wp-live-debug' ); ?></span></legend>
-										<label for="toggle-auto-refresh">
-											<input name="" id="toggle-auto-refresh" type="checkbox" <?php checked( get_option( 'wp_live_debug_auto_refresh' ), 'enabled' ); ?> />
-											<span><?php esc_html_e( 'Auto Refresh Log', 'wp-live-debug' ); ?></span>
-										</label>
-									</fieldset>
-									</p>
-									<h3><span><?php esc_attr_e( 'wp-config.php Options', 'wp-live-debug' ); ?></span></h3>
-									<?php if ( ! Helper::check_wp_config_backup() ) : ?>
-										<?php esc_html_e( 'Backup wp-config first to see the options!', 'wp-live-debug' ); ?>
-										<p>
-											<button id="wp-live-debug-backup" type="button" class="button button-primary"><?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?></button>
-										</p>
-									<?php else : ?>
-										<p>
-											<fieldset>
-												<legend class="screen-reader-text"><span>WP_DEBUG</span></legend>
-												<label for="toggle-wp-debug">
-												<input type="checkbox" id="toggle-wp-debug" <?php echo ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'checked' : ''; ?>>
-													<span>WP_DEBUG</span>
-												</label>
-											</fieldset>
-										</p>
-										<p>
-											<fieldset>
-												<legend class="screen-reader-text"><span>SCRIPT_DEBUG</span></legend>
-												<label for="toggle-script-debug">
-													<input type="checkbox" id="toggle-script-debug" <?php echo ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'checked' : ''; ?> >
-													<span>SCRIPT_DEBUG</span>
-												</label>
-											</fieldset>
-										</p>
-										<p>
-											<fieldset>
-												<legend class="screen-reader-text"><span>SAVEQUERIES</span></legend>
-												<label for="toggle-script-debug">
-													<input type="checkbox" id="toggle-savequeries" <?php echo ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) ? 'checked' : ''; ?> >
-													<span>SAVEQUERIES</span>
-												</label>
-											</fieldset>
-										</p>
-										<p>
-											<button id="wp-live-debug-restore" type="button" class="button button-primary"><?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?></button>
-										<p>
-									<?php endif; ?>
-								</div><!-- .inside -->
-							</div><!-- .postbox -->
-
-							<div class="postbox">
-								<div class="inside">
-									<h3><span><?php esc_attr_e( 'Information', 'wp-live-debug' ); ?></span></h3>
-									<p>
-										<?php
-										echo sprintf(
-											// translators: %1$s WordPress installation path.
-											__( 'If you did not download &amp; verify your wp-config.php during activation you will find two extra backups that are automatically kept as <code>%1$s</code> and <code>%2$s</code>.', 'wp-live-debug' ),
-											WP_LIVE_DEBUG_AUTO_BACKUP_NAME,
-											WP_LIVE_DEBUG_MANUAL_BACKUP_NAME
-										);
-										?>
-									</p>
-									<p>
-										<?php esc_html_e( 'You can always find more information at', 'wp-live-debug' ); ?> <a target="_blank" rel="noopener noreferrer" href="https://wordpress.org/support/article/debugging-in-wordpress/"><?php esc_html_e( 'Debugging in WordPress', 'wp-live-debug' ); ?></a>.
-									</p>
-								</div><!-- .inside -->
-							</div><!-- .postbox -->
-						</div><!-- .meta-box-sortables -->
-					</div><!-- #postbox-container-1 .postbox-container -->
-					<!-- /sidebar -->
-				</div><!-- #post-body .metabox-holder .columns-2 -->
-				<br class="clear">
-			</div><!-- #poststuff -->
-		</div> <!-- .wrap -->
+		<div class="header">
+			<h1 class="header-title"><?php esc_html_e( 'WP Live Debug', 'wp-live-debug' ); ?></h1>
+		</div>
+		<div class="content">
+			<div class="main">
+				<div class="debug-area">
+					<label for="log-list">
+						<?php echo esc_html__( 'Viewing:', 'wp-live-debug' ); ?>
+					</label>
+					<select id="log-list" name="select-list">
+						<?php foreach ( $logs as $log ) : ?>
+							<option	data-nonce="<?php echo wp_create_nonce( $log ); ?>" value="<?php echo $log; ?>"<?php selected( $log, $selected_log ); ?>><?php echo wp_date( 'M d Y H:i:s', filemtime( $log ) ) . ' - ' . $log; ?></option>
+						<?php endforeach; ?>
+					</select>
+					<textarea id="wp-live-debug-area" name="wp-live-debug-area" spellcheck="false"></textarea>
+				</div>
+			</div><!-- .main -->
+			<div class="sidebar">
+				<div class="panel">
+					<h3><span><?php esc_attr_e( 'General Options', 'wp-live-debug' ); ?></span></h3>
+					<p>
+						<button id="wp-live-debug-clear" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="button"><?php esc_html_e( 'Clear Log', 'wp-live-debug' ); ?></button>
+						<button id="wp-live-debug-delete" data-log="<?php echo $option_log_name; ?>" data-nonce="<?php echo wp_create_nonce( $option_log_name ); ?>" type="button" class="button button-link-delete"><?php esc_html_e( 'Delete Log', 'wp-live-debug' ); ?></button>
+					</p>
+					<p>
+					<fieldset>
+						<legend class="screen-reader-text"><span><?php esc_html_e( 'Auto Refresh Log', 'wp-live-debug' ); ?></span></legend>
+						<label for="toggle-auto-refresh">
+							<input name="" id="toggle-auto-refresh" type="checkbox" <?php checked( get_option( 'wp_live_debug_auto_refresh' ), 'enabled' ); ?> />
+							<span><?php esc_html_e( 'Auto Refresh Log', 'wp-live-debug' ); ?></span>
+						</label>
+					</fieldset>
+					</p>
+					<h3><span><?php esc_attr_e( 'wp-config.php Options', 'wp-live-debug' ); ?></span></h3>
+					<?php if ( ! Helper::check_wp_config_backup() ) : ?>
+						<?php esc_html_e( 'Backup wp-config first to see the options!', 'wp-live-debug' ); ?>
+						<p>
+							<button id="wp-live-debug-backup" type="button" class="button button-primary"><?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?></button>
+						</p>
+					<?php else : ?>
+						<p>
+							<fieldset>
+								<legend class="screen-reader-text"><span>WP_DEBUG</span></legend>
+								<label for="toggle-wp-debug">
+								<input type="checkbox" id="toggle-wp-debug" <?php echo ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'checked' : ''; ?>>
+									<span>WP_DEBUG</span>
+								</label>
+							</fieldset>
+						</p>
+						<p>
+							<fieldset>
+								<legend class="screen-reader-text"><span>SCRIPT_DEBUG</span></legend>
+								<label for="toggle-script-debug">
+									<input type="checkbox" id="toggle-script-debug" <?php echo ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'checked' : ''; ?> >
+									<span>SCRIPT_DEBUG</span>
+								</label>
+							</fieldset>
+						</p>
+						<p>
+							<fieldset>
+								<legend class="screen-reader-text"><span>SAVEQUERIES</span></legend>
+								<label for="toggle-script-debug">
+									<input type="checkbox" id="toggle-savequeries" <?php echo ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) ? 'checked' : ''; ?> >
+									<span>SAVEQUERIES</span>
+								</label>
+							</fieldset>
+						</p>
+						<p>
+							<button id="wp-live-debug-restore" type="button" class="button button-primary"><?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?></button>
+						<p>
+					<?php endif; ?>
+				</div><!-- .panel -->
+				<div class="panel">
+					<h3><span><?php esc_attr_e( 'Information', 'wp-live-debug' ); ?></span></h3>
+					<p>
+						<?php
+						echo sprintf(
+							// translators: %1$s WordPress installation path.
+							__( 'If you did not download &amp; verify your wp-config.php during activation you will find two extra backups that are automatically kept as <code>%1$s</code> and <code>%2$s</code>.', 'wp-live-debug' ),
+							WP_LIVE_DEBUG_AUTO_BACKUP_NAME,
+							WP_LIVE_DEBUG_MANUAL_BACKUP_NAME
+						);
+						?>
+					</p>
+					<p>
+						<?php esc_html_e( 'You can always find more information at', 'wp-live-debug' ); ?> <a target="_blank" rel="noopener noreferrer" href="https://wordpress.org/support/article/debugging-in-wordpress/"><?php esc_html_e( 'Debugging in WordPress', 'wp-live-debug' ); ?></a>.
+					</p>
+				</div><!-- .panel -->
+			</div><!-- .sidebar -->
+		</div><!-- .content -->
 		<?php
 		self::safety_popup();
 	}

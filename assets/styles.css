@@ -1,33 +1,70 @@
-body.toplevel_page_wp-live-debug textarea#wp-live-debug-area {
-	font-family: Consolas,Monaco,monospace;
-	font-size: 12px;
-	min-height:500px;
+:root {
+	--wpld-medium-gray: #e2e4e7;
+	--wpld-light-gray: #f3f4f5;
+	--wpld--gray: #555d66;
+}
+
+body.toplevel_page_wp-live-debug #wpcontent {
+	padding-left: 0;
+}
+
+body.toplevel_page_wp-live-debug .header {
+	height: 56px;
+	padding: 4px 0;
+	border-bottom: 1px solid var(--wpld-medium-gray);
+	background: #fff;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 100vw;
+	z-index: 30;
 	width: 100%;
 }
-body.toplevel_page_wp-live-debug .button-link-delete {
-	border-color: #a00;
+
+body.toplevel_page_wp-live-debug .header-title {
+	font-size: 16px;
+	padding: 0 20px;
+	margin: 0;
 }
-body.toplevel_page_wp-live-debug .button-link-delete:hover,
-body.toplevel_page_wp-live-debug .button-link-delete:focus {
-	border-color: #dc3232;
+
+body.toplevel_page_wp-live-debug .content {
+	display: grid;
+	grid-template-columns: 1fr 280px;
+	position: absolute;
+	height: calc(100vh - 97px);
+	width: 100%;
 }
-body.toplevel_page_wp-live-debug #safety-popup-holder {
-	width: 100vw;
-	height: 100vh;
-	position: fixed;
-	top: 0;
-	left: 0;
-	background-color: rgba( 0,0,0,0.8);
-	display: none;
+
+body.toplevel_page_wp-live-debug .content .main {
+	background-color: #f5f7f9;
+	padding: 20px;
 }
-body.toplevel_page_wp-live-debug #safety-popup-inner {
-	font-size: 14px;
-	padding: 8px 12px;
-	margin: 0 auto;
-	margin-top: 100px;
-	line-height: 1.4;
-	border: 1px solid #ccd0d4;
-	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+
+body.toplevel_page_wp-live-debug .content .main .debug-area {
+	display: grid;
+	grid-template-columns: 120px 1fr;
+	grid-template-rows: 30px calc(100vh - 200px);
+	grid-gap: 10px;
+}
+
+body.toplevel_page_wp-live-debug .content .main .debug-area #log-list {
+	width: 100%;
+	max-width: 100%;
+}
+
+body.toplevel_page_wp-live-debug .content .main .debug-area label {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+body.toplevel_page_wp-live-debug .content .main .debug-area textarea {
+	grid-column: span 2;
+}
+
+body.toplevel_page_wp-live-debug .content .sidebar {
+	border-left: 1px solid var(--wpld-medium-gray);
 	background: #fff;
-	width: 300px;
+	color: var(--wpld-gray);
 }
