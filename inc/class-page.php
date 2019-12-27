@@ -46,7 +46,16 @@ class Page {
 		?>
 
 		<div class="header">
-			<h1 class="header-title"><?php esc_html_e( 'WP Live Debug', 'wp-live-debug' ); ?></h1>
+			<div class="page-title">
+				<h1 class="header-title"><?php esc_html_e( 'WP Live Debug', 'wp-live-debug' ); ?></h1>
+			</div>
+			<div class="backup-restore">
+				<?php if ( ! Helper::check_wp_config_backup() ) : ?>
+					<button id="wp-live-debug-backup" type="button" class="button button-primary"><?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?></button>
+				<?php else: ?>
+					<button id="wp-live-debug-restore" type="button" class="button button-primary"><?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?></button>
+				<?php endif; ?>
+			</div>
 		</div>
 		<div class="content">
 			<div class="main">
@@ -87,10 +96,7 @@ class Page {
 				<div class="panel-content">
 					<?php if ( ! Helper::check_wp_config_backup() ) : ?>
 						<div class="row">
-							<?php esc_html_e( 'Backup wp-config first to see the options!', 'wp-live-debug' ); ?>
-						</div>
-						<div class="row">
-							<button id="wp-live-debug-backup" type="button" class="button button-primary"><?php esc_html_e( 'Backup wp-config', 'wp-live-debug' ); ?></button>
+							<?php esc_html_e( 'Backup first to see the options!', 'wp-live-debug' ); ?>
 						</div>
 					<?php else : ?>
 						<div class="row">
@@ -119,9 +125,6 @@ class Page {
 									<span>SAVEQUERIES</span>
 								</label>
 							</fieldset>
-						</div>
-						<div class="row">
-							<button id="wp-live-debug-restore" type="button" class="button button-primary"><?php esc_html_e( 'Restore wp-config', 'wp-live-debug' ); ?></button>
 						</div>
 					<?php endif; ?>
 				</div><!-- .panel-content -->
