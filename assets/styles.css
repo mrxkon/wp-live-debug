@@ -57,6 +57,9 @@ body.toplevel_page_wp-live-debug .content .main .debug-area label {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	color: #191e23;
+	font-weight: 600;
+	font-size: 13px;
 }
 
 body.toplevel_page_wp-live-debug .content .main .debug-area textarea {
@@ -67,4 +70,22 @@ body.toplevel_page_wp-live-debug .content .sidebar {
 	border-left: 1px solid var(--wpld-medium-gray);
 	background: #fff;
 	color: var(--wpld-gray);
+}
+
+body.toplevel_page_wp-live-debug .content .sidebar .panel-header h2 {
+	background-color: #f3f4f5;
+	padding: 20px;
+	color: #191e23;
+	font-weight: 600;
+	font-size: 13px;
+	margin: 0;
+}
+
+body.toplevel_page_wp-live-debug .content .sidebar .panel-content {
+	padding: 20px;
+}
+
+body.toplevel_page_wp-live-debug .content .sidebar .panel-content .row {
+	clear: both;
+	margin-top: 10px;
 }
