@@ -12,9 +12,6 @@
  * Text Domain:       wp-live-debug
  * Domain Path:       /languages
  *
- */
-
-/**
  * Copyright (C) 2019 Konstantinos Xenos (https://xkon.gr).
  *
  * This program is free software: you can redistribute it and/or modify
