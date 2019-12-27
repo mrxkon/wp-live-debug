@@ -1,4 +1,87 @@
-body.toplevel_page_wp-live-debug textarea#wp-live-debug-area {
+:root {
+	--wpld-medium-gray: #e2e4e7;
+	--wpld-light-gray: #f3f4f5;
+	--wpld--gray: #555d66;
+}
+
+body.toplevel_page_wp-live-debug #wpcontent {
+	padding-left: 0;
+}
+
+body.toplevel_page_wp-live-debug .header {
+	height: 56px;
+	padding: 4px 0;
+	border-bottom: 1px solid var(--wpld-medium-gray);
+	background: #fff;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 100vw;
+	z-index: 30;
+	width: 100%;
+}
+
+body.toplevel_page_wp-live-debug .header-title {
+	font-size: 16px;
+	padding: 0 20px;
+	margin: 0;
+}
+
+body.toplevel_page_wp-live-debug .sidebar {
+	position: absolute;
+	z-index: 90;
+	margin-top: -1px;
+	right: 0;
+	width: 280px;
+	border-left: 1px solid var(--wpld-medium-gray);
+	background: #fff;
+	color: var(--wpld-gray);
+	height: calc(100vh - 97px);
+	overflow: hidden;
+	display: none;
+}
+
+body.toplevel_page_wp-live-debug .sidebar .section {
+	border-left: 0;
+	border-right: 0;
+	background: #fff;
+	margin-top: 2em;
+}
+
+body.toplevel_page_wp-live-debug .sidebar .section:first-child {
+	margin-top: 0;
+}
+
+body.toplevel_page_wp-live-debug .sidebar .section .section-header {
+	background: var(--wpld-light-gray);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 16px;
+	height: 50px;
+	border-top: 1px solid var(--wpld-medium-gray);
+	border-bottom: 1px solid var(--wpld-medium-gray);
+}
+
+body.toplevel_page_wp-live-debug .sidebar .section .section-header h2 {
+	margin: 0;
+	font-size: inherit;
+	color: inherit;
+}
+
+body.toplevel_page_wp-live-debug .sidebar .section .section-content {
+	padding: 16px 0 0 16px;
+}
+
+@media (min-width: 783px ) {
+
+	body.toplevel_page_wp-live-debug .sidebar {
+		display: block;
+	}
+}
+
+/* body.toplevel_page_wp-live-debug textarea#wp-live-debug-area {
 	font-family: Consolas,Monaco,monospace;
 	font-size: 12px;
 	min-height:500px;
@@ -30,4 +113,4 @@ body.toplevel_page_wp-live-debug #safety-popup-inner {
 	box-shadow: 0 1px 1px rgba(0,0,0,.04);
 	background: #fff;
 	width: 300px;
-}
+} */
