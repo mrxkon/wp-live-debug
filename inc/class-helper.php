@@ -12,6 +12,10 @@
 
 namespace WP_Live_Debug;
 
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RecursiveCallbackFilterIterator;
+
 /**
  * Helper Class.
  */
@@ -67,5 +71,66 @@ class Helper {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Gather log files.
+	 */
+	public static function gather_log_files() {
+		$skip_names = array(
+			'changelog',
+			'CHANGELOG',
+			'readme',
+			'README',
+			'license',
+			'LICENSE',
+			'copying',
+			'COPYING',
+			'contributors',
+			'CONTRIBUTORS',
+			'license.commercial',
+			'LICENSE.COMMERCIAL',
+		);
+
+		$accept_names = array( 'error_log' );
+
+		$extensions = array(
+			'log',
+			'txt',
+		);
+
+		$skip_dirs = array(
+			'.git',
+			'vendor',
+			'node_modules',
+		);
+
+		// Initialize log_files array.
+		$log_files = array();
+
+		// Create filter to skip folders.
+		$filter = function ( $file, $key, $iterator ) use ( $skip_dirs ) {
+			if ( $iterator->hasChildren() && ! in_array( $file->getFilename(), $skip_dirs, true ) ) {
+				return true;
+			}
+
+			return $file->isFile();
+		};
+
+		// Go through the folders and files to gather information.
+		$directory = new RecursiveDirectoryIterator( ABSPATH, RecursiveDirectoryIterator::SKIP_DOTS );
+		$iterator = new RecursiveIteratorIterator( new RecursiveCallbackFilterIterator( $directory, $filter ) );
+
+		foreach ( $iterator as $file ) {
+			if ( is_file( $file ) ) {
+				$filename = $file->getBasename( '.' . $file->getExtension() );
+				if ( ! in_array( $filename, $skip_names, true ) && in_array( $file->getExtension(), $extensions, true ) ||
+					! in_array( $filename, $skip_names, true ) && in_array( $filename, $accept_names, true ) ) {
+					$log_files[] = wp_normalize_path( $file->getPathname() );
+				}
+			}
+		}
+
+		return $log_files;
 	}
 }

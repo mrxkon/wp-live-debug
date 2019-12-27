@@ -12,8 +12,7 @@
 
 namespace WP_Live_Debug;
 
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
+use WP_Live_Debug\Helper as Helper;
 
 // Check that the file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -44,7 +43,7 @@ class Page {
 		$option_log_name = wp_normalize_path( get_option( 'wp_live_debug_log_file' ) );
 		$selected_log    = get_option( 'wp_live_debug_log_file' );
 		$path            = wp_normalize_path( ABSPATH );
-		$logs            = array();
+		$logs            = Helper::gather_log_files();
 		$debug_log       = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
 		?>
 		<h1 class="wp-heading-inline"><?php esc_html_e( 'WP Live Debug', 'wp-live-debug' ); ?></h1>
@@ -61,13 +60,6 @@ class Page {
 								<div class="inside">
 									<textarea id="wp-live-debug-area" name="wp-live-debug-area" spellcheck="false"></textarea>
 									<p>
-										<?php
-										foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $path ) ) as $file ) {
-											if ( is_file( $file ) && 'log' === $file->getExtension() ) {
-												$logs[] = wp_normalize_path( $file );
-											}
-										}
-										?>
 										<select id="log-list" name="select-list">
 											<?php foreach ( $logs as $log ) : ?>
 												<option	data-nonce="<?php echo wp_create_nonce( $log ); ?>" value="<?php echo $log; ?>"<?php selected( $log, $selected_log ); ?>><?php echo wp_date( 'M d Y H:i:s', filemtime( $log ) ) . ' - ' . basename( $log ); ?></option>
