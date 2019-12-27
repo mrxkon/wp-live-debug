@@ -119,7 +119,7 @@ class Helper {
 
 		// Go through the folders and files to gather information.
 		$directory = new RecursiveDirectoryIterator( ABSPATH, RecursiveDirectoryIterator::SKIP_DOTS );
-		$iterator = new RecursiveIteratorIterator( new RecursiveCallbackFilterIterator( $directory, $filter ) );
+		$iterator  = new RecursiveIteratorIterator( new RecursiveCallbackFilterIterator( $directory, $filter ) );
 
 		foreach ( $iterator as $file ) {
 			if ( is_file( $file ) ) {
