@@ -57,6 +57,9 @@ class Setup {
 		// add_action( 'wp_ajax_wp-live-debug-delete-debug-log', array( '\\WP_Live_Debug\\Debug_Log', 'delete_debug_log' ) );
 		// add_action( 'wp_ajax_wp-live-debug-refresh-debug-log', array( '\\WP_Live_Debug\\Debug_Log', 'refresh_debug_log' ) );
 
+		// Checker AJAX actions.
+		add_action( 'wp_ajax_wp-live-debug-is-wp-debug-enabled', array( '\\WP_Live_Debug\\WP_Config', 'is_wp_debug_enabled' ) );
+
 		// wp-config related actions.
 		// add_action( 'wp_ajax_wp-live-debug-create-backup', array( '\\WP_Live_Debug\\WP_Config', 'create_wp_config_backup' ) );
 		// add_action( 'wp_ajax_wp-live-debug-restore-backup', array( '\\WP_Live_Debug\\WP_Config', 'restore_wp_config_backup' ) );
@@ -134,6 +137,8 @@ class Setup {
 			// Automated dependencies array.
 			$asset_file = include( WP_LIVE_DEBUG_DIR . 'app/js/build/index.asset.php' );
 
+			array_push( $asset_file['dependencies'], 'axios-js' );
+
 			wp_enqueue_style(
 				'wp-live-debug',
 				WP_LIVE_DEBUG_URL . 'app/css/styles.css',
@@ -142,11 +147,28 @@ class Setup {
 			);
 
 			wp_enqueue_script(
+				'axios-js',
+				WP_LIVE_DEBUG_URL . 'app/js/axios.min.js',
+				array(),
+				'',
+				true
+			);
+
+			wp_enqueue_script(
 				'wp-live-debug',
 				WP_LIVE_DEBUG_URL . 'app/js/build/index.js',
 				$asset_file['dependencies'],
 				$asset_file['version'],
 				true
+			);
+
+			wp_localize_script(
+				'wp-live-debug',
+				'wp_live_debug_globals',
+				array(
+					'ajax_url' => admin_url( 'admin-ajax.php' ),
+					'nonce'    => wp_create_nonce( 'wp-live-debug-nonce' ),
+				)
 			);
 		}
 	}

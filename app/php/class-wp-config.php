@@ -69,6 +69,21 @@ class WP_Config {
 	}
 
 	/**
+	 * Is WP_DEBUG Enabled?
+	 */
+	public static function is_wp_debug_enabled() {
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
+			wp_send_json_error();
+		}
+
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			wp_send_json_success();
+		} else {
+			wp_send_json_error();
+		}
+	}
+
+	/**
 	 * Enables WP_DEBUG.
 	 */
 	public static function enable_wp_debug() {
