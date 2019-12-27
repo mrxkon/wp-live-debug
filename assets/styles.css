@@ -103,3 +103,18 @@ body.toplevel_page_wp-live-debug .content .sidebar .panel-content .row {
 	clear: both;
 	margin-top: 10px;
 }
+
+@media ( max-width: 782px ) {
+
+	body.toplevel_page_wp-live-debug .content {
+		grid-template-columns: 1fr;
+	}
+
+	body.toplevel_page_wp-live-debug .content .sidebar {
+		border-left: 0;
+	}
+
+	body.toplevel_page_wp-live-debug .content .main .debug-area {
+		grid-template-rows: 40px calc(100vh - 200px);
+	}
+}
