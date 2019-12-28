@@ -23,22 +23,22 @@ class Sidebar extends Component {
 						initialOpen={ true }
 					>
 						<PanelRow>
-							<Toggle name="WP_DEBUG" id="enable-wp-debug" checked={ this.props.debugEnabled } />
+							<Toggle name="WP_DEBUG" id="debugEnabled" checked={ this.props.debugEnabled } />
 						</PanelRow>
 						<PanelRow>
-							<Toggle name="WP_DEBUG_LOG" id="enable-wp-debug-log" checked={ this.props.debugLogEnabled } />
+							<Toggle name="WP_DEBUG_LOG" id="debugLogEnabled" checked={ this.props.debugLogEnabled } />
 						</PanelRow>
 						<PanelRow>
-							<Toggle name="WP_DEBUG_DISPLAY" id="enable-wp-debug-display" checked={ this.props.debugDisplayEnabled } />
+							<Toggle name="WP_DEBUG_DISPLAY" id="debugDisplayEnabled" checked={ this.props.debugDisplayEnabled } />
 						</PanelRow>
 						<PanelRow>
-							<Toggle name="SCRIPT_DEBUG" id="enable-script-debug" checked={ this.props.scriptDebugEnabled } />
+							<Toggle name="SCRIPT_DEBUG" id="scriptDebugEnabled" checked={ this.props.scriptDebugEnabled } />
 						</PanelRow>
 						<PanelRow>
-							<Toggle name="SAVEQUERIES" id="enable-savequeries" checked={ this.props.saveQueriesEnabled } />
+							<Toggle name="SAVEQUERIES" id="saveQueriesEnabled" checked={ this.props.saveQueriesEnabled } />
 						</PanelRow>
 						<PanelRow>
-							<Toggle name="Auto Refresh" id="enable-auto-refresh" checked={ this.props.autoRefreshEnabled } />
+							<Toggle name="Auto Refresh" id="autoRefreshEnabled" checked={ this.props.autoRefreshEnabled } />
 						</PanelRow>
 					</PanelBody>
 				</Panel>

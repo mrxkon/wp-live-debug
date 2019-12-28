@@ -14,13 +14,9 @@ import Content from './components/Content';
  * Main.
  */
 class App extends Component {
-	/**
-	 * Set state.
-	 */
-	constructor() {
-		super();
+	constructor( props ) {
+		super( props );
 
-		// Set default states all to false.
 		this.state = {
 			debugEnabled: false,
 			debugLogEnabled: false,
@@ -36,7 +32,6 @@ class App extends Component {
 	 * See if WP_DEBUG is true.
 	 */
 	isDebugEnabled() {
-		const states = this;
 		axios( {
 			method: 'post',
 			url: wp_live_debug_globals.ajax_url,
@@ -45,9 +40,13 @@ class App extends Component {
 				_ajax_nonce: wp_live_debug_globals.nonce,
 				constant: 'WP_DEBUG',
 			},
-		} ).then( function( response ) {
+		} ).then( ( response ) => {
 			if ( true === response.data.success ) {
-				states.setState( { debugEnabled: true } );
+				this.setState( function() {
+					return {
+						debugEnabled: true,
+					};
+				} );
 			}
 		} );
 	}
@@ -56,7 +55,6 @@ class App extends Component {
 	 * See if WP_DEBUG_LOG is true.
 	 */
 	isDebugLogEnabled() {
-		const states = this;
 		axios( {
 			method: 'post',
 			url: wp_live_debug_globals.ajax_url,
@@ -65,9 +63,13 @@ class App extends Component {
 				_ajax_nonce: wp_live_debug_globals.nonce,
 				constant: 'WP_DEBUG_LOG',
 			},
-		} ).then( function( response ) {
+		} ).then( ( response ) => {
 			if ( true === response.data.success ) {
-				states.setState( { debugLogEnabled: true } );
+				this.setState( function() {
+					return {
+						debugLogEnabled: true,
+					};
+				} );
 			}
 		} );
 	}
@@ -76,7 +78,6 @@ class App extends Component {
 	 * See if WP_DEBUG_DISPLAY is true.
 	 */
 	isDebugDisplayEnabled() {
-		const states = this;
 		axios( {
 			method: 'post',
 			url: wp_live_debug_globals.ajax_url,
@@ -85,9 +86,13 @@ class App extends Component {
 				_ajax_nonce: wp_live_debug_globals.nonce,
 				constant: 'WP_DEBUG_DISPLAY',
 			},
-		} ).then( function( response ) {
+		} ).then( ( response ) => {
 			if ( true === response.data.success ) {
-				states.setState( { debugDisplayEnabled: true } );
+				this.setState( function() {
+					return {
+						debugDisplayEnabled: true,
+					};
+				} );
 			}
 		} );
 	}
@@ -96,7 +101,6 @@ class App extends Component {
 	 * See if SCRIPT_DEBUG is true.
 	 */
 	isScriptDebugEnabled() {
-		const states = this;
 		axios( {
 			method: 'post',
 			url: wp_live_debug_globals.ajax_url,
@@ -105,9 +109,13 @@ class App extends Component {
 				_ajax_nonce: wp_live_debug_globals.nonce,
 				constant: 'SCRIPT_DEBUG',
 			},
-		} ).then( function( response ) {
+		} ).then( ( response ) => {
 			if ( true === response.data.success ) {
-				states.setState( { scriptDebugEnabled: true } );
+				this.setState( function() {
+					return {
+						scriptDebugEnabled: true,
+					};
+				} );
 			}
 		} );
 	}
@@ -116,7 +124,6 @@ class App extends Component {
 	 * See if SAVEQUERIES is true.
 	 */
 	isSaveQueriesEnabled() {
-		const states = this;
 		axios( {
 			method: 'post',
 			url: wp_live_debug_globals.ajax_url,
@@ -125,9 +132,13 @@ class App extends Component {
 				_ajax_nonce: wp_live_debug_globals.nonce,
 				constant: 'SAVEQUERIES',
 			},
-		} ).then( function( response ) {
+		} ).then( ( response ) => {
 			if ( true === response.data.success ) {
-				states.setState( { saveQueriesEnabled: true } );
+				this.setState( function() {
+					return {
+						saveQueriesEnabled: true,
+					};
+				} );
 			}
 		} );
 	}

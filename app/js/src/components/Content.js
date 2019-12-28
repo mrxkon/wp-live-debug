@@ -2,7 +2,6 @@
  * WordPress dependencies.
  */
 import { __ } from '@wordpress/i18n';
-import { Component, Fragment } from '@wordpress/element';
 
 /**
  * Internal dependencies.
@@ -13,33 +12,31 @@ import Sidebar from './Sidebar';
 /**
  * Main.
  */
-class Content extends Component {
-	render() {
-		return (
-			<Fragment>
-				<div
-					className="content"
-					role="region"
-					aria-label={ __( 'Log view', 'wp-live-debug' ) }
-					tabIndex="-1"
-				>
-					<div className="main">
-						<LogViewer />
-					</div>
-					<div className="sidebar">
-						<Sidebar
-							debugEnabled={ this.props.debugEnabled }
-							debugLogEnabled={ this.props.debugLogEnabled }
-							debugDisplayEnabled={ this.props.debugDisplayEnabled }
-							scriptDebugEnabled={ this.props.scriptDebugEnabled }
-							saveQueriesEnabled={ this.props.saveQueriesEnabled }
-							autoRefreshEnabled={ this.props.autoRefreshEnabled }
-						/>
-					</div>
+const Content = ( { debugEnabled, debugLogEnabled, debugDisplayEnabled, scriptDebugEnabled, saveQueriesEnabled, autoRefreshEnabled } ) => {
+	return (
+		<>
+			<div
+				className="content"
+				role="region"
+				aria-label={ __( 'Log view', 'wp-live-debug' ) }
+				tabIndex="-1"
+			>
+				<div className="main">
+					<LogViewer />
 				</div>
-			</Fragment>
-		);
-	}
-}
+				<div className="sidebar">
+					<Sidebar
+						debugEnabled={ debugEnabled }
+						debugLogEnabled={ debugLogEnabled }
+						debugDisplayEnabled={ debugDisplayEnabled }
+						scriptDebugEnabled={ scriptDebugEnabled }
+						saveQueriesEnabled={ saveQueriesEnabled }
+						autoRefreshEnabled={ autoRefreshEnabled }
+					/>
+				</div>
+			</div>
+		</>
+	);
+};
 
 export default Content;

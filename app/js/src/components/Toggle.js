@@ -19,7 +19,7 @@ class Toggle extends Component {
 					id={ this.props.id }
 					checked={ this.props.checked }
 					//onChange={ () => setState( ( state ) => ( { checked: ! state.checked } ) ) }
-					// onClick={ getWPDebugState() }
+					//onClick={ console.log( 'eff' ) }
 				/>
 			</Fragment>
 		);
