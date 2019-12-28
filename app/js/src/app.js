@@ -15,10 +15,11 @@ import Content from './components/Content';
  */
 const App = () => {
 	/**
-	 * Since we're not in a Class and using useState(),
-	 * altering the state will force a re-render making the Axios
-	 * run on a loop due to altering the states as well.
-	 * We add an extra state keeping a "firstRun" to avoid looping.
+	 * Since we're in an arrow function and using useState(),
+	 * altering the state will force a re-render making all of the
+	 * initial functions needed to re-run. To avoid this
+	 * we add an extra state keeping a "firstRun" to avoid unwanted
+	 * looping & re-runs of functions.
 	 */
 	const [ firstRun, setfirstRun ] = useState( true );
 
@@ -143,7 +144,6 @@ const App = () => {
 	const alterAutoRefresh = () => {
 		console.log( 'alterAutoRefresh' );
 	};
-
 
 	/**
 	 * Render the UI.

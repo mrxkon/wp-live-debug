@@ -123,10 +123,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var App = function App() {
   /**
-   * Since we're not in a Class and using useState(),
-   * altering the state will force a re-render making the Axios
-   * run on a loop due to altering the states as well.
-   * We add an extra state keeping a "firstRun" to avoid looping.
+   * Since we're in an arrow function and using useState(),
+   * altering the state will force a re-render making all of the
+   * initial functions needed to re-run. To avoid this
+   * we add an extra state keeping a "firstRun" to avoid unwanted
+   * looping & re-runs of functions.
    */
   var _useState = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(true),
       _useState2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState, 2),
