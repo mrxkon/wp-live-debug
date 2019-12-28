@@ -58,7 +58,7 @@ class Setup {
 		// add_action( 'wp_ajax_wp-live-debug-refresh-debug-log', array( '\\WP_Live_Debug\\Debug_Log', 'refresh_debug_log' ) );
 
 		// Checker AJAX actions.
-		add_action( 'wp_ajax_wp-live-debug-is-wp-debug-enabled', array( '\\WP_Live_Debug\\WP_Config', 'is_wp_debug_enabled' ) );
+		add_action( 'wp_ajax_wp-live-debug-is-constant-true', array( '\\WP_Live_Debug\\WP_Config', 'is_constant_true' ) );
 
 		// wp-config related actions.
 		// add_action( 'wp_ajax_wp-live-debug-create-backup', array( '\\WP_Live_Debug\\WP_Config', 'create_wp_config_backup' ) );
