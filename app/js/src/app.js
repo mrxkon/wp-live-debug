@@ -1,21 +1,28 @@
 /**
+ * WordPress dependencies.
+ */
+import { Component } from '@wordpress/element';
+
+/**
  * Internal Dependencies.
  */
-import WPLDHeader from './components/WPLDHeader';
+import Header from './components/Header';
 import WPLDContent from './components/WPLDContent';
-import WPLDSidebar from './components/WPLDSidebar';
+import Sidebar from './components/Sidebar';
 
 /**
  * Main.
  */
-const App = () => {
-	return (
-		<>
-			<WPLDHeader />
-			<WPLDContent />
-			<WPLDSidebar />
-		</>
-	);
-};
+class App extends Component {
+	render() {
+		return (
+			<>
+				<Header />
+				<WPLDContent />
+				<Sidebar />
+			</>
+		);
+	}
+}
 
 export default App;
