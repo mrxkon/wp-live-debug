@@ -24,7 +24,7 @@ const Header = ( props ) => {
 						<Button
 							id="wp-live-debug-restore"
 							isPrimary
-							onClick={ props.restoreBackup }
+							onClick={ props.BackupActions }
 						>
 							{ __( 'Restore wp-config', 'wp-live-debug' ) }
 						</Button>
@@ -32,7 +32,7 @@ const Header = ( props ) => {
 						<Button
 							id="wp-live-debug-backup"
 							isPrimary
-							onClick={ props.createBackup }
+							onClick={ props.BackupActions }
 						>
 							{ __( 'Backup wp-config', 'wp-live-debug' ) }
 						</Button>

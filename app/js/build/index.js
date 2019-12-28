@@ -95,29 +95,14 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
-/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
-/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Header */ "./app/js/src/components/Header.js");
-/* harmony import */ var _components_Content__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Content */ "./app/js/src/components/Content.js");
-
-
-
-
-
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/slicedToArray.js");
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Header */ "./app/js/src/components/Header.js");
+/* harmony import */ var _components_Content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Content */ "./app/js/src/components/Content.js");
 
 
 
@@ -136,290 +121,201 @@ __webpack_require__.r(__webpack_exports__);
  * Main.
  */
 
-var App =
-/*#__PURE__*/
-function (_Component) {
-  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(App, _Component);
+var App = function App() {
+  /**
+   * Since we're not in a Class and using useState(),
+   * altering the state will force a re-render making the Axios
+   * run on a loop due to altering the states as well.
+   * We add an extra state keeping a "firstRun" to avoid looping.
+   */
+  var _useState = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(true),
+      _useState2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState, 2),
+      firstRun = _useState2[0],
+      setfirstRun = _useState2[1]; // Initialize the debug states.
 
-  function App(props) {
-    var _this;
 
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, App);
+  var _useState3 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState4 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState3, 2),
+      hasWPDebug = _useState4[0],
+      setWPDebug = _useState4[1];
 
-    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(App).call(this, props));
-    _this.state = {
-      debugEnabled: false,
-      debugLogEnabled: false,
-      debugDisplayEnabled: false,
-      scriptDebugEnabled: false,
-      saveQueriesEnabled: false,
-      autoRefreshEnabled: false,
-      hasBackup: false
-    };
-    _this.createBackup = _this.createBackup.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
-    _this.restoreBackup = _this.restoreBackup.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
-    return _this;
-  }
+  var _useState5 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState6 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState5, 2),
+      hasWPDebugLog = _useState6[0],
+      setWPDebugLog = _useState6[1];
+
+  var _useState7 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState8 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState7, 2),
+      hasWPDebugDisplay = _useState8[0],
+      setWPDebugDisplay = _useState8[1];
+
+  var _useState9 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState10 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState9, 2),
+      hasScriptDebug = _useState10[0],
+      setScriptDebug = _useState10[1];
+
+  var _useState11 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState12 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState11, 2),
+      hasSaveQueries = _useState12[0],
+      setSaveQueries = _useState12[1]; // Initialize the backup state.
+
+
+  var _useState13 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(true),
+      _useState14 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState13, 2),
+      hasBackup = _useState14[0],
+      setHasBackup = _useState14[1]; // Initialize the auto refresh state.
+
+
+  var _useState15 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState16 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState15, 2),
+      hasAutoRefresh = _useState16[0],
+      setAutoRefresh = _useState16[1];
   /**
    * Check if backup exists.
    */
 
   /**
-   * Create wp-config backup.
+   * See any of the constants are true and alter their state.
    */
 
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(App, [{
-    key: "createBackup",
-    value: function createBackup() {
-      this.setState(function () {
-        return {
-          hasBackup: true
-        };
-      });
-    }
-    /**
-     * Restore wp-config backup.
-     */
-
-  }, {
-    key: "restoreBackup",
-    value: function restoreBackup() {
-      this.setState(function () {
-        return {
-          hasBackup: false
-        };
-      });
-    }
-    /**
-     * See if WP_DEBUG is true.
-     */
-
-  }, {
-    key: "isDebugEnabled",
-    value: function isDebugEnabled() {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_7___default()({
+  var isConstantTrue = function isConstantTrue() {
+    var constants = ['WP_DEBUG', 'WP_DEBUG_LOG', 'WP_DEBUG_DISPLAY', 'SCRIPT_DEBUG', 'SAVEQUERIES'];
+    constants.map(function (constant) {
+      return axios__WEBPACK_IMPORTED_MODULE_2___default()({
         method: 'post',
         url: wp_live_debug_globals.ajax_url,
         params: {
           action: 'wp-live-debug-is-constant-true',
           _ajax_nonce: wp_live_debug_globals.nonce,
-          constant: 'WP_DEBUG'
+          constant: constant
         }
       }).then(function (response) {
         if (true === response.data.success) {
-          _this2.setState(function () {
-            return {
-              debugEnabled: true
-            };
-          });
+          switch (constant) {
+            case 'WP_DEBUG':
+              setWPDebug(true);
+              break;
+
+            case 'WP_DEBUG_LOG':
+              setWPDebugLog(true);
+              break;
+
+            case 'WP_DEBUG_DISPLAY':
+              setWPDebugDisplay(true);
+              break;
+
+            case 'SCRIPT_DEBUG':
+              setScriptDebug(true);
+              break;
+
+            case 'SAVEQUERIES':
+              setSaveQueries(true);
+              break;
+          }
         }
       });
+    });
+  };
+  /**
+   * Now we utilize the "firstRun" state so we
+   * can run our 1time functions and then set it
+   * to false so this won't run again until a page refresh.
+   */
+
+
+  if (firstRun) {
+    isConstantTrue();
+    setfirstRun(false);
+  }
+  /**
+   * Backup Button Actions.
+   *
+   * @param {Object} e string Event handler.
+   */
+
+
+  var BackupActions = function BackupActions(e) {
+    if (e.target.id === 'wp-live-debug-backup') {
+      setHasBackup(true);
+    } else {
+      setHasBackup(false);
     }
-    /**
-     * See if WP_DEBUG_LOG is true.
-     */
+  };
+  /**
+   * Alter WP_DEBUG
+   */
 
-  }, {
-    key: "isDebugLogEnabled",
-    value: function isDebugLogEnabled() {
-      var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_7___default()({
-        method: 'post',
-        url: wp_live_debug_globals.ajax_url,
-        params: {
-          action: 'wp-live-debug-is-constant-true',
-          _ajax_nonce: wp_live_debug_globals.nonce,
-          constant: 'WP_DEBUG_LOG'
-        }
-      }).then(function (response) {
-        if (true === response.data.success) {
-          _this3.setState(function () {
-            return {
-              debugLogEnabled: true
-            };
-          });
-        }
-      });
-    }
-    /**
-     * See if WP_DEBUG_DISPLAY is true.
-     */
+  var alterWPDebug = function alterWPDebug() {
+    console.log('alterWPDebug');
+  };
+  /**
+   * Alter WP_DEBUG_LOG
+   */
 
-  }, {
-    key: "isDebugDisplayEnabled",
-    value: function isDebugDisplayEnabled() {
-      var _this4 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_7___default()({
-        method: 'post',
-        url: wp_live_debug_globals.ajax_url,
-        params: {
-          action: 'wp-live-debug-is-constant-true',
-          _ajax_nonce: wp_live_debug_globals.nonce,
-          constant: 'WP_DEBUG_DISPLAY'
-        }
-      }).then(function (response) {
-        if (true === response.data.success) {
-          _this4.setState(function () {
-            return {
-              debugDisplayEnabled: true
-            };
-          });
-        }
-      });
-    }
-    /**
-     * See if SCRIPT_DEBUG is true.
-     */
+  var alterWPDebugLog = function alterWPDebugLog() {
+    console.log('alterWPDebugLog');
+  };
+  /**
+   * Alter WP_DEBUG_DISPLAY
+   */
 
-  }, {
-    key: "isScriptDebugEnabled",
-    value: function isScriptDebugEnabled() {
-      var _this5 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_7___default()({
-        method: 'post',
-        url: wp_live_debug_globals.ajax_url,
-        params: {
-          action: 'wp-live-debug-is-constant-true',
-          _ajax_nonce: wp_live_debug_globals.nonce,
-          constant: 'SCRIPT_DEBUG'
-        }
-      }).then(function (response) {
-        if (true === response.data.success) {
-          _this5.setState(function () {
-            return {
-              scriptDebugEnabled: true
-            };
-          });
-        }
-      });
-    }
-    /**
-     * See if SAVEQUERIES is true.
-     */
+  var alterWPDebugDisplay = function alterWPDebugDisplay() {
+    console.log('alterWPDebugDisplay');
+  };
+  /**
+   * Alter SCRIPT_DEBUG
+   */
 
-  }, {
-    key: "isSaveQueriesEnabled",
-    value: function isSaveQueriesEnabled() {
-      var _this6 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_7___default()({
-        method: 'post',
-        url: wp_live_debug_globals.ajax_url,
-        params: {
-          action: 'wp-live-debug-is-constant-true',
-          _ajax_nonce: wp_live_debug_globals.nonce,
-          constant: 'SAVEQUERIES'
-        }
-      }).then(function (response) {
-        if (true === response.data.success) {
-          _this6.setState(function () {
-            return {
-              saveQueriesEnabled: true
-            };
-          });
-        }
-      });
-    }
-    /**
-     * Alter WP_DEBUG
-     */
+  var alterScriptDebug = function alterScriptDebug() {
+    console.log('alterScriptDebug');
+  };
+  /**
+   * Alter SAVEQUERIES
+   */
 
-  }, {
-    key: "alterWPDebug",
-    value: function alterWPDebug() {
-      console.log('alterWPDebug');
-    }
-    /**
-     * Alter WP_DEBUG_LOG
-     */
 
-  }, {
-    key: "alterWPDebugLog",
-    value: function alterWPDebugLog() {
-      console.log('alterWPDebugLog');
-    }
-    /**
-     * Alter WP_DEBUG_DISPLAY
-     */
+  var alterSaveQueries = function alterSaveQueries() {
+    console.log('alterSaveQueries');
+  };
+  /**
+   * Alter Auto Refresh
+   */
 
-  }, {
-    key: "alterWPDebugDisplay",
-    value: function alterWPDebugDisplay() {
-      console.log('alterWPDebugDisplay');
-    }
-    /**
-     * Alter SCRIPT_DEBUG
-     */
 
-  }, {
-    key: "alterScriptDebug",
-    value: function alterScriptDebug() {
-      console.log('alterScriptDebug');
-    }
-    /**
-     * Alter SAVEQUERIES
-     */
+  var alterAutoRefresh = function alterAutoRefresh() {
+    console.log('alterAutoRefresh');
+  };
+  /**
+   * Render the UI.
+   */
 
-  }, {
-    key: "alterSaveQueries",
-    value: function alterSaveQueries() {
-      console.log('alterSaveQueries');
-    }
-    /**
-     * Alter Auto Refresh
-     */
 
-  }, {
-    key: "alterAutoRefresh",
-    value: function alterAutoRefresh() {
-      console.log('alterAutoRefresh');
-    }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      // fetch the initial debug information.
-      this.isDebugEnabled();
-      this.isDebugLogEnabled();
-      this.isDebugDisplayEnabled();
-      this.isScriptDebugEnabled();
-      this.isSaveQueriesEnabled();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_components_Header__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        createBackup: this.createBackup,
-        restoreBackup: this.restoreBackup,
-        hasBackup: this.state.hasBackup
-      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_components_Content__WEBPACK_IMPORTED_MODULE_9__["default"], {
-        alterWPDebug: this.alterWPDebug,
-        alterWPDebugLog: this.alterWPDebugLog,
-        alterWPDebugDisplay: this.alterWPDebugDisplay,
-        alterScriptDebug: this.alterScriptDebug,
-        alterSaveQueries: this.alterSaveQueries,
-        alterAutoRefresh: this.alterAutoRefresh,
-        hasBackup: this.state.hasBackup,
-        debugEnabled: this.state.debugEnabled,
-        debugLogEnabled: this.state.debugLogEnabled,
-        debugDisplayEnabled: this.state.debugDisplayEnabled,
-        scriptDebugEnabled: this.state.scriptDebugEnabled,
-        saveQueriesEnabled: this.state.saveQueriesEnabled,
-        autoRefreshEnabled: this.state.autoRefreshEnabled
-      }));
-    }
-  }]);
-
-  return App;
-}(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["Component"]);
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    BackupActions: BackupActions,
+    hasBackup: hasBackup
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Content__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    alterWPDebug: alterWPDebug,
+    alterWPDebugLog: alterWPDebugLog,
+    alterWPDebugDisplay: alterWPDebugDisplay,
+    alterScriptDebug: alterScriptDebug,
+    alterSaveQueries: alterSaveQueries,
+    alterAutoRefresh: alterAutoRefresh,
+    hasBackup: hasBackup,
+    debugEnabled: hasWPDebug,
+    debugLogEnabled: hasWPDebugLog,
+    debugDisplayEnabled: hasWPDebugDisplay,
+    scriptDebugEnabled: hasScriptDebug,
+    saveQueriesEnabled: hasSaveQueries,
+    autoRefreshEnabled: hasAutoRefresh
+  }));
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
-/** Notes */
 
 /***/ }),
 
@@ -526,11 +422,11 @@ var Header = function Header(props) {
   }, props.hasBackup ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     id: "wp-live-debug-restore",
     isPrimary: true,
-    onClick: props.restoreBackup
+    onClick: props.BackupActions
   }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Restore wp-config', 'wp-live-debug')) : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     id: "wp-live-debug-backup",
     isPrimary: true,
-    onClick: props.createBackup
+    onClick: props.BackupActions
   }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Backup wp-config', 'wp-live-debug')))));
 };
 
@@ -720,6 +616,21 @@ Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["render"])(Object(_wordpr
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+module.exports = _arrayWithHoles;
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js":
 /*!**********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
@@ -829,6 +740,62 @@ module.exports = _inherits;
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _iterableToArrayLimit(arr, i) {
+  if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+    return;
+  }
+
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+module.exports = _iterableToArrayLimit;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/nonIterableRest.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/nonIterableRest.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
+
+module.exports = _nonIterableRest;
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
@@ -869,6 +836,27 @@ function _setPrototypeOf(o, p) {
 }
 
 module.exports = _setPrototypeOf;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/slicedToArray.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/slicedToArray.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayWithHoles = __webpack_require__(/*! ./arrayWithHoles */ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js");
+
+var iterableToArrayLimit = __webpack_require__(/*! ./iterableToArrayLimit */ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js");
+
+var nonIterableRest = __webpack_require__(/*! ./nonIterableRest */ "./node_modules/@babel/runtime/helpers/nonIterableRest.js");
+
+function _slicedToArray(arr, i) {
+  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || nonIterableRest();
+}
+
+module.exports = _slicedToArray;
 
 /***/ }),
 
