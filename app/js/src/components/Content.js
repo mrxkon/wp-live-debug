@@ -7,7 +7,6 @@ import { Component, Fragment } from '@wordpress/element';
 /**
  * Internal dependencies.
  */
-import LogList from './LogList';
 import LogViewer from './LogViewer';
 import Sidebar from './Sidebar';
 
@@ -25,13 +24,17 @@ class Content extends Component {
 					tabIndex="-1"
 				>
 					<div className="main">
-						<div className="debug-area">
-							<LogList />
-							<LogViewer />
-						</div>
+						<LogViewer />
 					</div>
 					<div className="sidebar">
-						<Sidebar />
+						<Sidebar
+							debugEnabled={ this.props.debugEnabled }
+							debugLogEnabled={ this.props.debugLogEnabled }
+							debugDisplayEnabled={ this.props.debugDisplayEnabled }
+							scriptDebugEnabled={ this.props.scriptDebugEnabled }
+							saveQueriesEnabled={ this.props.saveQueriesEnabled }
+							autoRefreshEnabled={ this.props.autoRefreshEnabled }
+						/>
 					</div>
 				</div>
 			</Fragment>

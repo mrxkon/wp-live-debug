@@ -10,7 +10,6 @@ import { Button } from '@wordpress/components';
  */
 class Header extends Component {
 	render() {
-		const hasBackup = true;
 		return (
 			<Fragment>
 				<div
@@ -23,7 +22,7 @@ class Header extends Component {
 						<h1 className="header-title">{ __( 'WP Live Debug', 'wp-live-debug' ) }</h1>
 					</div>
 					<div className="backup-restore">
-						{ hasBackup ? (
+						{ this.props.hasBackup ? (
 							<Button
 								id="wp-live-debug-restore"
 								isPrimary
