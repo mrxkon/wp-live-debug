@@ -7,8 +7,7 @@ import { Component } from '@wordpress/element';
  * Internal Dependencies.
  */
 import Header from './components/Header';
-import WPLDContent from './components/WPLDContent';
-import Sidebar from './components/Sidebar';
+import Content from './components/Content';
 
 /**
  * Main.
@@ -18,8 +17,7 @@ class App extends Component {
 		return (
 			<>
 				<Header />
-				<WPLDContent />
-				<Sidebar />
+				<Content />
 			</>
 		);
 	}

@@ -142,7 +142,7 @@ class Setup {
 			wp_enqueue_style(
 				'wp-live-debug',
 				WP_LIVE_DEBUG_URL . 'app/css/styles.css',
-				array( 'wp-components' ),
+				array( 'editor-buttons', 'wp-components' ),
 				WP_LIVE_DEBUG_VERSION
 			);
 
