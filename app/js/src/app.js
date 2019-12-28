@@ -2,6 +2,8 @@
  * WordPress dependencies.
  */
 import { Fragment, Component } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
+import axios from 'axios';
 
 /**
  * Internal Dependencies.
@@ -28,6 +30,25 @@ class App extends Component {
 		};
 	}
 
+	componentDidMount() {
+		// fetch the initial debug information.
+		const states = this;
+		axios( {
+			method: 'post',
+			url: wp_live_debug_globals.ajax_url,
+			params: {
+				action: 'wp-live-debug-is-wp-debug-enabled',
+				_ajax_nonce: wp_live_debug_globals.nonce,
+			},
+		} ).then( function( response ) {
+			if ( true === response.data.success ) {
+				states.setState( { debugEnabled: true } );
+			}
+		} ).catch( function( error ) {
+			console.log( error );
+		} );
+	}
+
 	render() {
 		return (
 			<Fragment>
@@ -48,26 +69,3 @@ class App extends Component {
 export default App;
 
 /** Notes */
-// async function getWPDebugState() {
-// 	let isChecked = false;
-// 	await axios( {
-// 		method: 'post',
-// 		url: wp_live_debug_globals.ajax_url,
-// 		params: {
-// 			action: 'wp-live-debug-is-wp-debug-enabled',
-// 			_ajax_nonce: wp_live_debug_globals.nonce,
-// 		},
-// 	} ).then( function( response ) {
-// 		if ( true === response.data.success ) {
-// 			return {
-// 				isChecked: true,
-// 			};
-// 		}
-// 	} ).catch( function( error ) {
-// 		console.log( error );
-// 	} );
-
-// 	return {
-// 		isChecked: false,
-// 	};
-// }

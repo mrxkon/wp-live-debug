@@ -137,21 +137,11 @@ class Setup {
 			// Automated dependencies array.
 			$asset_file = include( WP_LIVE_DEBUG_DIR . 'app/js/build/index.asset.php' );
 
-			array_push( $asset_file['dependencies'], 'axios-js' );
-
 			wp_enqueue_style(
 				'wp-live-debug',
 				WP_LIVE_DEBUG_URL . 'app/css/styles.css',
 				array( 'editor-buttons', 'wp-components' ),
 				WP_LIVE_DEBUG_VERSION
-			);
-
-			wp_enqueue_script(
-				'axios-js',
-				WP_LIVE_DEBUG_URL . 'app/js/axios.min.js',
-				array(),
-				'',
-				true
 			);
 
 			wp_enqueue_script(
