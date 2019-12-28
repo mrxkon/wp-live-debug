@@ -2,49 +2,94 @@
  * WordPress dependencies.
  */
 import { __ } from '@wordpress/i18n';
-import { Panel, PanelBody, PanelRow } from '@wordpress/components';
-
-/**
- * Internal dependencies.
- */
-import Toggle from './Toggle';
+import { Panel, PanelBody, PanelRow, FormToggle } from '@wordpress/components';
 
 /**
  * Main.
  */
-const Sidebar = ( { debugEnabled, debugLogEnabled, debugDisplayEnabled, scriptDebugEnabled, saveQueriesEnabled, autoRefreshEnabled } ) => {
+const Sidebar = ( props ) => {
 	return (
 		<>
 			<Panel>
-				<PanelBody
-					title={ __( 'Settings', 'wp-live-debug' ) }
-					initialOpen={ true }
-				>
+				<PanelBody title={ __( 'Settings', 'wp-live-debug' ) } initialOpen={ true }>
+					{ props.hasBackup ? (
+					<>
 					<PanelRow>
-						<Toggle name="WP_DEBUG" id="debugEnabled" checked={ debugEnabled } />
+						<label
+							htmlFor="alter-wp-debug"
+							className="components-toggle-control__label"
+						>WP_DEBUG</label>
+						<FormToggle
+							id="alter-wp-debug"
+							checked={ props.debugEnabled }
+							onClick={ props.alterWPDebug }
+						/>
 					</PanelRow>
 					<PanelRow>
-						<Toggle name="WP_DEBUG_LOG" id="debugLogEnabled" checked={ debugLogEnabled } />
+						<label
+							htmlFor="alter-wp-debug-log"
+							className="components-toggle-control__label"
+						>WP_DEBUG_LOG</label>
+						<FormToggle
+							id="alter-wp-debug-log"
+							checked={ props.debugLogEnabled }
+							onClick={ props.alterWPDebugLog }
+						/>
 					</PanelRow>
 					<PanelRow>
-						<Toggle name="WP_DEBUG_DISPLAY" id="debugDisplayEnabled" checked={ debugDisplayEnabled } />
+						<label
+							htmlFor="alter-wp-debug-display"
+							className="components-toggle-control__label"
+						>WP_DEBUG_DISPLAY</label>
+						<FormToggle
+							id="alter-wp-debug-display"
+							checked={ props.debugDisplayEnabled }
+							onClick={ props.alterWPDebugDisplay }
+						/>
 					</PanelRow>
 					<PanelRow>
-						<Toggle name="SCRIPT_DEBUG" id="scriptDebugEnabled" checked={ scriptDebugEnabled } />
+						<label
+							htmlFor="alter-wp-script-debug"
+							className="components-toggle-control__label"
+						>SCRIPT_DEBUG</label>
+						<FormToggle
+							id="alter-wp-script-debug"
+							checked={ props.scriptDebugEnabled }
+							onClick={ props.alterScriptDebug }
+						/>
 					</PanelRow>
 					<PanelRow>
-						<Toggle name="SAVEQUERIES" id="saveQueriesEnabled" checked={ saveQueriesEnabled } />
+						<label
+							htmlFor="alter-wp-savequeries"
+							className="components-toggle-control__label"
+						>SAVEQUERIES</label>
+						<FormToggle
+							id="alter-wp-savequeries"
+							checked={ props.saveQueriesEnabled }
+							onClick={ props.alterSaveQueries }
+						/>
 					</PanelRow>
+					</>
+					) : (
 					<PanelRow>
-						<Toggle name="Auto Refresh" id="autoRefreshEnabled" checked={ autoRefreshEnabled } />
+						<span>{ __( 'Backup wp-config for more settings!', 'wp-live-debug' ) }</span>
+					</PanelRow>
+					) }
+					<PanelRow>
+						<label
+							htmlFor="alterAutoRefresh"
+							className="components-toggle-control__label"
+						>Auto Refresh</label>
+						<FormToggle
+							id="alterAutoRefresh"
+							checked={ props.autoRefreshEnabled }
+							onClick={ props.alterAutoRefresh }
+						/>
 					</PanelRow>
 				</PanelBody>
 			</Panel>
 			<Panel>
-				<PanelBody
-					title={ __( 'More Information', 'wp-live-debug' ) }
-					initialOpen={ false }
-				>
+				<PanelBody title={ __( 'More Information', 'wp-live-debug' ) } initialOpen={ false }>
 					<PanelRow>
 						<span>
 							{ __( 'You will find two extra wp-config.php backups in your WordPress root directory as:', 'wp-live-debug' ) }

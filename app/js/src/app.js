@@ -26,6 +26,35 @@ class App extends Component {
 			autoRefreshEnabled: false,
 			hasBackup: false,
 		};
+
+		this.createBackup = this.createBackup.bind( this );
+		this.restoreBackup = this.restoreBackup.bind( this );
+	}
+
+	/**
+	 * Check if backup exists.
+	 */
+
+	/**
+	 * Create wp-config backup.
+	 */
+	createBackup() {
+		this.setState( function() {
+			return {
+				hasBackup: true,
+			};
+		} );
+	}
+
+	/**
+	 * Restore wp-config backup.
+	 */
+	restoreBackup() {
+		this.setState( function() {
+			return {
+				hasBackup: false,
+			};
+		} );
 	}
 
 	/**
@@ -143,6 +172,49 @@ class App extends Component {
 		} );
 	}
 
+	/**
+	 * Alter WP_DEBUG
+	 */
+	alterWPDebug() {
+		console.log( 'alterWPDebug' );
+	}
+
+	/**
+	 * Alter WP_DEBUG_LOG
+	 */
+	alterWPDebugLog() {
+		console.log( 'alterWPDebugLog' );
+	}
+
+	/**
+	 * Alter WP_DEBUG_DISPLAY
+	 */
+	alterWPDebugDisplay() {
+		console.log( 'alterWPDebugDisplay' );
+	}
+
+	/**
+	 * Alter SCRIPT_DEBUG
+	 */
+
+	alterScriptDebug() {
+		console.log( 'alterScriptDebug' );
+	}
+
+	/**
+	 * Alter SAVEQUERIES
+	 */
+	alterSaveQueries() {
+		console.log( 'alterSaveQueries' );
+	}
+
+	/**
+	 * Alter Auto Refresh
+	 */
+	alterAutoRefresh() {
+		console.log( 'alterAutoRefresh' );
+	}
+
 	componentDidMount() {
 		// fetch the initial debug information.
 		this.isDebugEnabled();
@@ -155,8 +227,19 @@ class App extends Component {
 	render() {
 		return (
 			<Fragment>
-				<Header hasBackup={ this.state.hasBackup } />
+				<Header
+					createBackup={ this.createBackup }
+					restoreBackup={ this.restoreBackup }
+					hasBackup={ this.state.hasBackup }
+				/>
 				<Content
+					alterWPDebug={ this.alterWPDebug }
+					alterWPDebugLog={ this.alterWPDebugLog }
+					alterWPDebugDisplay={ this.alterWPDebugDisplay }
+					alterScriptDebug={ this.alterScriptDebug }
+					alterSaveQueries={ this.alterSaveQueries }
+					alterAutoRefresh={ this.alterAutoRefresh }
+					hasBackup={ this.state.hasBackup }
 					debugEnabled={ this.state.debugEnabled }
 					debugLogEnabled={ this.state.debugLogEnabled }
 					debugDisplayEnabled={ this.state.debugDisplayEnabled }

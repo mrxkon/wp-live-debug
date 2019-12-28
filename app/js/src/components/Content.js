@@ -12,7 +12,7 @@ import Sidebar from './Sidebar';
 /**
  * Main.
  */
-const Content = ( { debugEnabled, debugLogEnabled, debugDisplayEnabled, scriptDebugEnabled, saveQueriesEnabled, autoRefreshEnabled } ) => {
+const Content = ( props ) => {
 	return (
 		<>
 			<div
@@ -26,12 +26,19 @@ const Content = ( { debugEnabled, debugLogEnabled, debugDisplayEnabled, scriptDe
 				</div>
 				<div className="sidebar">
 					<Sidebar
-						debugEnabled={ debugEnabled }
-						debugLogEnabled={ debugLogEnabled }
-						debugDisplayEnabled={ debugDisplayEnabled }
-						scriptDebugEnabled={ scriptDebugEnabled }
-						saveQueriesEnabled={ saveQueriesEnabled }
-						autoRefreshEnabled={ autoRefreshEnabled }
+						alterWPDebug={ props.alterWPDebug }
+						alterWPDebugLog={ props.alterWPDebugLog }
+						alterWPDebugDisplay={ props.alterWPDebugDisplay }
+						alterScriptDebug={ props.alterScriptDebug }
+						alterSaveQueries={ props.alterSaveQueries }
+						alterAutoRefresh={ props.alterAutoRefresh }
+						hasBackup={ props.hasBackup }
+						debugEnabled={ props.debugEnabled }
+						debugLogEnabled={ props.debugLogEnabled }
+						debugDisplayEnabled={ props.debugDisplayEnabled }
+						scriptDebugEnabled={ props.scriptDebugEnabled }
+						saveQueriesEnabled={ props.saveQueriesEnabled }
+						autoRefreshEnabled={ props.autoRefreshEnabled }
 					/>
 				</div>
 			</div>
