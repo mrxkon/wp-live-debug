@@ -308,10 +308,10 @@ function (_Component) {
         className: "header-title"
       }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('WP Live Debug', 'wp-live-debug'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
         className: "backup-restore"
-      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["Button"], {
+      }, hasBackup ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["Button"], {
         id: "wp-live-debug-restore",
-        isLink: true
-      }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Restore wp-config', 'wp-live-debug')), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["Button"], {
+        isPrimary: true
+      }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Restore wp-config', 'wp-live-debug')) : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["Button"], {
         id: "wp-live-debug-backup",
         isPrimary: true
       }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Backup wp-config', 'wp-live-debug')))));

@@ -8,6 +8,10 @@ body.toplevel_page_wp-live-debug #wpcontent {
 	padding-left: 0;
 }
 
+body.toplevel_page_wp-live-debug #wpfooter {
+	display: none;
+}
+
 body.toplevel_page_wp-live-debug .header {
 	height: 56px;
 	padding: 4px 0;
@@ -55,7 +59,7 @@ body.toplevel_page_wp-live-debug .content .main {
 body.toplevel_page_wp-live-debug .content .main .debug-area {
 	display: grid;
 	grid-template-columns: 120px 1fr;
-	grid-template-rows: 30px calc(100vh - 200px);
+	grid-template-rows: 30px calc(100vh - 177px);
 	grid-gap: 10px;
 }
 
@@ -83,22 +87,12 @@ body.toplevel_page_wp-live-debug .content .sidebar {
 	color: var(--wpld-gray);
 }
 
-body.toplevel_page_wp-live-debug .content .sidebar .panel-header h2 {
-	background-color: #f3f4f5;
-	padding: 20px;
-	color: #191e23;
-	font-weight: 600;
-	font-size: 13px;
-	margin: 0;
+body.toplevel_page_wp-live-debug .content .sidebar .components-panel {
+	margin-left: -1px;
 }
 
-body.toplevel_page_wp-live-debug .content .sidebar .panel-content {
-	padding: 20px;
-}
-
-body.toplevel_page_wp-live-debug .content .sidebar .panel-content .row {
-	clear: both;
-	margin-top: 10px;
+body.toplevel_page_wp-live-debug .content .sidebar .components-panel:first-child {
+	margin-top: -1px;
 }
 
 @media ( max-width: 782px ) {

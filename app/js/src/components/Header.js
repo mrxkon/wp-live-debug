@@ -23,18 +23,21 @@ class Header extends Component {
 						<h1 className="header-title">{ __( 'WP Live Debug', 'wp-live-debug' ) }</h1>
 					</div>
 					<div className="backup-restore">
-						<Button
-							id="wp-live-debug-restore"
-							isLink
-						>
-							{ __( 'Restore wp-config', 'wp-live-debug' ) }
-						</Button>
-						<Button
-							id="wp-live-debug-backup"
-							isPrimary
-						>
-							{ __( 'Backup wp-config', 'wp-live-debug' ) }
-						</Button>
+						{ hasBackup ? (
+							<Button
+								id="wp-live-debug-restore"
+								isPrimary
+							>
+								{ __( 'Restore wp-config', 'wp-live-debug' ) }
+							</Button>
+						) : (
+							<Button
+								id="wp-live-debug-backup"
+								isPrimary
+							>
+								{ __( 'Backup wp-config', 'wp-live-debug' ) }
+							</Button>
+						) }
 					</div>
 				</div>
 			</Fragment>
