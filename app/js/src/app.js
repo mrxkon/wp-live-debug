@@ -2,7 +2,6 @@
  * WordPress dependencies.
  */
 import { Fragment, Component } from '@wordpress/element';
-import apiFetch from '@wordpress/api-fetch';
 import axios from 'axios';
 
 /**
