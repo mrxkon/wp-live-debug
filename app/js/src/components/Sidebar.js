@@ -8,10 +8,7 @@ import { Panel, PanelBody, PanelRow } from '@wordpress/components';
 /**
  * Internal dependencies.
  */
-import WPLDToggleDebug from './WPLDToggleDebug';
-import WPLDToggleScriptDebug from './WPLDToggleScriptDebug';
-import WPLDToggleSavequeries from './WPLDToggleSavequeries';
-import WPLDToggleRefresh from './WPLDToggleRefresh';
+import Toggle from './Toggle';
 
 /**
  * Main.
@@ -26,22 +23,22 @@ class Sidebar extends Component {
 						initialOpen={ true }
 					>
 						<PanelRow>
-							<WPLDToggleDebug />
+							<Toggle name="WP_DEBUG" id="enable-wp-debug" checked={ true } />
 						</PanelRow>
 						<PanelRow>
-							<WPLDToggleScriptDebug />
+							<Toggle name="SCRIPT_DEBUG" id="enable-script-debug" checked={ false } />
 						</PanelRow>
 						<PanelRow>
-							<WPLDToggleSavequeries />
+							<Toggle name="SAVEQUERIES" id="enable-savequeries" checked={ true } />
 						</PanelRow>
 						<PanelRow>
-							<WPLDToggleRefresh />
+							<Toggle name="Auto Refresh" id="enable-auto-refresh" checked={ false } />
 						</PanelRow>
 					</PanelBody>
 				</Panel>
 				<Panel>
 					<PanelBody
-						title={ __( 'More Information', 'wp-live-debug' ) }
+						title={ __( 'Information', 'wp-live-debug' ) }
 						initialOpen={ false }
 					>
 						<PanelRow>
