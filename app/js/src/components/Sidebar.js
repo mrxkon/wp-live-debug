@@ -6,6 +6,8 @@ import { Panel, PanelBody, PanelRow, FormToggle } from '@wordpress/components';
 
 /**
  * Main.
+ *
+ * @param {Object} props
  */
 const Sidebar = ( props ) => {
 	return (

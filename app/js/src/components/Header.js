@@ -6,6 +6,8 @@ import { Button } from '@wordpress/components';
 
 /**
  * Main.
+ *
+ * @param {Object} props
  */
 const Header = ( props ) => {
 	return (

@@ -11,6 +11,8 @@ import Sidebar from './Sidebar';
 
 /**
  * Main.
+ *
+ * @param {Object} props
  */
 const Content = ( props ) => {
 	return (

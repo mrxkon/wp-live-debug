@@ -349,6 +349,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * Main.
+ *
+ * @param {Object} props
  */
 
 var Content = function Content(props) {
@@ -406,6 +408,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * Main.
+ *
+ * @param {Object} props
  */
 
 var Header = function Header(props) {
@@ -524,6 +528,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * Main.
+ *
+ * @param {Object} props
  */
 
 var Sidebar = function Sidebar(props) {
