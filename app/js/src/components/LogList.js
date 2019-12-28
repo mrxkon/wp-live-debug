@@ -4,7 +4,6 @@
 import { __ } from '@wordpress/i18n';
 import { Component, Fragment } from '@wordpress/element';
 import { SelectControl } from '@wordpress/components';
-import { withState } from '@wordpress/compose';
 
 /**
  * Main.
@@ -25,7 +24,7 @@ class LogList extends Component {
 						{ label: 'Medium', value: '50%' },
 						{ label: 'Small', value: '25%' },
 					] }
-					//onChange={ ( size ) => { setState( { size } ) } }
+					//onChange={ ( size ) => { this.setState( { size } ) } }
 				/>
 			</Fragment>
 		);

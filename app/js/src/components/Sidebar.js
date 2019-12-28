@@ -26,6 +26,12 @@ class Sidebar extends Component {
 							<Toggle name="WP_DEBUG" id="enable-wp-debug" checked={ true } />
 						</PanelRow>
 						<PanelRow>
+							<Toggle name="WP_DEBUG_LOG" id="enable-wp-debug-log" checked={ true } />
+						</PanelRow>
+						<PanelRow>
+							<Toggle name="WP_DEBUG_DISPLAY" id="enable-wp-debug-display" checked={ true } />
+						</PanelRow>
+						<PanelRow>
 							<Toggle name="SCRIPT_DEBUG" id="enable-script-debug" checked={ false } />
 						</PanelRow>
 						<PanelRow>
@@ -38,7 +44,7 @@ class Sidebar extends Component {
 				</Panel>
 				<Panel>
 					<PanelBody
-						title={ __( 'Information', 'wp-live-debug' ) }
+						title={ __( 'More Information', 'wp-live-debug' ) }
 						initialOpen={ false }
 					>
 						<PanelRow>
