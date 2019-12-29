@@ -27,4 +27,4 @@ jobs:
       run: |
         export SNIFFS_DIR=/tmp/sniffs
         php phpcs.phar --config-set installed_paths $SNIFFS_DIR
-        php phpcs.phar -p -s -v -n . --standard=WordPress-Core --extensions=php
+        php phpcs.phar -p -s -v -n . --standard=WordPress-Core --extensions=php --ignore=index.asset.php
