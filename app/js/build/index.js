@@ -170,7 +170,13 @@ var App = function App() {
   var _useState15 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState16 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState15, 2),
       hasAutoRefresh = _useState16[0],
-      setAutoRefresh = _useState16[1];
+      setAutoRefresh = _useState16[1]; // Initialize a state for the loading spinner.
+
+
+  var _useState17 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])('show-spinner'),
+      _useState18 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState17, 2),
+      loading = _useState18[0],
+      setLoading = _useState18[1];
   /**
    * Check if backup exists.
    */
@@ -214,6 +220,8 @@ var App = function App() {
               setSaveQueries(true);
               break;
           }
+
+          setLoading('hide-spinner');
         }
       });
     });
@@ -300,6 +308,7 @@ var App = function App() {
     BackupActions: BackupActions,
     hasBackup: hasBackup
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Content__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    loading: loading,
     alterWPDebug: alterWPDebug,
     alterWPDebugLog: alterWPDebugLog,
     alterWPDebugDisplay: alterWPDebugDisplay,
@@ -364,6 +373,7 @@ var Content = function Content(props) {
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_LogViewer__WEBPACK_IMPORTED_MODULE_2__["default"], null)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "sidebar"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    loading: props.loading,
     alterWPDebug: props.alterWPDebug,
     alterWPDebugLog: props.alterWPDebugLog,
     alterWPDebugDisplay: props.alterWPDebugDisplay,
@@ -535,6 +545,8 @@ __webpack_require__.r(__webpack_exports__);
 var Sidebar = function Sidebar(props) {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Panel"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
     title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Settings', 'wp-live-debug'),
+    className: props.loading,
+    icon: Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Spinner"], null),
     initialOpen: true
   }, props.hasBackup ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
     htmlFor: "alter-wp-debug",

@@ -36,6 +36,9 @@ const App = () => {
 	// Initialize the auto refresh state.
 	const [ hasAutoRefresh, setAutoRefresh ] = useState( false );
 
+	// Initialize a state for the loading spinner.
+	const [ loading, setLoading ] = useState( 'show-spinner' );
+
 	/**
 	 * Check if backup exists.
 	 */
@@ -74,6 +77,8 @@ const App = () => {
 							setSaveQueries( true );
 							break;
 					}
+
+					setLoading( 'hide-spinner' );
 				}
 			} ),
 		);
@@ -155,6 +160,7 @@ const App = () => {
 				hasBackup={ hasBackup }
 			/>
 			<Content
+				loading={ loading }
 				alterWPDebug={ alterWPDebug }
 				alterWPDebugLog={ alterWPDebugLog }
 				alterWPDebugDisplay={ alterWPDebugDisplay }

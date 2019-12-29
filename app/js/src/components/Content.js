@@ -28,6 +28,7 @@ const Content = ( props ) => {
 				</div>
 				<div className="sidebar">
 					<Sidebar
+						loading={ props.loading }
 						alterWPDebug={ props.alterWPDebug }
 						alterWPDebugLog={ props.alterWPDebugLog }
 						alterWPDebugDisplay={ props.alterWPDebugDisplay }
