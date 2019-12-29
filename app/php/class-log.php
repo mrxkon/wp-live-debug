@@ -22,20 +22,57 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Log {
 	/**
+	 * Finds out where debug.log is located.
+	 */
+	public static function find_debug_log_json() {
+		// Send error if wrong referer.
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
+			wp_send_json_error();
+		}
+
+		// If debug log is defined.
+		if ( defined( 'WP_DEBUG_LOG' ) ) {
+			if ( is_string( WP_DEBUG_LOG ) ) {
+				$log_file = wp_normalize_path( WP_DEBUG_LOG );
+				update_option( 'wp_live_debug_debug_log_location', $log_file );
+			} elseif ( WP_DEBUG_LOG ) {
+				$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+				update_option( 'wp_live_debug_debug_log_location', $log_file );
+			}
+		}
+
+		// Return the path.
+		wp_send_json_success(
+			array(
+				'debuglog_path' => $log_file,
+			)
+		);
+	}
+
+	/**
+	 * Check if debug.log exists.
+	 */
+	public static function check_debug_log() {
+		// Get debug.log location.
+		$log_file = get_option( 'wp_live_debug_debug_log_location' );
+
+		// Return true/false if debug.log exists.
+		return file_exists( $log_file ) ? true : false;
+	}
+
+	/**
 	 * Create the debug.log if it doesn't exist.
 	 */
 	public static function create_debug_log() {
-		$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+		// Get debug.log location.
+		$log_file = get_option( 'wp_live_debug_debug_log_location' );
 
-		if ( ! file_exists( $log_file ) ) {
-			$fo = fopen( $log_file, 'w' ) or die( 'Cannot create debug.log!' );
-
-			fwrite( $fo, '' );
-
-			fclose( $fo );
+		// If debug.log doesn't exist create it.
+		if ( ! self::check_debug_log() ) {
+			$file = fopen( $log_file, 'w' ) or die( 'Cannot create debug.log!' );
+			fwrite( $file, '' );
+			fclose( $file );
 		}
-
-		update_option( 'wp_live_debug_log_file', $log_file );
 	}
 
 	/**
@@ -134,12 +171,6 @@ class Log {
 		}
 
 		unlink( $log_file );
-
-		WP_Live_Log::create_debug_log();
-
-		$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
-
-		update_option( 'wp_live_debug_log_file', $log_file );
 
 		wp_send_json_success();
 	}

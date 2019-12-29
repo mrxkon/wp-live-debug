@@ -41,6 +41,9 @@ const App = () => {
 	// Initialize a state for the loading spinner.
 	const [ loading, setLoading ] = useState( 'show-spinner' );
 
+	// Initialize the debug.log location state.
+	const [ debugLogLocation, setDebugLogLocation ] = useState( '' );
+
 	/**
 	 * Check if wp-config.WPLD-auto.php exists.
 	 */
@@ -55,6 +58,24 @@ const App = () => {
 		} ).then( ( response ) => {
 			if ( false === response.data.success ) {
 				console.log( 'Could not create an auto backup' );
+			}
+		} );
+	};
+
+	/**
+	 * Find debug.log location.
+	 */
+	const findDebugLog = () => {
+		axios( {
+			method: 'post',
+			url: wp_live_debug_globals.ajax_url,
+			params: {
+				action: 'wp-live-debug-find-debug-log-json',
+				_ajax_nonce: wp_live_debug_globals.nonce,
+			},
+		} ).then( ( response ) => {
+			if ( true === response.data.success ) {
+				setDebugLogLocation( response.data.data.debuglog_path );
 			}
 		} );
 	};
@@ -127,6 +148,7 @@ const App = () => {
 	if ( firstRun ) {
 		autoBackupExists();
 		manualBackupExists();
+		findDebugLog();
 		isConstantTrue();
 		setfirstRun( false );
 	}

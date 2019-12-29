@@ -48,9 +48,8 @@ class Setup {
 		// Set text_domain.
 		add_action( 'init', array( $this, 'text_domain' ) );
 
-		// add_action( 'wp_ajax_wp-live-debug-accept-risk', array( '\\WP_Live_Debug\\Page', 'accept_risk' ) );
-
 		// Log related actions.
+		add_action( 'wp_ajax_wp-live-debug-find-debug-log-json', array( '\\WP_Live_Debug\\Log', 'find_debug_log_json' ) );
 		// add_action( 'wp_ajax_wp-live-debug-read-log', array( '\\WP_Live_Debug\\Log', 'read_debug_log' ) );
 		// add_action( 'wp_ajax_wp-live-debug-select-log', array( '\\WP_Live_Debug\\Log', 'select_log_file' ) );
 		// add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( '\\WP_Live_Debug\\Log', 'clear_debug_log' ) );
@@ -82,8 +81,8 @@ class Setup {
 		// Initialize auto refresh and make it disabled.
 		update_option( 'wp_live_debug_auto_refresh', 'disabled' );
 
-		// Create debug log if it doesn't exist.
-		Log::create_debug_log();
+		// Initialize debug.log location option.
+		update_option( 'wp_live_debug_debug_log_location', '' );
 
 		// Keep a first backup of wp-config.php.
 		Config::get_auto_backup();
@@ -95,6 +94,9 @@ class Setup {
 	public static function deactivate() {
 		// Remove the auto refresh option.
 		delete_option( 'wp_live_debug_auto_refresh' );
+
+		// Remove the debug.log location option.
+		delete_option( 'wp_live_debug_debug_log_location' );
 
 		// Remove the manual backup.
 		Config::remove_manual_backup();

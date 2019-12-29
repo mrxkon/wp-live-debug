@@ -182,7 +182,13 @@ var App = function App() {
   var _useState17 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])('show-spinner'),
       _useState18 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState17, 2),
       loading = _useState18[0],
-      setLoading = _useState18[1];
+      setLoading = _useState18[1]; // Initialize the debug.log location state.
+
+
+  var _useState19 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(''),
+      _useState20 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState19, 2),
+      debugLogLocation = _useState20[0],
+      setDebugLogLocation = _useState20[1];
   /**
    * Check if wp-config.WPLD-auto.php exists.
    */
@@ -199,6 +205,25 @@ var App = function App() {
     }).then(function (response) {
       if (false === response.data.success) {
         console.log('Could not create an auto backup');
+      }
+    });
+  };
+  /**
+   * Find debug.log location.
+   */
+
+
+  var findDebugLog = function findDebugLog() {
+    axios__WEBPACK_IMPORTED_MODULE_4___default()({
+      method: 'post',
+      url: wp_live_debug_globals.ajax_url,
+      params: {
+        action: 'wp-live-debug-find-debug-log-json',
+        _ajax_nonce: wp_live_debug_globals.nonce
+      }
+    }).then(function (response) {
+      if (true === response.data.success) {
+        setDebugLogLocation(response.data.data.debuglog_path);
       }
     });
   };
@@ -277,6 +302,7 @@ var App = function App() {
   if (firstRun) {
     autoBackupExists();
     manualBackupExists();
+    findDebugLog();
     isConstantTrue();
     setfirstRun(false);
   }
