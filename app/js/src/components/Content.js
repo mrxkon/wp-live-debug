@@ -25,7 +25,7 @@ const Content = ( props ) => {
 			>
 				<div className="main">
 					<h2>{ __( 'Viewing:', 'wp-live-debug' ) } { props.debugLogLocation }</h2>
-					<LogViewer />
+					<LogViewer deubgLogContent={ props.deubgLogContent } />
 				</div>
 				<div className="sidebar">
 					<Sidebar

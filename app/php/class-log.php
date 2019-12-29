@@ -76,7 +76,7 @@ class Log {
 	}
 
 	/**
-	 * Refresh debug log toggle
+	 * Refresh debug.log toggle
 	 */
 	public static function refresh_debug_log() {
 		if ( ! empty( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {
@@ -97,10 +97,15 @@ class Log {
 	}
 
 	/**
-	 * Read log.
+	 * Read debug.log.
 	 */
 	public static function read_debug_log() {
-		$log_file = get_option( 'wp_live_debug_log_file' );
+		// Send error if wrong referer.
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
+			wp_send_json_error();
+		}
+
+		$log_file = get_option( 'wp_live_debug_debug_log_location' );
 
 		if ( file_exists( $log_file ) ) {
 			if ( 2000000 > filesize( $log_file ) ) {

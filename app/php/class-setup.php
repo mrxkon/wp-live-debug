@@ -50,7 +50,7 @@ class Setup {
 
 		// Log related actions.
 		add_action( 'wp_ajax_wp-live-debug-find-debug-log-json', array( '\\WP_Live_Debug\\Log', 'find_debug_log_json' ) );
-		// add_action( 'wp_ajax_wp-live-debug-read-log', array( '\\WP_Live_Debug\\Log', 'read_debug_log' ) );
+		add_action( 'wp_ajax_wp-live-debug-read-debug-log', array( '\\WP_Live_Debug\\Log', 'read_debug_log' ) );
 		// add_action( 'wp_ajax_wp-live-debug-select-log', array( '\\WP_Live_Debug\\Log', 'select_log_file' ) );
 		// add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( '\\WP_Live_Debug\\Log', 'clear_debug_log' ) );
 		// add_action( 'wp_ajax_wp-live-debug-delete-debug-log', array( '\\WP_Live_Debug\\Log', 'delete_debug_log' ) );

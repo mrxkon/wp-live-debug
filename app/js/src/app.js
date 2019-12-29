@@ -44,6 +44,9 @@ const App = () => {
 	// Initialize the debug.log location state.
 	const [ debugLogLocation, setDebugLogLocation ] = useState( '' );
 
+	// Initialize the debug.log content state.
+	const [ deubgLogContent, setDebugLogContent ] = useState( '' );
+
 	/**
 	 * Check if wp-config.WPLD-auto.php exists.
 	 */
@@ -76,6 +79,24 @@ const App = () => {
 		} ).then( ( response ) => {
 			if ( true === response.data.success ) {
 				setDebugLogLocation( response.data.data.debuglog_path );
+			}
+		} );
+	};
+
+	/**
+	 * Read the debug.log.
+	 */
+	const readDebugLog = () => {
+		axios( {
+			method: 'post',
+			url: wp_live_debug_globals.ajax_url,
+			params: {
+				action: 'wp-live-debug-read-debug-log',
+				_ajax_nonce: wp_live_debug_globals.nonce,
+			},
+		} ).then( ( response ) => {
+			if ( response ) {
+				setDebugLogContent( response.data );
 			}
 		} );
 	};
@@ -150,6 +171,7 @@ const App = () => {
 		manualBackupExists();
 		findDebugLog();
 		isConstantTrue();
+		readDebugLog();
 		setfirstRun( false );
 	}
 
@@ -264,6 +286,7 @@ const App = () => {
 				debugEnabled={ hasWPDebug }
 				debugLogLocation={ debugLogLocation }
 				debugLogEnabled={ hasWPDebugLog }
+				deubgLogContent={ deubgLogContent }
 				debugDisplayEnabled={ hasWPDebugDisplay }
 				scriptDebugEnabled={ hasScriptDebug }
 				saveQueriesEnabled={ hasSaveQueries }

@@ -1,23 +1,17 @@
 /**
- * WordPress dependencies.
- */
-import { Component } from '@wordpress/element';
-
-/**
  * Main.
+ *
+ * @param {Object} props
  */
-class LogViewer extends Component {
-	render() {
-		return (
-			<textarea
-				id="wp-live-debug-area"
-				name="wp-live-debug-area"
-				spellCheck="false"
-			>
-				aefaeafaef aefae aef ae
-			</textarea>
-		);
-	}
-}
+const LogViewer = ( props ) => {
+	return (
+		<textarea
+			id="wp-live-debug-area"
+			name="wp-live-debug-area"
+			spellCheck="false"
+			value={ props.deubgLogContent }
+		/>
+	);
+};
 
 export default LogViewer;
