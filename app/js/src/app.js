@@ -1,10 +1,7 @@
 /**
  * WordPress dependencies.
  */
-import { __ } from '@wordpress/i18n';
-import { Button } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-import axios from 'axios';
 
 /**
  * Internal Dependencies.
@@ -51,114 +48,122 @@ const App = () => {
 	 * Check if wp-config.WPLD-auto.php exists.
 	 */
 	const autoBackupExists = () => {
-		axios( {
-			method: 'post',
-			url: wp_live_debug_globals.ajax_url,
-			params: {
-				action: 'wp-live-debug-check-auto-backup-json',
-				_ajax_nonce: wp_live_debug_globals.nonce,
-			},
-		} ).then( ( response ) => {
-			if ( false === response.data.success ) {
-				console.log( 'Could not create an auto backup' );
+		const request = new XMLHttpRequest(),
+			url = wp_live_debug_globals.ajax_url,
+			nonce = wp_live_debug_globals.nonce,
+			action = 'wp-live-debug-check-auto-backup-json';
+
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				// silence.
 			}
-		} );
+		};
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 	};
 
 	/**
 	 * Find debug.log location.
 	 */
 	const findDebugLog = () => {
-		axios( {
-			method: 'post',
-			url: wp_live_debug_globals.ajax_url,
-			params: {
-				action: 'wp-live-debug-find-debug-log-json',
-				_ajax_nonce: wp_live_debug_globals.nonce,
-			},
-		} ).then( ( response ) => {
-			if ( true === response.data.success ) {
-				setDebugLogLocation( response.data.data.debuglog_path );
+		const request = new XMLHttpRequest(),
+			url = wp_live_debug_globals.ajax_url,
+			nonce = wp_live_debug_globals.nonce,
+			action = 'wp-live-debug-find-debug-log-json';
+
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				const resp = JSON.parse( this.response );
+				setDebugLogLocation( resp.data.debuglog_path );
 			}
-		} );
+		};
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 	};
 
 	/**
 	 * Read the debug.log.
 	 */
 	const readDebugLog = () => {
-		axios( {
-			method: 'post',
-			url: wp_live_debug_globals.ajax_url,
-			params: {
-				action: 'wp-live-debug-read-debug-log',
-				_ajax_nonce: wp_live_debug_globals.nonce,
-			},
-		} ).then( ( response ) => {
-			if ( response ) {
-				setDebugLogContent( response.data );
+		const request = new XMLHttpRequest(),
+			url = wp_live_debug_globals.ajax_url,
+			nonce = wp_live_debug_globals.nonce,
+			action = 'wp-live-debug-read-debug-log';
+
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				setDebugLogContent( this.response );
 			}
-		} );
+		};
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 	};
 
 	/**
 	 * Check if wp-config.WPLD-manual.php exists.
 	 */
 	const manualBackupExists = () => {
-		axios( {
-			method: 'post',
-			url: wp_live_debug_globals.ajax_url,
-			params: {
-				action: 'wp-live-debug-check-manual-backup-json',
-				_ajax_nonce: wp_live_debug_globals.nonce,
-			},
-		} ).then( ( response ) => {
-			if ( true === response.data.success ) {
-				// If there's a alter the hasBackup state.
-				setHasBackup( true );
+		const request = new XMLHttpRequest(),
+			url = wp_live_debug_globals.ajax_url,
+			nonce = wp_live_debug_globals.nonce,
+			action = 'wp-live-debug-check-manual-backup-json';
+
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				const resp = JSON.parse( this.response );
+				if ( true === resp.success ) {
+					setHasBackup( true );
+				}
 			}
-		} );
+		};
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 	};
 
 	/**
 	 * See any of the constants are true and alter their state.
 	 */
 	const isConstantTrue = () => {
-		const constants = [ 'WP_DEBUG', 'WP_DEBUG_LOG', 'WP_DEBUG_DISPLAY', 'SCRIPT_DEBUG', 'SAVEQUERIES' ];
+		const request = new XMLHttpRequest(),
+			  url = wp_live_debug_globals.ajax_url,
+			  nonce = wp_live_debug_globals.nonce,
+			  action = 'wp-live-debug-is-constant-true';
 
-		constants.map( ( constant ) =>
-			axios( {
-				method: 'post',
-				url: wp_live_debug_globals.ajax_url,
-				params: {
-					action: 'wp-live-debug-is-constant-true',
-					_ajax_nonce: wp_live_debug_globals.nonce,
-					constant,
-				},
-			} ).then( ( response ) => {
-				if ( true === response.data.success ) {
-					switch ( constant ) {
-						case 'WP_DEBUG':
-							setWPDebug( true );
-							break;
-						case 'WP_DEBUG_LOG':
-							setWPDebugLog( true );
-							break;
-						case 'WP_DEBUG_DISPLAY':
-							setWPDebugDisplay( true );
-							break;
-						case 'SCRIPT_DEBUG':
-							setScriptDebug( true );
-							break;
-						case 'SAVEQUERIES':
-							setSaveQueries( true );
-							break;
-					}
-
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				const resp = JSON.parse( this.response );
+				if ( true === resp.success ) {
+					resp.data.map( ( constant ) => {
+						switch ( constant ) {
+							case 'WP_DEBUG':
+								setWPDebug( true );
+								break;
+							case 'WP_DEBUG_LOG':
+								setWPDebugLog( true );
+								break;
+							case 'WP_DEBUG_DISPLAY':
+								setWPDebugDisplay( true );
+								break;
+							case 'SCRIPT_DEBUG':
+								setScriptDebug( true );
+								break;
+							case 'SAVEQUERIES':
+								setSaveQueries( true );
+								break;
+						}
+					} );
 					setLoading( 'hide-spinner' );
 				}
-			} ),
-		);
+			}
+		};
+
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 	};
 
 	/**
@@ -186,39 +191,43 @@ const App = () => {
 
 		// If we're getting a backup.
 		if ( e.target.id === 'wp-live-debug-backup' ) {
-			axios( {
-				method: 'post',
-				url: wp_live_debug_globals.ajax_url,
-				params: {
-					action: 'wp-live-debug-create-backup',
-					_ajax_nonce: wp_live_debug_globals.nonce,
-				},
-			} ).then( ( response ) => {
-				if ( true === response.data.success ) {
-					// Set the state of backup to true.
-					setHasBackup( true );
+			const request = new XMLHttpRequest(),
+				  url = wp_live_debug_globals.ajax_url,
+				  nonce = wp_live_debug_globals.nonce,
+				  action = 'wp-live-debug-create-backup';
+
+			request.open( 'POST', url, true );
+			request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+			request.onload = function() {
+				if ( this.status >= 200 && this.status < 400 ) {
+					const resp = JSON.parse( this.response );
+					if ( true === resp.success ) {
+						setHasBackup( true );
+						setLoading( 'hide-spinner' );
+					}
 				}
-				// Hide the spinner.
-				setLoading( 'hide-spinner' );
-			} );
+			};
+			request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 
 		// Else restore the backup.
 		} else {
-			axios( {
-				method: 'post',
-				url: wp_live_debug_globals.ajax_url,
-				params: {
-					action: 'wp-live-debug-restore-backup',
-					_ajax_nonce: wp_live_debug_globals.nonce,
-				},
-			} ).then( ( response ) => {
-				if ( true === response.data.success ) {
-					// Set the state of backup to false.
-					setHasBackup( false );
+			const request = new XMLHttpRequest(),
+				  url = wp_live_debug_globals.ajax_url,
+				  nonce = wp_live_debug_globals.nonce,
+				  action = 'wp-live-debug-restore-backup';
+
+			request.open( 'POST', url, true );
+			request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+			request.onload = function() {
+				if ( this.status >= 200 && this.status < 400 ) {
+					const resp = JSON.parse( this.response );
+					if ( true === resp.success ) {
+						setHasBackup( false );
+						setLoading( 'hide-spinner' );
+					}
 				}
-				// Hide the spinner.
-				setLoading( 'hide-spinner' );
-			} );
+			};
+			request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 		}
 	};
 
