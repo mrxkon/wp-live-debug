@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies.
  */
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 
 /**
  * Internal Dependencies.
@@ -33,7 +33,7 @@ const App = () => {
 	const [ hasBackup, setHasBackup ] = useState( false );
 
 	// Initialize the auto refresh state.
-	const [ hasAutoRefresh, setAutoRefresh ] = useState( false );
+	const [ hasAutoRefresh, setAutoRefresh ] = useState( true );
 
 	// Initialize a state for the loading spinner.
 	const [ loading, setLoading ] = useState( 'show-spinner' );
@@ -166,6 +166,22 @@ const App = () => {
 		};
 		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 	};
+
+	/**
+	 * Scroll the LogViewer.
+	 */
+	useEffect( () => {
+		const interval = setInterval( () => {
+			if ( true === hasAutoRefresh ) {
+				const debugArea = document.getElementById( 'wp-live-debug-area' );
+				if ( null !== debugArea ) {
+					debugArea.scrollTop = debugArea.scrollHeight;
+				}
+			}
+		}, 2000 );
+
+		return () => clearInterval(interval);
+	} );
 
 	/**
 	 * Backup Button Actions.
