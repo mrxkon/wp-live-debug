@@ -93,9 +93,6 @@ class Setup {
 	 * Deactivation Hook.
 	 */
 	public static function deactivate() {
-		// Remove the risk option.
-		delete_option( 'wp_live_debug_risk' );
-
 		// Remove the auto refresh option.
 		delete_option( 'wp_live_debug_auto_refresh' );
 
