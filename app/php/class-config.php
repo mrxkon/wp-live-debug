@@ -18,21 +18,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * WP_Config Class.
+ * Config Class.
  */
-class WP_Config {
+class Config {
 	/**
-	 * The array of accepted constants.
-	 *
-	 * @var array $constants
+	 * Create the wp-config.wpld-original-backup.php
 	 */
-	private static $constants = array(
-		'WP_DEBUG',
-		'WP_DEBUG_LOG',
-		'WP_DEBUG_DISPLAY',
-		'SCRIPT_DEBUG',
-		'SAVEQUERIES',
-	);
+	public static function get_first_backup() {
+		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG ) ) {
+			copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL );
+		}
+	}
+
+	/**
+	 * Delete the wp-config.wpld-manual-backup.php on deactivation
+	 */
+	public static function clear_manual_backup() {
+		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
+			unlink( WP_LIVE_DEBUG_WP_CONFIG_BACKUP );
+		}
+	}
+
+	/**
+	 * Check if manual wp-config.php backup exists.
+	 */
+	public static function check_wp_config_backup() {
+		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
+			return true;
+		}
+
+		return false;
+	}
 
 	/**
 	 * Creates a backup of wp-config.php.
@@ -100,7 +116,7 @@ class WP_Config {
 
 		// Make sure to create a backup if it doesn't exist.
 		if ( ! file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ) {
-			Helper::get_first_backup();
+			Log::get_first_backup();
 		}
 
 		if ( ! empty( $_GET['wplddlwpconfig'] ) && 'true' === $_GET['wplddlwpconfig'] ) {
@@ -122,49 +138,6 @@ class WP_Config {
 		}
 
 		file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ? wp_send_json_success() : wp_send_json_error();
-	}
-
-	/**
-	 * Check if a given constant is enabled.
-	 */
-	public static function is_constant_true() {
-		// Set result to false by default.
-		$result = false;
-
-		// Send error if wrong referer.
-		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
-			wp_send_json_error();
-		}
-
-		// Sanitize the accepted constant.
-		$constant = sanitize_text_field( $_GET['constant'] );
-
-		// Only continue if the constant fits our needs.
-		if ( ! in_array( $constant, self::$constants, true ) ) {
-			wp_send_json_error();
-		}
-
-		// Test for results.
-		switch ( $constant ) {
-			case 'WP_DEBUG':
-				defined( 'WP_DEBUG' ) && WP_DEBUG ? $result = true : $result = false;
-				break;
-			case 'WP_DEBUG_LOG':
-				defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ? $result = true : $result = false;
-				break;
-			case 'WP_DEBUG_DISPLAY':
-				defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ? $result = true : $result = false;
-				break;
-			case 'SCRIPT_DEBUG':
-				defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? $result = true : $result = false;
-				break;
-			case 'SAVEQUERIES':
-				defined( 'SAVEQUERIES' ) && SAVEQUERIES ? $result = true : $result = false;
-				break;
-		}
-
-		// Send result depending on the situation.
-		$result ? wp_send_json_success() : wp_send_json_error();
 	}
 
 	/**

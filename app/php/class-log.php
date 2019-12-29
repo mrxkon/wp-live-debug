@@ -20,7 +20,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Debug Class.
  */
-class Debug_Log {
+class Log {
+	/**
+	 * Create the debug.log if it doesn't exist.
+	 */
+	public static function create_debug_log() {
+		$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+
+		if ( ! file_exists( $log_file ) ) {
+			$fo = fopen( $log_file, 'w' ) or die( 'Cannot create debug.log!' );
+
+			fwrite( $fo, '' );
+
+			fclose( $fo );
+		}
+
+		update_option( 'wp_live_debug_log_file', $log_file );
+	}
+
 	/**
 	 * Refresh debug log toggle
 	 */
@@ -71,26 +88,6 @@ class Debug_Log {
 	}
 
 	/**
-	 * Select log.
-	 */
-	public static function select_log_file() {
-		$nonce    = sanitize_text_field( $_POST['nonce'] );
-		$log_file = sanitize_text_field( $_POST['log'] );
-
-		if ( ! wp_verify_nonce( $nonce, $log_file ) ) {
-			wp_send_json_error();
-		}
-
-		if ( 'log' != substr( strrchr( $log_file, '.' ), 1 ) ) {
-			wp_send_json_error();
-		}
-
-		update_option( 'wp_live_debug_log_file', $log_file );
-
-		wp_send_json_success();
-	}
-
-	/**
 	 * Clear log.
 	 */
 	public static function clear_debug_log() {
@@ -138,7 +135,7 @@ class Debug_Log {
 
 		unlink( $log_file );
 
-		WP_Live_Debug_Helper::create_debug_log();
+		WP_Live_Log::create_debug_log();
 
 		$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
 
