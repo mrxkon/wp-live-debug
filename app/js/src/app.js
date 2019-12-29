@@ -1,6 +1,8 @@
 /**
  * WordPress dependencies.
  */
+import { __ } from '@wordpress/i18n';
+import { Button, Modal } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import axios from 'axios';
 
@@ -39,9 +41,52 @@ const App = () => {
 	// Initialize a state for the loading spinner.
 	const [ loading, setLoading ] = useState( 'show-spinner' );
 
+	// Initialize the safety modal.
+	const [ showModal, setShowModal ] = useState( false );
+
 	/**
 	 * Check if backup exists.
 	 */
+	const autoBackupExists = () => {
+		axios( {
+			method: 'post',
+			url: wp_live_debug_globals.ajax_url,
+			params: {
+				action: 'wp-live-debug-check-auto-backup',
+				_ajax_nonce: wp_live_debug_globals.nonce,
+			},
+		} ).then( ( response ) => {
+			if ( false === response.data.success ) {
+				// If there's no backup show the modal.
+				setShowModal( true );
+			}
+		} );
+	};
+
+	/**
+	 * Download Backup.
+	 */
+	// const downloadBackup = () => {
+	// 	console.log( 'dl1' );
+	// 	axios( {
+	// 		method: 'post',
+	// 		url: '?page=wp-live-debug',
+	// 		params: {
+	// 			wplddlwpconfig: 'true',
+	// 		},
+	// 	} ).then( ( response ) => {
+	// 		if ( true === response.data.success ) {
+	// 			console.log( 'dl2' );
+	// 			// Set the state of backup to true.
+	// 			//setHasBackup( true );
+	// 		}
+	// 	} );
+	// };
+
+	/**
+	 * Close Modal.
+	 */
+	const closeModal = () => setShowModal( false );
 
 	/**
 	 * See any of the constants are true and alter their state.
@@ -90,6 +135,7 @@ const App = () => {
 	 * to false so this won't run again until a page refresh.
 	 */
 	if ( firstRun ) {
+		autoBackupExists();
 		isConstantTrue();
 		setfirstRun( false );
 	}
@@ -209,6 +255,16 @@ const App = () => {
 				saveQueriesEnabled={ hasSaveQueries }
 				autoRefreshEnabled={ hasAutoRefresh }
 			/>
+			{ showModal && (
+				<Modal
+					title={ __( 'Safety First!', 'wp-live-debug' ) }
+					onRequestClose={ closeModal }
+				>
+					<Button isPrimary onClick={ closeModal }>
+						{ __( 'Download Backup', 'wp-live-debug' ) }
+					</Button>
+				</Modal>
+			) }
 		</>
 	);
 };

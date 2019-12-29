@@ -38,6 +38,11 @@ class WP_Config {
 	 * Creates a backup of wp-config.php.
 	 */
 	public static function create_wp_config_backup() {
+		// Send error if wrong referer.
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
+			wp_send_json_error();
+		}
+
 		// If we can't create a wp-config backup then send an error.
 		if ( ! copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
 			wp_send_json_error(
@@ -59,6 +64,11 @@ class WP_Config {
 	 * Restores a backup of wp-config.php.
 	 */
 	public static function restore_wp_config_backup() {
+		// Send error if wrong referer.
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
+			wp_send_json_error();
+		}
+
 		// If we can't restore the wp-config then send an error.
 		if ( ! copy( WP_LIVE_DEBUG_WP_CONFIG_BACKUP, WP_LIVE_DEBUG_WP_CONFIG ) ) {
 			wp_send_json_error(
@@ -83,6 +93,16 @@ class WP_Config {
 	 * Force download wp-config original backup
 	 */
 	public static function download_config_backup() {
+		// Send error if wrong referer.
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
+			wp_send_json_error();
+		}
+
+		// Make sure to create a backup if it doesn't exist.
+		if ( ! file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ) {
+			Helper::get_first_backup();
+		}
+
 		if ( ! empty( $_GET['wplddlwpconfig'] ) && 'true' === $_GET['wplddlwpconfig'] ) {
 			$filename = 'wp-config-' . str_replace( array( 'http://', 'https://' ), '', get_site_url() ) . '-' . wp_date( 'Ymd-Hi' ) . '-backup.php';
 			header( 'Content-type: textplain;' );
@@ -96,7 +116,12 @@ class WP_Config {
 	 * Check if original wp-config.php backup exists.
 	 */
 	public static function check_wp_config_original_backup() {
-		return file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ? true : false;
+		// Send error if wrong referer.
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
+			wp_send_json_error();
+		}
+
+		file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ? wp_send_json_success() : wp_send_json_error();
 	}
 
 	/**
@@ -106,7 +131,7 @@ class WP_Config {
 		// Set result to false by default.
 		$result = false;
 
-		// Exit early if wrong referer.
+		// Send error if wrong referer.
 		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
 			wp_send_json_error();
 		}

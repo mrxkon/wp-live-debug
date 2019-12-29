@@ -57,17 +57,20 @@ class Setup {
 		// add_action( 'wp_ajax_wp-live-debug-delete-debug-log', array( '\\WP_Live_Debug\\Debug_Log', 'delete_debug_log' ) );
 		// add_action( 'wp_ajax_wp-live-debug-refresh-debug-log', array( '\\WP_Live_Debug\\Debug_Log', 'refresh_debug_log' ) );
 
-		// wp-config related actions.
-		add_action( 'wp_ajax_wp-live-debug-is-constant-true', array( '\\WP_Live_Debug\\WP_Config', 'is_constant_true' ) );
+		// Backup actions.
 		add_action( 'wp_ajax_wp-live-debug-create-backup', array( '\\WP_Live_Debug\\WP_Config', 'create_wp_config_backup' ) );
 		add_action( 'wp_ajax_wp-live-debug-restore-backup', array( '\\WP_Live_Debug\\WP_Config', 'restore_wp_config_backup' ) );
+		add_action( 'wp_ajax_wp-live-debug-check-auto-backup', array( '\\WP_Live_Debug\\WP_Config', 'check_wp_config_original_backup' ) );
+		//add_action( 'admin_init', array( '\\WP_Live_Debug\\WP_Config', 'download_config_backup' ) );
+
+		// wp-config related actions.
+		add_action( 'wp_ajax_wp-live-debug-is-constant-true', array( '\\WP_Live_Debug\\WP_Config', 'is_constant_true' ) );
 		// add_action( 'wp_ajax_wp-live-debug-enable', array( '\\WP_Live_Debug\\WP_Config', 'enable_wp_debug' ) );
 		// add_action( 'wp_ajax_wp-live-debug-disable', array( '\\WP_Live_Debug\\WP_Config', 'disable_wp_debug' ) );
 		// add_action( 'wp_ajax_wp-live-debug-enable-script-debug', array( '\\WP_Live_Debug\\WP_Config', 'enable_script_debug' ) );
 		// add_action( 'wp_ajax_wp-live-debug-disable-script-debug', array( '\\WP_Live_Debug\\WP_Config', 'disable_script_debug' ) );
 		// add_action( 'wp_ajax_wp-live-debug-enable-savequeries', array( '\\WP_Live_Debug\\WP_Config', 'enable_savequeries' ) );
 		// add_action( 'wp_ajax_wp-live-debug-disable-savequeries', array( '\\WP_Live_Debug\\WP_Config', 'disable_savequeries' ) );
-		// add_action( 'admin_init', array( '\\WP_Live_Debug\\WP_Config', 'download_config_backup' ) );
 	}
 
 	/**

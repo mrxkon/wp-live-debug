@@ -99,16 +99,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Header */ "./app/js/src/components/Header.js");
-/* harmony import */ var _components_Content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Content */ "./app/js/src/components/Content.js");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Header */ "./app/js/src/components/Header.js");
+/* harmony import */ var _components_Content__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Content */ "./app/js/src/components/Content.js");
 
 
 
 /**
  * WordPress dependencies.
  */
+
+
 
 
 /**
@@ -176,11 +182,61 @@ var App = function App() {
   var _useState17 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])('show-spinner'),
       _useState18 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState17, 2),
       loading = _useState18[0],
-      setLoading = _useState18[1];
+      setLoading = _useState18[1]; // Initialize the safety modal.
+
+
+  var _useState19 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState20 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState19, 2),
+      showModal = _useState20[0],
+      setShowModal = _useState20[1];
   /**
    * Check if backup exists.
    */
 
+
+  var autoBackupExists = function autoBackupExists() {
+    axios__WEBPACK_IMPORTED_MODULE_4___default()({
+      method: 'post',
+      url: wp_live_debug_globals.ajax_url,
+      params: {
+        action: 'wp-live-debug-check-auto-backup',
+        _ajax_nonce: wp_live_debug_globals.nonce
+      }
+    }).then(function (response) {
+      if (false === response.data.success) {
+        // If there's no backup show the modal.
+        setShowModal(true);
+      }
+    });
+  };
+  /**
+   * Download Backup.
+   */
+  // const downloadBackup = () => {
+  // 	console.log( 'dl1' );
+  // 	axios( {
+  // 		method: 'post',
+  // 		url: '?page=wp-live-debug',
+  // 		params: {
+  // 			wplddlwpconfig: 'true',
+  // 		},
+  // 	} ).then( ( response ) => {
+  // 		if ( true === response.data.success ) {
+  // 			console.log( 'dl2' );
+  // 			// Set the state of backup to true.
+  // 			//setHasBackup( true );
+  // 		}
+  // 	} );
+  // };
+
+  /**
+   * Close Modal.
+   */
+
+
+  var closeModal = function closeModal() {
+    return setShowModal(false);
+  };
   /**
    * See any of the constants are true and alter their state.
    */
@@ -189,7 +245,7 @@ var App = function App() {
   var isConstantTrue = function isConstantTrue() {
     var constants = ['WP_DEBUG', 'WP_DEBUG_LOG', 'WP_DEBUG_DISPLAY', 'SCRIPT_DEBUG', 'SAVEQUERIES'];
     constants.map(function (constant) {
-      return axios__WEBPACK_IMPORTED_MODULE_2___default()({
+      return axios__WEBPACK_IMPORTED_MODULE_4___default()({
         method: 'post',
         url: wp_live_debug_globals.ajax_url,
         params: {
@@ -234,6 +290,7 @@ var App = function App() {
 
 
   if (firstRun) {
+    autoBackupExists();
     isConstantTrue();
     setfirstRun(false);
   }
@@ -249,7 +306,7 @@ var App = function App() {
     setLoading('show-spinner'); // If we're getting a backup.
 
     if (e.target.id === 'wp-live-debug-backup') {
-      axios__WEBPACK_IMPORTED_MODULE_2___default()({
+      axios__WEBPACK_IMPORTED_MODULE_4___default()({
         method: 'post',
         url: wp_live_debug_globals.ajax_url,
         params: {
@@ -266,7 +323,7 @@ var App = function App() {
         setLoading('hide-spinner');
       }); // Else restore the backup.
     } else {
-      axios__WEBPACK_IMPORTED_MODULE_2___default()({
+      axios__WEBPACK_IMPORTED_MODULE_4___default()({
         method: 'post',
         url: wp_live_debug_globals.ajax_url,
         params: {
@@ -337,10 +394,10 @@ var App = function App() {
    */
 
 
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Header__WEBPACK_IMPORTED_MODULE_5__["default"], {
     BackupActions: BackupActions,
     hasBackup: hasBackup
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Content__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Content__WEBPACK_IMPORTED_MODULE_6__["default"], {
     loading: loading,
     alterWPDebug: alterWPDebug,
     alterWPDebugLog: alterWPDebugLog,
@@ -355,7 +412,13 @@ var App = function App() {
     scriptDebugEnabled: hasScriptDebug,
     saveQueriesEnabled: hasSaveQueries,
     autoRefreshEnabled: hasAutoRefresh
-  }));
+  }), showModal && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Safety First!', 'wp-live-debug'),
+    onRequestClose: closeModal
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+    isPrimary: true,
+    onClick: closeModal
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Download Backup', 'wp-live-debug'))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
