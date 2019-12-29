@@ -180,7 +180,7 @@ const App = () => {
 			}
 		}, 2000 );
 
-		return () => clearInterval(interval);
+		return () => clearInterval( interval );
 	} );
 
 	/**
