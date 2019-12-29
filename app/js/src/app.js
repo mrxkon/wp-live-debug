@@ -31,7 +31,7 @@ const App = () => {
 	const [ hasSaveQueries, setSaveQueries ] = useState( false );
 
 	// Initialize the backup state.
-	const [ hasBackup, setHasBackup ] = useState( true );
+	const [ hasBackup, setHasBackup ] = useState( false );
 
 	// Initialize the auto refresh state.
 	const [ hasAutoRefresh, setAutoRefresh ] = useState( false );
@@ -100,10 +100,44 @@ const App = () => {
 	 * @param {Object} e string Event handler.
 	 */
 	const BackupActions = ( e ) => {
+		// Show the spinner.
+		setLoading( 'show-spinner' );
+
+		// If we're getting a backup.
 		if ( e.target.id === 'wp-live-debug-backup' ) {
-			setHasBackup( true );
+			axios( {
+				method: 'post',
+				url: wp_live_debug_globals.ajax_url,
+				params: {
+					action: 'wp-live-debug-create-backup',
+					_ajax_nonce: wp_live_debug_globals.nonce,
+				},
+			} ).then( ( response ) => {
+				if ( true === response.data.success ) {
+					// Set the state of backup to true.
+					setHasBackup( true );
+				}
+				// Hide the spinner.
+				setLoading( 'hide-spinner' );
+			} );
+
+		// Else restore the backup.
 		} else {
-			setHasBackup( false );
+			axios( {
+				method: 'post',
+				url: wp_live_debug_globals.ajax_url,
+				params: {
+					action: 'wp-live-debug-restore-backup',
+					_ajax_nonce: wp_live_debug_globals.nonce,
+				},
+			} ).then( ( response ) => {
+				if ( true === response.data.success ) {
+					// Set the state of backup to false.
+					setHasBackup( false );
+				}
+				// Hide the spinner.
+				setLoading( 'hide-spinner' );
+			} );
 		}
 	};
 

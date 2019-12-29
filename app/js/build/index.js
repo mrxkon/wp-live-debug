@@ -161,7 +161,7 @@ var App = function App() {
       setSaveQueries = _useState12[1]; // Initialize the backup state.
 
 
-  var _useState13 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(true),
+  var _useState13 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState14 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState13, 2),
       hasBackup = _useState14[0],
       setHasBackup = _useState14[1]; // Initialize the auto refresh state.
@@ -245,10 +245,43 @@ var App = function App() {
 
 
   var BackupActions = function BackupActions(e) {
+    // Show the spinner.
+    setLoading('show-spinner'); // If we're getting a backup.
+
     if (e.target.id === 'wp-live-debug-backup') {
-      setHasBackup(true);
+      axios__WEBPACK_IMPORTED_MODULE_2___default()({
+        method: 'post',
+        url: wp_live_debug_globals.ajax_url,
+        params: {
+          action: 'wp-live-debug-create-backup',
+          _ajax_nonce: wp_live_debug_globals.nonce
+        }
+      }).then(function (response) {
+        if (true === response.data.success) {
+          // Set the state of backup to true.
+          setHasBackup(true);
+        } // Hide the spinner.
+
+
+        setLoading('hide-spinner');
+      }); // Else restore the backup.
     } else {
-      setHasBackup(false);
+      axios__WEBPACK_IMPORTED_MODULE_2___default()({
+        method: 'post',
+        url: wp_live_debug_globals.ajax_url,
+        params: {
+          action: 'wp-live-debug-restore-backup',
+          _ajax_nonce: wp_live_debug_globals.nonce
+        }
+      }).then(function (response) {
+        if (true === response.data.success) {
+          // Set the state of backup to false.
+          setHasBackup(false);
+        } // Hide the spinner.
+
+
+        setLoading('hide-spinner');
+      });
     }
   };
   /**
