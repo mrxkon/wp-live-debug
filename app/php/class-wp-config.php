@@ -35,57 +35,54 @@ class WP_Config {
 	);
 
 	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		// silence.
-	}
-
-	/**
 	 * Creates a backup of wp-config.php.
 	 */
 	public static function create_wp_config_backup() {
+		// If we can't create a wp-config backup then send an error.
 		if ( ! copy( WP_LIVE_DEBUG_WP_CONFIG, WP_LIVE_DEBUG_WP_CONFIG_BACKUP ) ) {
-			$response = array(
-				'message' => esc_html__( 'wp-config.php backup failed.', 'wp-live-debug' ),
+			wp_send_json_error(
+				array(
+					'message' => esc_html__( 'wp-config.php backup failed.', 'wp-live-debug' ),
+				)
 			);
-
-			wp_send_json_error( $response );
 		}
 
-		$response = array(
-			'message' => esc_html__( 'wp-config.php backup was created.', 'wp-live-debug' ),
+		// Send success.
+		wp_send_json_success(
+			array(
+				'message' => esc_html__( 'wp-config.php backup was created.', 'wp-live-debug' ),
+			)
 		);
-
-		wp_send_json_success( $response );
 	}
 
 	/**
 	 * Restores a backup of wp-config.php.
 	 */
 	public static function restore_wp_config_backup() {
+		// If we can't restore the wp-config then send an error.
 		if ( ! copy( WP_LIVE_DEBUG_WP_CONFIG_BACKUP, WP_LIVE_DEBUG_WP_CONFIG ) ) {
-			$response = array(
-				'message' => esc_html__( 'wp-config.php restore failed.', 'wp-live-debug' ),
+			wp_send_json_error(
+				array(
+					'message' => esc_html__( 'wp-config.php restore failed.', 'wp-live-debug' ),
+				)
 			);
-
-			wp_send_json_error( $response );
 		}
 
+		// Remove the backup file.
 		unlink( WP_LIVE_DEBUG_WP_CONFIG_BACKUP );
 
-		$response = array(
-			'message' => esc_html__( 'wp-config.php backup was restored.', 'wp-live-debug' ),
+		// Send success.
+		wp_send_json_success(
+			array(
+				'message' => esc_html__( 'wp-config.php backup was restored.', 'wp-live-debug' ),
+			)
 		);
-
-		wp_send_json_success( $response );
 	}
 
 	/**
 	 * Force download wp-config original backup
 	 */
 	public static function download_config_backup() {
-
 		if ( ! empty( $_GET['wplddlwpconfig'] ) && 'true' === $_GET['wplddlwpconfig'] ) {
 			$filename = 'wp-config-' . str_replace( array( 'http://', 'https://' ), '', get_site_url() ) . '-' . wp_date( 'Ymd-Hi' ) . '-backup.php';
 			header( 'Content-type: textplain;' );
@@ -99,11 +96,7 @@ class WP_Config {
 	 * Check if original wp-config.php backup exists.
 	 */
 	public static function check_wp_config_original_backup() {
-		if ( file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ) {
-			return true;
-		}
-
-		return false;
+		return file_exists( WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL ) ? true : false;
 	}
 
 	/**
@@ -145,7 +138,7 @@ class WP_Config {
 				break;
 		}
 
-		// Return result.
+		// Send result depending on the situation.
 		$result ? wp_send_json_success() : wp_send_json_error();
 	}
 
