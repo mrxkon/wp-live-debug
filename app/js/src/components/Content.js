@@ -24,6 +24,7 @@ const Content = ( props ) => {
 				tabIndex="-1"
 			>
 				<div className="main">
+					<h2>{ __( 'Viewing:', 'wp-live-debug' ) } { props.debugLogLocation }</h2>
 					<LogViewer />
 				</div>
 				<div className="sidebar">

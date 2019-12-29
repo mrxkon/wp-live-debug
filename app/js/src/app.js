@@ -262,6 +262,7 @@ const App = () => {
 				alterAutoRefresh={ alterAutoRefresh }
 				hasBackup={ hasBackup }
 				debugEnabled={ hasWPDebug }
+				debugLogLocation={ debugLogLocation }
 				debugLogEnabled={ hasWPDebugLog }
 				debugDisplayEnabled={ hasWPDebugDisplay }
 				scriptDebugEnabled={ hasScriptDebug }

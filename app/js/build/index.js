@@ -419,6 +419,7 @@ var App = function App() {
     alterAutoRefresh: alterAutoRefresh,
     hasBackup: hasBackup,
     debugEnabled: hasWPDebug,
+    debugLogLocation: debugLogLocation,
     debugLogEnabled: hasWPDebugLog,
     debugDisplayEnabled: hasWPDebugDisplay,
     scriptDebugEnabled: hasScriptDebug,
@@ -472,7 +473,7 @@ var Content = function Content(props) {
     tabIndex: "-1"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "main"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_LogViewer__WEBPACK_IMPORTED_MODULE_2__["default"], null)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Viewing:', 'wp-live-debug'), " ", props.debugLogLocation), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_LogViewer__WEBPACK_IMPORTED_MODULE_2__["default"], null)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "sidebar"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], {
     loading: props.loading,

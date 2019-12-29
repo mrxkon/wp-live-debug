@@ -56,9 +56,15 @@ body.toplevel_page_wp-live-debug .content .main {
 	padding: 20px;
 }
 
+body.toplevel_page_wp-live-debug .content .main h2 {
+	font-size: 13px;
+	margin: 0;
+}
+
 body.toplevel_page_wp-live-debug .content .main textarea {
 	width: 100%;
-	height: 100%;
+	height: calc(100% - 40px);
+	margin-top: 20px;
 }
 
 body.toplevel_page_wp-live-debug .content .sidebar {
