@@ -48,10 +48,10 @@ const App = () => {
 	 * Check if wp-config.WPLD-auto.php exists.
 	 */
 	const autoBackupExists = () => {
-		const request = new XMLHttpRequest(),
-			url = wp_live_debug_globals.ajax_url,
-			nonce = wp_live_debug_globals.nonce,
-			action = 'wp-live-debug-check-auto-backup-json';
+		const request = new XMLHttpRequest();
+		const url = wp_live_debug_globals.ajax_url;
+		const nonce = wp_live_debug_globals.nonce;
+		const action = 'wp-live-debug-check-auto-backup-json';
 
 		request.open( 'POST', url, true );
 		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
@@ -64,52 +64,13 @@ const App = () => {
 	};
 
 	/**
-	 * Find debug.log location.
-	 */
-	const findDebugLog = () => {
-		const request = new XMLHttpRequest(),
-			url = wp_live_debug_globals.ajax_url,
-			nonce = wp_live_debug_globals.nonce,
-			action = 'wp-live-debug-find-debug-log-json';
-
-		request.open( 'POST', url, true );
-		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
-		request.onload = function() {
-			if ( this.status >= 200 && this.status < 400 ) {
-				const resp = JSON.parse( this.response );
-				setDebugLogLocation( resp.data.debuglog_path );
-			}
-		};
-		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
-	};
-
-	/**
-	 * Read the debug.log.
-	 */
-	const readDebugLog = () => {
-		const request = new XMLHttpRequest(),
-			url = wp_live_debug_globals.ajax_url,
-			nonce = wp_live_debug_globals.nonce,
-			action = 'wp-live-debug-read-debug-log';
-
-		request.open( 'POST', url, true );
-		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
-		request.onload = function() {
-			if ( this.status >= 200 && this.status < 400 ) {
-				setDebugLogContent( this.response );
-			}
-		};
-		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
-	};
-
-	/**
 	 * Check if wp-config.WPLD-manual.php exists.
 	 */
 	const manualBackupExists = () => {
-		const request = new XMLHttpRequest(),
-			url = wp_live_debug_globals.ajax_url,
-			nonce = wp_live_debug_globals.nonce,
-			action = 'wp-live-debug-check-manual-backup-json';
+		const request = new XMLHttpRequest();
+		const url = wp_live_debug_globals.ajax_url;
+		const nonce = wp_live_debug_globals.nonce;
+		const action = 'wp-live-debug-check-manual-backup-json';
 
 		request.open( 'POST', url, true );
 		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
@@ -128,10 +89,10 @@ const App = () => {
 	 * See any of the constants are true and alter their state.
 	 */
 	const isConstantTrue = () => {
-		const request = new XMLHttpRequest(),
-			  url = wp_live_debug_globals.ajax_url,
-			  nonce = wp_live_debug_globals.nonce,
-			  action = 'wp-live-debug-is-constant-true';
+		const request = new XMLHttpRequest();
+		const url = wp_live_debug_globals.ajax_url;
+		const nonce = wp_live_debug_globals.nonce;
+		const action = 'wp-live-debug-is-constant-true';
 
 		request.open( 'POST', url, true );
 		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
@@ -166,19 +127,45 @@ const App = () => {
 		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 	};
 
+
 	/**
-	 * Now we utilize the "firstRun" state so we
-	 * can run our 1time functions and then set it
-	 * to false so this won't run again until a page refresh.
+	 * Find debug.log location.
 	 */
-	if ( firstRun ) {
-		autoBackupExists();
-		manualBackupExists();
-		findDebugLog();
-		isConstantTrue();
-		readDebugLog();
-		setfirstRun( false );
-	}
+	const findDebugLog = () => {
+		const request = new XMLHttpRequest();
+		const url = wp_live_debug_globals.ajax_url;
+		const nonce = wp_live_debug_globals.nonce;
+		const action = 'wp-live-debug-find-debug-log-json';
+
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				const resp = JSON.parse( this.response );
+				setDebugLogLocation( resp.data.debuglog_path );
+			}
+		};
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
+	};
+
+	/**
+	 * Read the debug.log.
+	 */
+	const readDebugLog = () => {
+		const request = new XMLHttpRequest();
+		const url = wp_live_debug_globals.ajax_url;
+		const nonce = wp_live_debug_globals.nonce;
+		const action = 'wp-live-debug-read-debug-log';
+
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				setDebugLogContent( this.response );
+			}
+		};
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
+	};
 
 	/**
 	 * Backup Button Actions.
@@ -191,10 +178,10 @@ const App = () => {
 
 		// If we're getting a backup.
 		if ( e.target.id === 'wp-live-debug-backup' ) {
-			const request = new XMLHttpRequest(),
-				  url = wp_live_debug_globals.ajax_url,
-				  nonce = wp_live_debug_globals.nonce,
-				  action = 'wp-live-debug-create-backup';
+			const request = new XMLHttpRequest();
+			const url = wp_live_debug_globals.ajax_url;
+			const nonce = wp_live_debug_globals.nonce;
+			const action = 'wp-live-debug-create-backup';
 
 			request.open( 'POST', url, true );
 			request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
@@ -211,10 +198,10 @@ const App = () => {
 
 		// Else restore the backup.
 		} else {
-			const request = new XMLHttpRequest(),
-				  url = wp_live_debug_globals.ajax_url,
-				  nonce = wp_live_debug_globals.nonce,
-				  action = 'wp-live-debug-restore-backup';
+			const request = new XMLHttpRequest();
+			const url = wp_live_debug_globals.ajax_url;
+			const nonce = wp_live_debug_globals.nonce;
+			const action = 'wp-live-debug-restore-backup';
 
 			request.open( 'POST', url, true );
 			request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
@@ -273,6 +260,20 @@ const App = () => {
 	const alterAutoRefresh = () => {
 		console.log( 'alterAutoRefresh' );
 	};
+
+	/**
+	 * Now we utilize the "firstRun" state so we
+	 * can run our 1time functions and then set it
+	 * to false so this won't run again until a page refresh.
+	 */
+	if ( firstRun ) {
+		autoBackupExists();
+		manualBackupExists();
+		findDebugLog();
+		isConstantTrue();
+		readDebugLog();
+		setfirstRun( false );
+	}
 
 	/**
 	 * Render the UI.
