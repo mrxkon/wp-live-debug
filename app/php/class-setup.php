@@ -58,10 +58,10 @@ class Setup {
 		// add_action( 'wp_ajax_wp-live-debug-refresh-debug-log', array( '\\WP_Live_Debug\\Log', 'refresh_debug_log' ) );
 
 		// Backup actions.
-		add_action( 'wp_ajax_wp-live-debug-create-backup', array( '\\WP_Live_Debug\\Config', 'create_wp_config_backup' ) );
-		add_action( 'wp_ajax_wp-live-debug-restore-backup', array( '\\WP_Live_Debug\\Config', 'restore_wp_config_backup' ) );
-		add_action( 'wp_ajax_wp-live-debug-check-auto-backup', array( '\\WP_Live_Debug\\Config', 'check_wp_config_original_backup' ) );
-		//add_action( 'admin_init', array( '\\WP_Live_Debug\\Config', 'download_config_backup' ) );
+		add_action( 'wp_ajax_wp-live-debug-create-backup', array( '\\WP_Live_Debug\\Config', 'create_manual_backup' ) );
+		add_action( 'wp_ajax_wp-live-debug-restore-backup', array( '\\WP_Live_Debug\\Config', 'restore_manual_backup' ) );
+		add_action( 'wp_ajax_wp-live-debug-check-auto-backup-json', array( '\\WP_Live_Debug\\Config', 'check_auto_backup_json' ) );
+		add_action( 'wp_ajax_wp-live-debug-check-manual-backup-json', array( '\\WP_Live_Debug\\Config', 'check_manual_backup_json' ) );
 
 		// Constant actions.
 		add_action( 'wp_ajax_wp-live-debug-is-constant-true', array( '\\WP_Live_Debug\\Constants', 'is_constant_true' ) );
@@ -79,21 +79,28 @@ class Setup {
 	 * Activation Hook.
 	 */
 	public static function activate() {
+		// Initialize auto refresh and make it disabled.
 		update_option( 'wp_live_debug_auto_refresh', 'disabled' );
 
+		// Create debug log if it doesn't exist.
 		Log::create_debug_log();
-		Log::get_first_backup();
+
+		// Keep a first backup of wp-config.php.
+		Config::get_auto_backup();
 	}
 
 	/**
 	 * Deactivation Hook.
 	 */
 	public static function deactivate() {
+		// Remove the risk option.
 		delete_option( 'wp_live_debug_risk' );
-		delete_option( 'wp_live_debug_log_file' );
+
+		// Remove the auto refresh option.
 		delete_option( 'wp_live_debug_auto_refresh' );
 
-		Log::clear_manual_backup();
+		// Remove the manual backup.
+		Config::remove_manual_backup();
 	}
 
 	/**

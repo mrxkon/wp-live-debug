@@ -182,15 +182,9 @@ var App = function App() {
   var _useState17 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])('show-spinner'),
       _useState18 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState17, 2),
       loading = _useState18[0],
-      setLoading = _useState18[1]; // Initialize the safety modal.
-
-
-  var _useState19 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
-      _useState20 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState19, 2),
-      showModal = _useState20[0],
-      setShowModal = _useState20[1];
+      setLoading = _useState18[1];
   /**
-   * Check if backup exists.
+   * Check if wp-config.WPLD-auto.php exists.
    */
 
 
@@ -199,43 +193,34 @@ var App = function App() {
       method: 'post',
       url: wp_live_debug_globals.ajax_url,
       params: {
-        action: 'wp-live-debug-check-auto-backup',
+        action: 'wp-live-debug-check-auto-backup-json',
         _ajax_nonce: wp_live_debug_globals.nonce
       }
     }).then(function (response) {
       if (false === response.data.success) {
-        // If there's no backup show the modal.
-        setShowModal(true);
+        console.log('Could not create an auto backup');
       }
     });
   };
   /**
-   * Download Backup.
-   */
-  // const downloadBackup = () => {
-  // 	console.log( 'dl1' );
-  // 	axios( {
-  // 		method: 'post',
-  // 		url: '?page=wp-live-debug',
-  // 		params: {
-  // 			wplddlwpconfig: 'true',
-  // 		},
-  // 	} ).then( ( response ) => {
-  // 		if ( true === response.data.success ) {
-  // 			console.log( 'dl2' );
-  // 			// Set the state of backup to true.
-  // 			//setHasBackup( true );
-  // 		}
-  // 	} );
-  // };
-
-  /**
-   * Close Modal.
+   * Check if wp-config.WPLD-manual.php exists.
    */
 
 
-  var closeModal = function closeModal() {
-    return setShowModal(false);
+  var manualBackupExists = function manualBackupExists() {
+    axios__WEBPACK_IMPORTED_MODULE_4___default()({
+      method: 'post',
+      url: wp_live_debug_globals.ajax_url,
+      params: {
+        action: 'wp-live-debug-check-manual-backup-json',
+        _ajax_nonce: wp_live_debug_globals.nonce
+      }
+    }).then(function (response) {
+      if (true === response.data.success) {
+        // If there's a alter the hasBackup state.
+        setHasBackup(true);
+      }
+    });
   };
   /**
    * See any of the constants are true and alter their state.
@@ -291,6 +276,7 @@ var App = function App() {
 
   if (firstRun) {
     autoBackupExists();
+    manualBackupExists();
     isConstantTrue();
     setfirstRun(false);
   }
@@ -412,13 +398,7 @@ var App = function App() {
     scriptDebugEnabled: hasScriptDebug,
     saveQueriesEnabled: hasSaveQueries,
     autoRefreshEnabled: hasAutoRefresh
-  }), showModal && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["Modal"], {
-    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Safety First!', 'wp-live-debug'),
-    onRequestClose: closeModal
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["Button"], {
-    isPrimary: true,
-    onClick: closeModal
-  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Download Backup', 'wp-live-debug'))));
+  }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App);

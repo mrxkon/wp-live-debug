@@ -4,7 +4,7 @@
  *
  * Plugin Name:       WP Live Debug
  * Description:       Enables debugging and adds a screen into the WordPress Admin to view the debug.log.
- * Version:           5.3.1
+ * Version:           5.3.2
  * Author:            Konstantinos Xenos
  * Author URI:        https://xkon.gr
  * License:           GPLv2 or later
@@ -38,12 +38,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Setup various constants.
  */
-define( 'WP_LIVE_DEBUG_VERSION', '5.3.1' );
+define( 'WP_LIVE_DEBUG_VERSION', '5.3.2' );
 define( 'WP_LIVE_DEBUG_WP_CONFIG', ABSPATH . 'wp-config.php' );
-define( 'WP_LIVE_DEBUG_AUTO_BACKUP_NAME', 'wp-config.WPLD-auto.php' );
-define( 'WP_LIVE_DEBUG_MANUAL_BACKUP_NAME', 'wp-config.WPLD-manual.php' );
-define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP_ORIGINAL', ABSPATH . WP_LIVE_DEBUG_AUTO_BACKUP_NAME );
-define( 'WP_LIVE_DEBUG_WP_CONFIG_BACKUP', ABSPATH . WP_LIVE_DEBUG_MANUAL_BACKUP_NAME );
+define( 'WP_LIVE_DEBUG_AUTO_BACKUP', ABSPATH . 'wp-config.WPLD-auto.php' );
+define( 'WP_LIVE_DEBUG_MANUAL_BACKUP', ABSPATH . 'wp-config.WPLD-manual.php' );
 define( 'WP_LIVE_DEBUG_DIR', wp_normalize_path( dirname( __FILE__ ) ) . '/' );
 define( 'WP_LIVE_DEBUG_URL', plugin_dir_url( __FILE__ ) );
 

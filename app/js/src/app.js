@@ -2,7 +2,7 @@
  * WordPress dependencies.
  */
 import { __ } from '@wordpress/i18n';
-import { Button, Modal } from '@wordpress/components';
+import { Button } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import axios from 'axios';
 
@@ -41,52 +41,42 @@ const App = () => {
 	// Initialize a state for the loading spinner.
 	const [ loading, setLoading ] = useState( 'show-spinner' );
 
-	// Initialize the safety modal.
-	const [ showModal, setShowModal ] = useState( false );
-
 	/**
-	 * Check if backup exists.
+	 * Check if wp-config.WPLD-auto.php exists.
 	 */
 	const autoBackupExists = () => {
 		axios( {
 			method: 'post',
 			url: wp_live_debug_globals.ajax_url,
 			params: {
-				action: 'wp-live-debug-check-auto-backup',
+				action: 'wp-live-debug-check-auto-backup-json',
 				_ajax_nonce: wp_live_debug_globals.nonce,
 			},
 		} ).then( ( response ) => {
 			if ( false === response.data.success ) {
-				// If there's no backup show the modal.
-				setShowModal( true );
+				console.log( 'Could not create an auto backup' );
 			}
 		} );
 	};
 
 	/**
-	 * Download Backup.
+	 * Check if wp-config.WPLD-manual.php exists.
 	 */
-	// const downloadBackup = () => {
-	// 	console.log( 'dl1' );
-	// 	axios( {
-	// 		method: 'post',
-	// 		url: '?page=wp-live-debug',
-	// 		params: {
-	// 			wplddlwpconfig: 'true',
-	// 		},
-	// 	} ).then( ( response ) => {
-	// 		if ( true === response.data.success ) {
-	// 			console.log( 'dl2' );
-	// 			// Set the state of backup to true.
-	// 			//setHasBackup( true );
-	// 		}
-	// 	} );
-	// };
-
-	/**
-	 * Close Modal.
-	 */
-	const closeModal = () => setShowModal( false );
+	const manualBackupExists = () => {
+		axios( {
+			method: 'post',
+			url: wp_live_debug_globals.ajax_url,
+			params: {
+				action: 'wp-live-debug-check-manual-backup-json',
+				_ajax_nonce: wp_live_debug_globals.nonce,
+			},
+		} ).then( ( response ) => {
+			if ( true === response.data.success ) {
+				// If there's a alter the hasBackup state.
+				setHasBackup( true );
+			}
+		} );
+	};
 
 	/**
 	 * See any of the constants are true and alter their state.
@@ -136,6 +126,7 @@ const App = () => {
 	 */
 	if ( firstRun ) {
 		autoBackupExists();
+		manualBackupExists();
 		isConstantTrue();
 		setfirstRun( false );
 	}
@@ -255,16 +246,6 @@ const App = () => {
 				saveQueriesEnabled={ hasSaveQueries }
 				autoRefreshEnabled={ hasAutoRefresh }
 			/>
-			{ showModal && (
-				<Modal
-					title={ __( 'Safety First!', 'wp-live-debug' ) }
-					onRequestClose={ closeModal }
-				>
-					<Button isPrimary onClick={ closeModal }>
-						{ __( 'Download Backup', 'wp-live-debug' ) }
-					</Button>
-				</Modal>
-			) }
 		</>
 	);
 };
