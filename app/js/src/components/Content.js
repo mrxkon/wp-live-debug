@@ -30,11 +30,7 @@ const Content = ( props ) => {
 				<div className="sidebar">
 					<Sidebar
 						loading={ props.loading }
-						alterWPDebug={ props.alterWPDebug }
-						alterWPDebugLog={ props.alterWPDebugLog }
-						alterWPDebugDisplay={ props.alterWPDebugDisplay }
-						alterScriptDebug={ props.alterScriptDebug }
-						alterSaveQueries={ props.alterSaveQueries }
+						alterConstant={ props.alterConstant }
 						alterAutoRefresh={ props.alterAutoRefresh }
 						hasManualBackup={ props.hasManualBackup }
 						hasAutoBackup={ props.hasAutoBackup }

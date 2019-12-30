@@ -363,7 +363,7 @@ var App = function App() {
   /**
    * Backup Button Actions.
    *
-   * @param {Object} e string Event handler.
+   * @param {Object} e string.
    */
 
   var BackupActions = function BackupActions(e) {
@@ -416,44 +416,14 @@ var App = function App() {
     }
   };
   /**
-   * Alter WP_DEBUG
+   * Alter Constatns.
+   *
+   * @param {Object} e string.
    */
 
 
-  var alterWPDebug = function alterWPDebug() {
-    console.log('alterWPDebug');
-  };
-  /**
-   * Alter WP_DEBUG_LOG
-   */
-
-
-  var alterWPDebugLog = function alterWPDebugLog() {
-    console.log('alterWPDebugLog');
-  };
-  /**
-   * Alter WP_DEBUG_DISPLAY
-   */
-
-
-  var alterWPDebugDisplay = function alterWPDebugDisplay() {
-    console.log('alterWPDebugDisplay');
-  };
-  /**
-   * Alter SCRIPT_DEBUG
-   */
-
-
-  var alterScriptDebug = function alterScriptDebug() {
-    console.log('alterScriptDebug');
-  };
-  /**
-   * Alter SAVEQUERIES
-   */
-
-
-  var alterSaveQueries = function alterSaveQueries() {
-    console.log('alterSaveQueries');
+  var alterConstant = function alterConstant(e) {
+    console.log(e.target.id);
   };
   /**
    * Alter Auto Refresh
@@ -496,11 +466,7 @@ var App = function App() {
     hasManualBackup: hasManualBackup
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Content__WEBPACK_IMPORTED_MODULE_3__["default"], {
     loading: loading,
-    alterWPDebug: alterWPDebug,
-    alterWPDebugLog: alterWPDebugLog,
-    alterWPDebugDisplay: alterWPDebugDisplay,
-    alterScriptDebug: alterScriptDebug,
-    alterSaveQueries: alterSaveQueries,
+    alterConstant: alterConstant,
     alterAutoRefresh: alterAutoRefresh,
     hasManualBackup: hasManualBackup,
     hasAutoBackup: hasAutoBackup,
@@ -566,11 +532,7 @@ var Content = function Content(props) {
     className: "sidebar"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], {
     loading: props.loading,
-    alterWPDebug: props.alterWPDebug,
-    alterWPDebugLog: props.alterWPDebugLog,
-    alterWPDebugDisplay: props.alterWPDebugDisplay,
-    alterScriptDebug: props.alterScriptDebug,
-    alterSaveQueries: props.alterSaveQueries,
+    alterConstant: props.alterConstant,
     alterAutoRefresh: props.alterAutoRefresh,
     hasManualBackup: props.hasManualBackup,
     hasAutoBackup: props.hasAutoBackup,
@@ -715,35 +677,35 @@ var Sidebar = function Sidebar(props) {
   }, "WP_DEBUG"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["FormToggle"], {
     id: "alter-wp-debug",
     checked: props.debugEnabled,
-    onClick: props.alterWPDebug
+    onClick: props.alterConstant
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
     htmlFor: "alter-wp-debug-log",
     className: "components-toggle-control__label"
   }, "WP_DEBUG_LOG"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["FormToggle"], {
     id: "alter-wp-debug-log",
     checked: props.debugLogEnabled,
-    onClick: props.alterWPDebugLog
+    onClick: props.alterConstant
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
     htmlFor: "alter-wp-debug-display",
     className: "components-toggle-control__label"
   }, "WP_DEBUG_DISPLAY"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["FormToggle"], {
     id: "alter-wp-debug-display",
     checked: props.debugDisplayEnabled,
-    onClick: props.alterWPDebugDisplay
+    onClick: props.alterConstant
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
     htmlFor: "alter-wp-script-debug",
     className: "components-toggle-control__label"
   }, "SCRIPT_DEBUG"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["FormToggle"], {
     id: "alter-wp-script-debug",
     checked: props.scriptDebugEnabled,
-    onClick: props.alterScriptDebug
+    onClick: props.alterConstant
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
     htmlFor: "alter-wp-savequeries",
     className: "components-toggle-control__label"
   }, "SAVEQUERIES"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["FormToggle"], {
     id: "alter-wp-savequeries",
     checked: props.saveQueriesEnabled,
-    onClick: props.alterSaveQueries
+    onClick: props.alterConstant
   }))) : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Backup wp-config for more settings!', 'wp-live-debug'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
     htmlFor: "alterAutoRefresh",
     className: "components-toggle-control__label"

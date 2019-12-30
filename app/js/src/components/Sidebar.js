@@ -24,7 +24,7 @@ const Sidebar = ( props ) => {
 								<FormToggle
 									id="alter-wp-debug"
 									checked={ props.debugEnabled }
-									onClick={ props.alterWPDebug }
+									onClick={ props.alterConstant }
 								/>
 							</PanelRow>
 							<PanelRow>
@@ -35,7 +35,7 @@ const Sidebar = ( props ) => {
 								<FormToggle
 									id="alter-wp-debug-log"
 									checked={ props.debugLogEnabled }
-									onClick={ props.alterWPDebugLog }
+									onClick={ props.alterConstant }
 								/>
 							</PanelRow>
 							<PanelRow>
@@ -46,7 +46,7 @@ const Sidebar = ( props ) => {
 								<FormToggle
 									id="alter-wp-debug-display"
 									checked={ props.debugDisplayEnabled }
-									onClick={ props.alterWPDebugDisplay }
+									onClick={ props.alterConstant }
 								/>
 							</PanelRow>
 							<PanelRow>
@@ -57,7 +57,7 @@ const Sidebar = ( props ) => {
 								<FormToggle
 									id="alter-wp-script-debug"
 									checked={ props.scriptDebugEnabled }
-									onClick={ props.alterScriptDebug }
+									onClick={ props.alterConstant }
 								/>
 							</PanelRow>
 							<PanelRow>
@@ -68,7 +68,7 @@ const Sidebar = ( props ) => {
 								<FormToggle
 									id="alter-wp-savequeries"
 									checked={ props.saveQueriesEnabled }
-									onClick={ props.alterSaveQueries }
+									onClick={ props.alterConstant }
 								/>
 							</PanelRow>
 						</>

@@ -198,7 +198,7 @@ const App = () => {
 	/**
 	 * Backup Button Actions.
 	 *
-	 * @param {Object} e string Event handler.
+	 * @param {Object} e string.
 	 */
 	const BackupActions = ( e ) => {
 		// Show the spinner.
@@ -247,39 +247,12 @@ const App = () => {
 	};
 
 	/**
-	 * Alter WP_DEBUG
+	 * Alter Constatns.
+	 *
+	 * @param {Object} e string.
 	 */
-	const alterWPDebug = () => {
-		console.log( 'alterWPDebug' );
-	};
-
-	/**
-	 * Alter WP_DEBUG_LOG
-	 */
-	const alterWPDebugLog = () => {
-		console.log( 'alterWPDebugLog' );
-	};
-
-	/**
-	 * Alter WP_DEBUG_DISPLAY
-	 */
-	const alterWPDebugDisplay = () => {
-		console.log( 'alterWPDebugDisplay' );
-	};
-
-	/**
-	 * Alter SCRIPT_DEBUG
-	 */
-
-	const alterScriptDebug = () => {
-		console.log( 'alterScriptDebug' );
-	};
-
-	/**
-	 * Alter SAVEQUERIES
-	 */
-	const alterSaveQueries = () => {
-		console.log( 'alterSaveQueries' );
+	const alterConstant = ( e ) => {
+		console.log( e.target.id );
 	};
 
 	/**
@@ -320,11 +293,7 @@ const App = () => {
 			/>
 			<Content
 				loading={ loading }
-				alterWPDebug={ alterWPDebug }
-				alterWPDebugLog={ alterWPDebugLog }
-				alterWPDebugDisplay={ alterWPDebugDisplay }
-				alterScriptDebug={ alterScriptDebug }
-				alterSaveQueries={ alterSaveQueries }
+				alterConstant={ alterConstant }
 				alterAutoRefresh={ alterAutoRefresh }
 				hasManualBackup={ hasManualBackup }
 				hasAutoBackup={ hasAutoBackup }
