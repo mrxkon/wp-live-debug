@@ -143,7 +143,6 @@ class Constants {
 
 			foreach ( $lines as $line ) {
 				if ( preg_match( "/\/\* That's all, stop editing!.*/i", $line ) ) {
-					error_log( 'FOUNDIT!' );
 					$added      = true;
 					$new_file[] = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
 				}
@@ -157,7 +156,6 @@ class Constants {
 
 			foreach ( $lines as $line ) {
 				if ( preg_match( '/<\?php/', $line ) ) {
-					error_log( 'YOLOOO' );
 					$added      = true;
 					$new_file[] = '<?php';
 					$new_file[]  = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
