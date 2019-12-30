@@ -91,7 +91,7 @@ class Constants {
 		}
 
 		$constant   = sanitize_text_field( $_POST['constant'] );
-		$post_value = sanitize_text_field( $_POST['value'] );
+		$post_value = (string) sanitize_text_field( $_POST['value'] );
 
 		// Send error if the constant isn't acceptable.
 		if ( ! in_array( $constant, self::$constants, true ) ) {
@@ -99,18 +99,21 @@ class Constants {
 		}
 
 		// If the value is a string.
-		if ( is_string( $post_value ) ) {
+		if ( 'true' === $post_value ) {
+			$value = 'true';
+		} elseif ( 'false' === $post_value ) {
+			$value = 'false';
+		} else {
 			$value = "'{$post_value}'";
-		} elseif ( is_bool( $post_value ) ) {
-			$value = $post_value ? 'true' : 'false';
 		}
 
 		/***********************
 		 * Start the file write.
 		 */
+		$file = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'r+' );
 
 		// Send error if the file can't be opened.
-		if ( ! $file = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'r+' ) ) {
+		if ( ! $file ) {
 			wp_send_json_error();
 		}
 
@@ -130,10 +133,10 @@ class Constants {
 		foreach ( $lines as $line ) {
 			if ( preg_match( "/define\s?\(\s?[\"|']{$constant}[\"|']/", $line ) ) {
 				$added      = true;
-				$new_file[] = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
+				$line = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
 			}
 
-			$new_file = $line;
+			$new_file[] = $line;
 		}
 
 		// If the constant was not found parse the file again
@@ -156,9 +159,8 @@ class Constants {
 
 			foreach ( $lines as $line ) {
 				if ( preg_match( '/<\?php/', $line ) ) {
-					$added      = true;
 					$new_file[] = '<?php';
-					$new_file[]  = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
+					$new_file[] = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
 				} else {
 					$new_file[] = $line;
 				}

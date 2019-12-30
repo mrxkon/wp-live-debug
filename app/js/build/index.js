@@ -434,7 +434,7 @@ var App = function App() {
         break;
 
       case 'WP_DEBUG_LOG':
-        value = hasWPDebugLog ? false : true;
+        value = hasWPDebugLog ? false : debugLogLocation;
         break;
 
       case 'WP_DEBUG_DISPLAY':
@@ -462,23 +462,32 @@ var App = function App() {
         var resp = JSON.parse(this.response);
 
         if (true === resp.success) {
-          // switch ( constant ) {
-          // 	case 'WP_DEBUG':
-          // 		setWPDebug( true );
-          // 		break;
-          // 	case 'WP_DEBUG_LOG':
-          // 		setWPDebugLog( true );
-          // 		break;
-          // 	case 'WP_DEBUG_DISPLAY':
-          // 		setWPDebugDisplay( true );
-          // 		break;
-          // 	case 'SCRIPT_DEBUG':
-          // 		setScriptDebug( true );
-          // 		break;
-          // 	case 'SAVEQUERIES':
-          // 		setSaveQueries( true );
-          // 		break;
-          // }
+          switch (target) {
+            case 'WP_DEBUG':
+              setWPDebug(value);
+              break;
+
+            case 'WP_DEBUG_LOG':
+              if (false !== value) {
+                value = true;
+              }
+
+              setWPDebugLog(value);
+              break;
+
+            case 'WP_DEBUG_DISPLAY':
+              setWPDebugDisplay(value);
+              break;
+
+            case 'SCRIPT_DEBUG':
+              setScriptDebug(value);
+              break;
+
+            case 'SAVEQUERIES':
+              setSaveQueries(value);
+              break;
+          }
+
           setLoading('hide-spinner');
         }
       }

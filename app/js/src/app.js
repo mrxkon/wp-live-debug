@@ -264,7 +264,7 @@ const App = () => {
 				value = hasWPDebug ? false : true;
 				break;
 			case 'WP_DEBUG_LOG':
-				value = hasWPDebugLog ? false : true;
+				value = hasWPDebugLog ? false : debugLogLocation;
 				break;
 			case 'WP_DEBUG_DISPLAY':
 				value = hasWPDebugDisplay ? false : true;
@@ -288,23 +288,26 @@ const App = () => {
 			if ( this.status >= 200 && this.status < 400 ) {
 				const resp = JSON.parse( this.response );
 				if ( true === resp.success ) {
-					// switch ( constant ) {
-					// 	case 'WP_DEBUG':
-					// 		setWPDebug( true );
-					// 		break;
-					// 	case 'WP_DEBUG_LOG':
-					// 		setWPDebugLog( true );
-					// 		break;
-					// 	case 'WP_DEBUG_DISPLAY':
-					// 		setWPDebugDisplay( true );
-					// 		break;
-					// 	case 'SCRIPT_DEBUG':
-					// 		setScriptDebug( true );
-					// 		break;
-					// 	case 'SAVEQUERIES':
-					// 		setSaveQueries( true );
-					// 		break;
-					// }
+					switch ( target ) {
+						case 'WP_DEBUG':
+							setWPDebug( value );
+							break;
+						case 'WP_DEBUG_LOG':
+							if ( false !== value ) {
+								value = true;
+							}
+							setWPDebugLog( value );
+							break;
+						case 'WP_DEBUG_DISPLAY':
+							setWPDebugDisplay( value );
+							break;
+						case 'SCRIPT_DEBUG':
+							setScriptDebug( value );
+							break;
+						case 'SAVEQUERIES':
+							setSaveQueries( value );
+							break;
+					}
 
 					setLoading( 'hide-spinner' );
 				}
