@@ -33,13 +33,13 @@ class Constants {
 	 * Check if a given constant is enabled.
 	 */
 	public static function is_constant_true() {
-		// Set result to false by default.
-		$results = array();
-
 		// Send error if wrong referer.
 		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
 			wp_send_json_error();
 		}
+
+		// Set result to false by default.
+		$results = array();
 
 		// Test for results.
 		foreach ( self::$constants as $constant ) {
@@ -74,5 +74,102 @@ class Constants {
 
 		// Send result depending on the situation.
 		wp_send_json_success( $results );
+	}
+
+	/**
+	 * Sets trues/false on a given constant.
+	 */
+	public static function alter_constant() {
+		// Send error if wrong referer.
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
+			wp_send_json_error();
+		}
+
+		// Send error if file doesn't exist.
+		if ( ! file_exists( WP_LIVE_DEBUG_WP_CONFIG ) ) {
+			wp_send_json_error();
+		}
+
+		$constant   = sanitize_text_field( $_POST['constant'] );
+		$post_value = sanitize_text_field( $_POST['value'] );
+
+		// Send error if the constant isn't acceptable.
+		if ( ! in_array( $constant, self::$constants, true ) ) {
+			wp_send_json_error();
+		}
+
+		// If the value is a string.
+		if ( is_string( $post_value ) ) {
+			$value = "'{$post_value}'";
+		} elseif ( is_bool( $post_value ) ) {
+			$value = $post_value ? 'true' : 'false';
+		}
+
+		/***********************
+		 * Start the file write.
+		 */
+
+		// Send error if the file can't be opened.
+		if ( ! $file = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'r+' ) ) {
+			wp_send_json_error();
+		}
+
+		flock( $file, LOCK_EX );
+
+		$lines = array();
+
+		while ( ! feof( $file ) ) {
+			$lines[] = rtrim( fgets( $file ), "\r\n" );
+		}
+
+		// Generate the new file data.
+		$new_file = array();
+		$added    = false;
+
+		// Parse the file and find the constant.
+		foreach ( $lines as $line ) {
+			if ( preg_match( "/define\s?\(\s?[\"|']{$constant}[\"|']/", $line ) ) {
+				$added      = true;
+				$new_file[] = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
+			}
+
+			$new_file = $line;
+		}
+
+		// If the constant was not found parse the file again
+		// and add it before the stop editing line.
+		if ( ! $added ) {
+			$new_file = array();
+
+			foreach ( $lines as $line ) {
+				if ( preg_match( "/\/\* That's all, stop editing!.*/i", $line ) ) {
+					error_log( 'FOUNDIT!' );
+					$added      = true;
+					$new_file[] = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
+				}
+				$new_file[] = $line;
+			}
+		}
+
+		// If the stop editing line was not found, then add it right at the top.
+		if ( ! $added ) {
+			$new_file = array();
+
+			foreach ( $lines as $line ) {
+				if ( preg_match( '/<\?php/', $line ) ) {
+					error_log( 'YOLOOO' );
+					$added      = true;
+					$new_file[] = '<?php';
+					$new_file[]  = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
+				} else {
+					$new_file[] = $line;
+				}
+			}
+		}
+
+		error_log( print_r( $new_file, true ) );
+		//return $this->write( implode( "\n", $new_file ) );
+
+		wp_send_json_success();
 	}
 }

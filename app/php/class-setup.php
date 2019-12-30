@@ -64,14 +64,7 @@ class Setup {
 
 		// Constant actions.
 		add_action( 'wp_ajax_wp-live-debug-is-constant-true', array( '\\WP_Live_Debug\\Constants', 'is_constant_true' ) );
-
-		// wp-config related actions.
-		// add_action( 'wp_ajax_wp-live-debug-enable', array( '\\WP_Live_Debug\\Config', 'enable_wp_debug' ) );
-		// add_action( 'wp_ajax_wp-live-debug-disable', array( '\\WP_Live_Debug\\Config', 'disable_wp_debug' ) );
-		// add_action( 'wp_ajax_wp-live-debug-enable-script-debug', array( '\\WP_Live_Debug\\Config', 'enable_script_debug' ) );
-		// add_action( 'wp_ajax_wp-live-debug-disable-script-debug', array( '\\WP_Live_Debug\\Config', 'disable_script_debug' ) );
-		// add_action( 'wp_ajax_wp-live-debug-enable-savequeries', array( '\\WP_Live_Debug\\Config', 'enable_savequeries' ) );
-		// add_action( 'wp_ajax_wp-live-debug-disable-savequeries', array( '\\WP_Live_Debug\\Config', 'disable_savequeries' ) );
+		add_action( 'wp_ajax_wp-live-debug-alter-constant', array( '\\WP_Live_Debug\\Constants', 'alter_constant' ) );
 	}
 
 	/**

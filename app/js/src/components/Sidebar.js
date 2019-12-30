@@ -18,55 +18,55 @@ const Sidebar = ( props ) => {
 						<>
 							<PanelRow>
 								<label
-									htmlFor="alter-wp-debug"
+									htmlFor="WP_DEBUG"
 									className="components-toggle-control__label"
 								>WP_DEBUG</label>
 								<FormToggle
-									id="alter-wp-debug"
+									id="WP_DEBUG"
 									checked={ props.debugEnabled }
 									onClick={ props.alterConstant }
 								/>
 							</PanelRow>
 							<PanelRow>
 								<label
-									htmlFor="alter-wp-debug-log"
+									htmlFor="WP_DEBUG_LOG"
 									className="components-toggle-control__label"
 								>WP_DEBUG_LOG</label>
 								<FormToggle
-									id="alter-wp-debug-log"
+									id="WP_DEBUG_LOG"
 									checked={ props.debugLogEnabled }
 									onClick={ props.alterConstant }
 								/>
 							</PanelRow>
 							<PanelRow>
 								<label
-									htmlFor="alter-wp-debug-display"
+									htmlFor="WP_DEBUG_DISPLAY"
 									className="components-toggle-control__label"
 								>WP_DEBUG_DISPLAY</label>
 								<FormToggle
-									id="alter-wp-debug-display"
+									id="WP_DEBUG_DISPLAY"
 									checked={ props.debugDisplayEnabled }
 									onClick={ props.alterConstant }
 								/>
 							</PanelRow>
 							<PanelRow>
 								<label
-									htmlFor="alter-wp-script-debug"
+									htmlFor="SCRIPT_DEBUG"
 									className="components-toggle-control__label"
 								>SCRIPT_DEBUG</label>
 								<FormToggle
-									id="alter-wp-script-debug"
+									id="SCRIPT_DEBUG"
 									checked={ props.scriptDebugEnabled }
 									onClick={ props.alterConstant }
 								/>
 							</PanelRow>
 							<PanelRow>
 								<label
-									htmlFor="alter-wp-savequeries"
+									htmlFor="SAVEQUERIES"
 									className="components-toggle-control__label"
 								>SAVEQUERIES</label>
 								<FormToggle
-									id="alter-wp-savequeries"
+									id="SAVEQUERIES"
 									checked={ props.saveQueriesEnabled }
 									onClick={ props.alterConstant }
 								/>

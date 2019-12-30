@@ -252,7 +252,66 @@ const App = () => {
 	 * @param {Object} e string.
 	 */
 	const alterConstant = ( e ) => {
-		console.log( e.target.id );
+		// Show the spinner.
+		setLoading( 'show-spinner' );
+
+		const target = e.target.id;
+
+		let value = 'false';
+
+		switch ( target ) {
+			case 'WP_DEBUG':
+				value = hasWPDebug ? false : true;
+				break;
+			case 'WP_DEBUG_LOG':
+				value = hasWPDebugLog ? false : true;
+				break;
+			case 'WP_DEBUG_DISPLAY':
+				value = hasWPDebugDisplay ? false : true;
+				break;
+			case 'SCRIPT_DEBUG':
+				value = hasScriptDebug ? false : true;
+				break;
+			case 'SAVEQUERIES':
+				value = hasSaveQueries ? false : true;
+				break;
+		}
+
+		const request = new XMLHttpRequest();
+		const url = wp_live_debug_globals.ajax_url;
+		const nonce = wp_live_debug_globals.nonce;
+		const action = 'wp-live-debug-alter-constant';
+
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				const resp = JSON.parse( this.response );
+				if ( true === resp.success ) {
+					// switch ( constant ) {
+					// 	case 'WP_DEBUG':
+					// 		setWPDebug( true );
+					// 		break;
+					// 	case 'WP_DEBUG_LOG':
+					// 		setWPDebugLog( true );
+					// 		break;
+					// 	case 'WP_DEBUG_DISPLAY':
+					// 		setWPDebugDisplay( true );
+					// 		break;
+					// 	case 'SCRIPT_DEBUG':
+					// 		setScriptDebug( true );
+					// 		break;
+					// 	case 'SAVEQUERIES':
+					// 		setSaveQueries( true );
+					// 		break;
+					// }
+
+					setLoading( 'hide-spinner' );
+				}
+			}
+		};
+
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce + '&constant=' + target + '&value=' + value );
 	};
 
 	/**

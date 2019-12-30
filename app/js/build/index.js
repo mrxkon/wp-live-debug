@@ -423,7 +423,68 @@ var App = function App() {
 
 
   var alterConstant = function alterConstant(e) {
-    console.log(e.target.id);
+    // Show the spinner.
+    setLoading('show-spinner');
+    var target = e.target.id;
+    var value = 'false';
+
+    switch (target) {
+      case 'WP_DEBUG':
+        value = hasWPDebug ? false : true;
+        break;
+
+      case 'WP_DEBUG_LOG':
+        value = hasWPDebugLog ? false : true;
+        break;
+
+      case 'WP_DEBUG_DISPLAY':
+        value = hasWPDebugDisplay ? false : true;
+        break;
+
+      case 'SCRIPT_DEBUG':
+        value = hasScriptDebug ? false : true;
+        break;
+
+      case 'SAVEQUERIES':
+        value = hasSaveQueries ? false : true;
+        break;
+    }
+
+    var request = new XMLHttpRequest();
+    var url = wp_live_debug_globals.ajax_url;
+    var nonce = wp_live_debug_globals.nonce;
+    var action = 'wp-live-debug-alter-constant';
+    request.open('POST', url, true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
+
+    request.onload = function () {
+      if (this.status >= 200 && this.status < 400) {
+        var resp = JSON.parse(this.response);
+
+        if (true === resp.success) {
+          // switch ( constant ) {
+          // 	case 'WP_DEBUG':
+          // 		setWPDebug( true );
+          // 		break;
+          // 	case 'WP_DEBUG_LOG':
+          // 		setWPDebugLog( true );
+          // 		break;
+          // 	case 'WP_DEBUG_DISPLAY':
+          // 		setWPDebugDisplay( true );
+          // 		break;
+          // 	case 'SCRIPT_DEBUG':
+          // 		setScriptDebug( true );
+          // 		break;
+          // 	case 'SAVEQUERIES':
+          // 		setSaveQueries( true );
+          // 		break;
+          // }
+          setLoading('hide-spinner');
+        }
+      }
+    };
+
+    request.send('action=' + action + '&_ajax_nonce=' + nonce + '&constant=' + target + '&value=' + value);
   };
   /**
    * Alter Auto Refresh
@@ -672,38 +733,38 @@ var Sidebar = function Sidebar(props) {
     className: props.loading,
     icon: Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Spinner"], null)
   }, props.hasManualBackup ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
-    htmlFor: "alter-wp-debug",
+    htmlFor: "WP_DEBUG",
     className: "components-toggle-control__label"
   }, "WP_DEBUG"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["FormToggle"], {
-    id: "alter-wp-debug",
+    id: "WP_DEBUG",
     checked: props.debugEnabled,
     onClick: props.alterConstant
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
-    htmlFor: "alter-wp-debug-log",
+    htmlFor: "WP_DEBUG_LOG",
     className: "components-toggle-control__label"
   }, "WP_DEBUG_LOG"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["FormToggle"], {
-    id: "alter-wp-debug-log",
+    id: "WP_DEBUG_LOG",
     checked: props.debugLogEnabled,
     onClick: props.alterConstant
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
-    htmlFor: "alter-wp-debug-display",
+    htmlFor: "WP_DEBUG_DISPLAY",
     className: "components-toggle-control__label"
   }, "WP_DEBUG_DISPLAY"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["FormToggle"], {
-    id: "alter-wp-debug-display",
+    id: "WP_DEBUG_DISPLAY",
     checked: props.debugDisplayEnabled,
     onClick: props.alterConstant
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
-    htmlFor: "alter-wp-script-debug",
+    htmlFor: "SCRIPT_DEBUG",
     className: "components-toggle-control__label"
   }, "SCRIPT_DEBUG"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["FormToggle"], {
-    id: "alter-wp-script-debug",
+    id: "SCRIPT_DEBUG",
     checked: props.scriptDebugEnabled,
     onClick: props.alterConstant
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
-    htmlFor: "alter-wp-savequeries",
+    htmlFor: "SAVEQUERIES",
     className: "components-toggle-control__label"
   }, "SAVEQUERIES"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["FormToggle"], {
-    id: "alter-wp-savequeries",
+    id: "SAVEQUERIES",
     checked: props.saveQueriesEnabled,
     onClick: props.alterConstant
   }))) : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Backup wp-config for more settings!', 'wp-live-debug'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
