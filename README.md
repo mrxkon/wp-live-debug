@@ -1,6 +1,6 @@
 # wp-live-debug
 
-## live log viewer within wp-admin.
+## live debug log viewer within wp-admin.
 
 ![Tests](https://github.com/mrxkon/wp-live-debug/workflows/Tests/badge.svg)
 [![PHP Compatibility 7.0+](https://img.shields.io/badge/PHP%20Compatibility-7.0+-8892BF)](https://github.com/PHPCompatibility/PHPCompatibility)
