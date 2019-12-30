@@ -167,8 +167,19 @@ class Constants {
 			}
 		}
 
-		error_log( print_r( $new_file, true ) );
-		//return $this->write( implode( "\n", $new_file ) );
+		$data = implode( "\n", $new_file );
+
+		fseek( $file, 0 );
+
+		$bytes = fwrite( $file, $data );
+
+		if ( $bytes ) {
+			ftruncate( $file, ftell( $file ) );
+		}
+
+		fflush( $file );
+		flock( $file, LOCK_UN );
+		fclose( $file );
 
 		wp_send_json_success();
 	}
