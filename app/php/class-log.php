@@ -31,14 +31,15 @@ class Log {
 		}
 
 		// If debug log is defined.
-		if ( defined( 'WP_DEBUG_LOG' ) ) {
-			if ( is_string( WP_DEBUG_LOG ) ) {
-				$log_file = wp_normalize_path( WP_DEBUG_LOG );
-				update_option( 'wp_live_debug_debug_log_location', $log_file );
-			} elseif ( WP_DEBUG_LOG ) {
-				$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
-				update_option( 'wp_live_debug_debug_log_location', $log_file );
-			}
+		if ( defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ) {
+			$log_file = wp_normalize_path( WP_DEBUG_LOG );
+			update_option( 'wp_live_debug_debug_log_location', $log_file );
+		} elseif ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+			update_option( 'wp_live_debug_debug_log_location', $log_file );
+		} else {
+			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+			update_option( 'wp_live_debug_debug_log_location', $log_file );
 		}
 
 		// Return the path.
@@ -111,16 +112,13 @@ class Log {
 			if ( 2000000 > filesize( $log_file ) ) {
 				$debug_contents = file_get_contents( $log_file );
 				if ( empty( $debug_contents ) ) {
-					// translators: %1$s log filename.
-					$debug_contents = sprintf( esc_html__( 'Awesome! %1$s seems to be empty.', 'wp-live-deubg' ), basename( $log_file ) );
+					$debug_contents = esc_html__( 'Awesome! The log seems to be empty.', 'wp-live-deubg' );
 				}
 			} else {
-				// translators: %1$s log filename.
-				$debug_contents = sprintf( esc_html__( '%1$s is over 2 MB. Please open it via FTP.', 'wp-live-debug' ), basename( $log_file ) );
+				$debug_contents = esc_html__( 'The log is over 2 MB. Please open it via FTP.', 'wp-live-debug' );
 			}
 		} else {
-			// translators: %1$s log filename.
-			$debug_contents = sprintf( esc_html__( 'Could not find %1$s file.', 'wp-live-deubg' ), basename( $log_file ) );
+			$debug_contents = esc_html__( 'Could not find the log file.', 'wp-live-deubg' );
 
 		}
 
