@@ -2,7 +2,7 @@
  * WordPress dependencies.
  */
 import { __ } from '@wordpress/i18n';
-import { Panel, PanelBody, PanelRow, FormToggle, Spinner } from '@wordpress/components';
+import { Panel, PanelBody, PanelRow, FormToggle, Spinner, Button } from '@wordpress/components';
 
 /**
  * Main.
@@ -87,6 +87,19 @@ const Sidebar = ( props ) => {
 							checked={ props.autoRefreshEnabled }
 							onClick={ props.alterAutoRefresh }
 						/>
+					</PanelRow>
+					<PanelRow>
+						<Button
+							isLink
+						>
+							{ __( 'Clear log.', 'wp-live-debug' ) }
+						</Button>
+						<Button
+							isLink
+							isDestructive
+						>
+							{ __( 'Delete log.', 'wp-live-debug' ) }
+						</Button>
 					</PanelRow>
 				</PanelBody>
 			</Panel>
