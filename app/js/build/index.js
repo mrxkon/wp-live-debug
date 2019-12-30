@@ -169,7 +169,7 @@ var App = function App() {
       setHasAutoBackup = _useState16[1]; // Initialize the auto refresh state.
 
 
-  var _useState17 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(true),
+  var _useState17 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState18 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState17, 2),
       hasAutoRefresh = _useState18[0],
       setAutoRefresh = _useState18[1]; // Initialize a state for the loading spinner.
@@ -286,6 +286,18 @@ var App = function App() {
     request.send('action=' + action + '&_ajax_nonce=' + nonce);
   };
   /**
+   * Scroll the LogViewer.
+   */
+
+
+  var scrollLogViewer = function scrollLogViewer() {
+    var debugArea = document.getElementById('wp-live-debug-area');
+
+    if (null !== debugArea) {
+      debugArea.scrollTop = debugArea.scrollHeight;
+    }
+  };
+  /**
    * Find debug.log location.
    */
 
@@ -323,26 +335,27 @@ var App = function App() {
     request.onload = function () {
       if (this.status >= 200 && this.status < 400) {
         setDebugLogContent(this.response);
+
+        if (firstRun) {
+          scrollLogViewer();
+        }
       }
     };
 
     request.send('action=' + action + '&_ajax_nonce=' + nonce);
   };
   /**
-   * Scroll the LogViewer.
+   * Scroll the LogViewer on interval.
    */
 
 
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     var interval = setInterval(function () {
       if (true === hasAutoRefresh) {
-        var debugArea = document.getElementById('wp-live-debug-area');
-
-        if (null !== debugArea) {
-          debugArea.scrollTop = debugArea.scrollHeight;
-        }
+        readDebugLog();
+        scrollLogViewer();
       }
-    }, 2000);
+    }, 3000);
     return function () {
       return clearInterval(interval);
     };
@@ -688,7 +701,7 @@ var Sidebar = function Sidebar(props) {
     initialOpen: true,
     className: props.loading,
     icon: Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Spinner"], null)
-  }, props.hasBackup ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
+  }, props.hasManualBackup ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
     htmlFor: "alter-wp-debug",
     className: "components-toggle-control__label"
   }, "WP_DEBUG"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["FormToggle"], {

@@ -15,7 +15,7 @@ const Sidebar = ( props ) => {
 			<Panel>
 				<PanelHeader label={ __( 'Settings & Information', 'wp-live-debug' ) } />
 				<PanelBody title={ __( 'Constants Settings', 'wp-live-debug' ) } initialOpen={ true } className={ props.loading } icon={ <Spinner /> }>
-					{ props.hasBackup ? (
+					{ props.hasManualBackup ? (
 						<>
 							<PanelRow>
 								<label

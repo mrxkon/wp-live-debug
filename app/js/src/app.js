@@ -34,7 +34,7 @@ const App = () => {
 	const [ hasAutoBackup, setHasAutoBackup ] = useState( false );
 
 	// Initialize the auto refresh state.
-	const [ hasAutoRefresh, setAutoRefresh ] = useState( true );
+	const [ hasAutoRefresh, setAutoRefresh ] = useState( false );
 
 	// Initialize a state for the loading spinner.
 	const [ loading, setLoading ] = useState( 'show-spinner' );
@@ -128,6 +128,15 @@ const App = () => {
 		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 	};
 
+	/**
+	 * Scroll the LogViewer.
+	 */
+	const scrollLogViewer = () => {
+		const debugArea = document.getElementById( 'wp-live-debug-area' );
+		if ( null !== debugArea ) {
+			debugArea.scrollTop = debugArea.scrollHeight;
+		}
+	};
 
 	/**
 	 * Find debug.log location.
@@ -163,23 +172,24 @@ const App = () => {
 		request.onload = function() {
 			if ( this.status >= 200 && this.status < 400 ) {
 				setDebugLogContent( this.response );
+				if ( firstRun ) {
+					scrollLogViewer();
+				}
 			}
 		};
 		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 	};
 
 	/**
-	 * Scroll the LogViewer.
+	 * Scroll the LogViewer on interval.
 	 */
 	useEffect( () => {
 		const interval = setInterval( () => {
 			if ( true === hasAutoRefresh ) {
-				const debugArea = document.getElementById( 'wp-live-debug-area' );
-				if ( null !== debugArea ) {
-					debugArea.scrollTop = debugArea.scrollHeight;
-				}
+				readDebugLog();
+				scrollLogViewer();
 			}
-		}, 2000 );
+		}, 3000 );
 
 		return () => clearInterval( interval );
 	} );
