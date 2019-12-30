@@ -2,7 +2,7 @@
  * WordPress dependencies.
  */
 import { __ } from '@wordpress/i18n';
-import { Panel, PanelBody, PanelRow, FormToggle, Spinner } from '@wordpress/components';
+import { Panel, PanelHeader, PanelBody, PanelRow, FormToggle, Spinner } from '@wordpress/components';
 
 /**
  * Main.
@@ -13,69 +13,70 @@ const Sidebar = ( props ) => {
 	return (
 		<>
 			<Panel>
-				<PanelBody title={ __( 'Settings', 'wp-live-debug' ) } className={ props.loading } icon={ <Spinner /> } initialOpen={ true }>
+				<PanelHeader label={ __( 'Settings & Information', 'wp-live-debug' ) } />
+				<PanelBody title={ __( 'Constants Settings', 'wp-live-debug' ) } initialOpen={ true } className={ props.loading } icon={ <Spinner /> }>
 					{ props.hasBackup ? (
-					<>
-					<PanelRow>
-						<label
-							htmlFor="alter-wp-debug"
-							className="components-toggle-control__label"
-						>WP_DEBUG</label>
-						<FormToggle
-							id="alter-wp-debug"
-							checked={ props.debugEnabled }
-							onClick={ props.alterWPDebug }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<label
-							htmlFor="alter-wp-debug-log"
-							className="components-toggle-control__label"
-						>WP_DEBUG_LOG</label>
-						<FormToggle
-							id="alter-wp-debug-log"
-							checked={ props.debugLogEnabled }
-							onClick={ props.alterWPDebugLog }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<label
-							htmlFor="alter-wp-debug-display"
-							className="components-toggle-control__label"
-						>WP_DEBUG_DISPLAY</label>
-						<FormToggle
-							id="alter-wp-debug-display"
-							checked={ props.debugDisplayEnabled }
-							onClick={ props.alterWPDebugDisplay }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<label
-							htmlFor="alter-wp-script-debug"
-							className="components-toggle-control__label"
-						>SCRIPT_DEBUG</label>
-						<FormToggle
-							id="alter-wp-script-debug"
-							checked={ props.scriptDebugEnabled }
-							onClick={ props.alterScriptDebug }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<label
-							htmlFor="alter-wp-savequeries"
-							className="components-toggle-control__label"
-						>SAVEQUERIES</label>
-						<FormToggle
-							id="alter-wp-savequeries"
-							checked={ props.saveQueriesEnabled }
-							onClick={ props.alterSaveQueries }
-						/>
-					</PanelRow>
-					</>
+						<>
+							<PanelRow>
+								<label
+									htmlFor="alter-wp-debug"
+									className="components-toggle-control__label"
+								>WP_DEBUG</label>
+								<FormToggle
+									id="alter-wp-debug"
+									checked={ props.debugEnabled }
+									onClick={ props.alterWPDebug }
+								/>
+							</PanelRow>
+							<PanelRow>
+								<label
+									htmlFor="alter-wp-debug-log"
+									className="components-toggle-control__label"
+								>WP_DEBUG_LOG</label>
+								<FormToggle
+									id="alter-wp-debug-log"
+									checked={ props.debugLogEnabled }
+									onClick={ props.alterWPDebugLog }
+								/>
+							</PanelRow>
+							<PanelRow>
+								<label
+									htmlFor="alter-wp-debug-display"
+									className="components-toggle-control__label"
+								>WP_DEBUG_DISPLAY</label>
+								<FormToggle
+									id="alter-wp-debug-display"
+									checked={ props.debugDisplayEnabled }
+									onClick={ props.alterWPDebugDisplay }
+								/>
+							</PanelRow>
+							<PanelRow>
+								<label
+									htmlFor="alter-wp-script-debug"
+									className="components-toggle-control__label"
+								>SCRIPT_DEBUG</label>
+								<FormToggle
+									id="alter-wp-script-debug"
+									checked={ props.scriptDebugEnabled }
+									onClick={ props.alterScriptDebug }
+								/>
+							</PanelRow>
+							<PanelRow>
+								<label
+									htmlFor="alter-wp-savequeries"
+									className="components-toggle-control__label"
+								>SAVEQUERIES</label>
+								<FormToggle
+									id="alter-wp-savequeries"
+									checked={ props.saveQueriesEnabled }
+									onClick={ props.alterSaveQueries }
+								/>
+							</PanelRow>
+						</>
 					) : (
-					<PanelRow>
-						<span>{ __( 'Backup wp-config for more settings!', 'wp-live-debug' ) }</span>
-					</PanelRow>
+						<PanelRow>
+							<span>{ __( 'Backup wp-config for more settings!', 'wp-live-debug' ) }</span>
+						</PanelRow>
 					) }
 					<PanelRow>
 						<label
@@ -94,11 +95,18 @@ const Sidebar = ( props ) => {
 				<PanelBody title={ __( 'More Information', 'wp-live-debug' ) } initialOpen={ false }>
 					<PanelRow>
 						<span>
-							{ __( 'You will find two extra wp-config.php backups in your WordPress root directory as:', 'wp-live-debug' ) }
+							{ __( 'You will find extra wp-config.php backups in your WordPress root directory as:', 'wp-live-debug' ) }
 						</span>
 					</PanelRow>
 					<PanelRow>
-						<strong>wp-config.WPLD-auto.php <br /> wp-config.WPLD-manual.php</strong>
+						<span>
+							{ props.hasAutoBackup &&
+								<><strong>wp-config.WPLD-auto.php </strong><br /></>
+							}
+							{ props.hasManualBackup &&
+								<strong>wp-config.WPLD-manual.php</strong>
+							}
+						</span>
 					</PanelRow>
 					<PanelRow>
 						<span>

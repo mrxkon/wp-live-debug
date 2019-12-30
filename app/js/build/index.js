@@ -155,37 +155,42 @@ var App = function App() {
   var _useState11 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState12 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState11, 2),
       hasSaveQueries = _useState12[0],
-      setSaveQueries = _useState12[1]; // Initialize the backup state.
+      setSaveQueries = _useState12[1]; // Initialize the backups state.
 
 
   var _useState13 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState14 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState13, 2),
-      hasBackup = _useState14[0],
-      setHasBackup = _useState14[1]; // Initialize the auto refresh state.
+      hasManualBackup = _useState14[0],
+      setHasManualBackup = _useState14[1];
 
-
-  var _useState15 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(true),
+  var _useState15 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState16 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState15, 2),
-      hasAutoRefresh = _useState16[0],
-      setAutoRefresh = _useState16[1]; // Initialize a state for the loading spinner.
+      hasAutoBackup = _useState16[0],
+      setHasAutoBackup = _useState16[1]; // Initialize the auto refresh state.
 
 
-  var _useState17 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])('show-spinner'),
+  var _useState17 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(true),
       _useState18 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState17, 2),
-      loading = _useState18[0],
-      setLoading = _useState18[1]; // Initialize the debug.log location state.
+      hasAutoRefresh = _useState18[0],
+      setAutoRefresh = _useState18[1]; // Initialize a state for the loading spinner.
 
 
-  var _useState19 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(''),
+  var _useState19 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])('show-spinner'),
       _useState20 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState19, 2),
-      debugLogLocation = _useState20[0],
-      setDebugLogLocation = _useState20[1]; // Initialize the debug.log content state.
+      loading = _useState20[0],
+      setLoading = _useState20[1]; // Initialize the debug.log location state.
 
 
   var _useState21 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(''),
       _useState22 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState21, 2),
-      deubgLogContent = _useState22[0],
-      setDebugLogContent = _useState22[1];
+      debugLogLocation = _useState22[0],
+      setDebugLogLocation = _useState22[1]; // Initialize the debug.log content state.
+
+
+  var _useState23 = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(''),
+      _useState24 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState23, 2),
+      deubgLogContent = _useState24[0],
+      setDebugLogContent = _useState24[1];
   /**
    * Check if wp-config.WPLD-auto.php exists.
    */
@@ -200,7 +205,8 @@ var App = function App() {
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
 
     request.onload = function () {
-      if (this.status >= 200 && this.status < 400) {// silence.
+      if (this.status >= 200 && this.status < 400) {
+        setHasAutoBackup(true);
       }
     };
 
@@ -224,7 +230,7 @@ var App = function App() {
         var resp = JSON.parse(this.response);
 
         if (true === resp.success) {
-          setHasBackup(true);
+          setHasManualBackup(true);
         }
       }
     };
@@ -364,7 +370,7 @@ var App = function App() {
           var resp = JSON.parse(this.response);
 
           if (true === resp.success) {
-            setHasBackup(true);
+            setHasManualBackup(true);
             setLoading('hide-spinner');
           }
         }
@@ -387,7 +393,7 @@ var App = function App() {
           var resp = JSON.parse(this.response);
 
           if (true === resp.success) {
-            setHasBackup(false);
+            setHasManualBackup(false);
             setLoading('hide-spinner');
           }
         }
@@ -466,7 +472,7 @@ var App = function App() {
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Header__WEBPACK_IMPORTED_MODULE_2__["default"], {
     BackupActions: BackupActions,
-    hasBackup: hasBackup
+    hasManualBackup: hasManualBackup
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_Content__WEBPACK_IMPORTED_MODULE_3__["default"], {
     loading: loading,
     alterWPDebug: alterWPDebug,
@@ -475,7 +481,8 @@ var App = function App() {
     alterScriptDebug: alterScriptDebug,
     alterSaveQueries: alterSaveQueries,
     alterAutoRefresh: alterAutoRefresh,
-    hasBackup: hasBackup,
+    hasManualBackup: hasManualBackup,
+    hasAutoBackup: hasAutoBackup,
     debugEnabled: hasWPDebug,
     debugLogLocation: debugLogLocation,
     debugLogEnabled: hasWPDebugLog,
@@ -544,7 +551,8 @@ var Content = function Content(props) {
     alterScriptDebug: props.alterScriptDebug,
     alterSaveQueries: props.alterSaveQueries,
     alterAutoRefresh: props.alterAutoRefresh,
-    hasBackup: props.hasBackup,
+    hasManualBackup: props.hasManualBackup,
+    hasAutoBackup: props.hasAutoBackup,
     debugEnabled: props.debugEnabled,
     debugLogEnabled: props.debugLogEnabled,
     debugDisplayEnabled: props.debugDisplayEnabled,
@@ -598,7 +606,7 @@ var Header = function Header(props) {
     className: "header-title"
   }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('WP Live Debug', 'wp-live-debug'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "backup-restore"
-  }, props.hasBackup ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+  }, props.hasManualBackup ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     id: "wp-live-debug-restore",
     isPrimary: true,
     onClick: props.BackupActions
@@ -673,11 +681,13 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 var Sidebar = function Sidebar(props) {
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Panel"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
-    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Settings', 'wp-live-debug'),
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Panel"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelHeader"], {
+    label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Settings & Information', 'wp-live-debug')
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Constants Settings', 'wp-live-debug'),
+    initialOpen: true,
     className: props.loading,
-    icon: Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Spinner"], null),
-    initialOpen: true
+    icon: Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Spinner"], null)
   }, props.hasBackup ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("label", {
     htmlFor: "alter-wp-debug",
     className: "components-toggle-control__label"
@@ -723,7 +733,7 @@ var Sidebar = function Sidebar(props) {
   })))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Panel"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
     title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('More Information', 'wp-live-debug'),
     initialOpen: false
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('You will find two extra wp-config.php backups in your WordPress root directory as:', 'wp-live-debug'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("strong", null, "wp-config.WPLD-auto.php ", Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("br", null), " wp-config.WPLD-manual.php")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('For more information you can visit', 'wp-live-debug'), " ", Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('You will find extra wp-config.php backups in your WordPress root directory as:', 'wp-live-debug'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", null, props.hasAutoBackup && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("strong", null, "wp-config.WPLD-auto.php "), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("br", null)), props.hasManualBackup && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("strong", null, "wp-config.WPLD-manual.php"))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('For more information you can visit', 'wp-live-debug'), " ", Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
     target: "_blank",
     rel: "noopener noreferrer",
     href: "https://wordpress.org/support/article/debugging-in-wordpress/"

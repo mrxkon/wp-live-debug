@@ -29,8 +29,9 @@ const App = () => {
 	const [ hasScriptDebug, setScriptDebug ] = useState( false );
 	const [ hasSaveQueries, setSaveQueries ] = useState( false );
 
-	// Initialize the backup state.
-	const [ hasBackup, setHasBackup ] = useState( false );
+	// Initialize the backups state.
+	const [ hasManualBackup, setHasManualBackup ] = useState( false );
+	const [ hasAutoBackup, setHasAutoBackup ] = useState( false );
 
 	// Initialize the auto refresh state.
 	const [ hasAutoRefresh, setAutoRefresh ] = useState( true );
@@ -57,7 +58,7 @@ const App = () => {
 		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
 		request.onload = function() {
 			if ( this.status >= 200 && this.status < 400 ) {
-				// silence.
+				setHasAutoBackup( true );
 			}
 		};
 		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
@@ -78,7 +79,7 @@ const App = () => {
 			if ( this.status >= 200 && this.status < 400 ) {
 				const resp = JSON.parse( this.response );
 				if ( true === resp.success ) {
-					setHasBackup( true );
+					setHasManualBackup( true );
 				}
 			}
 		};
@@ -205,7 +206,7 @@ const App = () => {
 				if ( this.status >= 200 && this.status < 400 ) {
 					const resp = JSON.parse( this.response );
 					if ( true === resp.success ) {
-						setHasBackup( true );
+						setHasManualBackup( true );
 						setLoading( 'hide-spinner' );
 					}
 				}
@@ -225,7 +226,7 @@ const App = () => {
 				if ( this.status >= 200 && this.status < 400 ) {
 					const resp = JSON.parse( this.response );
 					if ( true === resp.success ) {
-						setHasBackup( false );
+						setHasManualBackup( false );
 						setLoading( 'hide-spinner' );
 					}
 				}
@@ -298,7 +299,7 @@ const App = () => {
 		<>
 			<Header
 				BackupActions={ BackupActions }
-				hasBackup={ hasBackup }
+				hasManualBackup={ hasManualBackup }
 			/>
 			<Content
 				loading={ loading }
@@ -308,7 +309,8 @@ const App = () => {
 				alterScriptDebug={ alterScriptDebug }
 				alterSaveQueries={ alterSaveQueries }
 				alterAutoRefresh={ alterAutoRefresh }
-				hasBackup={ hasBackup }
+				hasManualBackup={ hasManualBackup }
+				hasAutoBackup={ hasAutoBackup }
 				debugEnabled={ hasWPDebug }
 				debugLogLocation={ debugLogLocation }
 				debugLogEnabled={ hasWPDebugLog }

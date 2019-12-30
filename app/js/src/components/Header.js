@@ -22,7 +22,7 @@ const Header = ( props ) => {
 					<h1 className="header-title">{ __( 'WP Live Debug', 'wp-live-debug' ) }</h1>
 				</div>
 				<div className="backup-restore">
-					{ props.hasBackup ? (
+					{ props.hasManualBackup ? (
 						<Button
 							id="wp-live-debug-restore"
 							isPrimary

@@ -36,7 +36,8 @@ const Content = ( props ) => {
 						alterScriptDebug={ props.alterScriptDebug }
 						alterSaveQueries={ props.alterSaveQueries }
 						alterAutoRefresh={ props.alterAutoRefresh }
-						hasBackup={ props.hasBackup }
+						hasManualBackup={ props.hasManualBackup }
+						hasAutoBackup={ props.hasAutoBackup }
 						debugEnabled={ props.debugEnabled }
 						debugLogEnabled={ props.debugLogEnabled }
 						debugDisplayEnabled={ props.debugDisplayEnabled }
