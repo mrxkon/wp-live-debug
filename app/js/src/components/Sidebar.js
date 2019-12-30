@@ -2,7 +2,7 @@
  * WordPress dependencies.
  */
 import { __ } from '@wordpress/i18n';
-import { Panel, PanelHeader, PanelBody, PanelRow, FormToggle, Spinner } from '@wordpress/components';
+import { Panel, PanelBody, PanelRow, FormToggle, Spinner } from '@wordpress/components';
 
 /**
  * Main.
@@ -12,8 +12,7 @@ import { Panel, PanelHeader, PanelBody, PanelRow, FormToggle, Spinner } from '@w
 const Sidebar = ( props ) => {
 	return (
 		<>
-			<Panel>
-				<PanelHeader label={ __( 'Settings & Information', 'wp-live-debug' ) } />
+			<Panel header={ __( 'Settings & Information', 'wp-live-debug' ) }>
 				<PanelBody title={ __( 'Constants Settings', 'wp-live-debug' ) } initialOpen={ true } className={ props.loading } icon={ <Spinner /> }>
 					{ props.hasManualBackup ? (
 						<>
