@@ -383,8 +383,7 @@ var App = function App() {
           var resp = JSON.parse(this.response);
 
           if (true === resp.success) {
-            setHasManualBackup(true);
-            setLoading('hide-spinner');
+            window.location.reload();
           }
         }
       };
@@ -406,8 +405,7 @@ var App = function App() {
           var resp = JSON.parse(this.response);
 
           if (true === resp.success) {
-            setHasManualBackup(false);
-            setLoading('hide-spinner');
+            window.location.reload();
           }
         }
       };

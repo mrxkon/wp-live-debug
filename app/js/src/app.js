@@ -217,8 +217,7 @@ const App = () => {
 				if ( this.status >= 200 && this.status < 400 ) {
 					const resp = JSON.parse( this.response );
 					if ( true === resp.success ) {
-						setHasManualBackup( true );
-						setLoading( 'hide-spinner' );
+						window.location.reload();
 					}
 				}
 			};
@@ -237,8 +236,7 @@ const App = () => {
 				if ( this.status >= 200 && this.status < 400 ) {
 					const resp = JSON.parse( this.response );
 					if ( true === resp.success ) {
-						setHasManualBackup( false );
-						setLoading( 'hide-spinner' );
+						window.location.reload();
 					}
 				}
 			};
