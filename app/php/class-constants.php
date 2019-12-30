@@ -33,15 +33,12 @@ class Constants {
 	 * Check if a given constant is enabled.
 	 */
 	public static function is_constant_true() {
-		// Send error if wrong referer.
 		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
 			wp_send_json_error();
 		}
 
-		// Set result to false by default.
 		$results = array();
 
-		// Test for results.
 		foreach ( self::$constants as $constant ) {
 			switch ( $constant ) {
 				case 'WP_DEBUG':
@@ -72,7 +69,6 @@ class Constants {
 			}
 		}
 
-		// Send result depending on the situation.
 		wp_send_json_success( $results );
 	}
 
@@ -80,12 +76,10 @@ class Constants {
 	 * Sets trues/false on a given constant.
 	 */
 	public static function alter_constant() {
-		// Send error if wrong referer.
 		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
 			wp_send_json_error();
 		}
 
-		// Send error if file doesn't exist.
 		if ( ! file_exists( WP_LIVE_DEBUG_WP_CONFIG ) ) {
 			wp_send_json_error();
 		}
@@ -93,12 +87,10 @@ class Constants {
 		$constant   = sanitize_text_field( $_POST['constant'] );
 		$post_value = (string) sanitize_text_field( $_POST['value'] );
 
-		// Send error if the constant isn't acceptable.
 		if ( ! in_array( $constant, self::$constants, true ) ) {
 			wp_send_json_error();
 		}
 
-		// If the value is a string.
 		if ( 'true' === $post_value ) {
 			$value = 'true';
 		} elseif ( 'false' === $post_value ) {
@@ -107,12 +99,8 @@ class Constants {
 			$value = "'{$post_value}'";
 		}
 
-		/***********************
-		 * Start the file write.
-		 */
 		$file = fopen( WP_LIVE_DEBUG_WP_CONFIG, 'r+' );
 
-		// Send error if the file can't be opened.
 		if ( ! $file ) {
 			wp_send_json_error();
 		}
@@ -125,11 +113,9 @@ class Constants {
 			$lines[] = rtrim( fgets( $file ), "\r\n" );
 		}
 
-		// Generate the new file data.
 		$new_file = array();
 		$added    = false;
 
-		// Parse the file and find the constant.
 		foreach ( $lines as $line ) {
 			if ( preg_match( "/define\s?\(\s?[\"|']{$constant}[\"|']/", $line ) ) {
 				$added = true;
@@ -139,8 +125,6 @@ class Constants {
 			$new_file[] = $line;
 		}
 
-		// If the constant was not found parse the file again
-		// and add it before the stop editing line.
 		if ( ! $added ) {
 			$new_file = array();
 
@@ -149,11 +133,11 @@ class Constants {
 					$added      = true;
 					$new_file[] = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
 				}
+
 				$new_file[] = $line;
 			}
 		}
 
-		// If the stop editing line was not found, then add it right at the top.
 		if ( ! $added ) {
 			$new_file = array();
 
@@ -178,7 +162,9 @@ class Constants {
 		}
 
 		fflush( $file );
+
 		flock( $file, LOCK_UN );
+
 		fclose( $file );
 
 		wp_send_json_success();

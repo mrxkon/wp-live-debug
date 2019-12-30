@@ -51,6 +51,8 @@ class Setup {
 		// Log related actions.
 		add_action( 'wp_ajax_wp-live-debug-find-debug-log-json', array( '\\WP_Live_Debug\\Log', 'find_debug_log_json' ) );
 		add_action( 'wp_ajax_wp-live-debug-read-debug-log', array( '\\WP_Live_Debug\\Log', 'read_debug_log' ) );
+		add_action( 'wp_ajax_wp-live-debug-clear-debug-log', array( '\\WP_Live_Debug\\Log', 'clear_debug_log' ) );
+		add_action( 'wp_ajax_wp-live-debug-delete-debug-log', array( '\\WP_Live_Debug\\Log', 'delete_debug_log' ) );
 
 		// Refresh log related actions.
 		add_action( 'wp_ajax_wp-live-debug-auto-refresh-is', array( '\\WP_Live_Debug\\Log', 'auto_refresh_is' ) );
@@ -71,13 +73,9 @@ class Setup {
 	 * Activation Hook.
 	 */
 	public static function activate() {
-		// Initialize auto refresh and make it disabled.
 		update_option( 'wp_live_debug_auto_refresh', 'disabled' );
-
-		// Initialize debug.log location option.
 		update_option( 'wp_live_debug_debug_log_location', '' );
 
-		// Keep a first backup of wp-config.php.
 		Config::get_auto_backup();
 	}
 
@@ -85,13 +83,9 @@ class Setup {
 	 * Deactivation Hook.
 	 */
 	public static function deactivate() {
-		// Remove the auto refresh option.
 		delete_option( 'wp_live_debug_auto_refresh' );
-
-		// Remove the debug.log location option.
 		delete_option( 'wp_live_debug_debug_log_location' );
 
-		// Remove the manual backup.
 		Config::remove_manual_backup();
 	}
 
@@ -136,7 +130,6 @@ class Setup {
 	 */
 	public function enqueue_scripts( $hook ) {
 		if ( 'toplevel_page_wp-live-debug' === $hook ) {
-			// Automated dependencies array.
 			$asset_file = include( WP_LIVE_DEBUG_DIR . 'app/js/build/index.asset.php' );
 
 			wp_enqueue_style(

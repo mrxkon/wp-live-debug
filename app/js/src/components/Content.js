@@ -25,7 +25,7 @@ const Content = ( props ) => {
 			>
 				<div className="main">
 					<h2>{ __( 'Viewing:', 'wp-live-debug' ) } { props.debugLogLocation }</h2>
-					<LogViewer deubgLogContent={ props.deubgLogContent } />
+					<LogViewer />
 				</div>
 				<div className="sidebar">
 					<Sidebar
@@ -40,6 +40,8 @@ const Content = ( props ) => {
 						scriptDebugEnabled={ props.scriptDebugEnabled }
 						saveQueriesEnabled={ props.saveQueriesEnabled }
 						autoRefreshEnabled={ props.autoRefreshEnabled }
+						clearLog={ props.clearLog }
+						deleteLog={ props.deleteLog }
 					/>
 				</div>
 			</div>

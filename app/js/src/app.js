@@ -14,36 +14,19 @@ import Content from './components/Content';
  */
 const App = () => {
 	/**
-	 * Since we're in an arrow function and using useState(),
-	 * altering the state will force a re-render making all of the
-	 * initial functions needed to re-run. To avoid this
-	 * we add an extra state keeping a "firstRun" to avoid unwanted
-	 * looping & re-runs of functions.
+	 * Initialize states.
 	 */
 	const [ firstRun, setfirstRun ] = useState( true );
-
-	// Initialize the debug states.
 	const [ hasWPDebug, setWPDebug ] = useState( false );
 	const [ hasWPDebugLog, setWPDebugLog ] = useState( false );
 	const [ hasWPDebugDisplay, setWPDebugDisplay ] = useState( false );
 	const [ hasScriptDebug, setScriptDebug ] = useState( false );
 	const [ hasSaveQueries, setSaveQueries ] = useState( false );
-
-	// Initialize the backups state.
 	const [ hasManualBackup, setHasManualBackup ] = useState( false );
 	const [ hasAutoBackup, setHasAutoBackup ] = useState( false );
-
-	// Initialize the auto refresh state.
 	const [ hasAutoRefresh, setAutoRefresh ] = useState( false );
-
-	// Initialize a state for the loading spinner.
 	const [ loading, setLoading ] = useState( 'show-spinner' );
-
-	// Initialize the debug.log location state.
 	const [ debugLogLocation, setDebugLogLocation ] = useState( '' );
-
-	// Initialize the debug.log content state.
-	const [ deubgLogContent, setDebugLogContent ] = useState( '' );
 
 	/**
 	 * Check if wp-config.WPLD-auto.php exists.
@@ -125,7 +108,6 @@ const App = () => {
 				}
 			}
 		};
-
 		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 	};
 
@@ -134,6 +116,7 @@ const App = () => {
 	 */
 	const scrollLogViewer = () => {
 		const debugArea = document.getElementById( 'wp-live-debug-area' );
+
 		if ( null !== debugArea ) {
 			debugArea.scrollTop = debugArea.scrollHeight;
 		}
@@ -172,7 +155,10 @@ const App = () => {
 		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
 		request.onload = function() {
 			if ( this.status >= 200 && this.status < 400 ) {
-				setDebugLogContent( this.response );
+				const debugArea = document.getElementById( 'wp-live-debug-area' );
+				if ( null !== debugArea ) {
+					debugArea.value = this.response;
+				}
 				if ( firstRun ) {
 					scrollLogViewer();
 				}
@@ -196,16 +182,60 @@ const App = () => {
 	} );
 
 	/**
+	 * Clear the log.
+	 */
+	const clearLog = () => {
+		const request = new XMLHttpRequest();
+		const url = wp_live_debug_globals.ajax_url;
+		const nonce = wp_live_debug_globals.nonce;
+		const action = 'wp-live-debug-clear-debug-log';
+
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				const resp = JSON.parse( this.response );
+				if ( true === resp.success ) {
+					// silence
+				}
+			}
+		};
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
+	};
+
+	/**
+	 * Delete the log.
+	 */
+	const deleteLog = () => {
+		const request = new XMLHttpRequest();
+		const url = wp_live_debug_globals.ajax_url;
+		const nonce = wp_live_debug_globals.nonce;
+		const action = 'wp-live-debug-delete-debug-log';
+
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				const resp = JSON.parse( this.response );
+				if ( true === resp.success ) {
+					// silence
+				}
+			}
+		};
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
+	};
+
+	/**
 	 * Backup Button Actions.
 	 *
-	 * @param {Object} e string.
+	 * @param {Object} event
 	 */
-	const BackupActions = ( e ) => {
-		// Show the spinner.
+	const BackupActions = ( event ) => {
 		setLoading( 'show-spinner' );
 
-		// If we're getting a backup.
-		if ( e.target.id === 'wp-live-debug-backup' ) {
+		const target = event.target.id;
+
+		if ( target === 'wp-live-debug-backup' ) {
 			const request = new XMLHttpRequest();
 			const url = wp_live_debug_globals.ajax_url;
 			const nonce = wp_live_debug_globals.nonce;
@@ -222,8 +252,6 @@ const App = () => {
 				}
 			};
 			request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
-
-		// Else restore the backup.
 		} else {
 			const request = new XMLHttpRequest();
 			const url = wp_live_debug_globals.ajax_url;
@@ -245,15 +273,14 @@ const App = () => {
 	};
 
 	/**
-	 * Alter Constatns.
+	 * Alter Constants.
 	 *
-	 * @param {Object} e string.
+	 * @param {Object} event
 	 */
-	const alterConstant = ( e ) => {
-		// Show the spinner.
+	const alterConstant = ( event ) => {
 		setLoading( 'show-spinner' );
 
-		const target = e.target.id;
+		const target = event.target.id;
 
 		let value = 'false';
 
@@ -311,7 +338,6 @@ const App = () => {
 				}
 			}
 		};
-
 		request.send( 'action=' + action + '&_ajax_nonce=' + nonce + '&constant=' + target + '&value=' + value );
 	};
 
@@ -375,9 +401,7 @@ const App = () => {
 	};
 
 	/**
-	 * Now we utilize the "firstRun" state so we
-	 * can run our 1time functions and then set it
-	 * to false so this won't run again until a page refresh.
+	 * Run these only one time.
 	 */
 	if ( firstRun ) {
 		autoBackupExists();
@@ -407,11 +431,12 @@ const App = () => {
 				debugEnabled={ hasWPDebug }
 				debugLogLocation={ debugLogLocation }
 				debugLogEnabled={ hasWPDebugLog }
-				deubgLogContent={ deubgLogContent }
 				debugDisplayEnabled={ hasWPDebugDisplay }
 				scriptDebugEnabled={ hasScriptDebug }
 				saveQueriesEnabled={ hasSaveQueries }
 				autoRefreshEnabled={ hasAutoRefresh }
+				clearLog={ clearLog }
+				deleteLog={ deleteLog }
 			/>
 		</>
 	);

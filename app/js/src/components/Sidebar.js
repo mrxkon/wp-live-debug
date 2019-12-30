@@ -91,12 +91,14 @@ const Sidebar = ( props ) => {
 					<PanelRow>
 						<Button
 							isLink
+							onClick={ props.clearLog }
 						>
 							{ __( 'Clear log.', 'wp-live-debug' ) }
 						</Button>
 						<Button
 							isLink
 							isDestructive
+							onClick={ props.deleteLog }
 						>
 							{ __( 'Delete log.', 'wp-live-debug' ) }
 						</Button>

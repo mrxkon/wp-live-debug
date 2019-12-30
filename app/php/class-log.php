@@ -25,24 +25,24 @@ class Log {
 	 * Finds out where debug.log is located.
 	 */
 	public static function find_debug_log_json() {
-		// Send error if wrong referer.
 		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
 			wp_send_json_error();
 		}
 
-		// If debug log is defined.
 		if ( defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ) {
 			$log_file = wp_normalize_path( WP_DEBUG_LOG );
+
 			update_option( 'wp_live_debug_debug_log_location', $log_file );
 		} elseif ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+
 			update_option( 'wp_live_debug_debug_log_location', $log_file );
 		} else {
 			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
+
 			update_option( 'wp_live_debug_debug_log_location', $log_file );
 		}
 
-		// Return the path.
 		wp_send_json_success(
 			array(
 				'debuglog_path' => $log_file,
@@ -54,7 +54,6 @@ class Log {
 	 * Check if auto refresh is enabled.
 	 */
 	public static function auto_refresh_is() {
-		// Send error if wrong referer.
 		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
 			wp_send_json_error();
 		}
@@ -66,7 +65,6 @@ class Log {
 	 * Refresh debug.log toggle
 	 */
 	public static function alter_auto_refresh() {
-		// Send error if wrong referer.
 		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
 			wp_send_json_error();
 		}
@@ -78,7 +76,6 @@ class Log {
 
 		$value = $_POST['value'];
 
-		// Send error if value isn't allowed.
 		if ( ! in_array( $value, $allowed, true ) ) {
 			wp_send_json_error();
 		}
@@ -92,7 +89,6 @@ class Log {
 	 * Read debug.log.
 	 */
 	public static function read_debug_log() {
-		// Send error if wrong referer.
 		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
 			wp_send_json_error();
 		}
@@ -102,6 +98,7 @@ class Log {
 		if ( file_exists( $log_file ) ) {
 			if ( 2000000 > filesize( $log_file ) ) {
 				$debug_contents = file_get_contents( $log_file );
+
 				if ( empty( $debug_contents ) ) {
 					$debug_contents = esc_html__( 'Awesome! The log seems to be empty.', 'wp-live-deubg' );
 				}
@@ -110,7 +107,6 @@ class Log {
 			}
 		} else {
 			$debug_contents = esc_html__( 'Could not find the log file.', 'wp-live-deubg' );
-
 		}
 
 		echo $debug_contents;
@@ -122,49 +118,40 @@ class Log {
 	 * Clear log.
 	 */
 	public static function clear_debug_log() {
-		$nonce    = sanitize_text_field( $_POST['nonce'] );
-		$log_file = sanitize_text_field( $_POST['log'] );
-
-		if ( ! wp_verify_nonce( $nonce, $log_file ) ) {
-			$response = array(
-				'message' => esc_html__( 'Could not validate nonce', 'wp-live-debug' ),
-			);
-			wp_send_json_error( $response );
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
+			wp_send_json_error();
 		}
 
-		if ( 'log' != substr( strrchr( $log_file, '.' ), 1 ) ) {
-			$response = array(
-				'message' => esc_html__( 'This is not a log file.', 'wp-live-debug' ),
-			);
+		$log_file = get_option( 'wp_live_debug_debug_log_location' );
 
-			wp_send_json_error( $response );
+		if ( ! file_exists( $log_file ) ) {
+			wp_send_json_error();
 		}
 
-		file_put_contents( $log_file, '' );
+		if ( ! file_put_contents( $log_file, '' ) ) {
+			wp_send_json_error();
+		}
 
-		$response = array(
-			'message' => esc_html__( '.log was cleared', 'wp-live-debug' ),
-		);
-
-		wp_send_json_success( $response );
+		wp_send_json_success();
 	}
 
 	/**
 	 * Delete log.
 	 */
 	public static function delete_debug_log() {
-		$nonce    = sanitize_text_field( $_POST['nonce'] );
-		$log_file = sanitize_text_field( $_POST['log'] );
-
-		if ( ! wp_verify_nonce( $nonce, $log_file ) ) {
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
 			wp_send_json_error();
 		}
 
-		if ( 'log' != substr( strrchr( $log_file, '.' ), 1 ) ) {
+		$log_file = get_option( 'wp_live_debug_debug_log_location' );
+
+		if ( ! file_exists( $log_file ) ) {
 			wp_send_json_error();
 		}
 
-		unlink( $log_file );
+		if ( ! unlink( $log_file ) ) {
+			wp_send_json_error();
+		}
 
 		wp_send_json_success();
 	}
