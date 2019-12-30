@@ -101,7 +101,7 @@ const App = () => {
 			if ( this.status >= 200 && this.status < 400 ) {
 				const resp = JSON.parse( this.response );
 				if ( true === resp.success ) {
-					resp.data.map( ( constant ) => {
+					resp.data.forEach( ( constant ) => {
 						switch ( constant ) {
 							case 'WP_DEBUG':
 								setWPDebug( true );
@@ -120,6 +120,7 @@ const App = () => {
 								break;
 						}
 					} );
+
 					setLoading( 'hide-spinner' );
 				}
 			}
@@ -285,7 +286,13 @@ const App = () => {
 	 * Alter Auto Refresh
 	 */
 	const alterAutoRefresh = () => {
-		console.log( 'alterAutoRefresh' );
+		setLoading( 'show-spinner' );
+		if ( false === hasAutoRefresh ) {
+			setAutoRefresh( true );
+		} else {
+			setAutoRefresh( false );
+		}
+		setLoading( 'hide-spinner' );
 	};
 
 	/**

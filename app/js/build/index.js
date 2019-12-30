@@ -255,7 +255,7 @@ var App = function App() {
         var resp = JSON.parse(this.response);
 
         if (true === resp.success) {
-          resp.data.map(function (constant) {
+          resp.data.forEach(function (constant) {
             switch (constant) {
               case 'WP_DEBUG':
                 setWPDebug(true);
@@ -461,7 +461,15 @@ var App = function App() {
 
 
   var alterAutoRefresh = function alterAutoRefresh() {
-    console.log('alterAutoRefresh');
+    setLoading('show-spinner');
+
+    if (false === hasAutoRefresh) {
+      setAutoRefresh(true);
+    } else {
+      setAutoRefresh(false);
+    }
+
+    setLoading('hide-spinner');
   };
   /**
    * Now we utilize the "firstRun" state so we
