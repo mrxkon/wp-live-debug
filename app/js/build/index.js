@@ -500,14 +500,63 @@ var App = function App() {
 
   var alterAutoRefresh = function alterAutoRefresh() {
     setLoading('show-spinner');
+    var request = new XMLHttpRequest();
+    var url = wp_live_debug_globals.ajax_url;
+    var nonce = wp_live_debug_globals.nonce;
+    var action = 'wp-live-debug-alter-auto-refresh';
+    var value = 'enabled';
 
     if (false === hasAutoRefresh) {
+      value = 'enabled';
       setAutoRefresh(true);
     } else {
+      value = 'disabled';
       setAutoRefresh(false);
     }
 
-    setLoading('hide-spinner');
+    request.open('POST', url, true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
+
+    request.onload = function () {
+      if (this.status >= 200 && this.status < 400) {
+        var resp = JSON.parse(this.response);
+
+        if (true === resp.success) {
+          setLoading('hide-spinner');
+        }
+      }
+    };
+
+    request.send('action=' + action + '&_ajax_nonce=' + nonce + '&value=' + value);
+  };
+  /**
+   * Find if Auto Refresh is enabled.
+   */
+
+
+  var isAutoRefresh = function isAutoRefresh() {
+    var request = new XMLHttpRequest();
+    var url = wp_live_debug_globals.ajax_url;
+    var nonce = wp_live_debug_globals.nonce;
+    var action = 'wp-live-debug-auto-refresh-is';
+    request.open('POST', url, true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
+
+    request.onload = function () {
+      if (this.status >= 200 && this.status < 400) {
+        var resp = JSON.parse(this.response);
+
+        if (true === resp.success) {
+          if ('disabled' === resp.data) {
+            setAutoRefresh(false);
+          } else if ('enabled' === resp.data) {
+            setAutoRefresh(true);
+          }
+        }
+      }
+    };
+
+    request.send('action=' + action + '&_ajax_nonce=' + nonce);
   };
   /**
    * Now we utilize the "firstRun" state so we
@@ -521,6 +570,7 @@ var App = function App() {
     manualBackupExists();
     findDebugLog();
     isConstantTrue();
+    isAutoRefresh();
     readDebugLog();
     setfirstRun(false);
   }

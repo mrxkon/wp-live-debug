@@ -132,8 +132,8 @@ class Constants {
 		// Parse the file and find the constant.
 		foreach ( $lines as $line ) {
 			if ( preg_match( "/define\s?\(\s?[\"|']{$constant}[\"|']/", $line ) ) {
-				$added      = true;
-				$line = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
+				$added = true;
+				$line  = "define( '{$constant}', {$value} ); // Added by WP Live Debug";
 			}
 
 			$new_file[] = $line;

@@ -51,50 +51,41 @@ class Log {
 	}
 
 	/**
-	 * Check if debug.log exists.
+	 * Check if auto refresh is enabled.
 	 */
-	public static function check_debug_log() {
-		// Get debug.log location.
-		$log_file = get_option( 'wp_live_debug_debug_log_location' );
-
-		// Return true/false if debug.log exists.
-		return file_exists( $log_file ) ? true : false;
-	}
-
-	/**
-	 * Create the debug.log if it doesn't exist.
-	 */
-	public static function create_debug_log() {
-		// Get debug.log location.
-		$log_file = get_option( 'wp_live_debug_debug_log_location' );
-
-		// If debug.log doesn't exist create it.
-		if ( ! self::check_debug_log() ) {
-			$file = fopen( $log_file, 'w' ) or die( 'Cannot create debug.log!' );
-			fwrite( $file, '' );
-			fclose( $file );
+	public static function auto_refresh_is() {
+		// Send error if wrong referer.
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
+			wp_send_json_error();
 		}
+
+		wp_send_json_success( get_option( 'wp_live_debug_auto_refresh' ) );
 	}
 
 	/**
 	 * Refresh debug.log toggle
 	 */
-	public static function refresh_debug_log() {
-		if ( ! empty( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {
-			update_option( 'wp_live_debug_auto_refresh', 'enabled' );
-
-			$response = array(
-				'message' => esc_html__( 'enabled', 'wp-live-debug' ),
-			);
-		} else {
-			update_option( 'wp_live_debug_auto_refresh', 'disabled' );
-
-			$response = array(
-				'message' => esc_html__( 'disabled', 'wp-live-debug' ),
-			);
+	public static function alter_auto_refresh() {
+		// Send error if wrong referer.
+		if ( ! check_ajax_referer( 'wp-live-debug-nonce' ) ) {
+			wp_send_json_error();
 		}
 
-		wp_send_json_success( $response );
+		$allowed = array(
+			'enabled',
+			'disabled',
+		);
+
+		$value = $_POST['value'];
+
+		// Send error if value isn't allowed.
+		if ( ! in_array( $value, $allowed, true ) ) {
+			wp_send_json_error();
+		}
+
+		update_option( 'wp_live_debug_auto_refresh', $value );
+
+		wp_send_json_success();
 	}
 
 	/**

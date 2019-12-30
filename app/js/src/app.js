@@ -320,12 +320,58 @@ const App = () => {
 	 */
 	const alterAutoRefresh = () => {
 		setLoading( 'show-spinner' );
+		const request = new XMLHttpRequest();
+		const url = wp_live_debug_globals.ajax_url;
+		const nonce = wp_live_debug_globals.nonce;
+		const action = 'wp-live-debug-alter-auto-refresh';
+
+		let value = 'enabled';
+
 		if ( false === hasAutoRefresh ) {
+			value = 'enabled';
 			setAutoRefresh( true );
 		} else {
+			value = 'disabled';
 			setAutoRefresh( false );
 		}
-		setLoading( 'hide-spinner' );
+
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				const resp = JSON.parse( this.response );
+				if ( true === resp.success ) {
+					setLoading( 'hide-spinner' );
+				}
+			}
+		};
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce + '&value=' + value );
+	};
+
+	/**
+	 * Find if Auto Refresh is enabled.
+	 */
+	const isAutoRefresh = () => {
+		const request = new XMLHttpRequest();
+		const url = wp_live_debug_globals.ajax_url;
+		const nonce = wp_live_debug_globals.nonce;
+		const action = 'wp-live-debug-auto-refresh-is';
+
+		request.open( 'POST', url, true );
+		request.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
+		request.onload = function() {
+			if ( this.status >= 200 && this.status < 400 ) {
+				const resp = JSON.parse( this.response );
+				if ( true === resp.success ) {
+					if ( 'disabled' === resp.data ) {
+						setAutoRefresh( false );
+					} else if ( 'enabled' === resp.data ) {
+						setAutoRefresh( true );
+					}
+				}
+			}
+		};
+		request.send( 'action=' + action + '&_ajax_nonce=' + nonce );
 	};
 
 	/**
@@ -338,6 +384,7 @@ const App = () => {
 		manualBackupExists();
 		findDebugLog();
 		isConstantTrue();
+		isAutoRefresh();
 		readDebugLog();
 		setfirstRun( false );
 	}

@@ -52,6 +52,10 @@ class Setup {
 		add_action( 'wp_ajax_wp-live-debug-find-debug-log-json', array( '\\WP_Live_Debug\\Log', 'find_debug_log_json' ) );
 		add_action( 'wp_ajax_wp-live-debug-read-debug-log', array( '\\WP_Live_Debug\\Log', 'read_debug_log' ) );
 
+		// Refresh log related actions.
+		add_action( 'wp_ajax_wp-live-debug-auto-refresh-is', array( '\\WP_Live_Debug\\Log', 'auto_refresh_is' ) );
+		add_action( 'wp_ajax_wp-live-debug-alter-auto-refresh', array( '\\WP_Live_Debug\\Log', 'alter_auto_refresh' ) );
+
 		// Backup actions.
 		add_action( 'wp_ajax_wp-live-debug-create-backup', array( '\\WP_Live_Debug\\Config', 'create_manual_backup' ) );
 		add_action( 'wp_ajax_wp-live-debug-restore-backup', array( '\\WP_Live_Debug\\Config', 'restore_manual_backup' ) );
