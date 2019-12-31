@@ -282,7 +282,7 @@ const App = () => {
 
 		const target = event.target.id;
 
-		let value = 'false';
+		let value;
 
 		switch ( target ) {
 			case 'WP_DEBUG':
@@ -351,7 +351,7 @@ const App = () => {
 		const nonce = wp_live_debug_globals.nonce;
 		const action = 'wp-live-debug-alter-auto-refresh';
 
-		let value = 'enabled';
+		let value;
 
 		if ( false === hasAutoRefresh ) {
 			value = 'enabled';
