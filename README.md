@@ -16,8 +16,11 @@
 
 ---
 
-__Status__: Scrapping everything and starting over from square one ( 16 Dec 2019 ).
+I've found myself needing to have a "live view" of the debug.log in many occasions when dealing with code remotely. It's useful for debugging in general or quickly checking what's the latest in the logs if there's no server-side access.
 
-Now that Site Health has been implemented in WordPress core there's not much need of all these things as they are duplicates.
+This plugin allows you to control the debug related constants and have a debug.log view inside your wp-admin area.
 
-I'll revert this back to it's original idea of being only a log viewer :) simple and neat.
+Credits & Licences:
+This plugin utilizes `@wordpress/components`, `@wordpress/element`, `@wordpress/i18n` and other packages.
+
+Props to all the contributors that made this possible :) .
