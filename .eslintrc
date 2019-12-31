@@ -1,0 +1,5 @@
+{
+	"extends": [ "plugin:@wordpress/eslint-plugin/recommended" ],
+	"ignorePatterns": ["build/", "node_modules/", "vendor/"],
+	"globals": { "XMLHttpRequest": "readonly", "wp_live_debug_globals": "readonly" }
+}

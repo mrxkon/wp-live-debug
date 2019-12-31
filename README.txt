@@ -1,10 +1,10 @@
 ﻿=== WP Live Debug ===
 Contributors: xkon
 Tags: debug
-Requires at least: 4.8
-Tested up to: 4.9.8
-Stable tag: 4.9.8.6
-Requires PHP: 5.6
+Requires at least: 5
+Tested up to: 5.3.2
+Stable tag: 5.3.2
+Requires PHP: 7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,19 +12,14 @@ Enables debugging and adds various installation information.
 
 == Description ==
 
-Simply enable the plugin and go to the WP Live Debug tab to see your debug.log.
+I've found myself needing to have a "live view" of the debug.log in many occasions when dealing with code remotely. It's useful for debugging in general or quickly checking what's the latest in the logs if there's no server-side access.
+
+This plugin allows you to control the debug related constants and have a debug.log view inside your wp-admin area.
 
 Credits & Licences:
-This is a personal project that I use for debugging, but some parts of the code are written by other awesome people.
+This plugin utilizes `@wordpress/components`, `@wordpress/element`, `@wordpress/i18n` and other packages.
 
-So props also go to:
-WPMU DEV ( https://premium.wpmudev.org ) for parts of debug info & Shared UI
-Shared UI ( https://github.com/wpmudev/shared-ui ) - Licence GPLv2
-
-The WordPress.org ( https://wordpress.org ) community for parts of debug info
-Health Check ( https://wordpress.org/plugins/health-check/ ) - Licence GPLv2 - ( https://github.com/wordpress/health-check )
-
-Fellow contributors:  Marius L. Jensen ( https://github.com/Clorith ), Nahid F. Mohit ( https://github.com/nfmohit-wpmudev ), Vladislav Bailovic ( https://github.com/vladislavbailovic )
+Props to all the contributors that made this possible :) .
 
 == Installation ==
 
@@ -46,6 +41,13 @@ Fellow contributors:  Marius L. Jensen ( https://github.com/Clorith ), Nahid F. 
 1. WP Live Debug
 
 == Changelog ==
+
+= 5.3.2 =
+* Refactored PHP.
+* Refactored JS.
+* Convert to React.
+* Utilize @wordpress packages.
+* Refurbish the UI.
 
 = 4.9.8.6 =
 * Log viewer UI changes.
