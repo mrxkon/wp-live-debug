@@ -33,10 +33,6 @@ class Log {
 			$log_file = wp_normalize_path( WP_DEBUG_LOG );
 
 			update_option( 'wp_live_debug_debug_log_location', $log_file );
-		} elseif ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
-
-			update_option( 'wp_live_debug_debug_log_location', $log_file );
 		} else {
 			$log_file = wp_normalize_path( WP_CONTENT_DIR . '/debug.log' );
 
